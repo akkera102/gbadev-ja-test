@@ -3,11 +3,8 @@
 I ported Deflemask Game Boy Engine to GBA.
 
 
-**Link
+## Link
 
-Deflemask Game Boy Engine (DGB)
-https://github.com/Pegmode/Deflemask-GB-Engine
-
-Deflemask
-https://www.deflemask.com/
+- [Deflemask Game Boy Engine (DGB)](https://github.com/Pegmode/Deflemask-GB-Engine)
+- [Deflemask](https://www.deflemask.com/)
 
