@@ -20,7 +20,7 @@ int main(void)
 	VgmPlay(p, TRUE);
 
 	BgDrawPrintf(1, 1, "VGM Player for GBA");
-	BgDrawPrintf(1, 3, "Conversion is valid only");
+	BgDrawPrintf(1, 3, "File is valid only");
 	BgDrawPrintf(1, 4, "hUGETracker 1.01");
 
 	s32 sel = 0;
