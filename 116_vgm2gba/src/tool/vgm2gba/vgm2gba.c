@@ -204,7 +204,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			// n samples
 //			uint32_t samp = (d3 << 8) | d2;
 
-			// TODO WIP 1.97 is irresponsible number. why is that? :(
+			// TODO WIP 1.972 is irresponsible number. why is that? :(
 			uint32_t samp = ((d3 << 8) | d2) * 1.972;
 
 			// GBA timer2,3 + cascade
