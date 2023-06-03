@@ -50,5 +50,10 @@ int main(void)
 			p = GbfsGetSafePointer2(sel);
 			VgmPlay(p, TRUE);
 		}
+
+		if(trg & KEY_B)
+		{
+			VgmStop();
+		}
 	}
 }

@@ -86,20 +86,42 @@ cmdChk:
 IWRAM_CODE void VgmStop(void)
 {
 	REG_TM3CNT_H = 0;
+	REG_TM2CNT_H = 0;
 	Vgm.id = VGM_ID_STOP;
 
-	*(u8*)(REG_BASE + 0x60) = 0;
-	*(u8*)(REG_BASE + 0x63) = 0;
-	*(u8*)(REG_BASE + 0x69) = 0;
-	*(u8*)(REG_BASE + 0x7c) = 0;
-	*(u8*)(REG_BASE + 0x62) = 0;
-	*(u8*)(REG_BASE + 0x68) = 0;
-	*(u8*)(REG_BASE + 0x70) = 0;
-	*(u8*)(REG_BASE + 0x79) = 0;
+	// REG_SOUNDCNT
+	*(u8*)(REG_BASE + 0x84) = 0x00;
 
-	*(u8*)(REG_BASE + 0x84) = 0x8f;
-	*(u8*)(REG_BASE + 0x81) = 0xff;
+	// ch1
+	*(u8*)(REG_BASE + 0x60) = 0x00;
+	*(u8*)(REG_BASE + 0x62) = 0x00;
+	*(u8*)(REG_BASE + 0x63) = 0x00;
+	*(u8*)(REG_BASE + 0x64) = 0x00;
+	*(u8*)(REG_BASE + 0x65) = 0x00;
+
+	// ch2
+	*(u8*)(REG_BASE + 0x68) = 0x00;
+	*(u8*)(REG_BASE + 0x69) = 0x00;
+	*(u8*)(REG_BASE + 0x6c) = 0x00;
+	*(u8*)(REG_BASE + 0x6d) = 0x00;
+
+	// ch3
+	for(u32 i=0; i<0x10; i++)
+	{
+		*(u8*)(REG_BASE + 0x90 + i) = 0;
+	}
+	*(u8*)(REG_BASE + 0x70) = 0x00;
+	*(u8*)(REG_BASE + 0x72) = 0x00;
+	*(u8*)(REG_BASE + 0x74) = 0x80;
+
+	// ch4
+	*(u8*)(REG_BASE + 0x78) = 0x00;
+	*(u8*)(REG_BASE + 0x79) = 0x00;
+	*(u8*)(REG_BASE + 0x7c) = 0x00;
+	*(u8*)(REG_BASE + 0x7d) = 0x00;
+
+	// REG_SOUNDCNT
 	*(u8*)(REG_BASE + 0x80) = 0x77;
-	*(u8*)(REG_BASE + 0x73) = 0x20;
-	*(u8*)(REG_BASE + 0x79) = 0xf7;
+	*(u8*)(REG_BASE + 0x81) = 0xff;
+	*(u8*)(REG_BASE + 0x84) = 0x80;
 }
