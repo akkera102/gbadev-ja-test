@@ -5,7 +5,8 @@ File is valid only hUGETracker 1.01.
 ## attention
 
 Don't use Enable timer-based tempo
-!(pic.png)
+
+[pic]!(pic.png)
 
 
 ## version
