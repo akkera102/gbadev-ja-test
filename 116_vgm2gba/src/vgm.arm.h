@@ -32,9 +32,10 @@ enum {
 //---------------------------------------------------------------------------
 EWRAM_CODE void VgmInit(void);
 EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
-
-IWRAM_CODE void VgmIntrTimer(void);
 IWRAM_CODE void VgmStop(void);
+IWRAM_CODE void VgmIntrVblank(void);
+
+EWRAM_CODE u32  VgmGetOffsetPlay(void);
 
 #ifdef __cplusplus
 }

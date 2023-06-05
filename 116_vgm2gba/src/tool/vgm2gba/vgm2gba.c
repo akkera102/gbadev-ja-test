@@ -212,50 +212,13 @@ void saveFile(ST_VGM* pVgm, char* filename)
 		// wait: 0x61 nn nn
 		if(*p == 0x61)
 		{
-			uint8_t d1 = *p++;
-			uint8_t d2 = *p++;
-			uint8_t d3 = *p++;
+			// GBA side use vblank
+			fputc(*p++, fp);
+			fputcCnt++;
 
-			// GBA patch
+			p++;
+			p++;
 
-			// sec = GBA clock / samples rate
-			uint32_t sec  = (16 * 1024 * 1024) / 44100;
-
-			// n samples
-//			uint32_t samp = (d3 << 8) | d2;
-			// TODO WIP 1.972 is irresponsible number. why is that? :(
-			uint32_t samp = ((d3 << 8) | d2) * 1.972;
-
-
-			// GBA timer2,3 + cascade
-			uint64_t time = 0x100000000 - sec * samp;
-
-			if(time == 0x100000000)
-			{
-				printf("Error: invalid time\n");
-
-				exit(EXIT_FAILURE);
-			}
-
-			fputc(0x61, fp);
-			fputc((uint8_t)(time >>  0), fp);
-			fputc((uint8_t)(time >>  8), fp);
-			fputc((uint8_t)(time >> 16), fp);
-			fputc((uint8_t)(time >> 24), fp);
-			fputcCnt += 5;
-
-/*
-			printf("sec: %x\n", sec);
-			printf("samp: %x\n", samp);
-			printf("time: %x\n", time);
-
-			printf("time0: %x\n", (uint8_t)(time >>  0));
-			printf("time1: %x\n", (uint8_t)(time >>  8));
-			printf("time2: %x\n", (uint8_t)(time >> 16));
-			printf("time3: %x\n", (uint8_t)(time >> 24));
-
-//			exit(0);
-*/
 			continue;
 		}
 
@@ -273,9 +236,11 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 			// GBA patch
 
-			// REG_SOUND3CNT_L = 0x40;
+			// write wave adr
 			if(d2 >= 0x90 && d2 <= 0x9f)
 			{
+				// add. REG_SOUND3CNT_L = 0x40;
+
 				fputc(0xb3, fp);
 				fputc(0x70, fp);
 				fputc(0x40, fp);
@@ -295,12 +260,10 @@ void saveFile(ST_VGM* pVgm, char* filename)
 	fputc((uint8_t)(loopBin >> 16), fp);
 	fputc((uint8_t)(loopBin >> 24), fp);
 
-
 	// zero pading
 	int pad = 0x10 - (ftell(fp) & 0xf);
-	int i;
 
-	for(i=0; i<pad; i++)
+	for(int i=0; i<pad; i++)
 	{
 		fputc(0x00, fp);
 	}

@@ -21,9 +21,14 @@ int main(void)
 	BgDrawPrintf(1, 3, "File is valid only");
 	BgDrawPrintf(1, 4, "hUGETracker 1.01");
 
-	BgDrawPrintf(1, 12, "v0.01 added loop function");
+	BgDrawPrintf(1, 6, "Don't use");
+	BgDrawPrintf(1, 7, "\"Enable timer-based tempo\"");
+	BgDrawPrintf(1, 8, "option.");
 
-	s32 sel = 0;
+	BgDrawPrintf(1, 17, "v0.02 changed timer->vblank");
+	BgDrawPrintf(1, 18, "v0.01 added loop function");
+
+	s32 sel = 5;
 	s32 max = GbfsGetArcCnt() - 1;
 
 	u8* p = GbfsGetSafePointer2(sel);
@@ -31,9 +36,11 @@ int main(void)
 
 	for(;;)
 	{
-	    VBlankIntrWait();
+		VBlankIntrWait();
 
-		BgDrawPrintf(1, 7, "Select: (%2d/%2d)\n", sel, max);
+		BgDrawPrintf(11, 11, "        ");
+		BgDrawPrintf(1, 11, "Offset: 0x%x", VgmGetOffsetPlay());
+		BgDrawPrintf(1, 12, "Select: (%2d/%2d)", sel, max);
 
 
 		KeyExec();

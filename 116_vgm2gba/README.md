@@ -2,9 +2,14 @@
 
 File is valid only hUGETracker 1.01.
 
-WIP GBA tempo. I have not done a perfect calculation.
+## attention
+
+Don't use Enable timer-based tempo
+![pic](pic.png)
 
 
 ## version
+
+v0.02 changed timer->vblank.
 v0.01 added loop function.
 
