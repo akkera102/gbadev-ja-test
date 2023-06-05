@@ -16,6 +16,12 @@ void openFile(ST_VGM* p, char* filename)
 {
 	FILE* fp;
 	fp = fopen(filename, "rb");
+	if(fp == NULL)
+	{
+		printf("Error: vgm file not found\n");
+
+		exit(EXIT_FAILURE);
+	}
 
 	fseek(fp, 0, SEEK_END);
 	int size = ftell(fp);
