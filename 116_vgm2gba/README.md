@@ -12,5 +12,6 @@ Don't use Enable timer-based tempo
 ## version
 
 v0.02 changed timer->vblank.
+
 v0.01 added loop function.
 
