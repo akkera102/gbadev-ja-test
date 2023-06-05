@@ -48,11 +48,11 @@ cmdChk:
 
 	if(cmd == VGM_CMD_WAIT)
 	{
-		u16 tm2 = (u16)(*Vgm.pBuf++);
-		tm2    |= (u16)(*Vgm.pBuf++) << 8;
+		u16 tm2 = *Vgm.pBuf++;
+		tm2    |= *Vgm.pBuf++ << 8;
 
-		u16 tm3 = (u16)(*Vgm.pBuf++);
-		tm3    |= (u16)(*Vgm.pBuf++) << 8;
+		u16 tm3 = *Vgm.pBuf++;
+		tm3    |= *Vgm.pBuf++ << 8;
 
 		REG_TM3CNT_H = 0;
 		REG_TM2CNT_H = 0;
@@ -69,7 +69,14 @@ cmdChk:
 	{
 		if(Vgm.isLoop == TRUE)
 		{
-			Vgm.pBuf = Vgm.pFile;
+			u32 loop = *Vgm.pBuf++;
+			loop    |= *Vgm.pBuf++ << 8;
+			loop    |= *Vgm.pBuf++ << 16;
+			loop    |= *Vgm.pBuf++ << 24;
+
+			TRACE("%x\n", loop);
+
+			Vgm.pBuf = Vgm.pFile + loop;
 		}
 		else
 		{

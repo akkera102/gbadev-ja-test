@@ -184,11 +184,31 @@ void saveFile(ST_VGM* pVgm, char* filename)
 		exit(EXIT_FAILURE);
 	}
 
+
+	// LoopOffset
+	uint32_t loopVgm, loopBin;
+
+	loopVgm  = pVgm->pBuf[0x1c];
+	loopVgm |= pVgm->pBuf[0x1d] << 8;
+	loopVgm |= pVgm->pBuf[0x1e] << 16;
+	loopVgm |= pVgm->pBuf[0x1f] << 24;
+	loopVgm += 0x1c;
+
+	printf("VgmLoopOffset: 0x%x\n", loopVgm);
+
 	uint8_t* p = pVgm->pBuf + 0xC0;
+	uint32_t fputcCnt = 0;
 
 	// end of mark
 	while(*p != 0x66)
 	{
+		// check loop offset
+		if(p - pVgm->pBuf == loopVgm)
+		{
+			printf("BinLoopOffset: 0x%x\n", fputcCnt);
+			loopBin = fputcCnt;
+		}
+
 		// wait: 0x61 nn nn
 		if(*p == 0x61)
 		{
@@ -203,9 +223,9 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 			// n samples
 //			uint32_t samp = (d3 << 8) | d2;
-
 			// TODO WIP 1.972 is irresponsible number. why is that? :(
 			uint32_t samp = ((d3 << 8) | d2) * 1.972;
+
 
 			// GBA timer2,3 + cascade
 			uint64_t time = 0x100000000 - sec * samp;
@@ -222,6 +242,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			fputc((uint8_t)(time >>  8), fp);
 			fputc((uint8_t)(time >> 16), fp);
 			fputc((uint8_t)(time >> 24), fp);
+			fputcCnt += 5;
 
 /*
 			printf("sec: %x\n", sec);
@@ -248,6 +269,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			fputc(d1, fp);
 			fputc(d2, fp);
 			fputc(d3, fp);
+			fputcCnt += 3;
 
 			// GBA patch
 
@@ -257,6 +279,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 				fputc(0xb3, fp);
 				fputc(0x70, fp);
 				fputc(0x40, fp);
+				fputcCnt += 3;
 			}
 
 			continue;
@@ -265,6 +288,13 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 	// write end of mark
 	fputc(*p++, fp);
+
+	// write loop offset
+	fputc((uint8_t)(loopBin >>  0), fp);
+	fputc((uint8_t)(loopBin >>  8), fp);
+	fputc((uint8_t)(loopBin >> 16), fp);
+	fputc((uint8_t)(loopBin >> 24), fp);
+
 
 	// zero pading
 	int pad = 0x10 - (ftell(fp) & 0xf);
