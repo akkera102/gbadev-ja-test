@@ -89,19 +89,19 @@ IWRAM_CODE void VgmIntrTimer(void)
 
 		if(cmd == VGM_CMD_WAIT)
 		{
-			u16 tm2 = *Vgm.pCur++;
-			tm2    |= *Vgm.pCur++ << 8;
+			u16 tm0 = *Vgm.pCur++;
+			tm0    |= *Vgm.pCur++ << 8;
 
-			u16 tm3 = *Vgm.pCur++;
-			tm3    |= *Vgm.pCur++ << 8;
+			u16 tm1 = *Vgm.pCur++;
+			tm1    |= *Vgm.pCur++ << 8;
 
 			REG_TM1CNT_H = 0;
 			REG_TM0CNT_H = 0;
 
-			REG_TM1CNT_L = tm3;
-			REG_TM0CNT_L = tm2;
-			REG_TM1CNT_H = TIMER_CASCADE     | TIMER_START | TIMER_IRQ;
-			REG_TM0CNT_H = TIMER_FREQ_PER_1  | TIMER_START;
+			REG_TM1CNT_L = tm1;
+			REG_TM0CNT_L = tm0;
+			REG_TM1CNT_H = TIMER_CASCADE    | TIMER_START | TIMER_IRQ;
+			REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
 
 			return;
 		}

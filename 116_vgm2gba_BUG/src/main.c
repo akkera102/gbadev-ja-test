@@ -25,10 +25,10 @@ int main(void)
 	BgDrawPrintf(1, 7, "\"Enable timer-based tempo\"");
 	BgDrawPrintf(1, 8, "option.");
 
-	BgDrawPrintf(1, 17, "v0.02 changed timer->vblank");
-	BgDrawPrintf(1, 18, "v0.01 added loop function");
+//	BgDrawPrintf(1, 17, "v0.02 changed timer->vblank");
+//	BgDrawPrintf(1, 18, "v0.01 added loop function");
 
-	s32 sel = 0;
+	s32 sel = 1;
 	s32 max = GbfsGetArcCnt() - 1;
 
 	u8* p = GbfsGetSafePointer2(sel);
