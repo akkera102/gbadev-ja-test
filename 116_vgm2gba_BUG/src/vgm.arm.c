@@ -19,6 +19,11 @@ EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 	Vgm.pCur   = pFile;
 	Vgm.pFile  = pFile;
 	Vgm.isLoop = isLoop;
+
+	REG_TM1CNT_L = 0xffff;
+	REG_TM0CNT_L = 0xffff;
+	REG_TM1CNT_H = TIMER_CASCADE     | TIMER_START | TIMER_IRQ;
+	REG_TM0CNT_H = TIMER_FREQ_PER_1  | TIMER_START;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmStop(void)
@@ -62,7 +67,7 @@ IWRAM_CODE void VgmStop(void)
 	*(u8*)(REG_BASE + 0x84) = 0x80;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void VgmIntrVblank(void)
+IWRAM_CODE void VgmIntrTimer(void)
 {
 	if(Vgm.id == VGM_ID_STOP)
 	{
@@ -73,11 +78,6 @@ IWRAM_CODE void VgmIntrVblank(void)
 	{
 		u8 cmd = *Vgm.pCur++;
 
-		if(cmd == VGM_CMD_WAIT)
-		{
-			return;
-		}
-
 		if(cmd == VGM_CMD_WREG)
 		{
 			u8 adr = *Vgm.pCur++;
@@ -85,6 +85,25 @@ IWRAM_CODE void VgmIntrVblank(void)
 			*(u8*)(REG_BASE + adr) = dat;
 
 			continue;
+		}
+
+		if(cmd == VGM_CMD_WAIT)
+		{
+			u16 tm2 = *Vgm.pCur++;
+			tm2    |= *Vgm.pCur++ << 8;
+
+			u16 tm3 = *Vgm.pCur++;
+			tm3    |= *Vgm.pCur++ << 8;
+
+			REG_TM1CNT_H = 0;
+			REG_TM0CNT_H = 0;
+
+			REG_TM1CNT_L = tm3;
+			REG_TM0CNT_L = tm2;
+			REG_TM1CNT_H = TIMER_CASCADE     | TIMER_START | TIMER_IRQ;
+			REG_TM0CNT_H = TIMER_FREQ_PER_1  | TIMER_START;
+
+			return;
 		}
 
 		if(cmd == VGM_CMD_EOM)

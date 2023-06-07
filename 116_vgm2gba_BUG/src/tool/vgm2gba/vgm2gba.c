@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 //---------------------------------------------------------------------------
 
@@ -77,8 +78,8 @@ void convertReg(ST_VGM* pVgm)
 			continue;
 		}
 
-		// wait: 0x62 (60th of a second)
-		if(*p == 0x62)
+		// wait: 0x62, 0x63, 0x7n
+		if(*p == 0x62 || *p == 0x63 || (*p >= 0x70 && *p <= 0x7f))
 		{
 			p++;
 			continue;
@@ -200,7 +201,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 	// LoopOffset
 	uint32_t loopVgm, loopBin;
-	bool isLoop = FALSE;
+	bool isLoop = false;
 
 	loopVgm  = pVgm->pBuf[0x1c];
 	loopVgm |= pVgm->pBuf[0x1d] << 8;
@@ -222,21 +223,70 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			printf("BinLoopOffset: 0x%x\n", fputcCnt);
 
 			loopBin = fputcCnt;
-			isLoop = TRUE;
+			isLoop = true;
 		}
 
 		// wait: 0x61 nn nn
 		if(*p == 0x61)
 		{
-			// GBA side use vblank
-			fputc(*p++, fp);
-			fputcCnt++;
+			uint8_t d1 = *p++;
+			uint8_t d2 = *p++;
+			uint8_t d3 = *p++;
 
-			p++;
-			p++;
+			if(d2 == 0 && d3 == 0)
+			{
+				printf("Error: 0x61 command adr=%x\n", p - pVgm->pBuf);
+
+				exit(EXIT_FAILURE);
+			}
+
+			// GBA timer0,1(cascade) = (GBA clock / samples rate) * samples
+			uint32_t time = 0x100000000 - (16800000 / 44100) * ((d3 << 8) | d2);
+
+			fputc(0x61, fp);
+			fputc((uint8_t)(time >>  0), fp);
+			fputc((uint8_t)(time >>  8), fp);
+			fputc((uint8_t)(time >> 16), fp);
+			fputc((uint8_t)(time >> 24), fp);
+			fputcCnt += 5;
 
 			continue;
 		}
+
+		// wait: 0x62, 0x63, 0x7n
+		if(*p == 0x62 || *p == 0x63 || (*p >= 0x70 && *p <= 0x7f))
+		{
+			uint32_t samp;
+
+			if(*p == 0x62)
+			{
+				samp = 735;
+			}
+			else if(*p == 0x63)
+			{
+				samp = 882;
+			}
+			else
+			{
+				// 0x70 - 0x7f
+				samp = (*p & 0x0f) + 1;
+			}
+
+			p++;
+
+			// GBA timer0,1(cascade) = (GBA clock / samples rate / 64 clock) * samples
+			uint32_t time = 0x100000000 - (16800000 / 44100) * (samp);
+
+			fputc(0x61, fp);
+			fputc((uint8_t)(time >>  0), fp);
+			fputc((uint8_t)(time >>  8), fp);
+			fputc((uint8_t)(time >> 16), fp);
+			fputc((uint8_t)(time >> 24), fp);
+			fputcCnt += 5;
+
+			continue;
+		}
+
 
 		// write reg: 0xb3 aa dd
 		if(*p == 0xb3)
@@ -249,8 +299,6 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			fputc(d2, fp);
 			fputc(d3, fp);
 			fputcCnt += 3;
-
-			// GBA patch
 
 			// wave adr?
 			if(d2 >= 0x90 && d2 <= 0x9f)
@@ -267,7 +315,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 		}
 	}
 
-	if(isLoop == FALSE)
+	if(isLoop == false)
 	{
 		printf("Warning: loop offset not found\n");
 	}
@@ -299,7 +347,7 @@ int main(int argc, char* argv[])
 {
 	if(argc != 2)
 	{
-		printf("no filename\n");
+		printf("input filename\n");
 		exit(0);
 	}
 
