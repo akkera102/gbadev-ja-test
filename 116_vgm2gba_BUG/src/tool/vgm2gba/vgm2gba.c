@@ -75,13 +75,15 @@ void convertReg(ST_VGM* pVgm)
 		if(*p == 0x61)
 		{
 			p += 3;
+
 			continue;
 		}
 
-		// wait: 0x62, 0x63, 0x7n
+		// wait: 0x62, 0x63, 0x70-0x7f
 		if(*p == 0x62 || *p == 0x63 || (*p >= 0x70 && *p <= 0x7f))
 		{
 			p++;
+
 			continue;
 		}
 
@@ -253,7 +255,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			continue;
 		}
 
-		// wait: 0x62, 0x63, 0x7n
+		// wait: 0x62, 0x63, 0x70-0x7f
 		if(*p == 0x62 || *p == 0x63 || (*p >= 0x70 && *p <= 0x7f))
 		{
 			uint32_t samp;
