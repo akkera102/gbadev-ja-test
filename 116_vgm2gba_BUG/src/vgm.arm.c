@@ -28,7 +28,11 @@ EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmStop(void)
 {
+	REG_TM0CNT_H = 0;
+	REG_TM1CNT_H = 0;
+
 	Vgm.id = VGM_ID_STOP;
+
 
 	// REG_SOUNDCNT
 	*(u8*)(REG_BASE + 0x84) = 0x00;

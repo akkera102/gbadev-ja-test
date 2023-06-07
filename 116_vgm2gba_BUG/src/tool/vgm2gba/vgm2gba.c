@@ -243,7 +243,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			}
 
 			// GBA timer0,1(cascade) = (GBA clock / samples rate) * samples
-			uint32_t time = 0x100000000 - (16800000 / 44100) * ((d3 << 8) | d2);
+			uint32_t time = 0x100000000 - (16777216 / 44100) * ((d3 << 8) | d2);
 
 			fputc(0x61, fp);
 			fputc((uint8_t)(time >>  0), fp);
@@ -277,7 +277,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			p++;
 
 			// GBA timer0,1(cascade) = (GBA clock / samples rate) * samples
-			uint32_t time = 0x100000000 - (16800000 / 44100) * (samp);
+			uint32_t time = 0x100000000 - (16777216 / 44100) * (samp);
 
 			fputc(0x61, fp);
 			fputc((uint8_t)(time >>  0), fp);
