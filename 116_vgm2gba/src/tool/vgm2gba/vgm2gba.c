@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 //---------------------------------------------------------------------------
 
@@ -74,13 +75,6 @@ void convertReg(ST_VGM* pVgm)
 		if(*p == 0x61)
 		{
 			p += 3;
-			continue;
-		}
-
-		// wait: 0x62 (60th of a second)
-		if(*p == 0x62)
-		{
-			p++;
 			continue;
 		}
 
@@ -200,7 +194,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 	// LoopOffset
 	uint32_t loopVgm, loopBin;
-	bool isLoop = FALSE;
+	bool isLoop = false;
 
 	loopVgm  = pVgm->pBuf[0x1c];
 	loopVgm |= pVgm->pBuf[0x1d] << 8;
@@ -222,7 +216,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			printf("BinLoopOffset: 0x%x\n", fputcCnt);
 
 			loopBin = fputcCnt;
-			isLoop = TRUE;
+			isLoop = true;
 		}
 
 		// wait: 0x61 nn nn
@@ -232,6 +226,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			fputc(*p++, fp);
 			fputcCnt++;
 
+			// ignore param
 			p++;
 			p++;
 
@@ -267,7 +262,7 @@ void saveFile(ST_VGM* pVgm, char* filename)
 		}
 	}
 
-	if(isLoop == FALSE)
+	if(isLoop == false)
 	{
 		printf("Warning: loop offset not found\n");
 	}
