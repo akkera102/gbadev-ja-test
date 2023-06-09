@@ -2,9 +2,9 @@
 
 Timer version is Gameboy VGM File support.
 
-Please use the vblank version for your own games.
+If you want to use vgm files in your own games, use the vblank version.
 
-Because timer2,3 are used in cascade, it is very heavy.
+Because timer2,3 are used in cascade, it is very heavy processing.
 
 ## support VGM command
 
