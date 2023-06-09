@@ -7,7 +7,7 @@ extern "C" {
 #include "lib/gba.h"
 
 //---------------------------------------------------------------------------
-#define VGM_CMD_WAIT 0x61	// wait n samples
+#define VGM_CMD_WAIT 0x61	// wait vblank
 #define VGM_CMD_EOM  0x66	// end of mark
 #define VGM_CMD_WREG 0xb3	// write register
 
