@@ -28,8 +28,8 @@ EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmStop(void)
 {
-	REG_TM0CNT_H = 0;
-	REG_TM1CNT_H = 0;
+	REG_TM2CNT_H = 0;
+	REG_TM3CNT_H = 0;
 
 	Vgm.id = VGM_ID_STOP;
 
@@ -75,7 +75,7 @@ IWRAM_CODE void VgmIntrTimer2(void)
 {
 	REG_TM2CNT_H = 0;
 
-	// 0 start
+	// 0 counter start
 	REG_TM2CNT_L = 0;
 
 	// IRQ off
