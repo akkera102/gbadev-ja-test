@@ -28,7 +28,7 @@ int main(void)
 
 	u8*   pS = GbfsGetSafePointer2(sel);
 	char* pF = GbfsGetFileName();
-	VgmPlay(pS, TRUE);
+	VgmPlay(pS, true);
 
 	for(;;)
 	{
@@ -62,7 +62,7 @@ int main(void)
 
 		if(trg & KEY_A)
 		{
-			VgmPlay(pS, TRUE);
+			VgmPlay(pS, true);
 		}
 
 		if(trg & KEY_B)

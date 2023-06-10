@@ -10,3 +10,11 @@ Because timer2,3 are used in cascade, it is very heavy processing.
 
 0x61, 0x62, 0x63, 0x66, 0x70-0x7f, 0xb3
 
+## Lisence
+
+My source code is CC0.
+
+libgba(LGPL2.0 dynamic link)
+
+crt0.s(MPL2.0)
+

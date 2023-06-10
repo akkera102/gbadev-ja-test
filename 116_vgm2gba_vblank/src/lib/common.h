@@ -13,9 +13,9 @@ typedef char* va_list;
 #define _Max(a,b)				(((a)>(b))?(a):(b))
 #define _Min(a,b)				(((a)>(b))?(b):(a))
 #define _Toupper(c)				((c >= 'a' && c <= 'z') ? c - ('a' - 'A') : c)
-#define _IsAlpha(c)				((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ? TRUE : FALSE)
-#define _IsDigit(c)				((c >= '0') && (c <= '9') ? TRUE : FALSE)
-#define _IsSpace(c)				((c == ' ') ? TRUE : FALSE)
+#define _IsAlpha(c)				((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ? true : false)
+#define _IsDigit(c)				((c >= '0') && (c <= '9') ? true : false)
+#define _IsSpace(c)				((c == ' ') ? true : false)
 #define _IsSJIS(c)				(((c)>=0x81 && (c)<=0x9f) || ((c)>=0xe0 && (c)<=0xef))
 
 #define __vasz(x)				((sizeof(x)+sizeof(int)-1) & ~(sizeof(int) -1))

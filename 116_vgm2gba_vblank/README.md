@@ -21,3 +21,12 @@ v0.02 changed timer->vblank.
 
 v0.01 added loop function.
 
+
+## Lisence
+
+My source code is CC0.
+
+libgba(LGPL2.0 dynamic link)
+
+crt0.s(MPL2.0)
+

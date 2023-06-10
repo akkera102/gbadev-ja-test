@@ -123,7 +123,7 @@ IWRAM_CODE void VgmIntrTimer3(void)
 
 		if(cmd == VGM_CMD_EOM)
 		{
-			if(Vgm.isLoop == FALSE)
+			if(Vgm.isLoop == false)
 			{
 				VgmStop();
 

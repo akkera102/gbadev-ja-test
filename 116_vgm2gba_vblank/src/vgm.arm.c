@@ -89,7 +89,7 @@ IWRAM_CODE void VgmIntrVblank(void)
 
 		if(cmd == VGM_CMD_EOM)
 		{
-			if(Vgm.isLoop == FALSE)
+			if(Vgm.isLoop == false)
 			{
 				VgmStop();
 

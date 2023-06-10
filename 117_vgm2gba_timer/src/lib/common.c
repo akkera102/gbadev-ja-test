@@ -220,15 +220,15 @@ IWRAM_CODE void _DoSprintf(char* str, char* fmt, char* ap)
 			c = *fmt++;
 		}
 
-		if(_IsDigit(c) == TRUE)
+		if(_IsDigit(c) == true)
 		{
 			col   = c - '0';
-			isCol = TRUE;
+			isCol = true;
 			c = *fmt++;
 		}
 		else
 		{
-			isCol = FALSE;
+			isCol = false;
 		}
 
 		switch(c)
@@ -242,17 +242,17 @@ IWRAM_CODE void _DoSprintf(char* str, char* fmt, char* ap)
 				*str++ = '-';
 			}
 
-			str = (isCol == TRUE) ? _SprintfNumCol(val, 10, str, col, colChr, TRUE) : _SprintfNum(val, 10, str); 
+			str = (isCol == true) ? _SprintfNumCol(val, 10, str, col, colChr, true) : _SprintfNum(val, 10, str); 
 			break;
 
 		case 'x':
 			val = va_arg(ap, int);
-			str = (isCol == TRUE) ? _SprintfHexCol((u32)val, str, col, colChr, TRUE, 'a') : _SprintfHex((u32)val, str, 'a'); 
+			str = (isCol == true) ? _SprintfHexCol((u32)val, str, col, colChr, true, 'a') : _SprintfHex((u32)val, str, 'a'); 
 			break;
 
 		case 'X':
 			val = va_arg(ap, int);
-			str = (isCol == TRUE) ? _SprintfHexCol((u32)val, str, col, colChr, TRUE, 'A') : _SprintfHex((u32)val, str, 'A'); 
+			str = (isCol == true) ? _SprintfHexCol((u32)val, str, col, colChr, true, 'A') : _SprintfHex((u32)val, str, 'A'); 
 			break;
 
 		case 's':
@@ -275,7 +275,7 @@ IWRAM_CODE void _DoSprintf(char* str, char* fmt, char* ap)
 //---------------------------------------------------------------------------
 IWRAM_CODE char* _SprintfNum(s32 val, s32 base, char* s)
 {
-	s32 c = Mod(val, base);
+	s32 c = DivMod(val, base);
 	val = Div(val, base);
 
 	if(val > 0)
@@ -290,15 +290,15 @@ IWRAM_CODE char* _SprintfNum(s32 val, s32 base, char* s)
 //---------------------------------------------------------------------------
 IWRAM_CODE char* _SprintfNumCol(s32 val, s32 base, char* s, s32 col, char colChr, bool isTop)
 {
-	s32 c = Mod(val, base);
+	s32 c = DivMod(val, base);
 	val = Div(val, base);
 
 	if(col > 1)
 	{
-		s = _SprintfNumCol(val, base, s, col-1, colChr, FALSE);
+		s = _SprintfNumCol(val, base, s, col-1, colChr, false);
 	}
 
-	if(c != 0 || val != 0 || isTop == TRUE)
+	if(c != 0 || val != 0 || isTop == true)
 	{
 		*s++ = c+'0';
 	}
@@ -317,10 +317,10 @@ IWRAM_CODE char* _SprintfHexCol(u32 val, char* s, s32 col, char colChr, bool isT
 
 	if(col > 1)
 	{
-		s = _SprintfHexCol(val, s, col-1, colChr, FALSE, hex);
+		s = _SprintfHexCol(val, s, col-1, colChr, false, hex);
 	}
 
-	if(c != 0 || val != 0 || isTop == TRUE)
+	if(c != 0 || val != 0 || isTop == true)
 	{
 		*s++ = (c>9) ? c-10+hex : c+'0';
 	}
