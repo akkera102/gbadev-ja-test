@@ -34,7 +34,7 @@ int main(void)
 	{
 		VBlankIntrWait();
 
-		BgDrawPrintf(11, 4, "        ");
+		BgDrawPrintf(11, 5, "        ");
 		BgDrawPrintf(1, 5, "Offset: 0x%x", VgmGetOffsetPlay());
 		BgDrawPrintf(1, 6, "Select: (%2d/%2d)", sel, max);
 		BgDrawPrintf(9, 7, "            ");
