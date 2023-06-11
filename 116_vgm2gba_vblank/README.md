@@ -17,9 +17,9 @@ Don't use Enable timer-based tempo.
 
 v0.03 added display filename
 
-v0.02 changed timer->vblank.
+v0.02 changed timer->vblank
 
-v0.01 added loop function.
+v0.01 added loop function
 
 
 ## Lisence
