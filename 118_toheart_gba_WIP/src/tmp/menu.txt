@@ -1,0 +1,450 @@
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuExecDrawOption(void)
+{
+	MenuExecDrawNormal();
+
+	s32 i;
+
+	for(i=0; i<Menu.regCnt; i++)
+	{
+		u32 cnt = Menu.item[i].cnt;
+
+
+		if(i == Menu.sel)
+		{
+			TextDrawStrXy(Menu.sx + 7, Menu.sy + 2 + i, (u16*)str);
+		}
+		else
+		{
+			TextDrawStrXyGray(Menu.sx + 7, Menu.sy + 2 + i, (u16*)str);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuExecSelect(void)
+{
+	ST_MENU* p = &Menu;
+
+	p->trg = KeyGetTrg();
+
+	if((p->trg & KEY_B) && (p->isCancel == TRUE))
+	{
+		if(p->ret == MENU_RET_TITLE)
+		{
+			MenuSetTitle();
+		}
+		else if(p->ret == MENU_RET_SYSTEM)
+		{
+			MenuSetSystem();
+		}
+		else
+		{
+			MenuSetAct(MENU_ACT_END_READY);
+		}
+	}
+	else if((p->trg & KEY_UP) && p->sel > 0)
+	{
+		p->sel--;
+		MenuSetAct(MENU_ACT_DRAW);
+	}
+	else if((p->trg & KEY_DOWN) && (p->sel + 1) < p->regCnt)
+	{
+		p->sel++;
+		MenuSetAct(MENU_ACT_DRAW);
+	}
+	else if((p->trg & KEY_LEFT) || (p->trg & KEY_RIGHT) || (p->trg & KEY_A))
+	{
+		if(p->sel != -1)
+		{
+			MenuSetAct(MENU_ACT_SELECTED);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuExecSelected(void)
+{
+	Menu.item[Menu.sel].pFunc();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE bool MenuIsEnd(void)
+{
+	return (Menu.act == MENU_ACT_END) ? TRUE : FALSE;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetAct(u32 act)
+{
+	Menu.act = act;
+	Menu.actStep = 0;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetOption(u32 sx, u32 sy, char* pTitle, u32 type, bool isCancel)
+{
+	Menu.sx = sx;
+	Menu.sy = sy;
+	Menu.sel = 0;
+	Menu.ret = MENU_RET_NORMAL;
+	Menu.type = type;
+	Menu.regCnt = 0;
+	Menu.isCancel = isCancel;
+	_Strncpy(Menu.title, pTitle, MENU_MAX_STR_LEN);
+
+	MenuSetAct(MENU_ACT_READY);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuAddItem(char* pStr, void* pFunc)
+{
+	_ASSERT(Menu.regCnt <  MENU_MAX_ITEM_CNT);
+
+	_Strncpy(Menu.item[Menu.regCnt].str, pStr, MENU_MAX_STR_LEN);
+	Menu.item[Menu.regCnt].pFunc = pFunc;
+	Menu.item[Menu.regCnt].cnt = 0;
+
+	Menu.regCnt++;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetTitle(void)
+{
+	MenuInit();
+	MenuSetOption(0, 0, "デアボリカ　ＤＩＡＢＯＬＩＱＵＥ", MENU_TYPE_NORMAL, FALSE);
+
+	MenuAddItem("章選択",   &MenuItem0Chapter);
+	MenuAddItem("ロード",   &MenuItem0Load);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetSystemOption(void)
+{
+
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetSave(void)
+{
+	MenuInit();
+	MenuSetOption(3, 0, "　　－　セーブ　－", MENU_TYPE_NORMAL, TRUE);
+
+	u32 i;
+
+	for(i=0; i<SIORI_MAX_CNT; i++)
+	{
+		MenuAddItem(SioriGetName(i), &MenuItem3SaveSiori);
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetLoad(void)
+{
+	MenuInit();
+	MenuSetOption(3, 0, , MENU_TYPE_NORMAL, TRUE);
+
+	u32 i;
+
+	for(i=0; i<SIORI_MAX_CNT; i++)
+	{
+		MenuAddItem(SioriGetName(i), &MenuItem3LoadSiori);
+	}
+}
+//---------------------------------------------------------------------------
+// 章選択
+EWRAM_CODE void MenuItem0Chapter(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		MenuSetChapter();
+		Menu.ret = MENU_RET_TITLE;
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// ロード
+EWRAM_CODE void MenuItem0Load(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		MenuSetLoad();
+		Menu.ret = MENU_RET_TITLE;
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// 章を選ぶ
+EWRAM_CODE void MenuItem1Chapter(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+//		NvSetCapter(Menu.sel);
+		MenuSetAct(MENU_ACT_END_READY);
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// 文字送り
+EWRAM_CODE void MenuItem2Next(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+//		NvSetSkip(TRUE);
+		MenuSetAct(MENU_ACT_END_READY);
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// 文字を消す
+EWRAM_CODE void MenuItem2TextHide(void)
+{
+	switch(Menu.actStep)
+	{
+	case 0:
+		if(Menu.trg & KEY_A)
+		{
+			Menu.actStep++;
+		}
+		else
+		{
+			MenuSetAct(MENU_ACT_SELECT);
+		}
+		break;
+
+	case 1:
+		TextClearDat();
+		Menu.actStep++;
+		break;
+
+	case 2:
+		Menu.trg = KeyGetTrg();
+
+		if(Menu.trg & KEY_A)
+		{
+			MenuSetAct(MENU_ACT_DRAW);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+// シナリオ回想
+EWRAM_CODE void MenuItem2Ref(void)
+{
+/*	switch(Menu.actStep)
+	{
+	case 0:
+		if(Menu.trg & KEY_A && HistoryIsEmpty() == FALSE)
+		{
+			Menu.actStep++;
+		}
+		else
+		{
+			MenuSetAct(MENU_ACT_SELECT);
+		}
+		break;
+
+	case 1:
+		HistoryInitAct(FALSE);
+		Menu.actStep++;
+		break;
+
+	case 2:
+
+		HistoryExec();
+
+		if(HistoryIsEnd() == TRUE)
+		{
+			MenuSetAct(MENU_ACT_READY);
+		}
+		break;
+
+	}
+*/
+}
+//---------------------------------------------------------------------------
+// セーブ　システムメニュー
+EWRAM_CODE void MenuItem2Save(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		MenuSetSave();
+		Menu.ret = MENU_RET_SYSTEM;
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// ロード　システムメニュー
+EWRAM_CODE void MenuItem2Load(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		MenuSetLoad();
+		Menu.ret = MENU_RET_SYSTEM;
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// オプション
+EWRAM_CODE void MenuItem2Option(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		MenuSetSystemOption();
+		Menu.ret = MENU_RET_SYSTEM;
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// ゲーム終了
+EWRAM_CODE void MenuItem2GameEnd(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+//		HistoryInit();
+		TextInit();
+
+//		NvSetAct(NV_ACT_END_READY);
+		MenuSetAct(MENU_ACT_END_READY);
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// セーブ　しおり１つ選択済み
+EWRAM_CODE void MenuItem3SaveSiori(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		SioriSave(Menu.sel);
+		MenuSetAct(MENU_ACT_END_READY);
+
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// ロード　しおり１つ選択済み
+EWRAM_CODE void MenuItem3LoadSiori(void)
+{
+	if(Menu.trg & KEY_A)
+	{
+		if(SioriLoad(Menu.sel) == TRUE)
+		{
+			MenuSetAct(MENU_ACT_END_READY);
+			return;
+		}
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// 文字ウェイト
+EWRAM_CODE void MenuItem4TextWait(void)
+{
+	if(Menu.trg & KEY_LEFT && Menu.item[0].cnt > 0)
+	{
+		Menu.item[0].cnt--;
+//		TextSetWaitNum(Menu.item[0].cnt);
+
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+	else if(Menu.trg & KEY_RIGHT && Menu.item[0].cnt < 10)
+	{
+		Menu.item[0].cnt++;
+//		TextSetWaitNum(Menu.item[0].cnt);
+
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// 背景輝度
+EWRAM_CODE void MenuItem4Fade(void)
+{
+	if(Menu.trg & KEY_LEFT && Menu.item[1].cnt > 0)
+	{
+		Menu.item[1].cnt--;
+//		ImgSetFade(Menu.item[1].cnt);
+
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+	else if(Menu.trg & KEY_RIGHT && Menu.item[1].cnt < 16)
+	{
+		Menu.item[1].cnt++;
+//		ImgSetFade(Menu.item[1].cnt);
+
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// ＢＧＭ
+EWRAM_CODE void MenuItem4Bgm(void)
+{
+	if(Menu.trg & KEY_LEFT && Menu.item[2].cnt > 2)
+	{
+		Menu.item[2].cnt--;
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+	else if(Menu.trg & KEY_RIGHT && Menu.item[2].cnt < 24)
+	{
+		Menu.item[2].cnt++;
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+	else if(Menu.trg & KEY_A)
+	{
+		BgmPlay2(Menu.item[2].cnt, TRUE);
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
+//---------------------------------------------------------------------------
+// ＣＧ
+EWRAM_CODE void MenuItem4Cg(void)
+{
+	if(Menu.trg & KEY_LEFT && Menu.item[3].cnt > 0)
+	{
+		Menu.item[3].cnt--;
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+	else if(Menu.trg & KEY_RIGHT && Menu.item[3].cnt < MENU_MAX_CG_CNT-1)
+	{
+		Menu.item[3].cnt++;
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+	else if(Menu.trg & KEY_A)
+	{
+//		ImgDirectCrop(MenuCgTable[Menu.item[3].cnt], 0, 0);
+//		ImgSetEffectOnly(IMG_EFFECT_NORMAL, 0);
+
+		MenuSetAct(MENU_ACT_DRAW);
+		return;
+	}
+
+	MenuSetAct(MENU_ACT_SELECT);
+}
