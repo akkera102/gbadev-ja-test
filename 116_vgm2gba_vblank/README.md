@@ -24,7 +24,7 @@ v0.01 added loop function.
 
 ## Lisence
 
-My source code is CC0.
+My source code(CC0)
 
 libgba(LGPL2.0 dynamic link)
 

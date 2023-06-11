@@ -12,7 +12,7 @@ I ported Deflemask Game Boy Engine to GBA.
 
 ## Lisence
 
-My source code is CC0.
+My source code(CC0)
 
 libgba(LGPL2.0 dynamic link)
 

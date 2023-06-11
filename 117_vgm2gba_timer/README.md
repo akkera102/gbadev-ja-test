@@ -12,7 +12,7 @@ Because timer2,3 are used in cascade, it is very heavy processing.
 
 ## Lisence
 
-My source code is CC0.
+My source code(CC0)
 
 libgba(LGPL2.0 dynamic link)
 
