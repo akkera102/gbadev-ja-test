@@ -1,10 +1,9 @@
 #include "common.h"
 
-
 //---------------------------------------------------------------------------
-EWRAM_CODE s32 _Strlen(char* s1)
+EWRAM_CODE u16 _Strlen(char* s1)
 {
-	s32 i = 0;
+	u16 i = 0;
 
 	while(s1[i] != '\0')
 	{
@@ -14,7 +13,7 @@ EWRAM_CODE s32 _Strlen(char* s1)
 	return i;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* _Strncpy(char* ret, char* s2, s32 size)
+EWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size)
 {
 	volatile char* s1 = ret;
 
@@ -41,7 +40,7 @@ End:
 	return ret;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE s32 _Strncmp(char* s1, char* s2, s32 size)
+EWRAM_CODE s16 _Strncmp(char* s1, char* s2, u16 size)
 {
 	if(size == 0)
 	{
@@ -104,19 +103,7 @@ EWRAM_CODE char* _Strchr(char* str, char chr)
 	return str;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u32 _Atoi(char* s)
-{
-	u32 num = 0;
-
-	while(*s != '\0')
-	{
-		num = (*s++ - '0') + num * 10;
-	}
-
-	return num;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE char* _Memcpy(void* s1, void* s2, s32 size)
+EWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size)
 {
 	char* p1 = (char*)s1;
 	char* p2 = (char*)s2;
@@ -136,7 +123,7 @@ End:
 	return s1;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE s32 _Memcmp(void* s1, void* s2, s32 size)
+EWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
 {
 	char* p1 = (char*)s1;
 	char* p2 = (char*)s2;
@@ -151,14 +138,14 @@ EWRAM_CODE s32 _Memcmp(void* s1, void* s2, s32 size)
 				continue;
 			}
 
-			return (s32)*--p1 - (s32)*--p2;
+			return (s16)*--p1 - (s16)*--p2;
 		}
 	}
 
 	return 0;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE char* _Memset(void* s, u8 c, s32 size)
+EWRAM_CODE char* _Memset(void* s, u8 c, u32 size)
 {
 	volatile char* s1 = (char*)s;
 
@@ -179,7 +166,7 @@ End:
 //---------------------------------------------------------------------------
 IWRAM_CODE void _Printf(char* format, ...)
 {
-	char sprintfBuf[256] ALIGN(4);
+	char sprintfBuf[100] ALIGN(4);
 
 	char* ap;
 	va_start(ap, format);
@@ -306,7 +293,7 @@ IWRAM_CODE char* _SprintfNumCol(s32 val, s32 base, char* s, s32 col, char colChr
 	s32 c = Mod(val, base);
 	val = Div(val, base);
 
-	if(val > 0 || col > 1)
+	if(col > 1)
 	{
 		s = _SprintfNumCol(val, base, s, col-1, colChr, FALSE);
 	}
@@ -325,14 +312,15 @@ IWRAM_CODE char* _SprintfNumCol(s32 val, s32 base, char* s, s32 col, char colChr
 //---------------------------------------------------------------------------
 IWRAM_CODE char* _SprintfHexCol(u32 val, char* s, s32 col, char colChr, bool isTop, char hex)
 {
-	if(val >= 0x10 || col > 1)
+	u32 c = val & 0xf;
+	val = val >> 4;
+
+	if(col > 1)
 	{
-		s = _SprintfHexCol(val >> 4, s, col-1, colChr, FALSE, hex);
+		s = _SprintfHexCol(val, s, col-1, colChr, FALSE, hex);
 	}
 
-	u32 c = val & 0xf;
-
-	if(c != 0 || isTop == TRUE)
+	if(c != 0 || val != 0 || isTop == TRUE)
 	{
 		*s++ = (c>9) ? c-10+hex : c+'0';
 	}
@@ -369,7 +357,7 @@ IWRAM_CODE char* _SprintfString(char* val, char* s)
 //---------------------------------------------------------------------------
 IWRAM_CODE void SystemError(char* format, ...)
 {
-	char buf[256] ALIGN(4);
+	char buf[100] ALIGN(4);
 
 	char* ap;
 	va_start(ap, format);

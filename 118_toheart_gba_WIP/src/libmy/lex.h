@@ -8,7 +8,7 @@ extern "C" {
 
 
 //---------------------------------------------------------------------------
-#define LEX_MAX_STR_SIZE				(255)
+#define LEX_MAX_STR_SIZE				200
 
 
 //---------------------------------------------------------------------------
@@ -17,7 +17,7 @@ typedef struct {
 	char* pCur;
 
 	s32   num;
-	char  str[LEX_MAX_STR_SIZE+1] ALIGN(4);
+	char  str[LEX_MAX_STR_SIZE] ALIGN(4);
 
 } ST_LEX;
 

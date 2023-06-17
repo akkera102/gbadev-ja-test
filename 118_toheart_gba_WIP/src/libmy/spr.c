@@ -1,5 +1,6 @@
 #include "spr.h"
-#include "bios_arm.h"
+#include "bios.h"
+#include "sjis.h"
 #include "../res.h"
 
 // Mode3     BITMAP_OBJ_BASE_ADR
@@ -19,7 +20,6 @@ EWRAM_CODE void SprInit(void)
 
 	SprSetDatItem();
 	SprSetChrItem();
-	SprSetFontItem();
 	SprSetImgWhite();
 
 	REG_DISPCNT |= (OBJ_ON | OBJ_2D_MAP);
@@ -49,26 +49,22 @@ EWRAM_CODE void SprSetDatItem(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprSetChrItem(void)
 {
-	// 0Å`7 Font
-	// 8Å`9 Cursor
-
+	// Font Buffer
 	SprSetChr(0,  18,  22,  512, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(1,  18,  86,  768, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(2,  82,  22,  520, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(3,  82,  86,  776, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(4, 146,  22,  528, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(5, 146,  86,  784, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(6, 210,  22,  536, ATTR0_SQUARE, ATTR1_SIZE_64);
-	SprSetChr(7, 210,  86,  792, ATTR0_SQUARE, ATTR1_SIZE_64);
+	SprSetChr(1,  82,  22,  576, ATTR0_SQUARE, ATTR1_SIZE_64);
+	SprSetChr(2, 146,  22,  640, ATTR0_SQUARE, ATTR1_SIZE_64);
+	SprSetChr(3, 210,  22,  704, ATTR0_TALL,   ATTR1_SIZE_32);
+	SprSetChr(4, 210,  54,  712, ATTR0_TALL,   ATTR1_SIZE_32);
 
-	SprSetChr(8, 240, 160, 1020, ATTR0_WIDE,   ATTR1_SIZE_8);
-	SprSetChr(9, 240, 160, 1022, ATTR0_WIDE,   ATTR1_SIZE_8);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprSetFontItem(void)
-{
-	Spr.pImg = (u16*)&fnt_k12x10Bitmap;
-	Spr.pCct = (u8*)&cct_sjis_bin + SPR_FONT_CCT_HEAD_SIZE;
+	SprSetChr(5,  18,  86,  720, ATTR0_SQUARE, ATTR1_SIZE_64);
+	SprSetChr(6,  82,  86,  784, ATTR0_SQUARE, ATTR1_SIZE_64);
+	SprSetChr(7, 146,  86,  848, ATTR0_SQUARE, ATTR1_SIZE_64);
+	SprSetChr(8, 210,  86,  912, ATTR0_TALL,   ATTR1_SIZE_32);
+	SprSetChr(9, 210, 118,  920, ATTR0_TALL,   ATTR1_SIZE_32);
+
+	// Cursor
+	SprSetChr(10, 240, 160, 1020, ATTR0_WIDE,   ATTR1_SIZE_8);
+	SprSetChr(11, 240, 160, 1022, ATTR0_WIDE,   ATTR1_SIZE_8);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprSetDat(u16* pTile, u32 tileSize, u16* pPal, u32 palSize)
@@ -119,219 +115,20 @@ EWRAM_CODE void SprClearDat(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprDrawDatChr(u32 x, u32 y, u16 code)
 {
-	u16 idx = SprGetSjisIdx(code);
-	u8 flag = 0x00;
+	u16* pS = SjisGetImgPointer(code);
+	s32 i, j;
 
-	if(x & 0x01)
+	for(j=0; j<10; j++)
 	{
-		flag |= 0x01;
-	}
+		for(i=0; i<3; i++)
+		{
+			u16* pD = (u16*)(0x06014000 + Spr.pTbl[(x * 3) + i + (y * 52 * 12) + (j * 52)]);
 
-	if(y & 0x01)
-	{
-		flag |= 0x10;
-	}
-
-	switch(flag)
-	{
-	case 0x00:
-		SprDrawDatChrSub1(x, y, idx);
-		break;
-
-	case 0x01:
-		SprDrawDatChrSub2(x, y, idx);
-		break;
-
-	case 0x10:
-		SprDrawDatChrSub3(x, y, idx);
-		break;
-
-	case 0x11:
-		SprDrawDatChrSub4(x, y, idx);
-		break;
+			*pD++ = *pS++ & Spr.mask;
+		}
 	}
 
 	Spr.isDrawDat = TRUE;
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void SprDrawDatChrSub1(u32 x, u32 y, u16 code)
-{
-	u16* pSrc1 = (u16*)&Spr.dat + (y * 768) + (x * 24);
-	u16* pSrc2 = pSrc1 + 16;
-	u16* pSrc3 = pSrc1 + 512;
-	u16* pSrc4 = pSrc1 + 512 + 16;
-	u16* pDst  = Spr.pImg + ((SPR_FONT_IMG_CX / 4) * SPR_FONT_IMG_CY) * code;
-	u32  i;
-
-	for(i=0; i<8; i++)
-	{
-		*pSrc1++ = *pDst++ & Spr.mask;
-		*pSrc1++ = *pDst++ & Spr.mask;
-		*pSrc2++ = *pDst++ & Spr.mask;
-
-		pSrc2++;
-	}
-
-	for(i=0; i<2; i++)
-	{
-		*pSrc3++ = *pDst++ & Spr.mask;
-		*pSrc3++ = *pDst++ & Spr.mask;
-		*pSrc4++ = *pDst++ & Spr.mask;
-
-		pSrc4++;
-	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void SprDrawDatChrSub2(u32 x, u32 y, u16 code)
-{
-	u16* pSrc1 = (u16*)&Spr.dat + (16+1) + (y * 768) + ((x-1) * 24);
-	u16* pSrc2 = pSrc1 + 16 - 1;
-	u16* pSrc3 = pSrc1 + 512;
-	u16* pSrc4 = pSrc2 + 512;
-	u16* pDst  = Spr.pImg + ((SPR_FONT_IMG_CX / 4) * SPR_FONT_IMG_CY) * code;
-	u32  i;
-
-	for(i=0; i<8; i++)
-	{
-		*pSrc1++ = *pDst++ & Spr.mask;
-		*pSrc2++ = *pDst++ & Spr.mask;
-		*pSrc2++ = *pDst++ & Spr.mask;
-
-		pSrc1++;
-	}
-
-	for(i=0; i<2; i++)
-	{
-		*pSrc3++ = *pDst++ & Spr.mask;
-		*pSrc4++ = *pDst++ & Spr.mask;
-		*pSrc4++ = *pDst++ & Spr.mask;
-
-		pSrc3++;
-	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void SprDrawDatChrSub3(u32 x, u32 y, u16 code)
-{
-	u16* pSrc1 = (u16*)&Spr.dat + (512 + 8) + ((y-1) * 768) + (x * 24);
-	u16* pSrc2 = pSrc1 + 16;
-	u16* pSrc3 = pSrc1 + 512 - 8;
-	u16* pSrc4 = pSrc2 + 512 - 8;
-	u16* pDst  = Spr.pImg + ((SPR_FONT_IMG_CX / 4) * SPR_FONT_IMG_CY) * code;
-	u32  i;
-
-	for(i=0; i<4; i++)
-	{
-		*pSrc1++ = *pDst++ & Spr.mask;
-		*pSrc1++ = *pDst++ & Spr.mask;
-		*pSrc2++ = *pDst++ & Spr.mask;
-
-		pSrc2++;
-	}
-
-	for(i=0; i<6; i++)
-	{
-		*pSrc3++ = *pDst++ & Spr.mask;
-		*pSrc3++ = *pDst++ & Spr.mask;
-		*pSrc4++ = *pDst++ & Spr.mask;
-
-		pSrc4++;
-	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void SprDrawDatChrSub4(u32 x, u32 y, u16 code)
-{
-	u16* pSrc1 = (u16*)&Spr.dat + (528 + 8 + 1) + ((y-1) * 768) + ((x-1) * 24);
-	u16* pSrc2 = pSrc1 +  16 - 1;
-	u16* pSrc3 = pSrc1 + 512 - 8;
-	u16* pSrc4 = pSrc3 +  16 - 1;
-	u16* pDst  = Spr.pImg + ((SPR_FONT_IMG_CX / 4) * SPR_FONT_IMG_CY) * code;
-	u32  i;
-
-	for(i=0; i<4; i++)
-	{
-		*pSrc1++ = *pDst++ & Spr.mask;
-		*pSrc2++ = *pDst++ & Spr.mask;
-		*pSrc2++ = *pDst++ & Spr.mask;
-
-		pSrc1++;
-	}
-
-	for(i=0; i<6; i++)
-	{
-		*pSrc3++ = *pDst++ & Spr.mask;
-		*pSrc4++ = *pDst++ & Spr.mask;
-		*pSrc4++ = *pDst++ & Spr.mask;
-
-		pSrc3++;
-	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE u16 SprGetSjisIdx(u16 code)
-{
-	if(code == 0x0000)
-	{
-		code = 0x8140;
-	}
-	else if(_IsSJIS(HIBYTE(code)) == FALSE)
-	{
-		goto Err;
-	}
-
-
-	// level 1
-	u16 c0 = HIBYTE(code) >> 5;
-	u16 c1 = HIBYTE(code) & 0x1f;
-	u16 i1;
-
-	if(c0 == 4)
-	{
-		// 80-9F
-		i1 = ((u16*)Spr.pCct)[c1];
-	}
-	else
-	{
-		// E0-FF
-		i1 = ((u16*)Spr.pCct)[c1 + 32];
-	}
-
-	if(i1 == 0)
-	{
-		goto Err;
-	}
-
-
-	// level 2
-	u16 c2 = LOBYTE(code) >> 6;
-	u16 i2 = ((u16*)(Spr.pCct + i1))[c2];
-
-	if(i2 == 0)
-	{
-		goto Err;
-	}
-
-	ST_XCCTENT* pXccTent = (ST_XCCTENT*)(Spr.pCct + i2);
-	ST_XCCT* pXcct = (ST_XCCT*)(Spr.pCct + i2 + sizeof(ST_XCCTENT));
-
-
-	// level 3
-	u16 c3 = LOBYTE(code) & 0x3f;
-	u16 i;
-
-	for(i=0; i<pXccTent->count; i++)
-	{
-		if(c3 >= pXcct->start && c3 <= pXcct->end)
-		{
-			return pXcct->offset + (c3 - pXcct->start);
-		}
-
-		pXcct++;
-	}
-
-
-Err:
-	TRACEOUT("code: 0x%x\n", code);
-	_ASSERT(0 && "Invaild font idx");
-	return SPR_FONT_INVALID_INDEX;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprSetImgWhite(void)

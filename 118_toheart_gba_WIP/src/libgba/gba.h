@@ -30,8 +30,8 @@
 
 */
 //---------------------------------------------------------------------------------
-#ifndef	GBA_H
-#define	GBA_H
+#ifndef	_gba_h_
+#define	_gba_h_
 //---------------------------------------------------------------------------------
 
 #define _DEBUG					1
@@ -167,73 +167,6 @@ typedef enum irqMASKS {
 	IRQ_KEYPAD	=	(1<<12),	/*!< Keypad interrupt mask */
 	IRQ_GAMEPAK	=	(1<<13)		/*!< horizontal blank interrupt mask */
 } irqMASK;
-
-
-// gba_sio.h
-#define SIO_8BIT		0x0000	// Normal 8-bit communication mode
-#define SIO_32BIT		0x1000	// Normal 32-bit communication mode
-#define SIO_MULTI		0x2000	// Multi-play communication mode
-#define SIO_UART		0x3000	// UART communication mode
-#define SIO_IRQ			0x4000	// Enable serial irq
-
-#define SIO_9600		0x0000
-#define SIO_38400		0x0001
-#define SIO_57600		0x0002
-#define SIO_115200		0x0003
-
-#define SIO_CLK_INT		(1<<0)	// Select internal clock
-#define SIO_2MHZ_CLK	(1<<1)	// Select 2MHz clock
-#define SIO_RDY			(1<<2)	// Opponent SO state
-#define SIO_SO_HIGH		(1<<3)	// Our SO state
-#define SIO_START		(1<<7)
-
-#define R_NORMAL		0x0000
-#define R_MULTI			0x0000
-#define R_UART			0x0000
-#define R_GPIO			0x8000
-#define R_JOYBUS		0xC000
-
-#define	GPIO_SC			0x0001	// Data
-#define	GPIO_SD			0x0002
-#define	GPIO_SI			0x0004
-#define	GPIO_SO			0x0008
-#define	GPIO_SC_IO		0x0010	// Select I/O
-#define	GPIO_SD_IO		0x0020
-#define	GPIO_SI_IO		0x0040
-#define	GPIO_SO_IO		0x0080
-#define	GPIO_SC_INPUT	0x0000	// Input setting
-#define GPIO_SD_INPUT	0x0000
-#define	GPIO_SI_INPUT	0x0000
-#define	GPIO_SO_INPUT	0x0000
-#define	GPIO_SC_OUTPUT	0x0010	// Output setting
-#define	GPIO_SD_OUTPUT	0x0020
-#define	GPIO_SI_OUTPUT	0x0040
-#define	GPIO_SO_OUTPUT	0x0080
-
-
-#define REG_SIOCNT		*(vu16*)(REG_BASE + 0x128)	// Serial Communication Control
-#define REG_SIODATA8	*(vu16*)(REG_BASE + 0x12a)	// 8bit Serial Communication Data
-#define REG_SIODATA32	*(vu32*)(REG_BASE + 0x120)	// 32bit Serial Communication Data
-#define REG_SIOMLT_SEND	*(vu16*)(REG_BASE + 0x12a)	// Multi-play SIO Send Data
-#define REG_SIOMLT_RECV	*(vu16*)(REG_BASE + 0x120)	// Multi-play SIO Receive Data
-#define REG_SIOMULTI0	*(vu16*)(REG_BASE + 0x120)	// Master data
-#define REG_SIOMULTI1	*(vu16*)(REG_BASE + 0x122)	// Slave 1 data
-#define REG_SIOMULTI2	*(vu16*)(REG_BASE + 0x124)	// Slave 2 data
-#define REG_SIOMULTI3	*(vu16*)(REG_BASE + 0x126)	// Slave 3 data
-
-#define REG_RCNT		*(vu16*)(REG_BASE + 0x134)	// SIO Mode Select/General Purpose Data
-
-#define REG_HS_CTRL		*(vu16*)(REG_BASE + 0x140)	// SIO JOY Bus Control
-
-#define REG_JOYRE		*(vu32*)(REG_BASE + 0x150)	// SIO JOY Bus Receive Data
-#define REG_JOYRE_L		*(vu16*)(REG_BASE + 0x150)
-#define REG_JOYRE_H		*(vu16*)(REG_BASE + 0x152)
-
-#define REG_JOYTR		*(vu32*)(REG_BASE + 0x154)	// SIO JOY Bus Transmit Data
-#define REG_JOYTR_L		*(vu16*)(REG_BASE + 0x154)
-#define REG_JOYTR_H		*(vu16*)(REG_BASE + 0x156)
-
-#define REG_JSTAT		*(vu16*)(REG_BASE + 0x158)	// SIO JOY Bus Receive Status
 
 
 // gba_sprites.h
@@ -564,115 +497,7 @@ static inline void SetMode(int mode)	{REG_DISPCNT = mode;}
 #define SCREEN_HEIGHT 160
 
 
-//---------------------------------------------------------------------------
-// Reg
-#define REG_IRQ_WAITFLAGS		*(volatile u16*)0x3007FF8
-#define REG_WSCNT				*(volatile u16*)0x4000204
-
-
-//---------------------------------------------------------------------------
-// KeyMask
-#define KEY_NONE				0x0000
-#define STAT_MASK				0x00ff
-
-
-//---------------------------------------------------------------------------
-// SetMode
-#define OBJ_2D_MAP				0x0
-
-
-//---------------------------------------------------------------------------
-// Timer
-#define TIMER_FREQ_PER_1		0
-#define TIMER_FREQ_PER_64		1
-#define TIMER_FREQ_PER_256		2
-#define TIMER_FREQ_PER_1024		3
-#define TIMER_CASCADE			(1<<2)
-
-
-//---------------------------------------------------------------------------
-// Mosaic
-#define MOSAIC_BG_H(x)			((x)<<0)
-#define MOSAIC_BG_V(x)			((x)<<4)
-#define MOSAIC_OBJ_H(x)			((x)<<8)
-#define MOSAIC_OBJ_V(x)			((x)<<12)
-
-
-//---------------------------------------------------------------------------
-// Window
-#define WIN_RIGHT(x)			((x)<<0)		// REG_WIN0H, WIN1H
-#define WIN_LEFT(x)				((x)<<8)
-
-#define WIN_DOWN(x)				((x)<<0)		// REG_WIN0V, WIN1V
-#define WIN_TOP(x)				((x)<<8)
-
-#define WIN_0_BG0				(1<<0)			// REG_WININ, WINOUT
-#define WIN_0_BG1				(1<<1)
-#define WIN_0_BG2				(1<<2)
-#define WIN_0_BG3				(1<<3)
-#define WIN_0_OBJ				(1<<4)
-#define WIN_0_SPE				(1<<5)
-#define WIN_1_BG0				(1<<8)
-#define WIN_1_BG1				(1<<9)
-#define WIN_1_BG2				(1<<10)
-#define WIN_1_BG3				(1<<11)
-#define WIN_1_OBJ				(1<<12)
-#define WIN_1_SPE				(1<<13)
-
-
-//---------------------------------------------------------------------------
-// Blend
-#define BLEND_TOP_BG0			(1<<0)			// REG_BLDCNT
-#define BLEND_TOP_BG1			(1<<1)
-#define BLEND_TOP_BG2			(1<<2)
-#define BLEND_TOP_BG3			(1<<3)
-#define BLEND_TOP_OBJ			(1<<4)
-#define BLEND_TOP_BD			(1<<5)
-#define BLEND_LOW_BG0			(1<<8)
-#define BLEND_LOW_BG1			(1<<9)
-#define BLEND_LOW_BG2			(1<<10)
-#define BLEND_LOW_BG3			(1<<11)
-#define BLEND_LOW_OBJ			(1<<12)
-#define BLEND_LOW_BD			(1<<13)
-                     
-#define BLEND_MODE_OFF			(0<<6)			// REG_BLDALPHA
-#define BLEND_MODE_ALPHA		(1<<6)
-#define BLEND_MODE_LIGHT		(2<<6)
-#define BLEND_MODE_DARK			(3<<6)
-#define BLEND_LOW(n)			((n)<<0)
-#define BLEND_HIGH(n)			((n)<<8)
-#define BLEND_LEVEL(n)			(BLEND_LOW(n) | BLEND_HIGH(n))
-#define BLEND_BALANCE(n)		(BLEND_LOW(n) | BLEND_HIGH(16-n))
-
-#define BLEND_DEPTH(n)			((n)<<0)		// REG_BLDY
-
-
-// 修正分、追加分
-//---------------------------------------------------------------------------
-// Snd
-// REG_SOUNDCNT_L
-#define DMG_LEFT_VOLUME(x)		((x)<<0)		// 0-7
-#define DMG_RIGHT_VOLUME(x)		((x)<<4)		// 0-7
-#define SOUND1_LEFT_OUTPUT		(1<<8)
-#define SOUND2_LEFT_OUTPUT		(1<<9)
-#define SOUND3_LEFT_OUTPUT		(1<<10)
-#define SOUND4_LEFT_OUTPUT		(1<<11)
-#define SOUND1_RIGHT_OUTPUT		(1<<12)
-#define SOUND2_RIGHT_OUTPUT		(1<<13)
-#define SOUND3_RIGHT_OUTPUT		(1<<14)
-#define SOUND4_RIGHT_OUTPUT		(1<<15)
-
-// SOUNDCNT_H
-#define SOUND_OUTPUT_RATIO(x)	((x)<<0)		// サウンド出力レシオ 0-2 (0=25%,1=50%,2=100%)
-
-// REG_SOUNDCNT_X
-#define SOUND1_STATUS			(1<<0)			// サウンドの状態
-#define SOUND2_STATUS			(1<<1)			// サウンドの状態
-#define SOUND3_STATUS			(1<<2)			// サウンドの状態
-#define SOUND4_STATUS			(1<<3)			// サウンドの状態
-#define ALL_SOUND_ENABLE		(1<<7)			// 全サウンド使用
-
-
+// gba_sound.h
 #define SND1_R_ENABLE	(1<<8)		// Enable left & right speakers for each sound channel
 #define SND1_L_ENABLE	(1<<12)
 #define SND2_R_ENABLE	(1<<9)
@@ -751,7 +576,7 @@ fedcba9876543210
 #define DMGSNDCTRL_LSQR1   0x0100
 #define DMGSNDCTRL_LSQR2   0x0200
 #define DMGSNDCTRL_LTRI    0x0400
-#define DMGSNTCTRL_LNOISE  0x0800
+#define DMGSNDCTRL_LNOISE  0x0800
 #define DMGSNDCTRL_RSQR1   0x1000
 #define DMGSNDCTRL_RSQR2   0x2000
 #define DMGSNDCTRL_RTRI    0x4000
@@ -786,7 +611,7 @@ fedcba9876543210
 #define DSOUNDCTRL_AR        0x0100
 #define DSOUNDCTRL_AL        0x0200
 #define DSOUNDCTRL_ATIMER(x) ((x) << 10)
-#define DSOUNDCTRL_ARESET    0x0400
+#define DSOUNDCTRL_ARESET    0x0800
 #define DSOUNDCTRL_BR        0x1000
 #define DSOUNDCTRL_BL        0x2000
 #define DSOUNDCTRL_BTIMER(x) ((x) << 14)
@@ -923,6 +748,89 @@ fedcba9876543210
 #define TRIWAVERAM ((volatile u32 *)0x04000090)
 
 
+// 修正分、追加分
+//---------------------------------------------------------------------------
+// Reg
+#define REG_IRQ_WAITFLAGS		*(volatile u16*)0x3007FF8
+#define REG_WSCNT				*(volatile u16*)0x4000204
+
+
+//---------------------------------------------------------------------------
+// KeyMask
+#define KEY_NONE				0x0000
+#define STAT_MASK				0x00ff
+
+
+//---------------------------------------------------------------------------
+// SetMode
+#define OBJ_2D_MAP				0x0
+
+
+//---------------------------------------------------------------------------
+// Timer
+#define TIMER_FREQ_PER_1		0
+#define TIMER_FREQ_PER_64		1
+#define TIMER_FREQ_PER_256		2
+#define TIMER_FREQ_PER_1024		3
+#define TIMER_CASCADE			(1<<2)
+
+
+//---------------------------------------------------------------------------
+// Mosaic
+#define MOSAIC_BG_H(x)			((x)<<0)
+#define MOSAIC_BG_V(x)			((x)<<4)
+#define MOSAIC_OBJ_H(x)			((x)<<8)
+#define MOSAIC_OBJ_V(x)			((x)<<12)
+
+
+//---------------------------------------------------------------------------
+// Window
+#define WIN_RIGHT(x)			((x)<<0)		// REG_WIN0H, WIN1H
+#define WIN_LEFT(x)				((x)<<8)
+
+#define WIN_DOWN(x)				((x)<<0)		// REG_WIN0V, WIN1V
+#define WIN_TOP(x)				((x)<<8)
+
+#define WIN_0_BG0				(1<<0)			// REG_WININ, WINOUT
+#define WIN_0_BG1				(1<<1)
+#define WIN_0_BG2				(1<<2)
+#define WIN_0_BG3				(1<<3)
+#define WIN_0_OBJ				(1<<4)
+#define WIN_0_SPE				(1<<5)
+#define WIN_1_BG0				(1<<8)
+#define WIN_1_BG1				(1<<9)
+#define WIN_1_BG2				(1<<10)
+#define WIN_1_BG3				(1<<11)
+#define WIN_1_OBJ				(1<<12)
+#define WIN_1_SPE				(1<<13)
+
+
+//---------------------------------------------------------------------------
+// Blend
+#define BLEND_TOP_BG0			(1<<0)			// REG_BLDCNT
+#define BLEND_TOP_BG1			(1<<1)
+#define BLEND_TOP_BG2			(1<<2)
+#define BLEND_TOP_BG3			(1<<3)
+#define BLEND_TOP_OBJ			(1<<4)
+#define BLEND_TOP_BD			(1<<5)
+#define BLEND_LOW_BG0			(1<<8)
+#define BLEND_LOW_BG1			(1<<9)
+#define BLEND_LOW_BG2			(1<<10)
+#define BLEND_LOW_BG3			(1<<11)
+#define BLEND_LOW_OBJ			(1<<12)
+#define BLEND_LOW_BD			(1<<13)
+                     
+#define BLEND_MODE_OFF			(0<<6)			// REG_BLDALPHA
+#define BLEND_MODE_ALPHA		(1<<6)
+#define BLEND_MODE_LIGHT		(2<<6)
+#define BLEND_MODE_DARK			(3<<6)
+#define BLEND_LOW(n)			((n)<<0)
+#define BLEND_HIGH(n)			((n)<<8)
+#define BLEND_LEVEL(n)			(BLEND_LOW(n) | BLEND_HIGH(n))
+#define BLEND_BALANCE(n)		(BLEND_LOW(n) | BLEND_HIGH(16-n))
+
+#define BLEND_DEPTH(n)			((n)<<0)		// REG_BLDY
+
 //---------------------------------------------------------------------------
 // Sprite
 #define SP_PAL(pal)				((pal) << 12)
@@ -942,10 +850,10 @@ fedcba9876543210
 //---------------------------------------------------------------------------
 // Etc
 #if _DEBUG
-#define TRACEOUT				_Printf
+#define TRACE					_Printf
 #define _ASSERT(x)				if(!(x)) SystemError("[Assert] %s(%d): "#x"\n", __FILE__, __LINE__)
 #else
-#define TRACEOUT(...)			((void)0)
+#define TRACE(...)				((void)0)
 #define _ASSERT(x)				((void)0)
 #endif
 
@@ -960,20 +868,13 @@ fedcba9876543210
 #define SCREEN_CX				240
 #define SCREEN_CY				160
 
-#define NUM2FIX(N)				((N) << 8)
-#define FIX2NUM(F)				((F) >> 8)
-
-#define SNDA_TIMER0				(0 << 10)
-#define SNDB_TIMER1				(1 << 14)
-
-
 typedef enum { FALSE, TRUE } bool;
 
 
-#include "append.h"
-#include "div.h"
 #include "common.h"
-
+#include "div.h"
+#include "sys.arm.h"
+#include "gbfs.h"
 
 //---------------------------------------------------------------------------------
 #endif //_gba_h

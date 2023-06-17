@@ -88,7 +88,7 @@ IWRAM_CODE void ImgExecBefore(void)
 
 		if(Img.var3 == 0)
 		{
-			Mode3DrawFill(MODE3_COLOR_BLACK);
+			Mode3DrawFill(RGB8(0,0,0));
 			Mode3SetDraw();
 
 			Img.var3++;
@@ -145,7 +145,7 @@ IWRAM_CODE void ImgExecBefore(void)
 
 		if(Img.var3 == 0)
 		{
-			Mode3DrawFill(MODE3_COLOR_WHITE);
+			Mode3DrawFill(RGB8(31,31,31));
 			Mode3SetDraw();
 
 			Img.var3++;
@@ -338,17 +338,17 @@ IWRAM_CODE void ImgExecAfter(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawBg(void)
 {
-	TRACEOUT("[ImgDrawBg]\n");
+	TRACE("[ImgDrawBg]\n");
 
 	if(Img.bg == 0)
 	{
-		Mode3DrawFill(MODE3_COLOR_BLACK);
+		Mode3DrawFill(RGB8(0,0,0));
 		return;
 	}
 
 	if(Img.bg == 0xfe)
 	{
-		Mode3DrawFill(MODE3_COLOR_WHITE);
+		Mode3DrawFill(RGB8(31,31,31));
 		return;
 	}
 
@@ -371,7 +371,7 @@ EWRAM_CODE void ImgDrawBg(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawChr(void)
 {
-	TRACEOUT("[ImgDrawChr]\n");
+	TRACE("[ImgDrawChr]\n");
 	s32 i;
 
 	for(i=0; i<3; i++)
@@ -405,7 +405,7 @@ EWRAM_CODE void ImgDrawChr(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetBg(u8 no)
 {
-	TRACEOUT("[ImgSetBg %x]\n", no);
+	TRACE("[ImgSetBg %x]\n", no);
 
 	Img.bg = no;
 	Img.bgType = IMG_BG_NORMAL;
@@ -413,7 +413,7 @@ EWRAM_CODE void ImgSetBg(u8 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetBgV(u8 no)
 {
-	TRACEOUT("[ImgSetBgV %x]\n", no);
+	TRACE("[ImgSetBgV %x]\n", no);
 
 	Img.bg = no;
 	Img.bgType = IMG_BG_VISUAL;
@@ -421,7 +421,7 @@ EWRAM_CODE void ImgSetBgV(u8 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
 {
-	TRACEOUT("[ImgSetChr no=%x pos=%x]\n", no, pos);
+	TRACE("[ImgSetChr no=%x pos=%x]\n", no, pos);
 
 	_ASSERT(pos <= IMG_CHR_ALL);
 
@@ -430,7 +430,7 @@ EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetEffectBefore(u8 no)
 {
-	TRACEOUT("[ImgSetEffectBefore %x]\n", no);
+	TRACE("[ImgSetEffectBefore %x]\n", no);
 
 	Img.var1     = 0;
 	Img.var2     = 0;
@@ -446,7 +446,7 @@ EWRAM_CODE void ImgSetEffectAfter(u8 no)
 		return;
 	}
 
-	TRACEOUT("[ImgSetEffectAfter %x]\n", no);
+	TRACE("[ImgSetEffectAfter %x]\n", no);
 
 	Img.var4    = 0;
 	Img.var5    = 0;

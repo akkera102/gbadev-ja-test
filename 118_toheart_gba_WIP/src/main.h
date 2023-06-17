@@ -14,8 +14,6 @@ extern "C" {
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE int  main(void);
-
 EWRAM_CODE void MainInit(void);
 IWRAM_CODE void MainExec(void);
 

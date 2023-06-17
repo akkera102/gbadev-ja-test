@@ -22,13 +22,14 @@ EWRAM_CODE void GbfsInit(void)
 	{
 		Gbfs.pHeader = (ST_GBFS_HEADER*)pHeader;
 		Gbfs.pList   = (ST_GBFS_LIST*)(pHeader + Gbfs.pHeader->dirOff);
-		return;
 	}
-
-	SystemError("[Err][GbfsInit] .gbfs File Not Found(pHeader = %x)", pHeader);
+	else
+	{
+		SystemError("[Err][GbfsInit] .gbfs File Not Found(pHeader = %x)", pHeader);
+	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void* GbfsGetPointer(char* fname)
+IWRAM_CODE void* GbfsGetPointer(char* fname)
 {
 	s32 left  = 0;
 	s32 right = Gbfs.pHeader->fileCnt;
@@ -59,7 +60,7 @@ EWRAM_CODE void* GbfsGetPointer(char* fname)
 	return NULL;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void* GbfsGetPointer2(u32 cnt)
+IWRAM_CODE void* GbfsGetPointer2(u32 cnt)
 {
 	if(cnt >= Gbfs.pHeader->fileCnt)
 	{
@@ -70,7 +71,7 @@ EWRAM_CODE void* GbfsGetPointer2(u32 cnt)
 	return (u8*)Gbfs.pHeader + Gbfs.pList[cnt].dataOff;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void* GbfsGetSafePointer(char* fname)
+IWRAM_CODE void* GbfsGetSafePointer(char* fname)
 {
 	void* p = GbfsGetPointer(fname);
 
@@ -82,7 +83,7 @@ EWRAM_CODE void* GbfsGetSafePointer(char* fname)
 	return p;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void* GbfsGetSafePointer2(u32 cnt)
+IWRAM_CODE void* GbfsGetSafePointer2(u32 cnt)
 {
 	void* p = GbfsGetPointer2(cnt);
 
@@ -97,11 +98,6 @@ EWRAM_CODE void* GbfsGetSafePointer2(u32 cnt)
 EWRAM_CODE char* GbfsGetFileName(void)
 {
 	return Gbfs.pList[Gbfs.pos].fname;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE char* GbfsGetFileName2(u32 num)
-{
-	return Gbfs.pList[num].fname;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u32 GbfsGetFileSize(void)

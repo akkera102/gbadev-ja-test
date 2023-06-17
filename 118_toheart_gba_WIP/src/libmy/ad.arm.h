@@ -5,17 +5,16 @@ extern "C" {
 #endif
 
 
-#include "libgba/gba.h"
+#include "../libgba/gba.h"
 
 //---------------------------------------------------------------------------
 // 18157Hz = 304 13379Hz = 224 10512Hz = 176 7884Hz = 128
-#define AD_BUF_SIZE					128
+#define AD_BUF_SIZE					176
 #define AD_SAMPLE_TIME				(280896 / AD_BUF_SIZE)
 
 
 enum {
 	AD_ACT_STOP,
-	AD_ACT_READY,
 	AD_ACT_PLAY,
 };
 
@@ -39,9 +38,8 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void AdInit(void);
 
-EWRAM_CODE void AdSetData(u8* pDat, u32 size, bool isLoop);
+EWRAM_CODE void AdPlay(u8* pDat, u32 size, bool isLoop);
 EWRAM_CODE void AdReset(void);
-EWRAM_CODE void AdPlay(void);
 EWRAM_CODE void AdStop(void);
 EWRAM_CODE bool AdIsEnd(void);
 

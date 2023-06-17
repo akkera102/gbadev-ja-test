@@ -1,7 +1,16 @@
-	.section	".init"
+/*--------------------------------------------------------------------------------
+	This Source Code Form is subject to the terms of the Mozilla Public License,
+	v. 2.0. If a copy of the MPL was not distributed with this file, You can
+	obtain one at https://mozilla.org/MPL/2.0/.
+--------------------------------------------------------------------------------*/
+
+	.section	".crt0","ax"
 	.global     _start
 	.align
+
 	.arm
+	.cpu arm7tdmi
+
 @---------------------------------------------------------------------------------
 _start:
 @---------------------------------------------------------------------------------
@@ -43,8 +52,8 @@ __slave_number:
 	.word   0    				@ reserved
 	.word   0    				@ reserved
 
-    .global     start_vector
-    .align
+	.global     start_vector
+	.align
 @---------------------------------------------------------------------------------
 start_vector:
 @---------------------------------------------------------------------------------
@@ -173,6 +182,9 @@ CEW0Skip:
 	mov	r1, #0				@ char	*argv[]
 	ldr	r3, =main
 	bl	_blx_r3_stub
+
+	swi	#0x00				@ SoftReset
+
 @---------------------------------------------------------------------------------
 @ Clear memory to 0x00 if length != 0
 @---------------------------------------------------------------------------------
@@ -243,4 +255,3 @@ CIDExit:
 	.align
 	.pool
 	.end
-

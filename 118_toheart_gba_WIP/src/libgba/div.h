@@ -1,5 +1,5 @@
-#ifndef DIV_H
-#define DIV_H
+#ifndef __DIV_H__
+#define __DIV_H__
 #ifdef __cplusplus
 extern "C" {
 #endif

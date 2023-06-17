@@ -4,8 +4,8 @@
 
 // fnt
 #include "res/fnt_k12x10.h"
-extern const char cct_sjis_bin;
-
+extern const unsigned char cct_sjis_bin[];
+extern const unsigned char spr_table_bin[];
 
 // bg
 // EMPTY

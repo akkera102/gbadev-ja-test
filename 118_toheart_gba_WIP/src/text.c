@@ -1,6 +1,6 @@
 #include "text.h"
 #include "libmy/spr.h"
-#include "libmy/bios_arm.h"
+#include "libmy/bios.h"
 #include "log.h"
 #include "img.h"
 #include "menu.h"

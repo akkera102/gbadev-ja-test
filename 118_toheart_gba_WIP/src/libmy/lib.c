@@ -1,18 +1,19 @@
-#include "libmy.h"
-#include "ad_arm.h"
-#include "bios_arm.h"
+#include "lib.h"
+#include "ad.arm.h"
+#include "bios.h"
 #include "fade.h"
 #include "gbfs.h"
-#include "irq_arm.h"
+#include "irq.arm.h"
 #include "key.h"
 #include "lex.h"
 #include "mode3.h"
 #include "snd.h"
 #include "spr.h"
-#include "bak.h"
+#include "sav.h"
+#include "sjis.h"
 
 //---------------------------------------------------------------------------
-EWRAM_CODE void LibMyInit(void)
+EWRAM_CODE void LibInit(void)
 {
 	REG_WSCNT = 0x4317;
 
@@ -25,12 +26,13 @@ EWRAM_CODE void LibMyInit(void)
 	Mode3Init();
 	SndInit();
 	SprInit();
-	BakInit();
+	SavInit();
+	SjisInit();
 
 	IrqInit();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void LibMyExec(void)
+IWRAM_CODE void LibExec(void)
 {
 	KeyExec();
 	SprExec();

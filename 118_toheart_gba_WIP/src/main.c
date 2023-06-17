@@ -1,5 +1,5 @@
 #include "main.h"
-#include "libmy/libmy.h"
+#include "libmy/lib.h"
 #include "manage.h"
 #include "nv.h"
 
@@ -8,7 +8,7 @@
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE int main(void)
+int main(void)
 {
 	MainInit();
 	MainExec();
@@ -18,7 +18,7 @@ EWRAM_CODE int main(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void MainInit(void)
 {
-	LibMyInit();
+	LibInit();
 	ManageInit();
 }
 //---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ IWRAM_CODE void MainExec(void)
 			SystemCall(5);
 //		}
 
-		LibMyExec();
+		LibExec();
 		ManageExec();
 	}
 }

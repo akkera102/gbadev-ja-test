@@ -4,6 +4,7 @@
 extern "C" {
 #endif
 
+
 #include "../libgba/gba.h"
 
 //---------------------------------------------------------------------------
@@ -26,19 +27,17 @@ typedef struct {
     u8*  data;
     u32  size;
     s32  frameSize;
-
-    u32  loop;
     bool isLoop;
+
 } ST_SND;
 
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void SndInit(void);
-EWRAM_CODE void SndSetData(u8* data, u32 size, s32 adjust, u32 loop);
-EWRAM_CODE void SndPlay(void);
+EWRAM_CODE void SndPlay(u8* data, u32 size, s32 adjust, bool isLoop);
 EWRAM_CODE void SndStop(void);
 
-IWRAM_CODE void SndIntr(void);
+IWRAM_CODE void SndIntrVblank(void);
 IWRAM_CODE void SndIntrStart(void);
 IWRAM_CODE void SndIntrStop(void);
 

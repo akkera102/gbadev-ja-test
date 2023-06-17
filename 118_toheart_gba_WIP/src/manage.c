@@ -20,7 +20,7 @@ EWRAM_CODE void ManageInit(void)
 	_Memset(&Manage, 0x00, sizeof(ST_MANAGE));
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ManageExec(void)
+EWRAM_CODE void ManageExec(void)
 {
 	switch(Manage.act)
 	{
@@ -50,7 +50,7 @@ IWRAM_CODE void ManageExec(void)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ManageExecInit(void)
+EWRAM_CODE void ManageExecInit(void)
 {
 	FileInit();
 
@@ -76,7 +76,7 @@ IWRAM_CODE void ManageExecInit(void)
 //	Manage.act = MANAGE_ACT_TITLE;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ManageExecTitle(void)
+EWRAM_CODE void ManageExecTitle(void)
 {
 /*
 	ImgExec();
@@ -89,7 +89,7 @@ IWRAM_CODE void ManageExecTitle(void)
 */
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ManageExecNovel(void)
+EWRAM_CODE void ManageExecNovel(void)
 {
 	if(ImgIsEffect() == TRUE)
 	{

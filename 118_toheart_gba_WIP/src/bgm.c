@@ -1,5 +1,5 @@
 #include "bgm.h"
-#include "libmy/ad_arm.h"
+#include "libmy/ad.arm.h"
 #include "file.h"
 
 //---------------------------------------------------------------------------
@@ -38,8 +38,7 @@ EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
 	u8* pDat = FileGetMus(no);
 	u32 size = FileGetSize();
 
-	AdSetData(pDat, size, isLoop);
-	AdPlay();
+	AdPlay(pDat, size, isLoop);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmStop(void)

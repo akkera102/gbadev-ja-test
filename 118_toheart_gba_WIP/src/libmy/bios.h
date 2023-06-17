@@ -19,13 +19,13 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void BiosInit(void);
 
-IWRAM_CODE void BiosCpuSet(void* src, void* dst, u32 size);
-IWRAM_CODE void BiosCpuSetFix(void* src, void* dst, u32 size);
-IWRAM_CODE void BiosCpuSetFixClear(void* dst, u32 size);
+EWRAM_CODE void BiosCpuSet(void* src, void* dst, u32 size);
+EWRAM_CODE void BiosCpuSetFix(void* src, void* dst, u32 size);
+EWRAM_CODE void BiosCpuSetFixClear(void* dst, u32 size);
 
-IWRAM_CODE void BiosCpuSetFast(void* src, void* dst, u32 size);
-IWRAM_CODE void BiosCpuSetFastFix(void* src, void* dst, u32 size);
-IWRAM_CODE void BiosCpuSetFastFixClear(void* dst, u32 size);
+EWRAM_CODE void BiosCpuSetFast(void* src, void* dst, u32 size);
+EWRAM_CODE void BiosCpuSetFastFix(void* src, void* dst, u32 size);
+EWRAM_CODE void BiosCpuSetFastFixClear(void* dst, u32 size);
 
 
 #ifdef __cplusplus

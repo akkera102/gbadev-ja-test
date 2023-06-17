@@ -18,8 +18,7 @@ EWRAM_CODE void SePlay(s32 cnt)
 	u8* pDat = FileGetSe(Se.no);
 	s32 size = FileGetSize();
 
-	SndSetData(pDat, size, -6, cnt);
-	SndPlay();
+	SndPlay(pDat, size, -6, cnt);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SeStop(void)

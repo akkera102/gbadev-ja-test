@@ -134,7 +134,7 @@ EWRAM_CODE void NvExecRestart(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetScn(u16 no)
 {
-	ST_FILE_SCN_HEADER* p = (ST_FILE_SCN_HEADER*)FileGetScn(no);
+	ST_FILE_SCN_HEADER* p = (ST_FILE_SCN_HEADER*)FileGetTxt(no);
 
 	Nv.pScn   = (u8*)p;
 	Nv.scnNo  = no;
@@ -147,8 +147,8 @@ EWRAM_CODE void NvSetScn(u16 no)
 	Nv.msgNo  = 0;
 	Nv.curAdr = 0;
 
-	TRACEOUT("\n");
-	TRACEOUT("[NvSetScn %04X]\n", no);
+	TRACE("\n");
+	TRACE("[NvSetTxt %04X]\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEvt(u16 no)
@@ -158,7 +158,7 @@ EWRAM_CODE void NvSetEvt(u16 no)
 	Nv.pCur  = (char*)Nv.pScn + *((u16*)Nv.pScn + 1 + no);
  	Nv.evtNo = no;
 
-	TRACEOUT("[NvSetEvent %x]\n", no);
+	TRACE("[NvSetEvent %x]\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetMsg(u16 no)
@@ -169,7 +169,7 @@ EWRAM_CODE void NvSetMsg(u16 no)
 	Nv.pCur  = (char*)Nv.pScn + *((u16*)Nv.pScn + 1 + Nv.evtMax + no);
 	Nv.msgNo = no;
 
-	TRACEOUT("[NvSetMsg %x]\n", no);
+	TRACE("[NvSetMsg %x]\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEffectBefore(u8 no)

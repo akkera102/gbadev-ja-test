@@ -1,10 +1,10 @@
-#ifndef GBFS_H
-#define GBFS_H
+#ifndef __GBFS_H__
+#define __GBFS_H__
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../libgba/gba.h"
+#include "gba.h"
 
 
 //---------------------------------------------------------------------------
@@ -38,13 +38,12 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void  GbfsInit(void);
 
-EWRAM_CODE void* GbfsGetPointer(char* fname);
-EWRAM_CODE void* GbfsGetPointer2(u32 cnt);
-EWRAM_CODE void* GbfsGetSafePointer(char* fname);
-EWRAM_CODE void* GbfsGetSafePointer2(u32 cnt);
+IWRAM_CODE void* GbfsGetPointer(char* fname);
+IWRAM_CODE void* GbfsGetPointer2(u32 cnt);
+IWRAM_CODE void* GbfsGetSafePointer(char* fname);
+IWRAM_CODE void* GbfsGetSafePointer2(u32 cnt);
 
 EWRAM_CODE char* GbfsGetFileName(void);
-EWRAM_CODE char* GbfsGetFileName2(u32 num);
 EWRAM_CODE u32   GbfsGetFileSize(void);
 EWRAM_CODE u32   GbfsGetArcSize(void);
 EWRAM_CODE u32   GbfsGetArcCnt(void);

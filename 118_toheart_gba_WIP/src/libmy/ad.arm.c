@@ -1,4 +1,4 @@
-#include "ad_arm.h"
+#include "ad.arm.h"
 
 // Timer0 BGM
 // DMA1   BGM
@@ -58,39 +58,25 @@ EWRAM_CODE void AdInit(void)
 
 	REG_SOUNDCNT_X = SNDSTAT_ENABLE;
 	REG_SOUNDCNT_L = 0;
-	REG_SOUNDCNT_H = SNDA_VOL_100 | SNDA_TIMER0 | SNDA_RESET_FIFO;
+	REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_RESET_FIFO;
 
 	REG_TM0CNT_L   = 0x10000 - AD_SAMPLE_TIME;
 	REG_TM0CNT_H   = TIMER_FREQ_PER_1 | TIMER_START;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AdSetData(u8* pDat, u32 size, bool isLoop)
+EWRAM_CODE void AdPlay(u8* pDat, u32 size, bool isLoop)
 {
 	AdStop();
 
-	Ad.act    = AD_ACT_STOP;
+	Ad.lastSample = 0;
+	Ad.lastIdx    = 0;
+	Ad.bufIdx     = 0;
+
 	Ad.isLoop = isLoop;
 	Ad.pCur   = pDat;
 	Ad.pTop   = pDat;
 	Ad.pEnd   = pDat + size;
-
-	Ad.lastSample = 0;
-	Ad.lastIdx    = 0;
-	Ad.bufIdx     = 0;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AdReset(void)
-{
-	Ad.pCur = Ad.pTop;
-
-	Ad.lastSample = 0;
-	Ad.lastIdx    = 0;
-	Ad.bufIdx     = 0;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AdPlay(void)
-{
-	Ad.act = AD_ACT_READY;
+	Ad.act    = AD_ACT_PLAY;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AdStop(void)
@@ -103,6 +89,15 @@ EWRAM_CODE void AdStop(void)
 	Ad.act = AD_ACT_STOP;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void AdReset(void)
+{
+	Ad.pCur = Ad.pTop;
+
+	Ad.lastSample = 0;
+	Ad.lastIdx    = 0;
+	Ad.bufIdx     = 0;
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE bool AdIsEnd(void)
 {
 	return (Ad.act == AD_ACT_STOP) ? TRUE : FALSE;
@@ -110,13 +105,10 @@ EWRAM_CODE bool AdIsEnd(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdIntrVcount(void)
 {
-	if(Ad.act != AD_ACT_READY && Ad.act != AD_ACT_PLAY)
+	if(Ad.act == AD_ACT_STOP)
 	{
 		return;
 	}
-
-	Ad.act = AD_ACT_PLAY;
-
 
 	u8* pSrc = Ad.pCur;
 	s8* pDst = Ad.buf[Ad.bufIdx];
@@ -201,7 +193,7 @@ IWRAM_CODE void AdIntrVcount(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdIntrVblank(void)
 {
-	if(Ad.act != AD_ACT_PLAY)
+	if(Ad.act == AD_ACT_STOP)
 	{
 		return;
 	}

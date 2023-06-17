@@ -14,25 +14,21 @@ EWRAM_CODE void SndInit(void)
 
 //	REG_SOUNDCNT_X = SNDSTAT_ENABLE;
 //	REG_SOUNDCNT_L = 0;
-	REG_SOUNDCNT_H |= SNDB_VOL_50 | SNDB_TIMER1 | SNDB_RESET_FIFO;
+	REG_SOUNDCNT_H |= SNDB_VOL_50 | DSOUNDCTRL_BTIMER(1) | SNDB_RESET_FIFO;
 
-	REG_TM1CNT_L   = 0xffff - (SND_CPU_CLOCK / SND_AUDIO_RATE);
+	REG_TM1CNT_L   = 0x10000 - (SND_CPU_CLOCK / SND_AUDIO_RATE);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SndSetData(u8* data, u32 size, s32 adjust, u32 loop)
+EWRAM_CODE void SndPlay(u8* data, u32 size, s32 adjust, bool isLoop)
 {
-	Snd.act       = SND_ACT_STOP;
+	SndStop();
+
 	Snd.cnt       = 0;
 	Snd.data      = data;
 	Snd.size      = size;
 	Snd.frameSize = (size * 60) / SND_AUDIO_RATE + adjust;
-	Snd.loop      = loop;
-	Snd.isLoop    = (loop == 0) ? TRUE : FALSE;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SndPlay(void)
-{
-	Snd.act = SND_ACT_START;
+	Snd.isLoop    = isLoop;
+	Snd.act       = SND_ACT_START;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SndStop(void)
@@ -46,7 +42,7 @@ EWRAM_CODE void SndStop(void)
 	Snd.act = SND_ACT_STOP;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SndIntr(void)
+IWRAM_CODE void SndIntrVblank(void)
 {
 	if(SND_ACT_STOP == Snd.act)
 	{
@@ -70,15 +66,7 @@ IWRAM_CODE void SndIntr(void)
 			}
 			else
 			{
-				if(Snd.loop != 0)
-				{
-					Snd.loop--;
-					SndIntrStart();
-				}
-				else
-				{
-					SndStop();
-				}
+				SndStop();
 			}
 		}
 		break;

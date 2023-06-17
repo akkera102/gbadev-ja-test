@@ -1,8 +1,9 @@
-#ifndef KEY_H
-#define KEY_H
+#ifndef __KEY_H__
+#define __KEY_H__
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 #include "../libgba/gba.h"
 

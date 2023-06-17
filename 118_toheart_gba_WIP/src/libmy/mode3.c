@@ -1,6 +1,8 @@
 #include "mode3.h"
-#include "bios_arm.h"
+#include "bios.h"
 
+
+// DMA3
 
 //---------------------------------------------------------------------------
 ST_MODE3 Mode3 EWRAM_BSS;
@@ -23,7 +25,7 @@ IWRAM_CODE void Mode3Exec(void)
 	Mode3.isDraw = FALSE;
 
 
-	BiosCpuSetFast(Mode3.buf, (u16*)VRAM, MODE3_MAX_SCREEN_SIZE);
+	BiosCpuSetFast(Mode3.buf, (u16*)VRAM, MODE3_MAX_BUFFER_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawBg(u16* pImg)
@@ -124,7 +126,7 @@ IWRAM_CODE void Mode3DrawBlend(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg, u8* pM
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3Scroll(u32 cnt)
 {
-	BiosCpuSetFast(Mode3.buf + SCREEN_CX * cnt, (u16*)VRAM, MODE3_MAX_SCREEN_SIZE);
+	BiosCpuSetFast(Mode3.buf + SCREEN_CX * cnt, (u16*)VRAM, MODE3_MAX_BUFFER_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3SetDraw(void)
@@ -138,7 +140,7 @@ IWRAM_CODE void Mode3DrawFill(u16 col)
 
 	c =((u32)col << 16) | (u32)col;
 
-	BiosCpuSetFastFix(&c, Mode3.buf, MODE3_MAX_SCREEN_SIZE);
+	BiosCpuSetFastFix(&c, Mode3.buf, MODE3_MAX_BUFFER_SIZE);
 
 	Mode3.isDraw = TRUE;
 }
@@ -152,7 +154,7 @@ IWRAM_CODE void Mode3DrawLineH(s32 sx)
 	{
 		for(x=0; x<SCREEN_CX/8; x++)
 		{
-			*d = MODE3_COLOR_BLACK;
+			*d = RGB5(0, 0, 0);
 
 			d += 8;
 		}
@@ -210,7 +212,7 @@ IWRAM_CODE void Mode3DrawWipeTtoB(s32 step)
 	s32 y;
 
 	u16 col ALIGN(4);
-	col = MODE3_COLOR_BLACK;
+	col = RGB5(0, 0, 0);
 
 	for(y=0; y<SCREEN_CY; y++)
 	{
