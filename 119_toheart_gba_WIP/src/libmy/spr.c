@@ -22,7 +22,7 @@ EWRAM_CODE void SprInit(void)
 	SprSetChrItem();
 	SprSetImgWhite();
 
-	REG_DISPCNT |= (OBJ_ON | OBJ_2D_MAP);
+	REG_DISPCNT |= (OBJ_ON | OBJ_1D_MAP);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprExec(void)

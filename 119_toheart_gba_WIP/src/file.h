@@ -30,7 +30,7 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void FileInit(void);
 
-EWRAM_CODE u8*  FileGetTxt(u32 no);
+EWRAM_CODE u8*  FileGetScn(u32 no);
 EWRAM_CODE u8*  FileGetBg(u32 no);
 EWRAM_CODE u8*  FileGetChr(u32 no);
 EWRAM_CODE u8*  FileGetChrMask(u32 no);

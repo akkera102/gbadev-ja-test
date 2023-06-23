@@ -1,6 +1,6 @@
-#include "nv2.h"
-#include "libmy/lex.h"
 #include "nv.h"
+#include "nv2.h"
+#include "nv3.h"
 #include "img.h"
 #include "bgm.h"
 #include "siori.h"
@@ -102,36 +102,31 @@ EWRAM_CODE void NvExecParse(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvExecParseSub(void)
 {
-	LexSetCur(Nv.pCur);
-	NvNextLine();
-
-	u16   n = LexGetHex();
-	char* p = LexGetStr();
-
-
 	// アドレス
+	u16 n = NvGetCurHex();
 	TRACE("[%04x]", n);
 	Nv.curAdr = n;
 
-	// テキスト
-	if(_IsSJIS(*p) == TRUE)
+	// テキスト or 命令セット
+
+	NvSetCurStr();
+
+	if(_IsSJIS(Nv.str[0]) == TRUE)
 	{
-		NvExecParseText(p);
+		NvExecParseText();
 		return;
 	}
 
-	// 命令セット
 	u32 i;
 
 	for(i=0; i<NV_MAX_PARSE_CNT; i++)
 	{
-		if(_Strncmp(p, NvParseTable[i].pStr, 20) == 0)
+		if(_Strncmp(Nv.str, NvParseTable[i].pStr, 20) == 0)
 		{
 			break;
 		}
 	}
 	_ASSERT(i < NV_MAX_PARSE_CNT);
-
 
 	NvParseTable[i].pFunc();
 }
@@ -157,8 +152,8 @@ EWRAM_CODE void NvExecParseSel(void)
 // ジャンプファイル 0x28
 EWRAM_CODE void NvExecParseJmpScn(void)
 {
-	u16 n1 = LexGetHex();
-	u8  n2 = LexGetHex();
+	u16 n1 = NvGetCurHex();
+	u8  n2 = NvGetCurHex();
 
 	TRACE("[jmpScn %x %x]\n", n1, n2);
 
@@ -181,9 +176,9 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 // PUSH A 0x2b
 EWRAM_CODE void NvExecParsePushA(void)
 {
-	u8 n1 = LexGetHex();
-	u8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	u8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 
 	TRACE("[pushA %x %x]\n", n1, n2);
 
@@ -207,9 +202,9 @@ EWRAM_CODE void NvExecParseRetA(void)
 // PUSH B 0x2f
 EWRAM_CODE void NvExecParsePushB(void)
 {
-	u8 n1 = LexGetHex();
-	u8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	u8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 
 	TRACE("[pushB %x %x]\n", n1, n2);
 
@@ -233,7 +228,7 @@ EWRAM_CODE void NvExecParseRetB(void)
 // 日付更新（カレンダー無） 0x32
 EWRAM_CODE void NvExecParseDay(void)
 {
-	u8 n = LexGetHex();
+	u8 n = NvGetCurHex();
 
 	TRACE("[day %x]\n", n);
 
@@ -253,7 +248,7 @@ EWRAM_CODE void NvExecParseDay(void)
 // 時間設定 0x33
 EWRAM_CODE void NvExecParseTime(void)
 {
-	u8 n = LexGetHex();
+	u8 n = NvGetCurHex();
 
 	TRACE("[time %x]\n", n);
 
@@ -304,7 +299,7 @@ EWRAM_CODE void NvExecParseFlagSub(void)
 // 背景ロード 0x3c
 EWRAM_CODE void NvExecParseBg(void)
 {
-	u8 n = LexGetHex();
+	u8 n = NvGetCurHex();
 
 	TRACE("[bg %x]\n", n);
 
@@ -332,7 +327,7 @@ EWRAM_CODE void NvExecParseChrLoad(void)
 // 表示処理 0x45
 EWRAM_CODE void NvExecParseDisp(void)
 {
-	u8 n = LexGetHex();
+	u8 n = NvGetCurHex();
 
 	TRACE("[disp %x]\n", n);
 
@@ -348,146 +343,146 @@ EWRAM_CODE void NvExecParseSepia(void)
 // 同一内ジャンプ 0x55
 EWRAM_CODE void NvExecParseJmpAdr(void)
 {
-	u8 n = LexGetHex();
+	u8 n = NvGetCurHex();
 
 	TRACE("[jmpAdr %x]\n", n);
 
-	NvAddCur(n);
+	NvJumpCurAdr(Nv.curAdr + 2 + n);
 }
 //---------------------------------------------------------------------------
 // if== 0x56
 EWRAM_CODE void NvExecParseIf1(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[if [%x](%x) == %x goto %x]\n", n1, f, n2, n3);
 
 	if(f == n2)
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // if!= 0x57
 EWRAM_CODE void NvExecParseIf2(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[if [%x](%x) != %x goto %x]\n", n1, f, n2, n3);
 
 	if(f != n2)
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // if> 0x58
 EWRAM_CODE void NvExecParseIf3(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[if [%x](%x) > %x goto %x]\n", n1, f, n2, n3);
 
 	if(f > n2)
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // if< 0x59
 EWRAM_CODE void NvExecParseIf4(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[if [%x](%x) < %x goto %x]\n", n1, f, n2, n3);
 
 	if(f < n2)
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // if>= 0x5a
 EWRAM_CODE void NvExecParseIf5(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[if [%x](%x) >= %x goto %x]\n", n1, f, n2, n3);
 
 	if(f >= n2)
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // if<= 0x5b
 EWRAM_CODE void NvExecParseIf6(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[if [%x](%x) <= %x goto %x]\n", n1, f, n2, n3);
 
 	if(f <= n2)
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // ifBitSet 0x5e
 EWRAM_CODE void NvExecParseIfBitSet(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[ifBitSet [%x](%x) & %x goto %x]\n", n1, f, 1 << n2, n3);
 
 	if(f & (1 << n2))
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // ifBitRes 0x5f
 EWRAM_CODE void NvExecParseIfBitRes(void)
 {
-	u8 n1 = LexGetHex();
-	s8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	TRACE("[ifBitRes [%x](%x) & %x goto %x]\n", n1, f, 1 << n2, n3);
 
 	if(!(f & (1 << n2)))
 	{
-		NvAddCur(n3);
+		NvJumpCurAdr(Nv.curAdr + 4 + n3);
 	}
 }
 //---------------------------------------------------------------------------
 // flagSet 0x61
 EWRAM_CODE void NvExecParseFlagSet(void)
 {
-	u8 n1 = LexGetHex();
-	u8 n2 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
 
 	TRACE("[flagSet [%x] = %x]\n", n1, n2);
 
@@ -497,9 +492,9 @@ EWRAM_CODE void NvExecParseFlagSet(void)
 // flagBit 0x63
 EWRAM_CODE void NvExecParseFlagBit(void)
 {
-	u8 n1 = LexGetHex();
-	u8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 	u8 f  = NvGetFlag(n1);
 
 	if(n3 != 0)
@@ -525,7 +520,7 @@ EWRAM_CODE void NvExecParseMsgClr(void)
 // メッセージ表示 0x6a
 EWRAM_CODE void NvExecParseMsg(void)
 {
-	u16 n = LexGetHex();
+	u16 n = NvGetCurHex();
 
 	TRACE("[msg %x]\n", n);
 
@@ -565,7 +560,7 @@ EWRAM_CODE void NvExecParseWhiteIn(void)
 // BGM開始 0x80
 EWRAM_CODE void NvExecParseBgm(void)
 {
-	u16 n = LexGetHex();
+	u16 n = NvGetCurHex();
 
 	TRACE("[bgm %x]\n", n);
 
@@ -599,7 +594,7 @@ EWRAM_CODE void NvExecParseBgmWaitFade(void)
 // BGM開始2 0x87
 EWRAM_CODE void NvExecParseBgm2(void)
 {
-	u16 n = LexGetHex();
+	u16 n = NvGetCurHex();
 
 	TRACE("[bgm2 %x]\n", n);
 
@@ -627,7 +622,7 @@ EWRAM_CODE void NvExecParseEnding(void)
 // PCMロード 0xa0
 EWRAM_CODE void NvExecParsePcmLoad(void)
 {
-	u8 n = LexGetHex();
+	u8 n = NvGetCurHex();
 
 	TRACE("[pcmLoad %x]\n", n);
 
@@ -645,7 +640,7 @@ EWRAM_CODE void NvExecParsePcmStop(void)
 // PCM再生 0xa2
 EWRAM_CODE void NvExecParsePcmPlay(void)
 {
-	u8 n = LexGetHex();		// ループカウンタ
+	u8 n = NvGetCurHex();		// ループカウンタ
 
 	TRACE("[pcmPlay %x]\n", n);
 
@@ -709,7 +704,7 @@ EWRAM_CODE void NvExecParseTimeTxt(void)
 // 時間待ち 0xb7
 EWRAM_CODE void NvExecParseTimeWait(void)
 {
-	u16 n = LexGetHex();
+	u16 n = NvGetCurHex();
 
 	TRACE("[timeWait %x]\n", n);
 
@@ -745,9 +740,9 @@ EWRAM_CODE void NvExecParseShake(void)
 // 背景ロードその2 0xbd, 0xbe
 EWRAM_CODE void NvExecParseBg2(void)
 {
-	u8 n1 = LexGetHex();
-	u8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	u8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 
 	TRACE("[Bg2 %x %x %x]\n", n1, n2, n3);
 
@@ -761,9 +756,9 @@ EWRAM_CODE void NvExecParseBg2(void)
 // VISUALロード2 0xbf
 EWRAM_CODE void NvExecParseVisLoad2(void)
 {
-	u8 n1 = LexGetHex();
-	u8 n2 = LexGetHex();
-	u8 n3 = LexGetHex();
+	u8 n1 = NvGetCurHex();
+	u8 n2 = NvGetCurHex();
+	u8 n3 = NvGetCurHex();
 
 	TRACE("[visLoad2 %x %x %x]\n", n1, n2, n3);
 
@@ -794,8 +789,8 @@ EWRAM_CODE void NvExecParseLoadH(void)
 // キャラクタ変更 0xc1
 EWRAM_CODE void NvExecParseChrChg(void)
 {
-	u8  n1 = LexGetHex();
-	u16 n2 = LexGetHex();
+	u8  n1 = NvGetCurHex();
+	u16 n2 = NvGetCurHex();
 	u16 no = NvGetChrNo(n2);
 
 	TRACE("[chrChg %x %x]\n", n1, n2);
@@ -859,15 +854,15 @@ EWRAM_CODE void NvExecParseSkip(void)
 {
 	TRACE("[skip]\n");
 
-	// EMPTY
+	NvSkipCurLine();
 }
 //---------------------------------------------------------------------------
 // テキスト
-EWRAM_CODE void NvExecParseText(char* p)
+EWRAM_CODE void NvExecParseText(void)
 {
-	TRACE("[%s]\n", p);
+	TRACE("[%s]\n", Nv.str);
 
-	TextSetDraw(p);
+	TextSetDraw(Nv.str);
 	NvSetEffectAfter(IMG_EFFECT_TEXT_ON);
 
 	Nv.isLoop = FALSE;

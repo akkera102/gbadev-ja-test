@@ -5,7 +5,6 @@
 #include "gbfs.h"
 #include "irq.arm.h"
 #include "key.h"
-#include "lex.h"
 #include "mode3.h"
 #include "snd.h"
 #include "spr.h"
@@ -22,7 +21,6 @@ EWRAM_CODE void LibInit(void)
 	FadeInit();
 	GbfsInit();
 	KeyInit();
-	LexInit();
 	Mode3Init();
 	SndInit();
 	SprInit();

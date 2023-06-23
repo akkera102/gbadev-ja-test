@@ -11,7 +11,7 @@ EWRAM_CODE void FileInit(void)
 	// EMPTY
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8* FileGetTxt(u32 no)
+EWRAM_CODE u8* FileGetScn(u32 no)
 {
 	char buf[20];
 	_Sprintf(buf, "%04X.txt", no);

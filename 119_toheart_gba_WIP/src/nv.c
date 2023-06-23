@@ -1,8 +1,8 @@
 #include "nv.h"
 #include "nv2.h"
+#include "nv3.h"
 #include "libmy/gbfs.h"
 #include "libmy/key.h"
-#include "libmy/lex.h"
 #include "log.h"
 #include "img.h"
 #include "menu.h"
@@ -132,46 +132,6 @@ EWRAM_CODE void NvExecRestart(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void NvSetScn(u16 no)
-{
-	ST_FILE_SCN_HEADER* p = (ST_FILE_SCN_HEADER*)FileGetTxt(no);
-
-	Nv.pScn   = (u8*)p;
-	Nv.scnNo  = no;
-	Nv.evtMax = p->evtMax;
-	Nv.msgMax = p->msgMax;
-
-	Nv.pCur   = NULL;
-	Nv.pRet   = NULL;
- 	Nv.evtNo  = 0;
-	Nv.msgNo  = 0;
-	Nv.curAdr = 0;
-
-	TRACE("\n");
-	TRACE("[NvSetTxt %04X]\n", no);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void NvSetEvt(u16 no)
-{
-	_ASSERT(no < Nv.evtMax);
-
-	Nv.pCur  = (char*)Nv.pScn + *((u16*)Nv.pScn + 1 + no);
- 	Nv.evtNo = no;
-
-	TRACE("[NvSetEvent %x]\n", no);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void NvSetMsg(u16 no)
-{
-	_ASSERT(no < Nv.msgMax);
-
-	Nv.pRet  = Nv.pCur;
-	Nv.pCur  = (char*)Nv.pScn + *((u16*)Nv.pScn + 1 + Nv.evtMax + no);
-	Nv.msgNo = no;
-
-	TRACE("[NvSetMsg %x]\n", no);
-}
-//---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEffectBefore(u8 no)
 {
 	if(Nv.isSkip == TRUE)
@@ -198,6 +158,55 @@ EWRAM_CODE void NvSetEffectAfter(u8 no)
 //	TODO ImgSetEffectAfter(IMG_EFFECT_WIPE_TTOB);
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void NvSetScn(u32 no)
+{
+	u8* p = FileGetScn(no);
+
+	Nv.size   = FileGetSize();
+	Nv.pTxt   = p;
+	Nv.pCur   = p;
+	Nv.pEvt   = NvSeekCurChr('E');
+	Nv.pMsg   = NvSeekCurChr('M');
+	Nv.maxEvt = NvGetCurHex2(Nv.pEvt + 1);
+	Nv.maxMsg = NvGetCurHex2(Nv.pMsg + 1);
+	Nv.no     = no;
+	Nv.evtNo  = 0;
+	Nv.msgNo  = 0;
+
+	TRACE("\n");
+	TRACE("[NvSetScn %04x.txt E%02x M%02x]\n", no, Nv.maxEvt, Nv.maxMsg);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvSetEvt(u32 no)
+{
+	_ASSERT(no < Nv.maxEvt);
+
+
+	Nv.pCur = Nv.pEvt;
+	NvSkipCurLine2(no + 1);
+
+	u32 adr = NvGetCurHex();
+	NvJumpCurAdr(adr);
+
+	Nv.evtNo = no;
+	TRACE("[NvSetEvt %x]\n", no);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvSetMsg(u32 no)
+{
+	_ASSERT(no < Nv.maxMsg);
+
+
+	Nv.pCur = Nv.pMsg;
+	NvSkipCurLine2(no + 1);
+
+	u32 adr = NvGetCurHex();
+	NvJumpCurAdr(adr);
+
+	Nv.msgNo = no;
+	TRACE("[NvSetMsg %x]\n", no);
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void NvSetNext(void)
 {
 	Nv.isSkip = TRUE;
@@ -222,42 +231,6 @@ EWRAM_CODE void NvAddFlag(u8 no, s8 val)
 EWRAM_CODE s8 NvGetFlag(u8 no)
 {
 	return Nv.flag[no];
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void NvAddCur(u8 offset)
-{
-	u16 n;
-
-	do
-	{
-		NvNextLine();
-
-		LexSetCur(Nv.pCur);
-		n = LexGetHex();
-
-	} while(n != Nv.curAdr + offset);
-
-	NvPrevLine();
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void NvNextLine(void)
-{
-	do
-	{
-		if(*Nv.pCur == '\0')
-		{
-			return;
-		}
-
-	} while(*Nv.pCur++ != LF);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void NvPrevLine(void)
-{
-	while(*(Nv.pCur-1) != LF)
-	{
-		Nv.pCur--;
-	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u16 NvGetChrNo(u16 no)

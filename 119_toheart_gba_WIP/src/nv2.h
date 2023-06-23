@@ -92,7 +92,7 @@ EWRAM_CODE void NvExecParseSakura(void);
 EWRAM_CODE void NvExecParseEndEvent(void);
 EWRAM_CODE void NvExecParseSkip(void);
 
-EWRAM_CODE void NvExecParseText(char* p);
+EWRAM_CODE void NvExecParseText(void);
 
 
 #ifdef __cplusplus
