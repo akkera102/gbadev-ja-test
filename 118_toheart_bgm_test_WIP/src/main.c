@@ -37,6 +37,14 @@ int main(void)
 		BgDrawPrintf( 9, 7, "            ");
 		BgDrawPrintf( 1, 7, "fname : %s", pF);
 
+		s32 i;
+
+		for(i=0; i<0x84 - 0x60; i++)
+		{
+			BgDrawPrintf(i*4, 11, "%02X", *((u16 volatile *) (REG_BASE + 0x060 + i)));
+		}
+
+
 
 		KeyExec();
 		u16 trg = KeyGetTrg();

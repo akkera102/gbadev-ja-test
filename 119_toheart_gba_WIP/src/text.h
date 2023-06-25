@@ -99,12 +99,6 @@ EWRAM_CODE u32  TextGetWaitMax(void);
 
 EWRAM_CODE void TextRestart(void);
 
-
-
-
-
-
-
 EWRAM_CODE void TextSetLf(void);
 
 

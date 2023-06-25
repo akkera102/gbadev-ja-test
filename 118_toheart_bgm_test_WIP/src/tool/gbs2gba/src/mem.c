@@ -47,8 +47,6 @@ int memory_read_hibyte(int reg)
 void memory_write_hibyte(int reg, int value)
 {
 	memory_write_byte(0xFF00 + (reg & 0xFF), value & 0xff);
-
-	memory_write_gba_patch(reg & 0xff, value & 0xff);
 }
 //---------------------------------------------------------------------------
 unsigned char memory_read_byte(unsigned short int address)
@@ -67,7 +65,7 @@ void memory_write_byte(unsigned short int address, unsigned char value)
 
 	if(address >= 0xff00)
 	{
-		memory_write_gba_patch(address & 0xff, value);
+		memory_file_gba_patch(address & 0xff, value);
 	}
 }
 //---------------------------------------------------------------------------
@@ -77,9 +75,9 @@ void memory_write_word(unsigned short int address, unsigned short int value)
 	memory_write_byte(address + 1, value >> 8);
 }
 //---------------------------------------------------------------------------
-void memory_write_gba_patch(unsigned char address, unsigned char value)
+void memory_file_gba_patch(unsigned char address, unsigned char value)
 {
-	// vgm file. write flag
+	// vgm fputc flag
 	if(wflag == 0)
 	{
 		return;

@@ -26,13 +26,12 @@ typedef struct {
 
 
 typedef struct {
-	uint8_t*  p;
-	uint32_t  size;
+	uint16_t adrLoad;
+	uint16_t adrInit;
+	uint16_t adrPlay;
 
-	uint16_t  adrInit;
-	uint16_t  adrPlay;
-	uint16_t  baseRst;
-	uint16_t  baseSP;
+	uint16_t baseRst;
+	uint16_t baseSP;
 
 } ST_GBS;
 
@@ -61,48 +60,51 @@ void gbs_open(const char* fname)
 	if(fp == NULL)
 	{
 		fprintf(stderr, "Open Error fp %s\n", fname);
+
 		exit(1);
 	}
 
 	fseek(fp, 0, SEEK_END);
-	Gbs.size = ftell(fp);
+	uint32_t size = ftell(fp);
 
 	// read file
-	Gbs.p = calloc(Gbs.size, sizeof(uint8_t));
+	uint8_t* p = calloc(size, sizeof(uint8_t));
 
-	if(Gbs.p == NULL)
+	if(p == NULL)
 	{
 		fprintf(stderr, "Open Calloc Error\n");
+
 		exit(1);
 	}
 
 	fseek(fp, 0, SEEK_SET);
-	fread(Gbs.p, 1, Gbs.size, fp);
-
+	fread(p, 1, size, fp);
 	fclose(fp);
 
 
-	// load gbs
-	ST_GBS_HEADER* pG = (ST_GBS_HEADER*)Gbs.p;
-	uint8_t* pD = Gbs.p + sizeof(ST_GBS_HEADER);
+	// load gbs header
+	ST_GBS_HEADER* pG = (ST_GBS_HEADER*)p;
 
-	Gbs.baseRst  = pG->adrLoad;
-	Gbs.adrInit  = pG->adrInit;
-	Gbs.adrPlay  = pG->adrPlay;
-	Gbs.baseSP   = pG->adrStack;
-	gbz80.SP.uw  = pG->adrStack;
-	gbz80.AF.b.h = 1;
-
-	int i;
-
-	for(i=0; i<Gbs.size - sizeof(ST_GBS_HEADER); i++)
-	{
-		gameboy_memory[pG->adrLoad + i] = *pD++;
-	}
+	Gbs.adrLoad = pG->adrLoad;
+	Gbs.adrInit = pG->adrInit;
+	Gbs.adrPlay = pG->adrPlay;
+	Gbs.baseRst = pG->adrLoad;
+	Gbs.baseSP  = pG->adrStack;
 
 //	printf("adrLoad:%4X\n", pG->adrLoad);
 //	printf("adrInit:%4X\n", pG->adrInit);
 //	printf("adrPlay:%4X\n", pG->adrPlay);
+
+	// load gbs data
+	uint8_t* pD = p + sizeof(ST_GBS_HEADER);
+	int i;
+
+	for(i=0; i<size - sizeof(ST_GBS_HEADER); i++)
+	{
+		gameboy_memory[Gbs.adrLoad + i] = *pD++;
+	}
+
+	free(p);
 }
 //---------------------------------------------------------------------------
 void gbs_exec_adr_init(void)
@@ -130,10 +132,10 @@ void gbs_save(const char* fname)
 {
 	// save vgm modoki file
 	char savname[0x100];
-	int len = strlen(fname);
+	int len = strlen(fname) & 0xff;
 
 	strcpy(savname, fname);
-	savname[len-4] = '\0';
+	savname[len - 4] = '\0';
 	strcat(savname, ".bin");
 
 	wp = fopen(savname, "wb");
@@ -146,26 +148,27 @@ void gbs_save(const char* fname)
 	}
 
 
-	// INIT + vblank mark.
 	gbs_exec_adr_init();
 	fputc(0x61, wp);
 
-	// vgm write flag enable
-	wflag = 1;
 
 	uint64_t i, j;
 
-	for(i=0; i<10000; i++)
+	// vgm fputc flag. enable
+	wflag = 1;
+
+	// TODO GBS loop
+	for(i=0; i<5000; i++)
 	{
-		// PLAY
 		for(j=0; j<64; j++)
 		{
 			gbs_exec_adr_play();
 		}
 
-		// vblank mark
 		fputc(0x61, wp);
 	}
+
+	fclose(wp);
 }
 //---------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -178,8 +181,7 @@ int main(int argc, char* argv[])
 
 	printf("converting %s\n", argv[1]);
 
-
-	// vgm write flag. disable
+	// vgm fputc flag. disable
 	wflag = 0;
 
 	memory_init();
@@ -187,10 +189,6 @@ int main(int argc, char* argv[])
 
 	gbs_open(argv[1]);
 	gbs_save(argv[1]);
-
-
-	free(Gbs.p);
-	fclose(wp);
 
 	return 0;
 }

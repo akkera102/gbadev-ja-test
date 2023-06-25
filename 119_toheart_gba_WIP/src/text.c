@@ -138,6 +138,8 @@ EWRAM_CODE void TextDrawStr(char* p)
 		code  = *p++ << 8;
 		code += *p++;
 
+	TRACE("%x\n", code);
+
 		TextDrawChr(code);
 	}
 }
@@ -487,24 +489,6 @@ EWRAM_CODE void TextRestart(void)
 	Text.isChr   = TRUE;
 	Text.isBuf   = TRUE;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //---------------------------------------------------------------------------
 EWRAM_CODE void TextSetLf(void)
 {

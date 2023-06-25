@@ -23,18 +23,20 @@
 #ifndef __MEM_H__
 #define __MEM_H__
 
+//---------------------------------------------------------------------------
 extern unsigned char gameboy_memory[0x10000];
 
-void memory_init(void);
-int  memory_read_hibyte(int reg);
-void memory_write_hibyte(int reg, int value);
-unsigned char memory_read_byte(unsigned short int address);
-unsigned short int memory_read_word(unsigned short int address);
-void memory_write_byte(unsigned short int address, unsigned char value);
-void memory_write_word(unsigned short int address, unsigned short int value);
 
-void memory_write_gba_patch(unsigned char address, unsigned char value);
+//---------------------------------------------------------------------------
+void               memory_init(void);
+int                memory_read_hibyte(int reg);
+void               memory_write_hibyte(int reg, int value);
+unsigned char      memory_read_byte(unsigned short int address);
+unsigned short int memory_read_word(unsigned short int address);
+void               memory_write_byte(unsigned short int address, unsigned char value);
+void               memory_write_word(unsigned short int address, unsigned short int value);
+
+void               memory_file_gba_patch(unsigned char address, unsigned char value);
 
 
 #endif
-

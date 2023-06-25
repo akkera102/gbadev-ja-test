@@ -8,3 +8,11 @@ GB CPU used InfoGB.
 
 - [InfoGB](https://github.com/jay-kumogata/InfoGB)
 
+## Lisence
+
+My source code(CC0)
+
+libgba(LGPL2.0 dynamic link)
+
+crt0.s(MPL2.0)
+

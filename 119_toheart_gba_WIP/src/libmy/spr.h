@@ -34,7 +34,6 @@ typedef struct {
 	bool isDrawChr;
 	bool isDrawDat;
 
-	u8*  pTbl;			// スプライトの1次元書き込みアドレステーブル
 	u16  mask;			// フォントマスク
 
 	u8 dat[SPR_MAX_DAT_SIZE] ALIGN(4);
