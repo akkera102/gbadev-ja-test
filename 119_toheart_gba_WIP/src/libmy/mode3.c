@@ -30,18 +30,18 @@ IWRAM_CODE void Mode3Exec(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawBg(u16* pImg)
 {
-	LZ77UnCompVram(pImg, Mode3.buf);
+	LZ77UnCompWram(pImg, Mode3.buf);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawScroll(u16* pImg1, u16* pImg2)
 {
-	LZ77UnCompVram(pImg1, Mode3.buf);
-	LZ77UnCompVram(pImg2, Mode3.buf + SCREEN_CX * SCREEN_CY);
+	LZ77UnCompWram(pImg1, Mode3.buf);
+	LZ77UnCompWram(pImg2, Mode3.buf + SCREEN_CX * SCREEN_CY);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawCrop(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg)
 {
-	LZ77UnCompVram(pImg, Mode3.buf + SCREEN_CX * SCREEN_CY);
+	LZ77UnCompWram(pImg, Mode3.buf + SCREEN_CX * SCREEN_CY);
 
 	u16* pS = Mode3.buf + SCREEN_CX * SCREEN_CY;
 	u16* pD = Mode3.buf + (sy * SCREEN_CX) + sx;
@@ -58,7 +58,7 @@ IWRAM_CODE void Mode3DrawCrop(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg)
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawClip(u32 sx, u32 sy, u32 cx, u32 cy, u32 gx, u32 gy, u32 gs, u16* pImg)
 {
-	LZ77UnCompVram(pImg, Mode3.buf + SCREEN_CX * SCREEN_CY);
+	LZ77UnCompWram(pImg, Mode3.buf + SCREEN_CX * SCREEN_CY);
 
 	u16* pS = Mode3.buf + SCREEN_CX * SCREEN_CY + (gy * cx) + gx;
 	u16* pD = Mode3.buf + (sy * SCREEN_CX) + sx;
@@ -78,7 +78,7 @@ IWRAM_CODE void Mode3DrawClip(u32 sx, u32 sy, u32 cx, u32 cy, u32 gx, u32 gy, u3
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawBlend(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg, u8* pMsk)
 {
-	LZ77UnCompVram(pImg, Mode3.buf + SCREEN_CX * SCREEN_CY);
+	LZ77UnCompWram(pImg, Mode3.buf + SCREEN_CX * SCREEN_CY);
 	LZ77UnCompWram(pMsk, Mode3.msk);
 
 	u16* pC = Mode3.buf + SCREEN_CX * SCREEN_CY;
