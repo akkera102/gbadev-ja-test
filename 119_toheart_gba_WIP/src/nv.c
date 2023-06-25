@@ -173,8 +173,7 @@ EWRAM_CODE void NvSetScn(u32 no)
 	Nv.evtNo  = 0;
 	Nv.msgNo  = 0;
 
-	TRACE("\n");
-	TRACE("[NvSetScn %04x.txt E%02x M%02x]\n", no, Nv.maxEvt, Nv.maxMsg);
+	TRACE("\nNvSetScn %04x.txt E%02x M%02x\n", no, Nv.maxEvt, Nv.maxMsg);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEvt(u32 no)
@@ -189,7 +188,7 @@ EWRAM_CODE void NvSetEvt(u32 no)
 	NvJumpCurAdr(adr);
 
 	Nv.evtNo = no;
-	TRACE("[NvSetEvt %x]\n", no);
+	TRACE("NvSetEvt %x\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetMsg(u32 no)
@@ -197,6 +196,7 @@ EWRAM_CODE void NvSetMsg(u32 no)
 	_ASSERT(no < Nv.maxMsg);
 
 
+	Nv.pRet = Nv.pCur;
 	Nv.pCur = Nv.pMsg;
 	NvSkipCurLine2(no + 1);
 
@@ -204,7 +204,7 @@ EWRAM_CODE void NvSetMsg(u32 no)
 	NvJumpCurAdr(adr);
 
 	Nv.msgNo = no;
-	TRACE("[NvSetMsg %x]\n", no);
+	TRACE("NvSetMsg %x\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetNext(void)
