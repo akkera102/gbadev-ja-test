@@ -16,6 +16,6 @@ libgba(LGPL2.0 dynamic link)
 
 crt0.s(MPL2.0)
 
-## Lisence
+## Version
 
 v0.01 intial ver. WIP.
