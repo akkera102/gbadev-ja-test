@@ -5,7 +5,9 @@
 #include "cpu.h"
 #include "mem.h"
 
+
 //---------------------------------------------------------------------------
+#define GB_CLOCK 4194304
 
 typedef struct {
 	char     sig[3];			// "GBS"
@@ -91,9 +93,9 @@ void gbs_open(const char* fname)
 	Gbs.baseRst = pG->adrLoad;
 	Gbs.baseSP  = pG->adrStack;
 
-//	printf("adrLoad:%4X\n", pG->adrLoad);
-//	printf("adrInit:%4X\n", pG->adrInit);
-//	printf("adrPlay:%4X\n", pG->adrPlay);
+	printf("adrLoad:%4X\n", pG->adrLoad);
+	printf("adrInit:%4X\n", pG->adrInit);
+	printf("adrPlay:%4X\n", pG->adrPlay);
 
 	// load gbs data
 	uint8_t* pD = p + sizeof(ST_GBS_HEADER);
@@ -105,6 +107,36 @@ void gbs_open(const char* fname)
 	}
 
 	free(p);
+
+	// timer or v-blank
+	if(pG->tac & 0x04)
+	{
+		uint32_t rate = 0;
+
+		switch(pG->tac & 0x03)
+		{
+		case 0x0: rate = GB_CLOCK /  4096; break;	// 基本クロック1024分周    4096 Hz
+		case 0x1: rate = GB_CLOCK / 26144; break;	// 基本クロック  16分周  262144 Hz
+		case 0x2: rate = GB_CLOCK / 65536; break;	// 基本クロック  64分周   65536 Hz
+		case 0x3: rate = GB_CLOCK / 16384; break;	// 基本クロック 256分周   16384 Hz
+		}
+
+		// CPU clock rate 2x?
+		if(pG->tac & 0x80)
+		{
+			// GBC mode
+			rate /= 2;
+		}
+
+		float hz = GB_CLOCK / rate / (float)(256 - pG->tma);
+//		printf("tac:0x%x tma:0x%x rate:%d\n", pG->tac, pG->tma, rate);
+		printf("timing : %2.2fHz\n", hz);
+	}
+	else
+	{
+		// 59.737 Hz
+		printf("Timing : 59.737Hz(v-blank)");
+	}
 }
 //---------------------------------------------------------------------------
 void gbs_exec_adr_init(void)
@@ -160,7 +192,8 @@ void gbs_save(const char* fname)
 	// TODO GBS loop
 	for(i=0; i<5000; i++)
 	{
-		for(j=0; j<64; j++)
+		// 決め打ち GBS 4096Hz / vBlank 59.737Hz = 68.567
+		for(j=0; j<68; j++)
 		{
 			gbs_exec_adr_play();
 		}
