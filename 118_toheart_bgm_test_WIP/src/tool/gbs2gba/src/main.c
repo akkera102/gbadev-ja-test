@@ -192,7 +192,7 @@ void gbs_save(const char* fname)
 	// TODO GBS loop
 	for(i=0; i<5000; i++)
 	{
-		// Œˆ‚ß‘Å‚¿ GBS 4096Hz / vBlank 59.737Hz = 68.567
+		// Œˆ‚ß‘Å‚¿ GBS 4096Hz / vBlank 60Hz = 68.266..
 		for(j=0; j<68; j++)
 		{
 			gbs_exec_adr_play();
