@@ -31,25 +31,32 @@ int main(void)
 	{
 		VBlankIntrWait();
 
-		BgDrawPrintf(11, 5, "        ");
-		BgDrawPrintf( 1, 5, "Offset: 0x%x", VgmGetOffsetPlay());
-		BgDrawPrintf( 1, 6, "Select: (%2d/%2d)", sel, max);
-		BgDrawPrintf( 9, 7, "            ");
-		BgDrawPrintf( 1, 7, "fname : %s", pF);
+		BgDrawPrintf(11, 4, "        ");
+		BgDrawPrintf( 1, 4, "Offset: 0x%x", VgmGetOffsetPlay());
+		BgDrawPrintf( 9, 5, "  ");
+		BgDrawPrintf( 1, 5, "Loop  : %d", VgmGetLoopCnt());
+		BgDrawPrintf( 9, 6, "            ");
+		BgDrawPrintf( 1, 6, "Fname : %s", pF);
+		BgDrawPrintf( 1, 7, "Select: %02d/%02d", sel, max);
 
 		s32 i;
 
 		for(i=0; i<0x84 - 0x60; i++)
 		{
-			BgDrawPrintf(i*4, 11, "%02X", *((u16 volatile *) (REG_BASE + 0x060 + i)));
+			BgDrawPrintf(i*4, 10, "%02X", *((u16 volatile *) (REG_BASE + 0x060 + i)));
 		}
 
+		for(i=0; i<0x10; i++)
+		{
+			BgDrawPrintf(i*4, 16, "%02X", VgmGetWave(i));
+		}
 
 
 		KeyExec();
 		u16 trg = KeyGetTrg();
+		u16 rep = KeyGetRep();
 
-		if((trg & KEY_RIGHT) && sel < max)
+		if((rep & KEY_RIGHT) && sel < max)
 		{
 			sel++;
 
@@ -57,7 +64,7 @@ int main(void)
 			pF = GbfsGetFileName();
 		}
 
-		if((trg & KEY_LEFT) && sel > 0)
+		if((rep & KEY_LEFT) && sel > 0)
 		{
 			sel--;
 

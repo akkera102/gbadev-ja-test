@@ -20,14 +20,19 @@
  *  Copyright (C) 1999  Chuck Mason, Steven Fuller, Jeff Miller
  */
 
+#include <stdbool.h>
 #include "system.h"
 #include "mem.h"
 #include "cpu.h"
 
 //---------------------------------------------------------------------------
 // main.c
-extern FILE* wp;
-extern uint8_t wflag;
+extern FILE*    wp;
+extern uint32_t wCnt;
+extern uint32_t chLoop[8];
+extern bool     isFileWrite;
+extern bool     isAdrPlayLoop;
+
 
 //---------------------------------------------------------------------------
 unsigned char gameboy_memory[0x10000];
@@ -77,8 +82,7 @@ void memory_write_word(unsigned short int address, unsigned short int value)
 //---------------------------------------------------------------------------
 void memory_file_gba_patch(unsigned char address, unsigned char value)
 {
-	// vgm fputc flag
-	if(wflag == 0)
+	if(isFileWrite == false)
 	{
 		return;
 	}
@@ -103,6 +107,34 @@ void memory_file_gba_patch(unsigned char address, unsigned char value)
 	case 0x1c: adr = 0x73; break;	// NR 32
 	case 0x1d: adr = 0x74; break;	// NR 33
 	case 0x1e: adr = 0x75; break;	// NR 34
+
+	case 0x1f:
+		// loop offset
+		switch(value)
+		{
+		// loop start point ch0-3
+		case 0x01: chLoop[0] = wCnt; break;
+		case 0x02: chLoop[1] = wCnt; break;
+		case 0x04: chLoop[2] = wCnt; break;
+		case 0x08: chLoop[3] = wCnt; break;
+
+		// loop end point ch0-3
+		case 0x81: chLoop[4] = wCnt;
+			isFileWrite = false;
+			isAdrPlayLoop = false;
+			break;
+
+		case 0x82: chLoop[5] = wCnt; break;
+		case 0x84: chLoop[6] = wCnt; break;
+		case 0x88: chLoop[7] = wCnt; break;
+		default:
+			printf("FF1F Error %x\n", value);
+			exit(1);
+		}
+
+		printf("FF1F=%02X counter=%X\n", value, wCnt);
+		return;
+
 	case 0x20: adr = 0x78; break;	// NR 41
 	case 0x21: adr = 0x79; break;	// NR 42
 	case 0x22: adr = 0x7c; break;	// NR 43
@@ -165,6 +197,7 @@ void memory_file_gba_patch(unsigned char address, unsigned char value)
 	fputc(0xb3, wp);
 	fputc(adr & 0xff, wp);
 	fputc(dat & 0xff, wp);
+	wCnt += 3;
 
 	// add REG_SOUND3CNT_L = 0x40;
 	if(adr >= 0x90 && adr <= 0x9f)
@@ -172,5 +205,6 @@ void memory_file_gba_patch(unsigned char address, unsigned char value)
 		fputc(0xb3, wp);
 		fputc(0x70, wp);
 		fputc(0x40, wp);
+		wCnt += 3;
 	}
 }

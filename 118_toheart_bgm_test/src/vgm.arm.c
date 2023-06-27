@@ -84,6 +84,11 @@ IWRAM_CODE void VgmIntrVblank(void)
 			u8 dat = *Vgm.pCur++;
 			*(u8*)(REG_BASE + adr) = dat;
 
+			if(adr >= 0x90 && adr <= 0x9f)
+			{
+				Vgm.wave[adr - 0x90] = dat;
+			}
+
 			continue;
 		}
 
@@ -96,7 +101,15 @@ IWRAM_CODE void VgmIntrVblank(void)
 				return;
 			}
 
-			Vgm.pCur = Vgm.pFile;
+			u32 loop;
+
+			loop  = *Vgm.pCur++;
+			loop |= *Vgm.pCur++ << 8;
+			loop |= *Vgm.pCur++ << 16;
+			loop |= *Vgm.pCur++ << 24;
+
+			Vgm.pCur = Vgm.pFile + loop;
+			Vgm.loopCnt++;
 
 			continue;
 		}
@@ -108,4 +121,14 @@ IWRAM_CODE void VgmIntrVblank(void)
 EWRAM_CODE u32 VgmGetOffsetPlay(void)
 {
 	return (u32)(Vgm.pCur - Vgm.pFile);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u32 VgmGetLoopCnt(void)
+{
+	return Vgm.loopCnt;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u32 VgmGetWave(u32 i)
+{
+	return Vgm.wave[i & 0xf];
 }

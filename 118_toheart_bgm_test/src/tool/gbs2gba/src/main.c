@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "cpu.h"
 #include "mem.h"
 
@@ -38,10 +39,14 @@ typedef struct {
 } ST_GBS;
 
 //---------------------------------------------------------------------------
-ST_GBS  Gbs;
+ST_GBS Gbs;
 
-FILE*   wp;
-uint8_t wflag;
+FILE*    wp;
+uint32_t wCnt;
+uint32_t chLoop[4];
+bool     isFileWrite;
+bool     isAdrPlayLoop;
+
 
 //---------------------------------------------------------------------------
 void gbs_open(const char* fname);
@@ -129,13 +134,13 @@ void gbs_open(const char* fname)
 		}
 
 		float hz = GB_CLOCK / rate / (float)(256 - pG->tma);
-//		printf("tac:0x%x tma:0x%x rate:%d\n", pG->tac, pG->tma, rate);
 		printf("timing : %2.2fHz\n", hz);
+//		printf("tac:0x%x tma:0x%x rate:%d\n", pG->tac, pG->tma, rate);
 	}
 	else
 	{
 		// 59.737 Hz
-		printf("Timing : 59.737Hz(v-blank)");
+		printf("Timing : 59.737Hz(v-blank)\n");
 	}
 }
 //---------------------------------------------------------------------------
@@ -179,32 +184,49 @@ void gbs_save(const char* fname)
 		exit(EXIT_FAILURE);
 	}
 
-
+	//adr_init
 	gbs_exec_adr_init();
-	// vblank
 	fputc(0x61, wp);
 
+	//adr_play
+	wCnt = 0;
+	isFileWrite = true;
 
-	uint64_t i, j;
+	memset(&chLoop, 0x00, sizeof(chLoop));
+	isAdrPlayLoop = true;
 
-	// vgm fputc flag. enable
-	wflag = 1;
+//	for(uint32_t i=0; i<0x20000; i++)
 
-	// TODO GBS loop
-	for(i=0; i<5000; i++)
+	while(isAdrPlayLoop == true)
 	{
-		// Œˆ‚ß‘Å‚¿ GBS 4096Hz / vBlank 60Hz = 68.266..
-		for(j=0; j<68; j++)
+/*
+		// GBS 4096Hz‚Ìê‡...
+		// 4096Hz / vBlank 60Hz = 68.266..
+
+		for(uint32_t i=0; i<68; i++)
 		{
 			gbs_exec_adr_play();
 		}
-
-		// vblank
 		fputc(0x61, wp);
+*/
+
+		// GBS Vblank
+		gbs_exec_adr_play();
+		// vblank command
+		fputc(0x61, wp);
+		wCnt++;
 	}
 
 	// end of mark
 	fputc(0x66, wp);
+	wCnt++;
+
+	// loop point ch0 $01
+	fputc((uint8_t)(chLoop[0] >>  0), wp);
+	fputc((uint8_t)(chLoop[0] >>  8), wp);
+	fputc((uint8_t)(chLoop[0] >> 16), wp);
+	fputc((uint8_t)(chLoop[0] >> 24), wp);
+
 	fclose(wp);
 }
 //---------------------------------------------------------------------------
@@ -218,9 +240,7 @@ int main(int argc, char* argv[])
 
 	printf("converting %s\n", argv[1]);
 
-	// vgm fputc flag. disable
-	wflag = 0;
-
+	isFileWrite = false;
 	memory_init();
 	gameboy_cpu_hardreset();
 

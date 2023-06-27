@@ -19,7 +19,11 @@ typedef struct {
 	u8   id;
 	u8*  pCur;
 	u8*  pFile;
+
 	bool isLoop;
+	u8   loopCnt;
+
+	u8   wave[0x10];
 
 } ST_VGM;
 
@@ -36,10 +40,8 @@ IWRAM_CODE void VgmStop(void);
 IWRAM_CODE void VgmIntrVblank(void);
 
 EWRAM_CODE u32  VgmGetOffsetPlay(void);
-
-
-IWRAM_CODE void MemWriteByte(u16 adr, u8 byte);
-IWRAM_CODE void MemWriteIO(u8 adr8, u8 byte);
+EWRAM_CODE u32  VgmGetLoopCnt(void);
+EWRAM_CODE u32  VgmGetWave(u32 i);
 
 
 #ifdef __cplusplus
