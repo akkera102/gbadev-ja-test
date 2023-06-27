@@ -41,7 +41,7 @@ int main(void)
 
 		s32 i;
 
-		for(i=0; i<0x84 - 0x60; i++)
+		for(i=0; i<=0x84 - 0x60; i++)
 		{
 			BgDrawPrintf(i*4, 10, "%02X", *((u16 volatile *) (REG_BASE + 0x060 + i)));
 		}

@@ -109,7 +109,7 @@ void memory_file_gba_patch(unsigned char address, unsigned char value)
 	case 0x1e: adr = 0x75; break;	// NR 34
 
 	case 0x1f:
-		// loop offset
+		// loop point
 		switch(value)
 		{
 		// loop start point ch0-3

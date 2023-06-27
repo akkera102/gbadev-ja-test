@@ -190,9 +190,9 @@ void gbs_save(const char* fname)
 
 	//adr_play
 	wCnt = 0;
-	isFileWrite = true;
-
 	memset(&chLoop, 0x00, sizeof(chLoop));
+
+	isFileWrite = true;
 	isAdrPlayLoop = true;
 
 //	for(uint32_t i=0; i<0x20000; i++)
@@ -217,6 +217,17 @@ void gbs_save(const char* fname)
 		wCnt++;
 	}
 
+	// patch
+	if(strncmp(savname, "th04.bin", len) == 0)
+	{
+		printf("patched. NR51 0xff\n");
+
+		fputc(0xb3, wp);
+		fputc(0x81, wp);
+		fputc(0xff, wp);
+		wCnt += 3;
+	}
+
 	// end of mark
 	fputc(0x66, wp);
 	wCnt++;
@@ -226,6 +237,7 @@ void gbs_save(const char* fname)
 	fputc((uint8_t)(chLoop[0] >>  8), wp);
 	fputc((uint8_t)(chLoop[0] >> 16), wp);
 	fputc((uint8_t)(chLoop[0] >> 24), wp);
+	wCnt += 4;
 
 	fclose(wp);
 }
