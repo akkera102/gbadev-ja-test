@@ -2,7 +2,7 @@
 
 GBS2VGM modoki can convet only ToHeart GBS data.
 
-GB CPU used InfoGB.
+The GB CPU of the converter used infoGB.
 
 ## Link
 
