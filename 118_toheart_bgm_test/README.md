@@ -1,6 +1,6 @@
 # 118_toheart_bgm_test
 
-GBS2VGM modoki. GBS can convet only ToHeart BGM data.
+GBS2VGM modoki can convet only ToHeart GBS data.
 
 GB CPU used InfoGB.
 
@@ -17,5 +17,7 @@ libgba(LGPL2.0 dynamic link)
 crt0.s(MPL2.0)
 
 ## Version
+
+v0.02 added VGM loop process.
 
 v0.01 intial ver. WIP.
