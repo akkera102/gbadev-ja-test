@@ -218,7 +218,6 @@ void gbs_save(const char* fname)
 	}
 
 	// patch
-/*
 	if(strncmp(savname, "th04.bin", len) == 0)
 	{
 		printf("patched. NR51 0xff\n");
@@ -228,7 +227,6 @@ void gbs_save(const char* fname)
 		fputc(0xff, wp);
 		wCnt += 3;
 	}
-*/
 
 	// end of mark
 	fputc(0x66, wp);
