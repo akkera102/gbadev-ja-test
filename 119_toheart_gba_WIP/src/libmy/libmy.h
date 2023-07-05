@@ -1,21 +1,21 @@
-#ifndef __MAIN_H__
-#define __MAIN_H__
+#ifndef __LIBMY_H__
+#define __LIBMY_H__
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-#include "libgba/gba.h"
-
-//---------------------------------------------------------------------------
+#include "../libgba/gba.h"
 
 
 //---------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE void MainInit(void);
-IWRAM_CODE void MainExec(void);
+
+
+//---------------------------------------------------------------------------
+EWRAM_CODE void LibMyInit(void);
+IWRAM_CODE void LibMyExec(void);
 
 
 #ifdef __cplusplus

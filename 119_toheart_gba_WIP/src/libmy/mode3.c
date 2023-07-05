@@ -1,8 +1,6 @@
 #include "mode3.h"
-#include "bios.h"
+#include "mem.h"
 
-
-// DMA3
 
 //---------------------------------------------------------------------------
 ST_MODE3 Mode3 EWRAM_BSS;
@@ -11,21 +9,19 @@ ST_MODE3 Mode3 EWRAM_BSS;
 //---------------------------------------------------------------------------
 EWRAM_CODE void Mode3Init(void)
 {
-	BiosCpuSetFixClear(&Mode3, sizeof(ST_MODE3));
-
-	REG_DISPCNT = (MODE_3 | BG2_ON);
+	MemClear(&Mode3, sizeof(ST_MODE3));
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3Exec(void)
 {
-	if(Mode3.isDraw == FALSE)
+	if(Mode3.isDraw == false)
 	{
 		return;
 	}
-	Mode3.isDraw = FALSE;
+	Mode3.isDraw = false;
 
 
-	BiosCpuSetFast(Mode3.buf, (u16*)VRAM, MODE3_MAX_BUFFER_SIZE);
+	MemInc(Mode3.buf, (u16*)VRAM, MODE3_MAX_BUF_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawBg(u16* pImg)
@@ -49,7 +45,7 @@ IWRAM_CODE void Mode3DrawCrop(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg)
 
 	for(y=0; y<cy; y++)
 	{
-		BiosCpuSet(pS, pD, cx*2);
+		MemInc(pS, pD, cx*2);
 
 		pS += cx;
 		pD += SCREEN_CX;
@@ -126,12 +122,12 @@ IWRAM_CODE void Mode3DrawBlend(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg, u8* pM
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3Scroll(u32 cnt)
 {
-	BiosCpuSetFast(Mode3.buf + SCREEN_CX * cnt, (u16*)VRAM, MODE3_MAX_BUFFER_SIZE);
+	MemInc(Mode3.buf + SCREEN_CX * cnt, (u16*)VRAM, MODE3_MAX_BUF_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3SetDraw(void)
 {
-	Mode3.isDraw = TRUE;
+	Mode3.isDraw = true;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawFill(u16 col)
@@ -140,9 +136,9 @@ IWRAM_CODE void Mode3DrawFill(u16 col)
 
 	c =((u32)col << 16) | (u32)col;
 
-	BiosCpuSetFastFix(&c, Mode3.buf, MODE3_MAX_BUFFER_SIZE);
+	MemFix(&c, Mode3.buf, MODE3_MAX_BUF_SIZE);
 
-	Mode3.isDraw = TRUE;
+	Mode3.isDraw = true;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawLineH(s32 sx)
@@ -211,14 +207,14 @@ IWRAM_CODE void Mode3DrawWipeTtoB(s32 step)
 	const s32 a[8] = { 14, 12, 10, 8, 6, 4, 2, 0 };
 	s32 y;
 
-	u16 col ALIGN(4);
-	col = RGB5(0, 0, 0);
+	u32 col ALIGN(4);
+	col = (RGB5(0, 0, 0) << 16) | RGB5(0, 0, 0);
 
 	for(y=0; y<SCREEN_CY; y++)
 	{
-		if((a[Mod(y,8)]+Div(y,8)) == step)
+		if((a[DivMod(y,8)]+Div(y,8)) == step)
 		{
-			DMA3COPY(col, (u16*)VRAM + y * SCREEN_CX, SCREEN_CX*2 | DMA_SRC_FIXED);
+			MemFix(&col, (u16*)VRAM + y * SCREEN_CX, SCREEN_CX*2);
 		}
 	}
 }

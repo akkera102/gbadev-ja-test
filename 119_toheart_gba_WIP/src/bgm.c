@@ -35,7 +35,7 @@ EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
 		return;
 	}
 
-	u8* pDat = FileGetMus(no - 2);
+	u8* pDat = FileGetMus(no);
 
 	VgmPlay(pDat, isLoop);
 }

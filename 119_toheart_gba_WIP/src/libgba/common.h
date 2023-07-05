@@ -13,10 +13,10 @@ typedef char* va_list;
 #define _Max(a,b)				(((a)>(b))?(a):(b))
 #define _Min(a,b)				(((a)>(b))?(b):(a))
 #define _Toupper(c)				((c >= 'a' && c <= 'z') ? c - ('a' - 'A') : c)
-#define _IsAlpha(c)				((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ? TRUE : FALSE)
-#define _IsDigit(c)				((c >= '0') && (c <= '9') ? TRUE : FALSE)
-#define _IsXDigit(c)			((_IsDigit(c) == TRUE) || (c >= 'a' && c <= 'f') ? TRUE : FALSE)
-#define _IsSpace(c)				((c == ' ') ? TRUE : FALSE)
+#define _IsAlpha(c)				((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ? true : false)
+#define _IsDigit(c)				((c >= '0') && (c <= '9') ? true : false)
+#define _IsXDigit(c)			((_IsDigit(c) == true) || (c >= 'a' && c <= 'f') ? true : false)
+#define _IsSpace(c)				((c == ' ') ? true : false)
 #define _IsSJIS(c)				(((c)>=0x81 && (c)<=0x9f) || ((c)>=0xe0 && (c)<=0xef))
 
 #define __vasz(x)				((sizeof(x)+sizeof(int)-1) & ~(sizeof(int) -1))
@@ -50,7 +50,7 @@ IWRAM_CODE char* _SprintfHexCol(u32 val, char* s, s32 col, char colChr, bool isT
 IWRAM_CODE char* _SprintfString(char* val, char* s);
 
 IWRAM_CODE void SystemError(char* format, ...);
-IWRAM_CODE void mappylog(char* buf);
+IWRAM_CODE void MappyLog(char* buf);
 
 
 #ifdef __cplusplus

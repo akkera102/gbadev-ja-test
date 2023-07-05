@@ -11,8 +11,8 @@ EWRAM_CODE void SjisInit(void)
 {
 	_Memset(&Sjis, 0x00, sizeof(ST_SJIS));
 
+	Sjis.pCct = (u8*)&cct_sjis_bin + SJIS_CCT_HEAD_SIZE;
 	Sjis.pImg = (u16*)&fnt_k12x10Bitmap;
-	Sjis.pCct =  (u8*)&cct_sjis_bin + SJIS_CCT_HEAD_SIZE;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE u16 SjisGetIdx(u16 code)
@@ -21,7 +21,7 @@ IWRAM_CODE u16 SjisGetIdx(u16 code)
 	{
 		code = 0x8140;
 	}
-	else if(_IsSJIS(HIBYTE(code)) == FALSE)
+	else if(_IsSJIS(HIBYTE(code)) == false)
 	{
 		goto Err;
 	}

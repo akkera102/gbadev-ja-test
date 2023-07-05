@@ -38,10 +38,19 @@ CFILES	= \
 VPATH = $(dir $(CFILES) $(SFILES))
 
 #=============================================================================
+# added libgba
+
+LIBS = -lgba
+export LIBPATHS = $(foreach dir,$(DEVKITPRO)/libgba,-L$(dir)/lib)
+
+INCDIR1 = $(foreach dir,$(INCDIR),-I$(dir))
+INCDIR2 = $(foreach dir,$(DEVKITPRO)/libgba,-I$(dir)/include)
+
+#=============================================================================
 
 ASFLAGS = 
-LDFLAGS = -Map $(MAPFILE) -Wall -specs=gba.specs -nostartfiles -nostdlib
-CFLAGS  = -g -O3 -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -Wall -W -Wshadow -Wno-unused-parameter -Warray-bounds -Wno-strict-aliasing $(foreach incdir,$(INCDIR),-I$(incdir))
+LDFLAGS = -Map $(MAPFILE) -Wall -specs=gba.specs -nostartfiles -nostdlib $(LIBS) $(LIBPATHS)
+CFLAGS  = -g -O3 -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -Wall -W -Wshadow -Wno-unused-parameter -Wno-strict-aliasing $(INCDIR1) $(INCDIR2)
 OFILES  = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(basename $(notdir $(SFILES) $(CFILES)))))
 DFILES  = $(addprefix $(OBJDIR)/, $(addsuffix .d, $(basename $(notdir $(SFILES) $(CFILES)))))
 

@@ -14,18 +14,10 @@ extern "C" {
 //---------------------------------------------------------------------------
 
 typedef struct {
-	u8 evtMax;
-	u8 msgMax;
-
-} __PACKED ST_FILE_SCN_HEADER;
-
-
-typedef struct {
 	u16 cx;
 	u16 cy;
 
 } __PACKED ST_FILE_IMG_HEADER;
-
 
 
 //---------------------------------------------------------------------------

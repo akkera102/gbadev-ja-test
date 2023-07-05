@@ -1,5 +1,5 @@
 #include "se.h"
-#include "libmy/snd.h"
+#include "libmy/snd.arm.h"
 #include "file.h"
 
 

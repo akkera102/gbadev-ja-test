@@ -1,6 +1,8 @@
 #include "nv.h"
 #include "nv2.h"
 #include "nv3.h"
+#include "txt.h"
+#include "img.h"
 
 // Nv.pCur éöãÂâêÕ
 
@@ -19,7 +21,7 @@ EWRAM_CODE u32 NvGetCurNum(void)
 		ret *= 10;
 		ret  = *Nv.pCur++ - '0';
 
-	} while(_IsDigit(*Nv.pCur) == TRUE);
+	} while(_IsDigit(*Nv.pCur) == true);
 
 
 	return ret;
@@ -55,7 +57,7 @@ EWRAM_CODE u32 NvGetCurHex(void)
 			ret += *Nv.pCur++ - '0';
 		}
 
-	} while(_IsXDigit(*Nv.pCur) == TRUE);
+	} while(_IsXDigit(*Nv.pCur) == true);
 
 
 	return ret;

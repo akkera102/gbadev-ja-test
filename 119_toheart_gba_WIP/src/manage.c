@@ -1,6 +1,7 @@
 #include "manage.h"
+#include "libmy/libmy.h"
 #include "img.h"
-#include "text.h"
+#include "txt.h"
 #include "log.h"
 #include "menu.h"
 #include "nv.h"
@@ -22,31 +23,43 @@ EWRAM_CODE void ManageInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExec(void)
 {
-	switch(Manage.act)
+	for(;;)
 	{
-	case MANAGE_ACT_INIT:
-		ManageExecInit();
-		break;
+//		if(NvIsNext() == false)
+//		{
+			VBlankIntrWait();
+//			SystemCall(5);
+//		}
 
-	case MANAGE_ACT_TITLE:
-		ManageExecTitle();
-		break;
+		LibMyExec();
 
-	case MANAGE_ACT_NOVEL:
-		ManageExecNovel();
-		break;
 
-	case MANAGE_ACT_LOG:
-		ManageExecLog();
-		break;
+		switch(Manage.act)
+		{
+		case MANAGE_ACT_INIT:
+			ManageExecInit();
+			break;
 
-	case MANAGE_ACT_MENU:
-		ManageExecMenu();
-		break;
+		case MANAGE_ACT_TITLE:
+			ManageExecTitle();
+			break;
 
-	default:
-		SystemError("[Err] ManageExec act=%x\n", Manage.act);
-		break;
+		case MANAGE_ACT_NOVEL:
+			ManageExecNovel();
+			break;
+
+		case MANAGE_ACT_LOG:
+			ManageExecLog();
+			break;
+
+		case MANAGE_ACT_MENU:
+			ManageExecMenu();
+			break;
+
+		default:
+			SystemError("[Err] ManageExec act=%x\n", Manage.act);
+			break;
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -58,13 +71,13 @@ EWRAM_CODE void ManageExecInit(void)
 	SeInit();
 
 	ImgInit();
-	TextInit();
+	TxtInit();
 
 	LogInit();
 	MenuInit();
+	SioriInit();
 	NvInit();
 
-	SioriInit();
 //	MenuSetTitle();
 
 
@@ -78,34 +91,32 @@ EWRAM_CODE void ManageExecInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecTitle(void)
 {
-/*
 	ImgExec();
 	MenuExec();
 
-	if(MenuIsEnd() == TRUE)
-	{
-		Manage.act = MANAGE_ACT_SCRIPT;
-	}
-*/
+//	if(MenuIsEnd() == true)
+//	{
+//		Manage.act = MANAGE_ACT_SCRIPT;
+//	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
 {
-	if(ImgIsEffect() == TRUE)
+	if(ImgIsEffect() == true)
 	{
 		ImgExec();
 		return;
 	}
 
-	if(TextIsChr() == TRUE)
+	if(TxtIsChr() == true)
 	{
-		TextExecChr();
+		TxtExecChr();
 		return;
 	}
 
-	if(TextIsCur() == TRUE)
+	if(TxtIsCur() == true)
 	{
-		TextExecCur();
+		TxtExecCur();
 	}
 
 	NvExec();
@@ -115,9 +126,9 @@ EWRAM_CODE void ManageExecLog(void)
 {
 	LogExec();
 
-	if(TextIsChr() == TRUE)
+	if(TxtIsChr() == true)
 	{
-		TextExecLog();
+		TxtExecLog();
 	}
 }
 //---------------------------------------------------------------------------
@@ -125,9 +136,9 @@ EWRAM_CODE void ManageExecMenu(void)
 {
 	MenuExec();
 
-	if(TextIsChr() == TRUE)
+	if(TxtIsChr() == true)
 	{
-		TextExecMenu();
+		TxtExecMenu();
 	}
 }
 //---------------------------------------------------------------------------

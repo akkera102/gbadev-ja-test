@@ -29,10 +29,11 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void  SioriInit(void);
 EWRAM_CODE void  SioriSave(u32 no);
-EWRAM_CODE void  SioriSaveSram(u32 no);
 EWRAM_CODE void  SioriSaveFlash(u32 no);
+EWRAM_CODE void  SioriSaveSram(u32 no);
 
 EWRAM_CODE bool  SioriLoad(u32 no);
+EWRAM_CODE void  SioriLoadFlag(void);
 EWRAM_CODE char* SioriGetStr(u32 no);
 
 EWRAM_CODE bool  SioriIsInit(void);

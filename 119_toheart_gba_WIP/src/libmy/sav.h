@@ -16,19 +16,14 @@ extern "C" {
 //---------------------------------------------------------------------------
 EWRAM_CODE void SavInit(void);
 
-// SRAM
-EWRAM_CODE u8   SavSramRead(u32 adr);
-EWRAM_CODE void SavSramWrite(u32 adr, u8 dat);
-
-// FLASH
-EWRAM_CODE u8   SavFlashRead(u32 adr);
-EWRAM_CODE void SavFlashWrite(u32 adr, u8 dat);
-
-EWRAM_CODE void SavFlashCmd(u32 adr, u8 dat);
-EWRAM_CODE void SavFlashEraseSector(u32 sec);
+EWRAM_CODE u8   SavReadSram(u32 adr);
+EWRAM_CODE u8   SavReadFlash(u32 adr);
+EWRAM_CODE void SavWriteSram(u32 adr, u8 dat);
+EWRAM_CODE void SavWriteFlash(u32 adr, u8 dat);
+EWRAM_CODE void SavWriteFlashCmd(u32 adr, u8 dat);
+EWRAM_CODE void SavWriteFlashEraseSector(u32 sector);
 EWRAM_CODE bool SavIsFlash(void);
 
-// ‹¤’Ê
 EWRAM_CODE u8*  SavGetPointer(u32 adr);
 
 

@@ -8,16 +8,16 @@ extern "C" {
 #include "../libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define MODE3_MAX_BUFFER_SIZE		(SCREEN_CX * SCREEN_CY * 2)
-#define MODE3_MAX_MASK_SIZE			(SCREEN_CX * SCREEN_CY)
+#define MODE3_MAX_BUF_SIZE			(SCREEN_CX * SCREEN_CY * 2)
+#define MODE3_MAX_MSK_SIZE			(SCREEN_CX * SCREEN_CY)
 
 
 //---------------------------------------------------------------------------
 typedef struct {
 	bool isDraw;
 
-	u16  buf[MODE3_MAX_BUFFER_SIZE] ALIGN(4);
-	u8   msk[MODE3_MAX_MASK_SIZE] ALIGN(4);
+	u16  buf[MODE3_MAX_BUF_SIZE] ALIGN(4);		// u16 240x160*2
+	u8   msk[MODE3_MAX_MSK_SIZE] ALIGN(4);		// u8  240x160
 
 } ST_MODE3;
 

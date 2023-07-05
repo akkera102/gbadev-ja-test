@@ -1,37 +1,40 @@
-#include "lib.h"
-#include "bios.h"
-#include "fade.h"
+#include "libmy.h"
+#include "mem.h"
 #include "gbfs.h"
-#include "irq.arm.h"
 #include "key.h"
-#include "mode3.h"
-#include "snd.h"
-#include "spr.h"
 #include "sav.h"
+#include "mode3.h"
+#include "spr.h"
+#include "fade.h"
 #include "sjis.h"
 #include "vgm.arm.h"
+#include "snd.arm.h"
+#include "irq.arm.h"
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE void LibInit(void)
+EWRAM_CODE void LibMyInit(void)
 {
 	REG_WSCNT = 0x4317;
+	REG_DISPCNT = (MODE_3 | BG2_ON | OBJ_ON | OBJ_1D_MAP);
+
+	GbfsInit();
+	MemInit();
+	KeyInit();
+	SavInit();
+
+	SprInit();
+	SjisInit();
+	Mode3Init();
+	FadeInit();
 
 	VgmInit();
-	BiosInit();
-	FadeInit();
-	GbfsInit();
-	KeyInit();
-	Mode3Init();
 	SndInit();
-	SprInit();
-	SavInit();
-	SjisInit();
 
 	IrqInit();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void LibExec(void)
+IWRAM_CODE void LibMyExec(void)
 {
 	KeyExec();
 	SprExec();

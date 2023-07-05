@@ -1,135 +1,135 @@
-#include "text.h"
+#include "txt.h"
 #include "libmy/spr.h"
-#include "libmy/bios.h"
+#include "libmy/mem.h"
 #include "log.h"
 #include "img.h"
 #include "menu.h"
 
 
 //---------------------------------------------------------------------------
-ST_TEXT Text;
+ST_TXT Txt;
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextInit(void)
+EWRAM_CODE void TxtInit(void)
 {
-	_Memset(&Text, 0x00, sizeof(ST_TEXT));
+	_Memset(&Txt, 0x00, sizeof(ST_TXT));
 
-//	Text.waitMax = 1;
+//	Txt.waitMax = 1;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextExecChr(void)
+EWRAM_CODE void TxtExecChr(void)
 {
-	TextShowMsg();
+	TxtShowMsg();
 
-	if(Text.waitMax == 0)
+	if(Txt.waitMax == 0)
 	{
 		// 一括表示
 		SprSetImgWhite();
-		TextDrawWork();
-		Text.drawCnt = Text.workCnt;
+		TxtDrawWork();
+		Txt.drawCnt = Txt.workCnt;
 	}
 	else
 	{
-		if(Text.waitCnt != 0)
+		if(Txt.waitCnt != 0)
 		{
-			Text.waitCnt--;
+			Txt.waitCnt--;
 			return;
 		}
-		Text.waitCnt = Text.waitMax - 1;
+		Txt.waitCnt = Txt.waitMax - 1;
 
 
 		// １文字表示
 		SprSetImgWhite();
-		TextDrawChr(Text.work[Text.drawCnt++]);
+		TxtDrawChr(Txt.work[Txt.drawCnt++]);
 	}
 
-	if(Text.drawCnt >= Text.workCnt)
+	if(Txt.drawCnt >= Txt.workCnt)
 	{
-		Text.isChr = FALSE;
+		Txt.isChr = false;
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextExecCur(void)
+EWRAM_CODE void TxtExecCur(void)
 {
-	if(Text.curCnt != 0)
+	if(Txt.curCnt != 0)
 	{
-		Text.curCnt--;
+		Txt.curCnt--;
 		return;
 	}
-	Text.curCnt = TEXT_CURSOR_WAIT_CNT;
+	Txt.curCnt = TXT_CURSOR_WAIT_CNT;
 
 
-	if(Text.isCurBlink == TRUE)
+	if(Txt.isCurBlink == true)
 	{
-		Text.isCurBlink = FALSE;
+		Txt.isCurBlink = false;
 
 		SprHideCursor();
 	}
 	else
 	{
-		Text.isCurBlink = TRUE;
+		Txt.isCurBlink = true;
 
-		SprMoveCursor(Text.x, Text.y);
+		SprMoveCursor(Txt.x, Txt.y);
 		SprShowCursor();
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextExecLog(void)
+EWRAM_CODE void TxtExecLog(void)
 {
-	Text.isChr = FALSE;
+	Txt.isChr = false;
 
-	if(Text.isRes == TRUE)
+	if(Txt.isRes == true)
 	{
 		SprSetImgWhite();
 
-		TextDrawFull(Text.buf);
-		Text.isRes = FALSE;
+		TxtDrawFull(Txt.buf);
+		Txt.isRes = false;
 		return;
 	}
 
-	TextDrawLog();
+	TxtDrawLog();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextExecMenu(void)
+EWRAM_CODE void TxtExecMenu(void)
 {
-	Text.isChr = FALSE;
+	Txt.isChr = false;
 
-	if(Text.isRes == TRUE)
+	if(Txt.isRes == true)
 	{
 		SprSetImgWhite();
 
-		TextDrawFull(Text.buf);
-		Text.isRes = FALSE;
+		TxtDrawFull(Txt.buf);
+		Txt.isRes = false;
 		return;
 	}
 
-	TextDrawMenu();
+	TxtDrawMenu();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawChr(u16 code)
+EWRAM_CODE void TxtDrawChr(u16 code)
 {
-	_ASSERT(Text.x < TEXT_SCREEN_CX && Text.y < TEXT_SCREEN_CY);
+	_ASSERT(Txt.x < TXT_SCREEN_CX && Txt.y < TXT_SCREEN_CY);
 
 
-	SprDrawDatChr(Text.x, Text.y, code);
+	SprDrawDatChr(Txt.x, Txt.y, code);
 
-	if(Text.isBuf == TRUE)
+	if(Txt.isBuf == true)
 	{
-		Text.buf[(Text.y * TEXT_SCREEN_CX) + Text.x] = code;
+		Txt.buf[(Txt.y * TXT_SCREEN_CX) + Txt.x] = code;
 	}
 
 
-	Text.x++;
+	Txt.x++;
 
-	if(Text.x >= TEXT_SCREEN_CX)
+	if(Txt.x >= TXT_SCREEN_CX)
 	{
-		Text.x = 0;
-		Text.y++;
+		Txt.x = 0;
+		Txt.y++;
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawStr(char* p)
+EWRAM_CODE void TxtDrawStr(char* p)
 {
 	u16 code;
 
@@ -138,56 +138,54 @@ EWRAM_CODE void TextDrawStr(char* p)
 		code  = *p++ << 8;
 		code += *p++;
 
-	TRACE("%x\n", code);
-
-		TextDrawChr(code);
+		TxtDrawChr(code);
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawStrXy(u32 x, u32 y, char* p)
+EWRAM_CODE void TxtDrawStrXy(u32 x, u32 y, char* p)
 {
-	u32 tx = Text.x;
-	u32 ty = Text.y;
+	u32 tx = Txt.x;
+	u32 ty = Txt.y;
 
-	Text.x = x;
-	Text.y = y;
+	Txt.x = x;
+	Txt.y = y;
 
-	TextDrawStr(p);
+	TxtDrawStr(p);
 
-	Text.x = tx;
-	Text.y = ty;
+	Txt.x = tx;
+	Txt.y = ty;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawWork(void)
+EWRAM_CODE void TxtDrawWork(void)
 {
 	u32 i;
 
-	for(i=0; i<Text.workCnt; i++)
+	for(i=0; i<Txt.workCnt; i++)
 	{
-		TextDrawChr(Text.work[i]);
+		TxtDrawChr(Txt.work[i]);
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawLog(void)
+EWRAM_CODE void TxtDrawLog(void)
 {
 	SprSetImgGray();
 
 	u16* p = LogGetBuf();
-	TextDrawFull(p);
+	TxtDrawFull(p);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawMenu(void)
+EWRAM_CODE void TxtDrawMenu(void)
 {
 	u32 reg = MenuGetReg();
 	u32 sel = MenuGetSel();
 	u32 i;
 
-	Text.isBuf = FALSE;
-	TextClearDat();
+	Txt.isBuf = false;
+	TxtClearDat();
 
 	// タイトル
 	SprSetImgWhite();
-	TextDrawStrXy(2, 0, MenuGetSelStr(0));
+	TxtDrawStrXy(2, 0, MenuGetSelStr(0));
 
 	for(i=1; i<reg+1; i++)
 	{
@@ -202,82 +200,90 @@ EWRAM_CODE void TextDrawMenu(void)
 
 		// 選択肢
 		char* p = MenuGetSelStr(i);
-		TextDrawStrXy(3, 1+i, p);
+		TxtDrawStrXy(3, 1+i, p);
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextDrawFull(u16* pStr)
+EWRAM_CODE void TxtDrawFull(u16* pStr)
 {
 	u32 x, y;
 
-	for(y=0; y<TEXT_SCREEN_CY; y++)
+	for(y=0; y<TXT_SCREEN_CY; y++)
 	{
-		for(x=0; x<TEXT_SCREEN_CX; x++)
+		for(x=0; x<TXT_SCREEN_CX; x++)
 		{
 			SprDrawDatChr(x, y, *pStr++);
 		}
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetChr(void)
+EWRAM_CODE void TxtSetChr(void)
 {
-	Text.isChr = TRUE;
+	Txt.isChr = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetCur(bool is)
+EWRAM_CODE void TxtSetCur(bool is)
 {
-	Text.isCur      = is;
-	Text.curCnt     = 0;
-	Text.isCurBlink = FALSE;
+	Txt.isCur      = is;
+	Txt.curCnt     = 0;
+	Txt.isCurBlink = false;
 
-	if(is == FALSE)
+	if(is == false)
 	{
 		SprHideCursor();
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetRes(void)
+EWRAM_CODE void TxtSetRes(void)
 {
-	Text.isRes = TRUE;
+	Txt.isRes = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetPage(void)
+EWRAM_CODE void TxtSetPage(void)
 {
-	Text.isPage = TRUE;
+	Txt.isPage = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetDraw(char* p)
+EWRAM_CODE void TxtSetPageNew(void)
 {
-	TextSetSiori(p);
+	LogAddBuf(Txt.buf);
+	TxtClear();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void TxtSetDraw(char* p)
+{
+	TxtSetSiori(p);
 
-	if(Text.isPage == TRUE)
+	if(Txt.isPage == true)
 	{
 		// 改ページ
-		Text.isPage = FALSE;
+		Txt.isPage = false;
 
-		LogAddBuf(Text.buf);
-		TextClear();
-		TextCalcStr(p);
+		LogAddBuf(Txt.buf);
+
+		TxtClear();
+		TxtCalcStr(p);
 	}
-	else if(TextCalcStr(p) == TRUE)
+	else if(TxtCalcStr(p) == true)
 	{
 		// 画面に収まらない場合、消去後表示
-		LogAddBuf(Text.buf);
-		TextClear();
-		TextCalcStr(p);
+		LogAddBuf(Txt.buf);
+
+		TxtClear();
+		TxtCalcStr(p);
 	}
 
-	Text.waitCnt = 0;
-	Text.drawCnt = 0;
-	Text.isChr   = TRUE;
-	Text.isBuf   = TRUE;
+	Txt.waitCnt = 0;
+	Txt.drawCnt = 0;
+	Txt.isChr   = true;
+	Txt.isBuf   = true;
 }
 //---------------------------------------------------------------------------
 // 禁則文字処理
-IWRAM_CODE bool TextCalcStr(char* p)
+IWRAM_CODE bool TxtCalcStr(char* p)
 {
-	u32 x = Text.x;
-	u32 y = Text.y;
+	u32 x = Txt.x;
+	u32 y = Txt.y;
 	u32 i = 0;
 	u32 j = 0;
 	u16 code;
@@ -285,25 +291,25 @@ IWRAM_CODE bool TextCalcStr(char* p)
 
 	while(p[i] != '\0')
 	{
-		if(j >= TEXT_SCREEN_CX * TEXT_SCREEN_CY)
+		if(j >= TXT_SCREEN_CX * TXT_SCREEN_CY)
 		{
-			return TRUE;
+			return true;
 		}
 
-		if(y >= TEXT_SCREEN_CY)
+		if(y >= TXT_SCREEN_CY)
 		{
-			return TRUE;
+			return true;
 		}
 
 		code  = p[i++] << 8;
 		code += p[i++];
 
 		// 行頭
-		if(x == 0 && j != 0 && TextIsChrFront(code) == TRUE)
+		if(x == 0 && j != 0 && TxtIsChrFront(code) == true)
 		{
-			Text.work[j+0] = Text.work[j-1];
-			Text.work[j-1] = 0x0000;
-			Text.work[j+1] = code;
+			Txt.work[j+0] = Txt.work[j-1];
+			Txt.work[j-1] = 0x0000;
+			Txt.work[j+1] = code;
 
 			x = 2;
 			j += 2;
@@ -312,10 +318,10 @@ IWRAM_CODE bool TextCalcStr(char* p)
 		}
 
 		// 行末
-		if(x == (TEXT_SCREEN_CX-1) && TextIsChrBack(code) == TRUE)
+		if(x == (TXT_SCREEN_CX-1) && TxtIsChrBack(code) == true)
 		{
-			Text.work[j+0] = 0x0000;
-			Text.work[j+1] = code;
+			Txt.work[j+0] = 0x0000;
+			Txt.work[j+1] = code;
 
 			y++;
 			x = 1;
@@ -325,21 +331,21 @@ IWRAM_CODE bool TextCalcStr(char* p)
 		}
 
 		// 通常
-		Text.work[j++] = code;
+		Txt.work[j++] = code;
 		x++;
 
-		if(x >= TEXT_SCREEN_CX)
+		if(x >= TXT_SCREEN_CX)
 		{
 			x = 0;
 			y++;
 		}
 	}
 
-	Text.workCnt = j;
-	return FALSE;
+	Txt.workCnt = j;
+	return false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE bool TextIsChrFront(u16 code)
+IWRAM_CODE bool TxtIsChrFront(u16 code)
 {
 	switch(code)
 	{
@@ -377,13 +383,13 @@ IWRAM_CODE bool TextIsChrFront(u16 code)
 	case 0x8348:	// ォ
 	case 0x8144:	// ．
 	case 0x8160:	// ～
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE bool TextIsChrBack(u16 code)
+IWRAM_CODE bool TxtIsChrBack(u16 code)
 {
 	switch(code)
 	{
@@ -392,111 +398,116 @@ IWRAM_CODE bool TextIsChrBack(u16 code)
 	case 0x8175:	// 「
 	case 0x816D:	// ［
 	case 0x8169:	// （
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextClear(void)
+EWRAM_CODE void TxtClear(void)
 {
-	TextClearBuf();
-	TextClearDat();
-	TextClearXY();
+	TxtClearBuf();
+	TxtClearDat();
+	TxtClearXY();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextClearBuf(void)
+EWRAM_CODE void TxtClearBuf(void)
 {
-	BiosCpuSetFixClear(Text.buf, TEXT_SCREEN_CX * TEXT_SCREEN_CY * 2);
+	MemClear(Txt.buf, TXT_SCREEN_CX * TXT_SCREEN_CY * 2);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextClearDat(void)
+EWRAM_CODE void TxtClearDat(void)
 {
 	SprClearDat();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextClearXY(void)
+EWRAM_CODE void TxtClearXY(void)
 {
-	Text.x = 0;
-	Text.y = 0;
+	Txt.x = 0;
+	Txt.y = 0;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextShowWindow(void)
+EWRAM_CODE void TxtShowWindow(void)
 {
 	ImgShowWindow();
-	TextShowMsg();
+	TxtShowMsg();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextShowMsg(void)
+EWRAM_CODE void TxtShowMsg(void)
 {
-	if(Text.isShow == TRUE)
+	if(Txt.isShow == true)
 	{
 		return;
 	}
 
 	SprShowWindow();
-	Text.isShow = TRUE;
+	Txt.isShow = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextHideWindow(void)
+EWRAM_CODE void TxtHideWindow(void)
 {
 	ImgHideWindow();
-	TextHideMsg();
+	TxtHideMsg();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextHideMsg(void)
+EWRAM_CODE void TxtHideMsg(void)
 {
 	SprHideWindow();
-	Text.isShow = FALSE;
+	Txt.isShow = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool TextIsChr(void)
+EWRAM_CODE bool TxtIsChr(void)
 {
-	return Text.isChr;
+	return Txt.isChr;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool TextIsCur(void)
+EWRAM_CODE bool TxtIsCur(void)
 {
-	return Text.isCur;
+	return Txt.isCur;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetSiori(char* p)
+EWRAM_CODE void TxtSetSiori(char* p)
 {
 	u32 i;
 
-	for(i=0; i<TEXT_SIORI_SIZE-1 && p[i] != '\0'; i++)
+	for(i=0; i<TXT_SIORI_SIZE-1 && p[i] != '\0'; i++)
 	{
-		Text.siori[i] = p[i];
+		Txt.siori[i] = p[i];
 	}
 
-	Text.siori[i] = '\0';
+	Txt.siori[i] = '\0';
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetWaitMax(u32 num)
+EWRAM_CODE void TxtSetWaitMax(u32 num)
 {
-	Text.waitMax = num;
+	Txt.waitMax = num;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u32 TextGetWaitMax(void)
+EWRAM_CODE u32 TxtGetWaitMax(void)
 {
-	return Text.waitMax;
+	return Txt.waitMax;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextRestart(void)
+EWRAM_CODE void TxtRestart(void)
 {
-	Text.waitCnt = 0;
-	Text.drawCnt = 0;
-	Text.isChr   = TRUE;
-	Text.isBuf   = TRUE;
+	Txt.waitCnt = 0;
+	Txt.drawCnt = 0;
+	Txt.isChr   = true;
+	Txt.isBuf   = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TextSetLf(void)
+EWRAM_CODE void TxtSetLf(void)
 {
-	if(Text.x == 0)
+	if(Txt.x == 0)
 	{
 		return;
 	}
 
-	Text.x = 0;
-	Text.y++;
+	Txt.x = 0;
+	Txt.y++;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void TxtSetBuf(bool is)
+{
+	Txt.isBuf = is;
 }

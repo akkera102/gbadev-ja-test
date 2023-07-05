@@ -25,10 +25,10 @@ typedef struct {
 EWRAM_CODE void KeyInit(void);
 IWRAM_CODE void KeyExec(void);
 
-IWRAM_CODE u32  KeyGetCnt(void);
-IWRAM_CODE u32  KeyGetTrg(void);
-IWRAM_CODE u32  KeyGetOff(void);
-IWRAM_CODE u32  KeyGetRep(void);
+EWRAM_CODE u32  KeyGetCnt(void);
+EWRAM_CODE u32  KeyGetTrg(void);
+EWRAM_CODE u32  KeyGetOff(void);
+EWRAM_CODE u32  KeyGetRep(void);
 
 
 #ifdef __cplusplus

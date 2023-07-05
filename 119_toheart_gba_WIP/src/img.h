@@ -36,8 +36,8 @@ enum {
 
 	// 追加
 	IMG_EFFECT_WHITE = 0x10,
-	IMG_EFFECT_TEXT_ON,
-	IMG_EFFECT_TEXT_ON_FAST,
+	IMG_EFFECT_TXT_ON,
+	IMG_EFFECT_TXT_ON_FAST,
 	IMG_EFFECT_WIPE_TTOB,
 };
 
@@ -47,7 +47,7 @@ enum {
 typedef struct {
 
 	// 状態
-	bool isText;
+	bool isTxt;
 
 	// 前エフェクト
 	bool isBefore;
@@ -80,7 +80,7 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgInit(void);
 EWRAM_CODE void ImgExec(void);
-IWRAM_CODE void ImgExecText(void);
+IWRAM_CODE void ImgExecTxt(void);
 IWRAM_CODE void ImgExecBefore(void);
 IWRAM_CODE void ImgExecAfter(void);
 

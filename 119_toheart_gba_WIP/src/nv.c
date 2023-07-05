@@ -3,6 +3,7 @@
 #include "nv3.h"
 #include "libmy/gbfs.h"
 #include "libmy/key.h"
+#include "libmy/spr.h"
 #include "log.h"
 #include "img.h"
 #include "menu.h"
@@ -11,6 +12,8 @@
 #include "manage.h"
 #include "bgm.h"
 #include "se.h"
+#include "siori.h"
+
 
 
 //---------------------------------------------------------------------------
@@ -21,6 +24,9 @@ ST_NV Nv;
 EWRAM_CODE void NvInit(void)
 {
 	_Memset(&Nv, 0x00, sizeof(ST_NV));
+
+	// 共通フラグの上書き
+	SioriLoadFlag();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvExec(void)
@@ -42,6 +48,10 @@ EWRAM_CODE void NvExec(void)
 		NvExecKey();
 		break;
 
+	case NV_ACT_SELECT:
+		NvExecSel();
+		break;
+
 	case NV_ACT_RESTART:
 		NvExecRestart();
 		break;
@@ -57,11 +67,11 @@ EWRAM_CODE void NvExecKey(void)
 	u16 cnt = KeyGetCnt();
 	u16 trg = KeyGetTrg();
 
-	if(Nv.isSkip == TRUE)
+	if(Nv.isSkip == true)
 	{
 		if(cnt & KEY_B)
 		{
-			Nv.isSkip = FALSE;
+			Nv.isSkip = false;
 		}
 		else
 		{
@@ -74,26 +84,117 @@ EWRAM_CODE void NvExecKey(void)
 	switch(Nv.step)
 	{
 	case 0:
-		TextSetCur(TRUE);
+		TxtSetCur(true);
 		Nv.step++;
 		break;
 
 	case 1:
 		if(cnt & KEY_R || trg & KEY_A || trg & KEY_DOWN)
 		{
-			TextSetCur(FALSE);
+			TxtSetCur(false);
 			Nv.act = NV_ACT_PARSE;
 		}
-		else if((trg & KEY_LEFT) && (LogIsEmpty() == FALSE))
+		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
 			LogSetInit(LOG_RET_NOVEL);
 			ManageSetLog();
+			Nv.step--;
 		}
 		else if(trg & KEY_B)
 		{
 			MenuSetSystem(MENU_SYSTEM_SEL_SKIP);
 			ManageSetMenu();
+			Nv.step--;
 		}
+		break;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvExecSel(void)
+{
+	switch(Nv.step)
+	{
+	// 項目の表示
+	case 0:
+		TxtClearXY();
+		TxtSetBuf(false);
+		TxtSetCur(false);
+
+		s32 i;
+
+		for(i=0; i<Nv.sel.cnt; i++)
+		{
+			if(i == Nv.sel.num)
+			{
+				SprSetImgWhite();
+			}
+			else
+			{
+				SprSetImgGray();
+			}
+
+			Nv.pCur = Nv.sel.pStr[i];
+			NvSetCurStr();
+
+			TxtDrawStr(Nv.str);
+			TxtSetLf();
+		}
+
+		SprSetImgWhite();
+		NvSetEffectAfter(IMG_EFFECT_TXT_ON);
+
+		Nv.step++;
+		break;
+
+	// 選択中
+	case 1: ;
+		u16 trg = KeyGetTrg();
+
+		if((trg & KEY_A) && Nv.sel.num != -1)
+		{
+			Nv.step++;
+		}
+		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
+		{
+			LogSetInit(LOG_RET_NOVEL);
+			ManageSetLog();
+			Nv.step--;
+		}
+		else if(trg & KEY_B)
+		{
+			MenuSetSystem(MENU_SYSTEM_SEL_SKIP);
+			ManageSetMenu();
+			Nv.step--;
+		}
+		else if((trg & KEY_UP) && Nv.sel.num > 0)
+		{
+			TxtClearXY();
+			Nv.step--;
+			Nv.sel.num--;
+		}
+		else if((trg & KEY_DOWN) && (Nv.sel.num + 1) < Nv.sel.cnt)
+		{
+			TxtClearXY();
+			Nv.step--;
+			Nv.sel.num++;
+		}
+		break;
+
+	// 選択終了
+	case 2:
+		TxtClearXY();
+		TxtSetBuf(true);
+		Nv.pCur = Nv.sel.pStr[Nv.sel.num];
+		NvSetCurStr();
+
+		TxtDrawStr(Nv.str);
+		TxtSetPageNew();
+
+		Nv.pCur   = Nv.sel.pSrc;
+		Nv.curAdr = Nv.sel.srcAdr;
+		NvJumpCurAdr(Nv.curAdr + 1 + 2 + 2*Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+
+		NvSetAct(NV_ACT_PARSE);
 		break;
 	}
 }
@@ -101,13 +202,12 @@ EWRAM_CODE void NvExecKey(void)
 EWRAM_CODE void NvExecRestart(void)
 {
 	// TODO 選択肢の場合
-	// TODO 共有フラグ
 
 	switch(Nv.step)
 	{
 	case 0:
 		LogInit();
-		TextClear();
+		TxtClear();
 		Nv.step++;
 		break;
 
@@ -124,7 +224,7 @@ EWRAM_CODE void NvExecRestart(void)
 		break;
 
 	case 3:
-		TextRestart();
+		TxtRestart();
 		ImgRestart();
 
 		NvSetAct(NV_ACT_KEY);
@@ -134,7 +234,7 @@ EWRAM_CODE void NvExecRestart(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEffectBefore(u8 no)
 {
-	if(Nv.isSkip == TRUE)
+	if(Nv.isSkip == true)
 	{
 		return;
 	}
@@ -144,9 +244,9 @@ EWRAM_CODE void NvSetEffectBefore(u8 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEffectAfter(u8 no)
 {
-	if(Nv.isSkip == TRUE)
+	if(Nv.isSkip == true)
 	{
-		if(no == IMG_EFFECT_TEXT_ON)
+		if(no == IMG_EFFECT_TXT_ON)
 		{
 			return;
 		}
@@ -169,11 +269,11 @@ EWRAM_CODE void NvSetScn(u32 no)
 	Nv.pMsg   = NvSeekCurChr('M');
 	Nv.maxEvt = NvGetCurHex2(Nv.pEvt + 1);
 	Nv.maxMsg = NvGetCurHex2(Nv.pMsg + 1);
-	Nv.no     = no;
+	Nv.scnNo  = no;
 	Nv.evtNo  = 0;
 	Nv.msgNo  = 0;
 
-	TRACE("\nNvSetScn %04x.txt E%02x M%02x\n", no, Nv.maxEvt, Nv.maxMsg);
+	TRACE("\n[NvSetScn %04x.txt E%02x M%02x]\n", no, Nv.maxEvt, Nv.maxMsg);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEvt(u32 no)
@@ -188,7 +288,7 @@ EWRAM_CODE void NvSetEvt(u32 no)
 	NvJumpCurAdr(adr);
 
 	Nv.evtNo = no;
-	TRACE("NvSetEvt %x\n", no);
+	TRACE("[NvSetEvt %x]\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetMsg(u32 no)
@@ -204,12 +304,12 @@ EWRAM_CODE void NvSetMsg(u32 no)
 	NvJumpCurAdr(adr);
 
 	Nv.msgNo = no;
-	TRACE("NvSetMsg %x\n", no);
+	TRACE("[NvSetMsg %x]\n", no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetNext(void)
 {
-	Nv.isSkip = TRUE;
+	Nv.isSkip = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetAct(s32 act)
@@ -256,5 +356,5 @@ EWRAM_CODE bool NvIsSkip(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool NvIsRestart(void)
 {
-	return (Nv.act == NV_ACT_RESTART) ? TRUE : FALSE;
+	return (Nv.act == NV_ACT_RESTART) ? true : false;
 }

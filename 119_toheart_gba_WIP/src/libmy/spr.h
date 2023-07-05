@@ -8,15 +8,16 @@ extern "C" {
 #include "../libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define SPR_MAX_ATTR_CNT			12
-#define SPR_MAX_DAT_SIZE			(0x20 * 424)	// テキストスプライト424 = SIZE_64 * 3 SIZE_32 * 2 * 2
+#define SPR_MAX_OAM_CNT				12
+#define SPR_MAX_DAT_CNT				424							// テキストバッファタイル数
+#define SPR_MAX_DAT_SIZE			(0x20 * SPR_MAX_DAT_CNT)
 
 #define SPR_FONT_IMG_CX				12
 #define SPR_FONT_IMG_CY				10
 #define SPR_FONT_IMG_BLANK_CY		2
 #define SPR_FONT_DAT_SIZE			128
 #define SPR_FONT_CCT_HEAD_SIZE		16
-#define SPR_FONT_INVALID_INDEX		5				// エラー時のインデックスコード "・"
+#define SPR_FONT_INVALID_INDEX		5							// エラー時のインデックスコード "・"
 #define SPR_FONT_MASK_WHITE			0x5555
 #define SPR_FONT_MASK_GRAY			0x3333
 
@@ -28,16 +29,16 @@ typedef struct {
 	u16 d1;
 	u16 d2;
 	u16 d3;
-} __PACKED ST_SPR_ATTR;
+} __PACKED ST_SPR_OAM;
 
 typedef struct {
-	bool isDrawChr;
+	bool isDrawOam;
 	bool isDrawDat;
 
-	u16  mask;			// フォントマスク
-
+	ST_SPR_OAM oam[SPR_MAX_OAM_CNT] ALIGN(4);
 	u8 dat[SPR_MAX_DAT_SIZE] ALIGN(4);
-	ST_SPR_ATTR attr[SPR_MAX_ATTR_CNT] ALIGN(4);
+
+	u16  mask;			// テキストの色マスク
 
 } ST_SPR;
 
@@ -46,9 +47,6 @@ typedef struct {
 EWRAM_CODE void SprInit(void);
 EWRAM_CODE void SprExec(void);
 
-EWRAM_CODE void SprSetDatItem(void);
-EWRAM_CODE void SprSetChrItem(void);
-EWRAM_CODE void SprSetDat(u16* pTile, u32 tileSize, u16* pPal, u32 palSize);
 EWRAM_CODE void SprSetChr(u32 no, u32 x, u32 y, u16 tile, u16 shape, u16 size);
 EWRAM_CODE void SprShow(u32 no);
 EWRAM_CODE void SprHide(u32 no);

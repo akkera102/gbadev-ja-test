@@ -4,7 +4,7 @@
 #include "img.h"
 #include "bgm.h"
 #include "siori.h"
-#include "text.h"
+#include "txt.h"
 #include "se.h"
 
 
@@ -90,13 +90,13 @@ extern ST_NV Nv;
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvExecParse(void)
 {
-	Nv.isLoop = TRUE;
+	Nv.isLoop = true;
 
 	do
 	{
 		NvExecParseSub();
 
-	} while(Nv.isLoop == TRUE);
+	} while(Nv.isLoop == true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvExecParseSub(void)
@@ -106,13 +106,15 @@ EWRAM_CODE void NvExecParseSub(void)
 	TRACE("[%04X] ", n);
 	Nv.curAdr = n;
 
-	// テキスト or 命令セット
+	// テキストor命令セット
 
 	NvSetCurStr();
 
-	if(_IsSJIS(Nv.str[0]) == TRUE)
+	if(_IsSJIS(Nv.str[0]) == true)
 	{
-		NvExecParseText();
+		NvExecParseTxt();
+		Nv.isLoop = false;
+
 		return;
 	}
 
@@ -145,7 +147,41 @@ EWRAM_CODE void NvExecParseTitle(void)
 // 選択肢 0x24
 EWRAM_CODE void NvExecParseSel(void)
 {
-	_ASSERT(0);
+	TRACE("sel ");
+
+	Nv.sel.cnt = NvGetCurHex();
+	Nv.sel.msg = NvGetCurHex();
+	Nv.sel.num = -1;
+
+	TRACE("%x %x\n", Nv.sel.cnt, Nv.sel.msg);
+
+	s32 i;
+
+	for(i=0; i<Nv.sel.cnt; i++)
+	{
+		Nv.sel.item[i] = NvGetCurHex();
+		Nv.sel.jump[i] = NvGetCurHex();
+	}
+
+	Nv.sel.pSrc   = Nv.pCur;
+	Nv.sel.srcAdr = Nv.curAdr;
+
+
+	for(i=0; i<Nv.sel.cnt; i++)
+	{
+		NvSetMsg(Nv.sel.item[i]);
+
+		while(_IsSJIS(*Nv.pCur) == false)
+		{
+			Nv.pCur++;
+		}
+
+		Nv.sel.pStr[i] = Nv.pCur;
+	}
+
+	NvSetMsg(Nv.sel.msg);
+
+	Nv.isSel  = true;
 }
 //---------------------------------------------------------------------------
 // ジャンプファイル 0x28
@@ -241,7 +277,7 @@ EWRAM_CODE void NvExecParseDay(void)
 		NvAddFlag(NV_FLAG_DAY, 1);
 	}
 
-	NvSetFlag(NV_FLAG_WEEK, Mod(NvGetFlag(NV_FLAG_DAY) + 5, 7));
+	NvSetFlag(NV_FLAG_WEEK, DivMod(NvGetFlag(NV_FLAG_DAY) + 5, 7));
 }
 //---------------------------------------------------------------------------
 // 時間設定 0x33
@@ -533,7 +569,7 @@ EWRAM_CODE void NvExecParseLight(void)
 
 	NvSetEffectBefore(IMG_EFFECT_WHITE);
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // ホワイトアウト 0x77
@@ -543,7 +579,7 @@ EWRAM_CODE void NvExecParseWhiteOut(void)
 
 	NvSetEffectBefore(IMG_EFFECT_WHITE);
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // ホワイトイン 0x78
@@ -553,7 +589,7 @@ EWRAM_CODE void NvExecParseWhiteIn(void)
 
 	NvSetEffectAfter(IMG_EFFECT_WHITE);
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // BGM開始 0x80
@@ -563,7 +599,7 @@ EWRAM_CODE void NvExecParseBgm(void)
 
 	TRACE("bgm %x\n", n);
 
-	BgmPlay(n, TRUE);
+	BgmPlay(n, true);
 }
 //---------------------------------------------------------------------------
 // BGMフェード 0x81
@@ -597,7 +633,7 @@ EWRAM_CODE void NvExecParseBgm2(void)
 
 	TRACE("bgm2 %x\n", n);
 
-	BgmPlay(n, TRUE);
+	BgmPlay(n, true);
 }
 //---------------------------------------------------------------------------
 // BGM NEXT 0x88
@@ -660,6 +696,16 @@ EWRAM_CODE void NvExecParseEndMsg(void)
 	TRACE("endMsg\n");
 
 	Nv.pCur = Nv.pRet;
+
+	// 選択肢メッセージの場合
+	if(Nv.isSel == true)
+	{
+		Nv.isSel = false;
+		Nv.isLoop = false;
+
+		TxtSetPageNew();
+		NvSetAct(NV_ACT_SELECT);
+	}
 }
 //---------------------------------------------------------------------------
 // 改行 0xb0
@@ -678,7 +724,7 @@ EWRAM_CODE void NvExecParseKey(void)
 	Nv.act = NV_ACT_KEY;
 	Nv.step = 0;
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 改ページ 0xb3
@@ -686,12 +732,12 @@ EWRAM_CODE void NvExecParsePage(void)
 {
 	TRACE("page\n");
 
-	TextSetPage();
+	TxtSetPage();
 
 	Nv.act = NV_ACT_KEY;
 	Nv.step = 0;
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 文字描画速度変更 0xb6
@@ -707,13 +753,13 @@ EWRAM_CODE void NvExecParseTimeWait(void)
 
 	TRACE("timeWait %x\n", n);
 
-	if(Nv.isSkip == TRUE)
+	if(Nv.isSkip == true)
 	{
 		return;
 	}
 
 	Nv.wait = n * 10 / 16;		// n * 10ms / 16ms(vblank)
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 文字位置変更 0xb9
@@ -749,7 +795,7 @@ EWRAM_CODE void NvExecParseBg2(void)
 	ImgSetBg(n1);
 	NvSetEffectAfter(n3);
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // VISUALロード2 0xbf
@@ -765,7 +811,7 @@ EWRAM_CODE void NvExecParseVisLoad2(void)
 	ImgSetBgV(n1);
 	NvSetEffectAfter(n3);
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 /*
 	TODO
         // あかりの髪型処理
@@ -797,7 +843,7 @@ EWRAM_CODE void NvExecParseChrChg(void)
 	ImgSetChr(no, n1);
 	NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
 
-	Nv.isLoop = FALSE;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // キャラクタ表示 0xc2
@@ -857,12 +903,10 @@ EWRAM_CODE void NvExecParseSkip(void)
 }
 //---------------------------------------------------------------------------
 // テキスト
-EWRAM_CODE void NvExecParseText(void)
+EWRAM_CODE void NvExecParseTxt(void)
 {
 	TRACE("%s\n", Nv.str);
 
-	TextSetDraw(Nv.str);
-	NvSetEffectAfter(IMG_EFFECT_TEXT_ON);
-
-	Nv.isLoop = FALSE;
+	TxtSetDraw(Nv.str);
+	NvSetEffectAfter(IMG_EFFECT_TXT_ON);
 }

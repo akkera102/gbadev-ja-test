@@ -2,7 +2,7 @@
 #include "libmy/mode3.h"
 #include "libmy/fade.h"
 #include "file.h"
-#include "text.h"
+#include "txt.h"
 #include "nv.h"
 
 //---------------------------------------------------------------------------
@@ -23,30 +23,30 @@ EWRAM_CODE void ImgInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgExec(void)
 {
-	if(Img.isText == TRUE && NvIsSkip() == FALSE && NvIsRestart() == FALSE)
+	if(Img.isTxt == true && NvIsSkip() == false && NvIsRestart() == false)
 	{
-		ImgExecText();
+		ImgExecTxt();
 		return;
 	}
 
-	if(Img.isBefore == TRUE)
+	if(Img.isBefore == true)
 	{
 		ImgExecBefore();
 		return;
 	}
 
-	if(Img.isAfter == TRUE)
+	if(Img.isAfter == true)
 	{
 		ImgExecAfter();
 		return;
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ImgExecText(void)
+IWRAM_CODE void ImgExecTxt(void)
 {
 	if(Img.var1++ == 0)
 	{
-		TextHideMsg();
+		TxtHideMsg();
 	}
 
 	if(Img.var2++ < 2)
@@ -62,10 +62,10 @@ IWRAM_CODE void ImgExecText(void)
 		return;
 	}
 
-	Img.var1   = 0;
-	Img.var2   = 0;
-	Img.var3   = 0;
-	Img.isText = FALSE;
+	Img.var1  = 0;
+	Img.var2  = 0;
+	Img.var3  = 0;
+	Img.isTxt = false;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgExecBefore(void)
@@ -96,7 +96,7 @@ IWRAM_CODE void ImgExecBefore(void)
 		}
 
 		FadeSetBlack(0);
-		Img.isBefore = FALSE;
+		Img.isBefore = false;
 		break;
 
 	// 0x07
@@ -109,14 +109,14 @@ IWRAM_CODE void ImgExecBefore(void)
 
 		if(Img.var2 < 8)
 		{
-			// VCOUNT 167 -> 196
-//			TRACEOUT("S:%d\n", REG_VCOUNT);
+			// VCOUNT 160 -> 189
+			// TRACE("WIPE_LTOR S:%d\n", REG_VCOUNT);
 			Mode3DrawLineH(Img.var2++);
-//			TRACEOUT("E:%d\n", REG_VCOUNT);
+			// TRACE("WIPE_LTOR E:%d\n", REG_VCOUNT);
 		}
 		else
 		{
-			Img.isBefore = FALSE;
+			Img.isBefore = false;
 		}
 		break;
 
@@ -125,7 +125,7 @@ IWRAM_CODE void ImgExecBefore(void)
 //		ImgDrawBg();
 //		ImgDrawChr();
 //		Mode3SetDraw();
-		Img.isBefore = FALSE;
+		Img.isBefore = false;
 		break;
 
 	// 0x10
@@ -153,7 +153,7 @@ IWRAM_CODE void ImgExecBefore(void)
 		}
 
 		FadeSetWhite(0);
-		Img.isBefore = FALSE;
+		Img.isBefore = false;
 		break;
 
 	// 0x13
@@ -166,14 +166,14 @@ IWRAM_CODE void ImgExecBefore(void)
 
 		if(Img.var2 < 34)
 		{
-			// TODO 167 -> 201
-//			TRACEOUT("S:%d\n", REG_VCOUNT);
+			// VCOUNT 160 -> 194
+			// TRACE("WIPE_TTOB S:%d\n", REG_VCOUNT);
 			Mode3DrawWipeTtoB(Img.var2++);
-//			TRACEOUT("E:%d\n", REG_VCOUNT);
+			// TRACE("WIPE_TTOB E:%d\n", REG_VCOUNT);
 			return;
 		}
 
-		Img.isBefore = FALSE;
+		Img.isBefore = false;
 		break;
 
 	default:
@@ -210,10 +210,10 @@ IWRAM_CODE void ImgExecAfter(void)
 			return;
 		}
 
-		Img.isAfter = FALSE;
+		Img.isAfter = false;
 		break;
 
-	// 0x02 TODO
+	// 0x02
 	case IMG_EFFECT_FADE_MASK:
 		if(Img.var4++ == 0)
 		{
@@ -230,14 +230,14 @@ IWRAM_CODE void ImgExecAfter(void)
 
 		if(Img.var5 < 8)
 		{
-			// TODO VCOUNT 167 -> 217
-			// TRACE("S:%d\n", REG_VCOUNT);
+			// VCOUNT 160 -> 210
+			// TRACE("FADE_MASK S:%d\n", REG_VCOUNT);
 			Mode3DrawFadeMask(Img.var5++);
-			// TRACE("E:%d\n", REG_VCOUNT);
+			// TRACE("FADE_MASK E:%d\n", REG_VCOUNT);
 			return;
 		}
 
-		Img.isAfter = FALSE;
+		Img.isAfter = false;
 		break;
 
 	// 0x07
@@ -257,14 +257,14 @@ IWRAM_CODE void ImgExecAfter(void)
 
 		if(Img.var5 < 8)
 		{
-			// TODO ‚¬‚è‚¬‚è VCOUNT 167 -> 227
-//			TRACEOUT("S:%d\n", REG_VCOUNT);
+			// VCOUNT 160 -> 220
+			// TRACE("WIPE_LTOR S:%d\n", REG_VCOUNT);
 			Mode3DrawCopyH(Img.var5++);
-//			TRACEOUT("E:%d\n", REG_VCOUNT);
+			// TRACE("WIPE_LTOR E:%d\n", REG_VCOUNT);
 			return;
 		}
 
-		Img.isAfter = FALSE;
+		Img.isAfter = false;
 		break;
 
 	// 0x08
@@ -273,7 +273,7 @@ IWRAM_CODE void ImgExecAfter(void)
 		ImgDrawChr();
 		Mode3SetDraw();
 
-		Img.isAfter = FALSE;
+		Img.isAfter = false;
 		break;
 
 	// 0x10
@@ -300,11 +300,11 @@ IWRAM_CODE void ImgExecAfter(void)
 			return;
 		}
 
-		Img.isAfter = FALSE;
+		Img.isAfter = false;
 		break;
 
 	// 0x11
-	case IMG_EFFECT_TEXT_ON:
+	case IMG_EFFECT_TXT_ON:
 		if(Img.var4++ < 2)
 		{
 			return;
@@ -317,16 +317,16 @@ IWRAM_CODE void ImgExecAfter(void)
 			return;
 		}
 
-		Img.isText = TRUE;
-		Img.isAfter = FALSE;
+		Img.isTxt = true;
+		Img.isAfter = false;
 		break;
 
 	// 0x12
-	case IMG_EFFECT_TEXT_ON_FAST:
+	case IMG_EFFECT_TXT_ON_FAST:
 		FadeSetBlack(Img.fadeMax);
 
-		Img.isText = TRUE;
-		Img.isAfter = FALSE;
+		Img.isTxt = true;
+		Img.isAfter = false;
 		break;
 
 
@@ -424,7 +424,6 @@ EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
 	TRACE("[ImgSetChr no=%x pos=%x]\n", no, pos);
 
 	_ASSERT(pos <= IMG_CHR_ALL);
-
 	Img.chr[pos] = no;
 }
 //---------------------------------------------------------------------------
@@ -436,12 +435,12 @@ EWRAM_CODE void ImgSetEffectBefore(u8 no)
 	Img.var2     = 0;
 	Img.var3     = 0;
 	Img.before   = no;
-	Img.isBefore = TRUE;
+	Img.isBefore = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetEffectAfter(u8 no)
 {
-	if(Img.isText == TRUE && no == IMG_EFFECT_TEXT_ON)
+	if(Img.isTxt == true && no == IMG_EFFECT_TXT_ON)
 	{
 		return;
 	}
@@ -452,7 +451,7 @@ EWRAM_CODE void ImgSetEffectAfter(u8 no)
 	Img.var5    = 0;
 	Img.var6    = 0;
 	Img.after   = no;
-	Img.isAfter = TRUE;
+	Img.isAfter = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgShowWindow(void)
@@ -483,7 +482,7 @@ EWRAM_CODE u32 ImgGetFadeMax(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgRestart(void)
 {
-	Img.isText = FALSE;
+	Img.isTxt = false;
 
-	ImgSetEffectAfter(IMG_EFFECT_TEXT_ON);
+	ImgSetEffectAfter(IMG_EFFECT_TXT_ON);
 }

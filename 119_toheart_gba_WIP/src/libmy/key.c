@@ -11,7 +11,6 @@ EWRAM_CODE void KeyInit(void)
 	_Memset(&Key, 0x00, sizeof(ST_KEY));
 }
 //---------------------------------------------------------------------------
-// vblank中に1回だけ呼び出します（チャタリング防止）
 IWRAM_CODE void KeyExec(void)
 {
 	u32 cnt = REG_KEYINPUT;
@@ -22,7 +21,7 @@ IWRAM_CODE void KeyExec(void)
 	Key.cnt = cnt;
 
 
-	// キーリピート
+	// key repeat
 	if(Key.trg & DPAD || Key.repCnt == 0)
 	{
 		Key.rep = Key.cnt;
@@ -43,22 +42,22 @@ IWRAM_CODE void KeyExec(void)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE u32 KeyGetCnt(void)
+EWRAM_CODE u32 KeyGetCnt(void)
 {
 	return Key.cnt;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE u32 KeyGetTrg(void)
+EWRAM_CODE u32 KeyGetTrg(void)
 {
 	return Key.trg;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE u32 KeyGetOff(void)
+EWRAM_CODE u32 KeyGetOff(void)
 {
 	return Key.off;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE u32 KeyGetRep(void)
+EWRAM_CODE u32 KeyGetRep(void)
 {
 	return Key.rep;
 }

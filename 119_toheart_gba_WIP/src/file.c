@@ -57,7 +57,7 @@ EWRAM_CODE u8* FileGetScn(u32 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE u8* FileGetBg(u32 no)
 {
-	u32 m = Mod(no, 50);
+	u32 m = DivMod(no, 50);
 	u32 d = Div(no, 50);
 
 	char buf[20];

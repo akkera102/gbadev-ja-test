@@ -21,7 +21,7 @@ EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 	Vgm.isLoop = isLoop;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void VgmStop(void)
+EWRAM_CODE void VgmStop(void)
 {
 	Vgm.id = VGM_ID_STOP;
 
@@ -89,7 +89,7 @@ IWRAM_CODE void VgmIntrVblank(void)
 
 		if(cmd == VGM_CMD_EOM)
 		{
-			if(Vgm.isLoop == FALSE)
+			if(Vgm.isLoop == false)
 			{
 				VgmStop();
 
@@ -114,5 +114,5 @@ IWRAM_CODE void VgmIntrVblank(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool VgmIsEnd(void)
 {
-	return (Vgm.id == VGM_ID_STOP) ? TRUE : FALSE;
+	return (Vgm.id == VGM_ID_STOP) ? true : false;
 }

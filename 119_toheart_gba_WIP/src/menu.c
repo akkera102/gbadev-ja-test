@@ -1,7 +1,7 @@
 #include "menu.h"
 #include "libmy/key.h"
 #include "manage.h"
-#include "text.h"
+#include "txt.h"
 #include "siori.h"
 #include "nv.h"
 #include "log.h"
@@ -69,7 +69,7 @@ EWRAM_CODE void MenuExec(void)
 			Menu.sel = 0;
 		}
 
-		Menu.isDraw = TRUE;
+		Menu.isDraw = true;
 	}
 
 	if(rep & KEY_UP)
@@ -83,16 +83,16 @@ EWRAM_CODE void MenuExec(void)
 			Menu.sel = Menu.reg - 1;
 		}
 
-		Menu.isDraw = TRUE;
+		Menu.isDraw = true;
 	}
 
 
-	if(Menu.isDraw == TRUE)
+	if(Menu.isDraw == true)
 	{
-		Menu.isDraw = FALSE;
+		Menu.isDraw = false;
 
-		TextSetCur(FALSE);
-		TextSetChr();
+		TxtSetCur(false);
+		TxtSetChr();
 	}
 }
 //---------------------------------------------------------------------------
@@ -100,9 +100,8 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 {
 	if(trg & KEY_B)
 	{
-		TextSetChr();
-		TextSetCur(TRUE);
-		TextSetRes();
+		TxtSetChr();
+		TxtSetRes();
 
 		ManageSetNovel();
 		return;
@@ -119,21 +118,21 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 	case 0:
 		NvSetNext();
 
-		TextSetChr();
-		TextSetRes();
+		TxtSetChr();
+		TxtSetRes();
 
 		ManageSetNovel();
 		break;
 
 	// 文字を消す
 	case 1:
-		TextHideWindow();
+		TxtHideWindow();
 		MenuSetNone();
 		break;
 
 	// シナリオ回想
 	case 2:
-		if(LogIsEmpty() == FALSE)
+		if(LogIsEmpty() == false)
 		{
 			LogSetInit(LOG_RET_SYSTEM);
 			ManageSetLog();
@@ -174,20 +173,20 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 	{
 	// 文字ウェイト
 	case 0: ;
-		s32 wait = TextGetWaitMax();
+		s32 wait = TxtGetWaitMax();
 
 		if(trg & KEY_LEFT && wait != 0)
 		{
 			wait--;
-			TextSetWaitMax(wait);
-			Menu.isDraw = TRUE;
+			TxtSetWaitMax(wait);
+			Menu.isDraw = true;
 		}
 
 		if(trg & KEY_RIGHT && wait < 3)
 		{
 			wait++;
-			TextSetWaitMax(wait);
-			Menu.isDraw = TRUE;
+			TxtSetWaitMax(wait);
+			Menu.isDraw = true;
 		}
 		break;
 
@@ -199,14 +198,14 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 		{
 			fade--;
 			ImgSetFadeMax(fade);
-			Menu.isDraw = TRUE;
+			Menu.isDraw = true;
 		}
 
 		if(trg & KEY_RIGHT && fade < 16)
 		{
 			fade++;
 			ImgSetFadeMax(fade);
-			Menu.isDraw = TRUE;
+			Menu.isDraw = true;
 		}
 		break;
 
@@ -226,9 +225,8 @@ EWRAM_CODE void MenuExecSave(u16 trg)
 	{
 		SioriSave(Menu.sel);
 
-		TextSetChr();
-		TextSetCur(TRUE);
-		TextSetRes();
+		TxtSetChr();
+		TxtSetRes();
 
 		ManageSetNovel();
 		return;
@@ -249,7 +247,7 @@ EWRAM_CODE void MenuExecLoad(u16 trg)
 		return;
 	}
 
-	if(SioriLoad(Menu.sel) == FALSE)
+	if(SioriLoad(Menu.sel) == false)
 	{
 		return;
 	}
@@ -263,7 +261,7 @@ EWRAM_CODE void MenuExecNone(u16 trg)
 	if(trg & KEY_B)
 	{
 		MenuSetSystem(MENU_SYSTEM_SEL_NONE);
-		TextShowWindow();
+		TxtShowWindow();
 	}
 }
 //---------------------------------------------------------------------------
@@ -280,27 +278,27 @@ EWRAM_CODE void MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* 
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetSystem(s32 sel)
 {
-	MenuSetInit(MENU_TYPE_SYSTEM, MENU_RET_NONE, sel, 0, 7, MenuExecSystem, TRUE);
+	MenuSetInit(MENU_TYPE_SYSTEM, MENU_RET_NONE, sel, 0, 7, MenuExecSystem, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetOption(void)
 {
-	MenuSetInit(MENU_TYPE_OPTION, MENU_RET_SYSTEM, 0, 8, 2, MenuExecOption, TRUE);
+	MenuSetInit(MENU_TYPE_OPTION, MENU_RET_SYSTEM, 0, 8, 2, MenuExecOption, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetSave(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 11, 8, MenuExecSave, TRUE);
+	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 11, 8, MenuExecSave, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetLoad(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 12, 8, MenuExecLoad, TRUE);
+	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 12, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void  MenuSetNone(void)
 {
-	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 13, 0, MenuExecNone, FALSE);
+	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 13, 0, MenuExecNone, false);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE char* MenuGetSelStr(s32 sel)
@@ -318,7 +316,7 @@ EWRAM_CODE char* MenuGetSelStr(s32 sel)
 
 		if(sel == 1)
 		{
-			max = TextGetWaitMax();
+			max = TxtGetWaitMax();
 		}
 		else
 		{
@@ -327,7 +325,7 @@ EWRAM_CODE char* MenuGetSelStr(s32 sel)
 
 		// 0x82 0x4f = SJISコード「０」
 		Menu.buf[17] = 0x4f + Div(max, 10);
-		Menu.buf[19] = 0x4f + Mod(max, 10);
+		Menu.buf[19] = 0x4f + DivMod(max, 10);
 
 		return Menu.buf;
 	}

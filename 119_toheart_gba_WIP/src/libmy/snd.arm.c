@@ -1,4 +1,4 @@
-#include "snd.h"
+#include "snd.arm.h"
 
 // Timer1 SE
 // DMA2   SE
@@ -16,7 +16,7 @@ EWRAM_CODE void SndInit(void)
 //	REG_SOUNDCNT_L = 0;
 	REG_SOUNDCNT_H |= SNDB_VOL_50 | DSOUNDCTRL_BTIMER(1) | SNDB_RESET_FIFO;
 
-	REG_TM1CNT_L   = 0xffff - (SND_CPU_CLOCK / SND_AUDIO_RATE);
+	REG_TM1CNT_L = 0x10000 - (SND_CPU_CLOCK / SND_AUDIO_RATE);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SndPlay(u8* data, u32 size, s32 adjust, u32 loop)
@@ -26,7 +26,7 @@ EWRAM_CODE void SndPlay(u8* data, u32 size, s32 adjust, u32 loop)
 	Snd.size      = size;
 	Snd.frameSize = (size * 60) / SND_AUDIO_RATE + adjust;
 	Snd.loop      = loop;
-	Snd.isLoop    = (loop == 0) ? TRUE : FALSE;
+	Snd.isLoop    = (loop == 0) ? true : false;
 	Snd.act       = SND_ACT_START;
 }
 //---------------------------------------------------------------------------
@@ -52,32 +52,35 @@ IWRAM_CODE void SndIntrVblank(void)
 	{
 	case SND_ACT_START:
 		SndIntrVblankStart();
-		break;
+		return;
 
 	case SND_ACT_PLAY:
+
 		Snd.cnt--;
 
-		if(Snd.cnt <= 0)
+		if(Snd.cnt > 0)
 		{
-			if(Snd.isLoop == TRUE)
-			{
-				SndIntrVblankStart();
-			}
-			else
-			{
-				Snd.loop--;
-
-				if(Snd.loop != 0)
-				{
-					SndIntrVblankStart();
-				}
-				else
-				{
-					SndStop();
-				}
-			}
+			return;
 		}
-		break;
+
+		if(Snd.isLoop == true)
+		{
+			SndIntrVblankStart();
+
+			return;
+		}
+
+		Snd.loop--;
+
+		if(Snd.loop != 0)
+		{
+			SndIntrVblankStart();
+		}
+		else
+		{
+			SndStop();
+		}
+		return;
 
 	default:
 		SystemError("[Err] SndIntrSe");
@@ -100,5 +103,5 @@ IWRAM_CODE void SndIntrVblankStart(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SndIsEnd(void)
 {
-	return (Snd.act == SND_ACT_STOP) ? TRUE : FALSE;
+	return (Snd.act == SND_ACT_STOP) ? true : false;
 }

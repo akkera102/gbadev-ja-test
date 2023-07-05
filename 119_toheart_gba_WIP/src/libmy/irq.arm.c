@@ -1,6 +1,6 @@
 #include "irq.arm.h"
 #include "vgm.arm.h"
-#include "snd.h"
+#include "snd.arm.h"
 
 //---------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ EWRAM_CODE void IrqInit(void)
 {
 	REG_IME = 0;
 
-	INT_VECTOR   = (u32)IrqHandler;
+	INT_VECTOR   = (void*)IrqHandler;
 	REG_IE       = IRQ_VBLANK;
 	REG_DISPSTAT = LCDC_VBL;
 

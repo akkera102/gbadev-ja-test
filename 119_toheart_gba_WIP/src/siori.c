@@ -2,7 +2,7 @@
 #include "libmy/sav.h"
 
 #include "nv.h"
-#include "text.h"
+#include "txt.h"
 #include "img.h"
 #include "bgm.h"
 
@@ -10,7 +10,7 @@
 #include "log.h"
 
 
-// フラグ　　　0x0000 - 0x0FFF
+// ヘッダ　　　0x0000 - 0x0004
 // データ１　　0x1000 - 0x1FFF
 // データ２　　0x2000 - 0x2FFF
 // （中略）
@@ -19,10 +19,10 @@
 
 //---------------------------------------------------------------------------
 // 例外参照
-extern ST_NV   Nv;
-extern ST_TEXT Text;
-extern ST_IMG  Img;
-extern ST_BGM  Bgm;
+extern ST_NV  Nv;
+extern ST_TXT Txt;
+extern ST_IMG Img;
+extern ST_BGM Bgm;
 
 
 //---------------------------------------------------------------------------
@@ -34,30 +34,38 @@ EWRAM_CODE void SioriInit(void)
 {
 	_Memset(&Siori, 0x00, sizeof(ST_SIORI));
 
-	Siori.size = 2 + sizeof(ST_NV) + sizeof(ST_TEXT) + sizeof(ST_IMG) + sizeof(ST_BGM);
+	Siori.size = 2 + sizeof(ST_NV) + sizeof(ST_TXT) + sizeof(ST_IMG) + sizeof(ST_BGM);
 
 	TRACE("[SioriSize:%x]\n", Siori.size);
 	_ASSERT(Siori.size < SIORI_MAX_SIZE);
 
 
-	if(SioriIsInit() == TRUE)
+	if(SioriIsInit() == true)
 	{
 		return;
 	}
 
 	// 初回設定
-	if(SavIsFlash() == TRUE)
+	if(SavIsFlash() == true)
 	{
-		SavFlashEraseSector(0);
-		SavFlashWrite(0, 'T');
-		SavFlashWrite(1, 'H');
-		SavFlashWrite(2, SIORI_TYPE_FLASH);
+		TRACE("[SaveChip: Flash]\n");
+
+		SavWriteFlashEraseSector(0);
+		SavWriteFlash(0, 'T');
+		SavWriteFlash(1, 'H');
+		SavWriteFlash(2, SIORI_TYPE_FLASH);
+		SavWriteFlash(3, 0x00);
+		SavWriteFlash(4, 0x00);
 	}
 	else
 	{
-		SavFlashWrite(0, 'T');
-		SavFlashWrite(1, 'H');
-		SavFlashWrite(2, SIORI_TYPE_SRAM);
+		TRACE("[SaveChip: SRAM]\n");
+
+		SavWriteSram(0, 'T');
+		SavWriteSram(1, 'H');
+		SavWriteSram(2, SIORI_TYPE_SRAM);
+		SavWriteSram(3, 0x00);
+		SavWriteSram(4, 0x00);
 	}
 }
 //---------------------------------------------------------------------------
@@ -66,55 +74,13 @@ EWRAM_CODE void SioriSave(u32 no)
 	TRACE("[SioriSave:%x]\n", no);
 	_ASSERT(no < SIORI_MAX_CNT);
 
-	if(SavSramRead(2) == SIORI_TYPE_SRAM)
-	{
-		SioriSaveSram(no);
-	}
-	else
+	if(SavReadSram(2) == SIORI_TYPE_FLASH)
 	{
 		SioriSaveFlash(no);
 	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void  SioriSaveSram(u32 no)
-{
-	u32 adr = 0x1000 + 0x1000 * no;
-	u32 i;
-	u8* p;
-
-	SavSramWrite(0, 'T');
-	SavSramWrite(1, 'H');
-	SavSramWrite(2, SIORI_TYPE_SRAM);
-
-	// フラグ
-	// TODO
-
-	// データ
-	SavSramWrite(adr++, 'S');
-	SavSramWrite(adr++, 'I');
-
-	p = (u8*)&Nv;
-	for(i=0; i<sizeof(ST_NV); i++)
+	else
 	{
-		SavSramWrite(adr++, *p++);
-	}
-
-	p = (u8*)&Text;
-	for(i=0; i<sizeof(ST_TEXT); i++)
-	{
-		SavSramWrite(adr++, *p++);
-	}
-
-	p = (u8*)&Img;
-	for(i=0; i<sizeof(ST_IMG); i++)
-	{
-		SavSramWrite(adr++, *p++);
-	}
-
-	p = (u8*)&Bgm;
-	for(i=0; i<sizeof(ST_BGM); i++)
-	{
-		SavSramWrite(adr++, *p++);
+		SioriSaveSram(no);
 	}
 }
 //---------------------------------------------------------------------------
@@ -124,41 +90,82 @@ EWRAM_CODE void  SioriSaveFlash(u32 no)
 	u32 i;
 	u8* p;
 
-	SavFlashEraseSector(0);
-	SavFlashWrite(0, 'T');
-	SavFlashWrite(1, 'H');
-	SavFlashWrite(2, SIORI_TYPE_FLASH);
-
-	// フラグ
-	// TODO
+	// ヘッダ
+	SavWriteFlashEraseSector(0);
+	SavWriteFlash(0, 'T');
+	SavWriteFlash(1, 'H');
+	SavWriteFlash(2, SIORI_TYPE_FLASH);
+	SavWriteFlash(3, Nv.flag[0x50]);
+	SavWriteFlash(4, Nv.flag[0x51]);
 
 	// データ
-	SavFlashEraseSector(1 + no);
-	SavFlashWrite(adr++, 'S');
-	SavFlashWrite(adr++, 'I');
+	SavWriteFlashEraseSector(1 + no);
+	SavWriteFlash(adr++, 'S');
+	SavWriteFlash(adr++, 'I');
 
 	p = (u8*)&Nv;
 	for(i=0; i<sizeof(ST_NV); i++)
 	{
-		SavFlashWrite(adr++, *p++);
+		SavWriteFlash(adr++, *p++);
 	}
 
-	p = (u8*)&Text;
-	for(i=0; i<sizeof(ST_TEXT); i++)
+	p = (u8*)&Txt;
+	for(i=0; i<sizeof(ST_TXT); i++)
 	{
-		SavFlashWrite(adr++, *p++);
+		SavWriteFlash(adr++, *p++);
 	}
 
 	p = (u8*)&Img;
 	for(i=0; i<sizeof(ST_IMG); i++)
 	{
-		SavFlashWrite(adr++, *p++);
+		SavWriteFlash(adr++, *p++);
 	}
 
 	p = (u8*)&Bgm;
 	for(i=0; i<sizeof(ST_BGM); i++)
 	{
-		SavFlashWrite(adr++, *p++);
+		SavWriteFlash(adr++, *p++);
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void  SioriSaveSram(u32 no)
+{
+	u32 adr = 0x1000 + 0x1000 * no;
+	u32 i;
+	u8* p;
+
+	SavWriteSram(0, 'T');
+	SavWriteSram(1, 'H');
+	SavWriteSram(2, SIORI_TYPE_SRAM);
+	SavWriteSram(3, Nv.flag[0x50]);
+	SavWriteSram(4, Nv.flag[0x51]);
+
+	// データ
+	SavWriteSram(adr++, 'S');
+	SavWriteSram(adr++, 'I');
+
+	p = (u8*)&Nv;
+	for(i=0; i<sizeof(ST_NV); i++)
+	{
+		SavWriteSram(adr++, *p++);
+	}
+
+	p = (u8*)&Txt;
+	for(i=0; i<sizeof(ST_TXT); i++)
+	{
+		SavWriteSram(adr++, *p++);
+	}
+
+	p = (u8*)&Img;
+	for(i=0; i<sizeof(ST_IMG); i++)
+	{
+		SavWriteSram(adr++, *p++);
+	}
+
+	p = (u8*)&Bgm;
+	for(i=0; i<sizeof(ST_BGM); i++)
+	{
+		SavWriteSram(adr++, *p++);
 	}
 }
 //---------------------------------------------------------------------------
@@ -166,17 +173,14 @@ EWRAM_CODE bool SioriLoad(u32 no)
 {
 	TRACE("[SioriLoad:%x]\n", no);
 
-	if(SioriIsItem(no) == FALSE)
+	if(SioriIsItem(no) == false)
 	{
 		TRACE("[Failure]\n");
-		return FALSE;
+		return false;
 	}
 
 	u32 i;
 	u8* p;
-
-	// フラグ
-	// TODO
 
 	// データ
 	u32 adr = 0x1000 + 0x1000 * no + 2;
@@ -184,58 +188,63 @@ EWRAM_CODE bool SioriLoad(u32 no)
 	p = (u8*)&Nv;
 	for(i=0; i<sizeof(ST_NV); i++)
 	{
-		*p++ = SavSramRead(adr++);
+		*p++ = SavReadSram(adr++);
 	}
 
-	p = (u8*)&Text;
-	for(i=0; i<sizeof(ST_TEXT); i++)
+	p = (u8*)&Txt;
+	for(i=0; i<sizeof(ST_TXT); i++)
 	{
-		*p++ = SavSramRead(adr++);
+		*p++ = SavReadSram(adr++);
 	}
 
 	p = (u8*)&Img;
 	for(i=0; i<sizeof(ST_IMG); i++)
 	{
-		*p++ = SavSramRead(adr++);
+		*p++ = SavReadSram(adr++);
 	}
 
 	p = (u8*)&Bgm;
 	for(i=0; i<sizeof(ST_BGM); i++)
 	{
-		*p++ = SavSramRead(adr++);
+		*p++ = SavReadSram(adr++);
 	}
 
-	return TRUE;
+	// フラグ
+	SioriLoadFlag();
+
+	return true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriLoadFlag(void)
 {
-	// TODO 共通フラグ
 	TRACE("[SioriLoadFlag]");
+
+	Nv.flag[0x50] = SavReadSram(3);
+	Nv.flag[0x51] = SavReadSram(4);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE char* SioriGetStr(u32 no)
 {
-	if(SioriIsItem(no) == FALSE)
+	if(SioriIsItem(no) == false)
 	{
 		return "－－－－－－－－－－－";
 	}
 
-	return (char*)SavGetPointer(0x1000 + 0x1000 * no + 2 + sizeof(ST_NV) + sizeof(ST_TEXT) - TEXT_SIORI_SIZE);
+	return (char*)SavGetPointer(0x1000 + 0x1000 * no + 2 + sizeof(ST_NV) + sizeof(ST_TXT) - TXT_SIORI_SIZE);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SioriIsInit(void)
 {
-	if(SavSramRead(0) != 'T') return FALSE;
-	if(SavSramRead(1) != 'H') return FALSE;
+	if(SavReadSram(0) != 'T') return false;
+	if(SavReadSram(1) != 'H') return false;
 
-	return TRUE;
+	return true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SioriIsItem(u32 no)
 {
-	if(SavSramRead(0x1000 + 0x1000 * no + 0) != 'S') return FALSE;
-	if(SavSramRead(0x1000 + 0x1000 * no + 1) != 'I') return FALSE;
+	if(SavReadSram(0x1000 + 0x1000 * no + 0) != 'S') return false;
+	if(SavReadSram(0x1000 + 0x1000 * no + 1) != 'I') return false;
 
-	return TRUE;
+	return true;
 }

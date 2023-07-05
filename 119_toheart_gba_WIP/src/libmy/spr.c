@@ -1,54 +1,24 @@
 #include "spr.h"
-#include "bios.h"
+#include "mem.h"
 #include "sjis.h"
 #include "../res.h"
 
 
 //---------------------------------------------------------------------------
-ST_SPR Spr;
+ST_SPR Spr EWRAM_BSS;
 
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprInit(void)
 {
-	BiosCpuSetFixClear(&Spr, sizeof(ST_SPR));
-	BiosCpuSetFixClear(BITMAP_OBJ_BASE_ADR, 0x20 * 512);
+	MemClear(&Spr, sizeof(ST_SPR));
+	MemClear(BITMAP_OBJ_BASE_ADR, 0x20 * 512);
 
+	// cursor spr chr + pal
+	MemInc((u16*)spr_itemTiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE, spr_itemTilesLen);
+	MemInc((u16*)spr_itemPal, OBJ_COLORS, spr_itemPalLen);
 
-	SprSetDatItem();
-	SprSetChrItem();
-	SprSetImgWhite();
-
-	REG_DISPCNT |= (OBJ_ON | OBJ_1D_MAP);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprExec(void)
-{
-	if(Spr.isDrawChr == TRUE)
-	{
-//		BiosCpuSet(Spr.attr, OAM, sizeof(ST_SPR_ATTR) * SPR_MAX_ATTR_CNT);
-		dmaCopy(Spr.attr, OAM, sizeof(ST_SPR_ATTR) * SPR_MAX_ATTR_CNT);
-
-		Spr.isDrawChr = FALSE;
-	}
-
-	if(Spr.isDrawDat == TRUE)
-	{
-//		BiosCpuSet(Spr.dat, BITMAP_OBJ_BASE_ADR, SPR_MAX_DAT_SIZE);
-		dmaCopy(Spr.dat, BITMAP_OBJ_BASE_ADR, SPR_MAX_DAT_SIZE);
-
-		Spr.isDrawDat = FALSE;
-	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprSetDatItem(void)
-{
-	SprSetDat((u16*)spr_itemTiles, spr_itemTilesLen, (u16*)spr_itemPal, spr_itemPalLen);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprSetChrItem(void)
-{
-	// Font Buffer
+	// font buffer
 	SprSetChr(0,  18,  22,  512, ATTR0_SQUARE, ATTR1_SIZE_64);
 	SprSetChr(1,  82,  22,  576, ATTR0_SQUARE, ATTR1_SIZE_64);
 	SprSetChr(2, 146,  22,  640, ATTR0_SQUARE, ATTR1_SIZE_64);
@@ -61,74 +31,88 @@ EWRAM_CODE void SprSetChrItem(void)
 	SprSetChr(8, 210,  86,  912, ATTR0_TALL,   ATTR1_SIZE_32);
 	SprSetChr(9, 210, 118,  920, ATTR0_TALL,   ATTR1_SIZE_32);
 
-	// Cursor
-	SprSetChr(10, 240, 160, 1020, ATTR0_WIDE,   ATTR1_SIZE_8);
-	SprSetChr(11, 240, 160, 1022, ATTR0_WIDE,   ATTR1_SIZE_8);
+	// cursor
+	SprSetChr(10, 240, 160, 936, ATTR0_WIDE,   ATTR1_SIZE_8);
+	SprSetChr(11, 240, 160, 938, ATTR0_WIDE,   ATTR1_SIZE_8);
+
+
+	SprSetImgWhite();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprSetDat(u16* pTile, u32 tileSize, u16* pPal, u32 palSize)
+EWRAM_CODE void SprExec(void)
 {
-	BiosCpuSet(pTile, BITMAP_OBJ_BASE_ADR + 0x20 * (1020 - 512), tileSize);
-	BiosCpuSet(pPal, OBJ_COLORS, palSize);
+	if(Spr.isDrawOam == true)
+	{
+		MemInc(Spr.oam, OAM, sizeof(Spr.oam));
+
+		Spr.isDrawOam = false;
+	}
+
+	if(Spr.isDrawDat == true)
+	{
+		MemInc(Spr.dat, BITMAP_OBJ_BASE_ADR, sizeof(Spr.dat));
+
+		Spr.isDrawDat = false;
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprSetChr(u32 no, u32 x, u32 y, u16 tile, u16 shape, u16 size)
 {
-	Spr.attr[no].d0 = (y & 0x00ff) | ATTR0_COLOR_16 | shape;
-	Spr.attr[no].d1 = (x & 0x01ff) | size;
-	Spr.attr[no].d2 = tile | ATTR2_PRIORITY(0);
+	Spr.oam[no].d0 = (y & 0x00ff) | ATTR0_COLOR_16 | shape;
+	Spr.oam[no].d1 = (x & 0x01ff) | size;
+	Spr.oam[no].d2 = tile | ATTR2_PRIORITY(0);
 
-	Spr.isDrawChr = TRUE;
+	Spr.isDrawOam = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprShow(u32 no)
 {
-	Spr.attr[no].d0 &= ~ATTR0_DISABLED;
+	Spr.oam[no].d0 &= ~ATTR0_DISABLED;
 
-	Spr.isDrawChr = TRUE;
+	Spr.isDrawOam = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprHide(u32 no)
 {
-	Spr.attr[no].d0 |= ATTR0_DISABLED;
+	Spr.oam[no].d0 |= ATTR0_DISABLED;
 
-	Spr.isDrawChr = TRUE;
+	Spr.isDrawOam = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprMove(u32 no, u32 x, u32 y)
 {
-	Spr.attr[no].d0 &= 0xff00;
-	Spr.attr[no].d1 &= 0xfe00;
+	Spr.oam[no].d0 &= 0xff00;
+	Spr.oam[no].d1 &= 0xfe00;
 
-	Spr.attr[no].d0 |= (y & 0x00ff);
-	Spr.attr[no].d1 |= (x & 0x01ff);
+	Spr.oam[no].d0 |= (y & 0x00ff);
+	Spr.oam[no].d1 |= (x & 0x01ff);
 
-	Spr.isDrawChr = TRUE;
+	Spr.isDrawOam = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprClearDat(void)
 {
-	BiosCpuSetFastFixClear(Spr.dat, SPR_MAX_DAT_SIZE);
+	MemClear(Spr.dat, SPR_MAX_DAT_SIZE);
 
-	Spr.isDrawDat = TRUE;
+	Spr.isDrawDat = true;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprDrawDatChr(u32 x, u32 y, u16 code)
 {
 	u16* pS = SjisGetImgPointer(code);
-	s32 i, j;
+	s32 ix, iy;
 
-	for(j=0; j<10; j++)
+	for(iy=0; iy<10; iy++)
 	{
-		for(i=0; i<3; i++)
+		for(ix=0; ix<3; ix++)
 		{
-			u16* pD = (u16*)(Spr.dat + spr_table_bin[(x * 3) + i + (y * 52 * 12) + (j * 52)]);
+			u16* pD = (u16*)(Spr.dat + tbl_spr1d_bin[(x * 3) + ix + (y * 52 * 12) + (iy * 52)]);
 
 			*pD++ = *pS++ & Spr.mask;
 		}
 	}
 
-	Spr.isDrawDat = TRUE;
+	Spr.isDrawDat = true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprSetImgWhite(void)
@@ -143,7 +127,7 @@ EWRAM_CODE void SprSetImgGray(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SprIsImgWhite(void)
 {
-	return (Spr.mask == SPR_FONT_MASK_WHITE) ? TRUE : FALSE;
+	return (Spr.mask == SPR_FONT_MASK_WHITE) ? true : false;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SprShowCursor(void)

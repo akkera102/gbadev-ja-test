@@ -6,10 +6,10 @@ extern "C" {
 
 
 #include "libgba/gba.h"
-#include "text.h"
+#include "txt.h"
 
 //---------------------------------------------------------------------------
-#define MENU_BUF_SIZE			(TEXT_SCREEN_CX*2)
+#define MENU_BUF_SIZE			(TXT_SCREEN_CX*2)
 
 enum {
 	MENU_ACT_DRAW,

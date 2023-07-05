@@ -1,6 +1,6 @@
 #include "log.h"
 #include "libmy/key.h"
-#include "libmy/bios.h"
+#include "libmy/mem.h"
 #include "manage.h"
 #include "menu.h"
 
@@ -26,16 +26,15 @@ End:
 		// 戻り先：ノベル or システムメニュー
 		if(Log.ret == LOG_RET_NOVEL)
 		{
-			TextSetChr();
-			TextSetCur(TRUE);
-			TextSetRes();
+			TxtSetChr();
+			TxtSetRes();
 
 			ManageSetNovel();
 		}
 		else
 		{
-			TextClearDat();
-			TextSetChr();
+			TxtClearDat();
+			TxtSetChr();
 
 			MenuSetSystem(MENU_SYSTEM_SEL_LOG);
 
@@ -47,10 +46,10 @@ End:
 
 	if(rep & KEY_LEFT)
 	{
-		if((Log.sel+1) < Log.reg)
+		if((Log.sel+1) < Log.cnt)
 		{
 			Log.sel++;
-			Log.isDraw = TRUE;
+			Log.isDraw = true;
 		}
 	}
 
@@ -59,24 +58,24 @@ End:
 		if(Log.sel != 0)
 		{
 			Log.sel--;
-			Log.isDraw = TRUE;
+			Log.isDraw = true;
 		}
 
 		goto End;
 	}
 
-	if(Log.isDraw == TRUE)
+	if(Log.isDraw == true)
 	{
-		Log.isDraw = FALSE;
+		Log.isDraw = false;
 
-		TextSetCur(FALSE);
-		TextSetChr();
+		TxtSetCur(false);
+		TxtSetChr();
 	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void LogSetInit(u32 ret)
 {
-	Log.isDraw = TRUE;
+	Log.isDraw = true;
 
 	Log.sel = 0;
 	Log.ret = ret;
@@ -91,7 +90,7 @@ EWRAM_CODE u16* LogGetBuf(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void LogAddBuf(u16* p)
 {
-	BiosCpuSet(p, &Log.buf[Log.cnt][0], TEXT_SCREEN_CX * TEXT_SCREEN_CY * 2);
+	MemInc(p, &Log.buf[Log.reg][0], TXT_SCREEN_CX * TXT_SCREEN_CY * 2);
 
 	if(Log.cnt < LOG_MAX_CNT)
 	{
@@ -104,5 +103,5 @@ EWRAM_CODE void LogAddBuf(u16* p)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool LogIsEmpty(void)
 {
-	return (Log.reg == 0) ? TRUE : FALSE;
+	return (Log.cnt == 0) ? true : false;
 }

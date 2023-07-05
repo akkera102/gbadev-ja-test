@@ -6,10 +6,10 @@ extern "C" {
 
 
 #include "libgba/gba.h"
-#include "text.h"
+#include "txt.h"
 
 //---------------------------------------------------------------------------
-#define LOG_MAX_CNT					32
+#define LOG_MAX_CNT					4
 
 
 enum {
@@ -27,7 +27,7 @@ typedef struct {
 	s32  sel;		// 現在のセレクト
 	s32  ret;		// 復帰先
 
-	u16  buf[LOG_MAX_CNT][TEXT_SCREEN_CX * TEXT_SCREEN_CY] ALIGN(4);
+	u16  buf[LOG_MAX_CNT][TXT_SCREEN_CX * TXT_SCREEN_CY] ALIGN(4);
 
 } ST_LOG;
 
