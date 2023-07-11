@@ -15,6 +15,7 @@ enum {
 	MANAGE_ACT_NOVEL,
 	MANAGE_ACT_LOG,
 	MANAGE_ACT_MENU,
+	MANAGE_ACT_ANIME,
 };
 
 
@@ -34,10 +35,13 @@ EWRAM_CODE void ManageExecTitle(void);
 EWRAM_CODE void ManageExecNovel(void);
 EWRAM_CODE void ManageExecLog(void);
 EWRAM_CODE void ManageExecMenu(void);
+EWRAM_CODE void ManageExecAnime(void);
 
 EWRAM_CODE void ManageSetNovel(void);
 EWRAM_CODE void ManageSetLog(void);
 EWRAM_CODE void ManageSetMenu(void);
+EWRAM_CODE void ManageSetAnime(void);
+
 
 #ifdef __cplusplus
 }

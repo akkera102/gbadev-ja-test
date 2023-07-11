@@ -9,7 +9,7 @@ extern "C" {
 #include "txt.h"
 
 //---------------------------------------------------------------------------
-#define LOG_MAX_CNT					4
+#define LOG_MAX_CNT					8
 
 
 enum {

@@ -1,0 +1,74 @@
+# エンディング
+
+
+# -----------------------------------
+img1 0
+effect1 9 3
+
+
+loop 0
+img_line 11
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 12
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 13
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 14
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 15
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 16
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 17
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 18
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 19
+effect2 505 0
+inc
+jbe 160
+
+loop 0
+img_line 20
+effect2 505 0
+inc
+jbe 320
+
+
+fill 0 0 0
+effect2 505 2
+
+
+end

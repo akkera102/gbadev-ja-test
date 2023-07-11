@@ -9,6 +9,7 @@
 #include "se.h"
 #include "file.h"
 #include "siori.h"
+#include "anime.h"
 
 
 //---------------------------------------------------------------------------
@@ -19,17 +20,18 @@ ST_MANAGE Manage;
 EWRAM_CODE void ManageInit(void)
 {
 	_Memset(&Manage, 0x00, sizeof(ST_MANAGE));
+
+	LibMyInit();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExec(void)
 {
 	for(;;)
 	{
-//		if(NvIsNext() == false)
-//		{
+		if(NvIsSkip() == false)
+		{
 			VBlankIntrWait();
-//			SystemCall(5);
-//		}
+		}
 
 		LibMyExec();
 
@@ -56,6 +58,10 @@ EWRAM_CODE void ManageExec(void)
 			ManageExecMenu();
 			break;
 
+		case MANAGE_ACT_ANIME:
+			ManageExecAnime();
+			break;
+
 		default:
 			SystemError("[Err] ManageExec act=%x\n", Manage.act);
 			break;
@@ -78,26 +84,31 @@ EWRAM_CODE void ManageExecInit(void)
 	SioriInit();
 	NvInit();
 
-//	MenuSetTitle();
-
-
-// TODO ƒeƒXƒg
+/*
 	NvSetScn(0);
 	NvSetEvt(1);
 
 	Manage.act = MANAGE_ACT_NOVEL;
-//	Manage.act = MANAGE_ACT_TITLE;
+*/
+
+	MenuSetTitle(MENU_TITLE_SEL_START);
+	Manage.act = MANAGE_ACT_TITLE;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecTitle(void)
 {
-	ImgExec();
-	MenuExec();
+	if(ImgIsEffect() == true)
+	{
+		ImgExec();
+		return;
+	}
 
-//	if(MenuIsEnd() == true)
-//	{
-//		Manage.act = MANAGE_ACT_SCRIPT;
-//	}
+	if(TxtIsChr() == true)
+	{
+		TxtExecMenu();
+	}
+
+	MenuExec();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
@@ -124,22 +135,39 @@ EWRAM_CODE void ManageExecNovel(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecLog(void)
 {
-	LogExec();
-
 	if(TxtIsChr() == true)
 	{
 		TxtExecLog();
 	}
+
+	LogExec();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecMenu(void)
 {
-	MenuExec();
-
 	if(TxtIsChr() == true)
 	{
 		TxtExecMenu();
 	}
+
+	MenuExec();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ManageExecAnime(void)
+{
+	if(ImgIsEffect() == true)
+	{
+		ImgExec();
+		return;
+	}
+
+	if(TxtIsChr() == true)
+	{
+		TxtExecChr();
+		return;
+	}
+
+	AnimeExec();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageSetLog(void)
@@ -155,4 +183,9 @@ EWRAM_CODE void ManageSetMenu(void)
 EWRAM_CODE void ManageSetNovel(void)
 {
 	Manage.act = MANAGE_ACT_NOVEL;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ManageSetAnime(void)
+{
+	Manage.act = MANAGE_ACT_ANIME;
 }

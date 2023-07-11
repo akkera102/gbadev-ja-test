@@ -39,6 +39,12 @@ enum {
 	MENU_SYSTEM_SEL_LOAD,
 	MENU_SYSTEM_SEL_OPTION,
 };
+
+enum {
+	MENU_TITLE_SEL_START = 0,
+	MENU_TITLE_SEL_LOAD,
+};
+
 //---------------------------------------------------------------------------
 
 typedef struct {
@@ -63,6 +69,7 @@ EWRAM_CODE void  MenuExecOption(u16 trg);
 EWRAM_CODE void  MenuExecSave(u16 trg);
 EWRAM_CODE void  MenuExecLoad(u16 trg);
 EWRAM_CODE void  MenuExecNone(u16 trg);
+EWRAM_CODE void  MenuExecTitle(u16 trg);
 
 EWRAM_CODE void  MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* pFunc, bool isDraw);
 EWRAM_CODE void  MenuSetSystem(s32 sel);
@@ -70,10 +77,12 @@ EWRAM_CODE void  MenuSetOption(void);
 EWRAM_CODE void  MenuSetSave(s32 ret);
 EWRAM_CODE void  MenuSetLoad(s32 ret);
 EWRAM_CODE void  MenuSetNone(void);
+EWRAM_CODE void  MenuSetTitle(s32 sel);
 
 EWRAM_CODE char* MenuGetSelStr(s32 sel);
 EWRAM_CODE u8    MenuGetSel(void);
 EWRAM_CODE u8    MenuGetReg(void);
+EWRAM_CODE u8    MenuGetType(void);
 
 #ifdef __cplusplus
 }

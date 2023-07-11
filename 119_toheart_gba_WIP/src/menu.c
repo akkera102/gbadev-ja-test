@@ -35,6 +35,11 @@ const char MenuSelectStr[18][30] = {
 
 	// 13
 	"",
+
+	// 14
+	"",
+	"ゲームを始める",
+	"ロードする",
 };
 
 //---------------------------------------------------------------------------
@@ -237,7 +242,14 @@ EWRAM_CODE void MenuExecLoad(u16 trg)
 {
 	if(trg & KEY_B)
 	{
-		MenuSetSystem(MENU_SYSTEM_SEL_LOAD);
+		if(Menu.ret == MENU_RET_SYSTEM)
+		{
+			MenuSetSystem(MENU_SYSTEM_SEL_LOAD);
+		}
+		else
+		{
+			MenuSetTitle(MENU_TITLE_SEL_LOAD);
+		}
 
 		return;
 	}
@@ -252,7 +264,7 @@ EWRAM_CODE void MenuExecLoad(u16 trg)
 		return;
 	}
 
-	NvSetAct(NV_ACT_RESTART);
+	NvPushAct(NV_ACT_RESTART);
 	ManageSetNovel();
 }
 //---------------------------------------------------------------------------
@@ -261,7 +273,35 @@ EWRAM_CODE void MenuExecNone(u16 trg)
 	if(trg & KEY_B)
 	{
 		MenuSetSystem(MENU_SYSTEM_SEL_NONE);
+
 		TxtShowWindow();
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuExecTitle(u16 trg)
+{
+	if(!(trg & KEY_A))
+	{
+		return;
+	}
+
+	switch(Menu.sel)
+	{
+	// ゲームを始める
+	case 0:
+		TxtSetChr();
+		TxtSetRes();
+
+		NvSetScn(0);
+		NvSetEvt(1);
+
+		ManageSetNovel();
+		break;
+
+	// ロードする
+	case 1:
+		MenuSetLoad(MENU_RET_TITLE);
+		break;
 	}
 }
 //---------------------------------------------------------------------------
@@ -299,6 +339,11 @@ EWRAM_CODE void MenuSetLoad(s32 ret)
 EWRAM_CODE void  MenuSetNone(void)
 {
 	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 13, 0, MenuExecNone, false);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetTitle(s32 sel)
+{
+	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 14, 2, MenuExecTitle, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE char* MenuGetSelStr(s32 sel)
@@ -341,4 +386,9 @@ EWRAM_CODE u8 MenuGetSel(void)
 EWRAM_CODE u8 MenuGetReg(void)
 {
 	return Menu.reg;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8 MenuGetType(void)
+{
+	return Menu.type;
 }

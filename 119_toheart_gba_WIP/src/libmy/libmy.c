@@ -10,6 +10,7 @@
 #include "vgm.arm.h"
 #include "snd.arm.h"
 #include "irq.arm.h"
+#include "lex.h"
 
 
 //---------------------------------------------------------------------------
@@ -19,6 +20,7 @@ EWRAM_CODE void LibMyInit(void)
 	REG_DISPCNT = (MODE_3 | BG2_ON | OBJ_ON | OBJ_1D_MAP);
 
 	GbfsInit();
+	LexInit();
 	MemInit();
 	KeyInit();
 	SavInit();

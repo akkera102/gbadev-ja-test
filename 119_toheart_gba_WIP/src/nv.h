@@ -61,6 +61,7 @@ typedef struct {
 typedef struct {
 	// ステータス
 	s32  act;
+	s32  act2;
 	s32  step;
 	s32  wait;
 	bool isLoop;
@@ -108,7 +109,10 @@ EWRAM_CODE void NvSetScn(u32 no);
 EWRAM_CODE void NvSetEvt(u32 no);
 EWRAM_CODE void NvSetMsg(u32 no);
 EWRAM_CODE void NvSetNext(void);
+
 EWRAM_CODE void NvSetAct(s32 act);
+EWRAM_CODE void NvPushAct(s32 act);
+EWRAM_CODE void NvPopAct(void);
 
 EWRAM_CODE void NvSetFlag(u8 no, s8 val);
 EWRAM_CODE void NvAddFlag(u8 no, s8 val);

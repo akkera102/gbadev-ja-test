@@ -27,17 +27,6 @@ EWRAM_CODE u32 NvGetCurNum(void)
 	return ret;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u32  NvGetCurNum2(u8* pCur)
-{
-	u8* pTmp = Nv.pCur;
-	Nv.pCur  = pCur;
-
-	u32 ret = NvGetCurNum();
-	Nv.pCur = pTmp;
-
-	return ret;
-}
-//---------------------------------------------------------------------------
 EWRAM_CODE u32 NvGetCurHex(void)
 {
 	u32 ret = 0;
@@ -59,18 +48,6 @@ EWRAM_CODE u32 NvGetCurHex(void)
 
 	} while(_IsXDigit(*Nv.pCur) == true);
 
-
-	return ret;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE u32  NvGetCurHex2(u8* pCur)
-{
-	u8* pTmp = Nv.pCur;
-	Nv.pCur  = pCur;
-
-	u32 ret = NvGetCurHex();
-	Nv.pCur = pTmp;
-
 	return ret;
 }
 //---------------------------------------------------------------------------
@@ -82,7 +59,7 @@ EWRAM_CODE void NvSetCurStr(void)
 
 	do {
 
-		_ASSERT(i+1 < NV_MAX_STR_CNT);
+//		_ASSERT(i+1 < NV_MAX_STR_CNT);
 		Nv.str[i++] = *Nv.pCur++;
 
 	} while(*Nv.pCur != ' ' && *Nv.pCur != '\0' && *Nv.pCur != NV_LF);
@@ -134,28 +111,25 @@ EWRAM_CODE void NvSkipCurSpace(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void NvJumpCurAdr(u16 adr)
+EWRAM_CODE void NvSkipCurChr(u8 chr)
 {
-	u8* p;
+	while(*Nv.pCur != chr)
+	{
+		Nv.pCur++;
+	}
 
-	do {
-
-		NvSkipCurLine();
-		p = Nv.pCur;
-
-	} while(adr != NvGetCurHex());
-
-	Nv.pCur = p;
+	Nv.pCur++;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8* NvSeekCurChr(u8 chr)
+EWRAM_CODE void NvJumpCurAdr(u16 adr)
 {
 	u8* p = Nv.pCur;
 
-	while(*p != chr)
+	while(adr != NvGetCurHex())
 	{
-		p++;
+		NvSkipCurLine();
+		p = Nv.pCur;
 	}
 
-	return p;
+	Nv.pCur = p;
 }

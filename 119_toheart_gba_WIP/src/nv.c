@@ -15,7 +15,6 @@
 #include "siori.h"
 
 
-
 //---------------------------------------------------------------------------
 ST_NV Nv;
 
@@ -119,6 +118,7 @@ EWRAM_CODE void NvExecSel(void)
 		TxtClearXY();
 		TxtSetBuf(false);
 		TxtSetCur(false);
+		Nv.isSkip = false;
 
 		s32 i;
 
@@ -182,17 +182,20 @@ EWRAM_CODE void NvExecSel(void)
 
 	// 選択終了
 	case 2:
+		// 履歴に選択肢を保存
 		TxtClearXY();
 		TxtSetBuf(true);
 		Nv.pCur = Nv.sel.pStr[Nv.sel.num];
 		NvSetCurStr();
-
 		TxtDrawStr(Nv.str);
 		TxtSetPageNew();
 
+		// 選択肢のアドレスへジャンプ
 		Nv.pCur   = Nv.sel.pSrc;
 		Nv.curAdr = Nv.sel.srcAdr;
-		NvJumpCurAdr(Nv.curAdr + 1 + 2 + 2*Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+//		TRACE("[pCur=%x curADdr=%x]\n", Nv.pCur, Nv.curAdr);
+//		TRACE("[selJump: %x]\n", Nv.curAdr + 1 + 2 + 2*Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+		NvJumpCurAdr(Nv.curAdr + 3 + 2*Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
 
 		NvSetAct(NV_ACT_PARSE);
 		break;
@@ -201,8 +204,6 @@ EWRAM_CODE void NvExecSel(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvExecRestart(void)
 {
-	// TODO 選択肢の場合
-
 	switch(Nv.step)
 	{
 	case 0:
@@ -226,8 +227,7 @@ EWRAM_CODE void NvExecRestart(void)
 	case 3:
 		TxtRestart();
 		ImgRestart();
-
-		NvSetAct(NV_ACT_KEY);
+		NvPopAct();
 		break;
 	}
 }
@@ -265,10 +265,15 @@ EWRAM_CODE void NvSetScn(u32 no)
 	Nv.size   = FileGetSize();
 	Nv.pTxt   = p;
 	Nv.pCur   = p;
-	Nv.pEvt   = NvSeekCurChr('E');
-	Nv.pMsg   = NvSeekCurChr('M');
-	Nv.maxEvt = NvGetCurHex2(Nv.pEvt + 1);
-	Nv.maxMsg = NvGetCurHex2(Nv.pMsg + 1);
+
+	NvSkipCurChr('E');
+	Nv.maxEvt = NvGetCurHex();
+	Nv.pEvt   = Nv.pCur + 1;
+
+	NvSkipCurChr('M');
+	Nv.maxMsg = NvGetCurHex();
+	Nv.pMsg   = Nv.pCur + 1;
+
 	Nv.scnNo  = no;
 	Nv.evtNo  = 0;
 	Nv.msgNo  = 0;
@@ -280,31 +285,34 @@ EWRAM_CODE void NvSetEvt(u32 no)
 {
 	_ASSERT(no < Nv.maxEvt);
 
-
-	Nv.pCur = Nv.pEvt;
-	NvSkipCurLine2(no + 1);
-
+	// アドレス取得
+	Nv.pCur = Nv.pEvt + no * 5;
 	u32 adr = NvGetCurHex();
+
+	// アドレスへジャンプ
+	Nv.pCur = Nv.pEvt + Nv.maxEvt * 5 + 1;
 	NvJumpCurAdr(adr);
 
 	Nv.evtNo = no;
-	TRACE("[NvSetEvt %x]\n", no);
+	TRACE("[NvSetEvt %x %x]\n", no, adr);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetMsg(u32 no)
 {
 	_ASSERT(no < Nv.maxMsg);
 
-
 	Nv.pRet = Nv.pCur;
-	Nv.pCur = Nv.pMsg;
-	NvSkipCurLine2(no + 1);
 
+	// アドレス取得
+	Nv.pCur = Nv.pMsg + no * 5;
 	u32 adr = NvGetCurHex();
+
+	// アドレスへジャンプ
+	Nv.pCur = Nv.pMsg + Nv.maxMsg * 5 + 1;
 	NvJumpCurAdr(adr);
 
 	Nv.msgNo = no;
-	TRACE("[NvSetMsg %x]\n", no);
+	TRACE("[NvSetMsg %x %x]\n", no, adr);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetNext(void)
@@ -316,6 +324,17 @@ EWRAM_CODE void NvSetAct(s32 act)
 {
 	Nv.act  = act;
 	Nv.step = 0;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvPushAct(s32 act)
+{
+	Nv.act2 = Nv.act;
+	NvSetAct(act);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvPopAct(void)
+{
+	NvSetAct(Nv.act2);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetFlag(u8 no, s8 val)

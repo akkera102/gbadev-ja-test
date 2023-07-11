@@ -113,8 +113,6 @@ EWRAM_CODE void NvExecParseSub(void)
 	if(_IsSJIS(Nv.str[0]) == true)
 	{
 		NvExecParseTxt();
-		Nv.isLoop = false;
-
 		return;
 	}
 
@@ -149,24 +147,24 @@ EWRAM_CODE void NvExecParseSel(void)
 {
 	TRACE("sel ");
 
-	Nv.sel.cnt = NvGetCurHex();
-	Nv.sel.msg = NvGetCurHex();
-	Nv.sel.num = -1;
+	Nv.sel.pSrc   = Nv.pCur - 8;
+	Nv.sel.srcAdr = Nv.curAdr;
+	Nv.sel.cnt    = NvGetCurHex();
+	Nv.sel.msg    = NvGetCurHex();
+	Nv.sel.num    = -1;
 
 	TRACE("%x %x\n", Nv.sel.cnt, Nv.sel.msg);
 
 	s32 i;
 
+	// 選択肢メッセージとジャンプアドレス抽出
 	for(i=0; i<Nv.sel.cnt; i++)
 	{
 		Nv.sel.item[i] = NvGetCurHex();
 		Nv.sel.jump[i] = NvGetCurHex();
 	}
 
-	Nv.sel.pSrc   = Nv.pCur;
-	Nv.sel.srcAdr = Nv.curAdr;
-
-
+	// 選択肢メッセージ取得
 	for(i=0; i<Nv.sel.cnt; i++)
 	{
 		NvSetMsg(Nv.sel.item[i]);
@@ -180,7 +178,6 @@ EWRAM_CODE void NvExecParseSel(void)
 	}
 
 	NvSetMsg(Nv.sel.msg);
-
 	Nv.isSel  = true;
 }
 //---------------------------------------------------------------------------
@@ -322,13 +319,23 @@ EWRAM_CODE void NvExecParseTime(void)
 // フラグ加算 0x34,0x62
 EWRAM_CODE void NvExecParseFlagAdd(void)
 {
-	_ASSERT(0);
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+
+	TRACE("[val[%x] += %x]\n", n1, n2);
+
+	Nv.flag[n1] += n2;
 }
 //---------------------------------------------------------------------------
 // フラグ減算 0x35
 EWRAM_CODE void NvExecParseFlagSub(void)
 {
-	_ASSERT(0);
+	u8 n1 = NvGetCurHex();
+	s8 n2 = NvGetCurHex();
+
+	TRACE("[val[%x] -= %x]\n");
+
+	Nv.flag[n1] -= n2;
 }
 //---------------------------------------------------------------------------
 // 背景ロード 0x3c
@@ -700,7 +707,7 @@ EWRAM_CODE void NvExecParseEndMsg(void)
 	// 選択肢メッセージの場合
 	if(Nv.isSel == true)
 	{
-		Nv.isSel = false;
+		Nv.isSel  = false;
 		Nv.isLoop = false;
 
 		TxtSetPageNew();
@@ -909,4 +916,6 @@ EWRAM_CODE void NvExecParseTxt(void)
 
 	TxtSetDraw(Nv.str);
 	NvSetEffectAfter(IMG_EFFECT_TXT_ON);
+
+	Nv.isLoop = false;
 }

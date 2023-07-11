@@ -417,6 +417,10 @@ EWRAM_CODE void ImgSetBgV(u8 no)
 
 	Img.bg = no;
 	Img.bgType = IMG_BG_VISUAL;
+
+	Img.chr[0] = 0xffff;
+	Img.chr[1] = 0xffff;
+	Img.chr[2] = 0xffff;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
