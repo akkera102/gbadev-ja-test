@@ -1,8 +1,22 @@
 # タイトルロゴ
 
 
-# -----------------------------------
-# 
+# -----
+bgm 0 0
+whitein 0
 
+# -----
+image LEAF
+whiteout 5
+wait 200
+
+
+# 特殊エフェクト
+effect 21
+wait 200
+
+
+# 後処理
+blackin 1
 
 end

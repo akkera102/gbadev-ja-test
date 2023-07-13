@@ -427,7 +427,7 @@ EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
 {
 	TRACE("[ImgSetChr no=%x pos=%x]\n", no, pos);
 
-	_ASSERT(pos <= IMG_CHR_ALL);
+	_ASSERT(pos < IMG_CHR_ALL);
 	Img.chr[pos] = no;
 }
 //---------------------------------------------------------------------------

@@ -24,8 +24,8 @@ typedef char* va_list;
 #define va_arg(ap, type)		(*((type *)((va_list)((ap) = (void *)((va_list)(ap) + __vasz(type))) - __vasz(type))))
 #define va_end(ap)				
 
-#define CR						0x0a
-#define LF						0x0d
+#define CR						0x0d
+#define LF						0x0a
 
 
 //---------------------------------------------------------------------------

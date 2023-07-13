@@ -217,7 +217,7 @@ EWRAM_CODE bool SioriLoad(u32 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriLoadFlag(void)
 {
-	TRACE("[SioriLoadFlag]");
+	TRACE("[SioriLoadFlag]\n");
 
 	Nv.flag[0x50] = SavReadSram(3);
 	Nv.flag[0x51] = SavReadSram(4);

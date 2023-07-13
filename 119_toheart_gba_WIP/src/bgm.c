@@ -29,12 +29,6 @@ EWRAM_CODE void BgmPlay(s32 no, bool isLoop)
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
 {
-	if(no == 0)
-	{
-		VgmStop();
-		return;
-	}
-
 	u8* pDat = FileGetMus(no);
 
 	VgmPlay(pDat, isLoop);

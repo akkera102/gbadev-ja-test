@@ -87,12 +87,15 @@ EWRAM_CODE void ManageExecInit(void)
 /*
 	NvSetScn(0);
 	NvSetEvt(1);
-
 	Manage.act = MANAGE_ACT_NOVEL;
 */
 
+/*
 	MenuSetTitle(MENU_TITLE_SEL_START);
 	Manage.act = MANAGE_ACT_TITLE;
+*/
+	AnimeSetDat(ANIME_DAT_TITLE);
+	Manage.act = MANAGE_ACT_ANIME;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecTitle(void)

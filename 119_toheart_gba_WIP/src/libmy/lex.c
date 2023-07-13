@@ -58,7 +58,7 @@ EWRAM_CODE char LexGetChr(void)
 	return Lex.str[0];
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void LexGetToken(bool isChr)
+EWRAM_CODE void LexGetToken(bool isChr)
 {
 	char buf[LEX_MAX_STR_CNT];
 	s32  num, cnt;
@@ -155,7 +155,7 @@ st: ;
 	LexSkipLf();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE u32 LexGetType(char chr)
+EWRAM_CODE u32 LexGetType(char chr)
 {
 	if(chr == ' ' || chr == '\t')
 	{
@@ -193,7 +193,7 @@ IWRAM_CODE u32 LexGetType(char chr)
 	return LEX_TOKEN_STR;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void LexSkipLine(void)
+EWRAM_CODE void LexSkipLine(void)
 {
 	ST_LEX* p = &Lex;
 
@@ -215,7 +215,7 @@ IWRAM_CODE void LexSkipLine(void)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void LexSkipLf(void)
+EWRAM_CODE void LexSkipLf(void)
 {
 	ST_LEX* p = &Lex;
 

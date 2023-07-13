@@ -62,7 +62,7 @@ EWRAM_CODE void NvSetCurStr(void)
 //		_ASSERT(i+1 < NV_MAX_STR_CNT);
 		Nv.str[i++] = *Nv.pCur++;
 
-	} while(*Nv.pCur != ' ' && *Nv.pCur != '\0' && *Nv.pCur != NV_LF);
+	} while(*Nv.pCur != ' ' && *Nv.pCur != '\0' && *Nv.pCur != LF);
 
 
 	_ASSERT(i+1 < NV_MAX_STR_CNT);
@@ -78,7 +78,7 @@ EWRAM_CODE void NvSkipCurLine(void)
 			return;
 		}
 
-	} while(*Nv.pCur++ != NV_LF);
+	} while(*Nv.pCur++ != LF);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSkipCurLine2(s32 cnt)

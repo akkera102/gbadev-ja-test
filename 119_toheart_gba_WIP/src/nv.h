@@ -29,9 +29,6 @@ extern "C" {
 #define NV_FLAG_B_SCN2					0xf5
 #define NV_FLAG_B_BLK					0xf6
 
-#define NV_LF							0x0a
-
-
 
 enum {
 	NV_ACT_PARSE,

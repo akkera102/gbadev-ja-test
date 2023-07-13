@@ -3,6 +3,7 @@
 #include "libmy/lex.h"
 #include "res.h"
 #include "img.h"
+#include "img2.h"
 #include "bgm.h"
 #include "se.h"
 #include "nv.h"
@@ -13,7 +14,6 @@ ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "img1",     (void*)AnimeExecImg1    },
 	{ "img2",     (void*)AnimeExecImg2    },
 	{ "img3",     (void*)AnimeExecImg3    },
-	{ "img_val",  (void*)AnimeExecImgVal  },
 	{ "img_line", (void*)AnimeExecImgLine },
 	{ "effect1",  (void*)AnimeExecEffect1 },
 	{ "effect2",  (void*)AnimeExecEffect2 },
@@ -21,7 +21,6 @@ ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "wait",     (void*)AnimeExecWait    },
 	{ "key_wait", (void*)AnimeExecKeyWait },
 	{ "bgm",      (void*)AnimeExecBgm     },
-	{ "se",       (void*)AnimeExecSe      },
 	{ "loop",     (void*)AnimeExecLoop    },
 	{ "inc",      (void*)AnimeExecInc     },
 	{ "dec",      (void*)AnimeExecDec     },
@@ -50,7 +49,7 @@ EWRAM_CODE void AnimeInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeSetDat(u32 no)
 {
-	TRACE("[AnimeSetDat: no:0x%x]\n", no);
+	TRACE("[AnimeSetDat: %x]\n", no);
 
 	AnimeInit();
 
@@ -95,7 +94,7 @@ EWRAM_CODE void AnimeExec(void)
 EWRAM_CODE void AnimeExecSub(void)
 {
 	char* p = LexGetStr();
-	TRACE("[Anime %s]\n", p);
+	TRACE("[AnimeExec %s]\n", p);
 
 	u32 i;
 
@@ -126,7 +125,7 @@ EWRAM_CODE void AnimeExecImg2(void)
 	u32 x   = LexGetNum();
 	u32 y   = LexGetNum();
 
-//	ImgDirectCrop(num, x, y);
+	ImgDirectCrop(num, x, y);
 
 	Anime.isLoop = false;
 }
@@ -137,17 +136,7 @@ EWRAM_CODE void AnimeExecImg3(void)
 	u32 x   = LexGetNum();
 	u32 y   = LexGetNum();
 
-//	ImgDirectBlend(num, x, y);
-
-	Anime.isLoop = false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecImgVal(void)
-{
-	u32 num = LexGetNum();
-//	u16 val = NvGetVar(num);
-
-//	ImgSetBg(val);
+	ImgDirectBlend(num, x, y);
 
 	Anime.isLoop = false;
 }
@@ -155,13 +144,13 @@ EWRAM_CODE void AnimeExecImgVal(void)
 EWRAM_CODE void AnimeExecImgLine(void)
 {
 	u32 num = LexGetNum();
-	u16 cnt = Anime.var;
+	u32 cnt = Anime.var;
 
 	if(cnt >= 160)
 	{
 		cnt = 159;
 	}
-//	ImgDirectLine(num, cnt);
+	ImgDirectLine(num, cnt);
 
 	Anime.isLoop = false;
 }
@@ -169,9 +158,8 @@ EWRAM_CODE void AnimeExecImgLine(void)
 EWRAM_CODE void AnimeExecEffect1(void)
 {
 	u32 num  = LexGetNum();
-	u32 wait = LexGetNum();
 
-//	ImgSetEffect(num, wait);
+	ImgSetEffectBefore(num);
 
 	Anime.isLoop = false;
 }
@@ -179,9 +167,8 @@ EWRAM_CODE void AnimeExecEffect1(void)
 EWRAM_CODE void AnimeExecEffect2(void)
 {
 	u32 num  = LexGetNum();
-	u32 wait = LexGetNum();
 
-//	ImgSetEffectOnly(num, wait);
+	ImgSetEffectAfter(num);
 
 	Anime.isLoop = false;
 }
@@ -192,7 +179,7 @@ EWRAM_CODE void AnimeExecFill(void)
 	u32 g = LexGetNum();
 	u32 b = LexGetNum();
 
-//	ImgDirectFill(RGB5(r, g, b));
+	ImgDirectFill(RGB5(r, g, b));
 
 	Anime.isLoop = false;
 }
@@ -211,22 +198,11 @@ EWRAM_CODE void AnimeExecKeyWait(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecBgm(void)
 {
-	u32 num  = LexGetNum();
-	u32 num2 = LexGetNum();
+	u32 n1 = LexGetNum();
+	u32 n2 = LexGetNum();
+	bool isLoop = (n2 == 1) ? true : false;
 
-	bool isLoop = (num2 == 1) ? true : false;
-	BgmPlay(num, isLoop);
-
-	Anime.isLoop  = false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecSe(void)
-{
-	u32 num  = LexGetNum();
-	u32 num2 = LexGetNum();
-
-	bool isLoop = (num2 == 1) ? true : false;
-//	SePlay(num, isLoop);
+	BgmPlay2(n1, isLoop);
 
 	Anime.isLoop  = false;
 }

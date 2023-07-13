@@ -8,13 +8,19 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define ANIME_MAX_PAT_CNT			18
+#define ANIME_MAX_PAT_CNT			16
 #define ANIME_MAX_DAT_CNT			3
 #define ANIME_MAX_STR_SIZE			10
 
 enum {
 	ANIME_ACT_EXEC,
 	ANIME_ACT_END,
+};
+
+enum {
+	ANIME_DAT_TITLE,
+	ANIME_DAT_OPENING,
+	ANIME_DAT_ENDING,
 };
 
 //---------------------------------------------------------------------------
@@ -44,7 +50,6 @@ EWRAM_CODE void AnimeExecSub(void);
 EWRAM_CODE void AnimeExecImg1(void);
 EWRAM_CODE void AnimeExecImg2(void);
 EWRAM_CODE void AnimeExecImg3(void);
-EWRAM_CODE void AnimeExecImgVal(void);
 EWRAM_CODE void AnimeExecImgLine(void);
 EWRAM_CODE void AnimeExecEffect1(void);
 EWRAM_CODE void AnimeExecEffect2(void);
@@ -52,7 +57,6 @@ EWRAM_CODE void AnimeExecFill(void);
 EWRAM_CODE void AnimeExecWait(void);
 EWRAM_CODE void AnimeExecKeyWait(void);
 EWRAM_CODE void AnimeExecBgm(void);
-EWRAM_CODE void AnimeExecSe(void);
 EWRAM_CODE void AnimeExecLoop(void);
 EWRAM_CODE void AnimeExecInc(void);
 EWRAM_CODE void AnimeExecDec(void);
