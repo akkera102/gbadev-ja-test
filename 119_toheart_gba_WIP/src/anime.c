@@ -11,8 +11,8 @@
 
 //---------------------------------------------------------------------------
 ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
-	{ "img1",     (void*)AnimeExecImg1    },
-	{ "img2",     (void*)AnimeExecImg2    },
+	{ "bg",       (void*)AnimeExecBg      },
+	{ "bgv",      (void*)AnimeExecBgV     },
 	{ "img3",     (void*)AnimeExecImg3    },
 	{ "img_line", (void*)AnimeExecImgLine },
 	{ "effect1",  (void*)AnimeExecEffect1 },
@@ -111,21 +111,20 @@ EWRAM_CODE void AnimeExecSub(void)
 	AnimePat[i].pFunc();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecImg1(void)
+EWRAM_CODE void AnimeExecBg(void)
 {
 	u32 num = LexGetNum();
+
 	ImgSetBg(num);
 
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecImg2(void)
+EWRAM_CODE void AnimeExecBgV(void)
 {
 	u32 num = LexGetNum();
-	u32 x   = LexGetNum();
-	u32 y   = LexGetNum();
 
-	ImgDirectCrop(num, x, y);
+	ImgSetBgV(num);
 
 	Anime.isLoop = false;
 }
@@ -136,7 +135,7 @@ EWRAM_CODE void AnimeExecImg3(void)
 	u32 x   = LexGetNum();
 	u32 y   = LexGetNum();
 
-	ImgDirectBlend(num, x, y);
+//	ImgDirectBlend(num, x, y);
 
 	Anime.isLoop = false;
 }

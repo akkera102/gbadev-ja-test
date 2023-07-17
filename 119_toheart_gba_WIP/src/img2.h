@@ -14,9 +14,9 @@ extern "C" {
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgDirectCrop(u32 no, u32 x, u32 y);
-EWRAM_CODE void ImgDirectClip(u32 no, u32 x, u32 y, u32 gx, u32 gy, u32 gs);
-EWRAM_CODE void ImgDirectBlend(u32 no, u32 x, u32 y);
+EWRAM_CODE void ImgDirectCrop(char* pStr, u32 x, u32 y);
+EWRAM_CODE void ImgDirectClip(char* pStr, u32 x, u32 y, u32 gx, u32 gy, u32 gs);
+EWRAM_CODE void ImgDirectBlend(char* pStr, u32 x, u32 y);
 EWRAM_CODE void ImgDirectLine(u32 no, u32 cnt);
 EWRAM_CODE void ImgDirectFill(u32 col);
 

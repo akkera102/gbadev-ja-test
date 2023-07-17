@@ -47,8 +47,8 @@ EWRAM_CODE void AnimeSetDat(u32 no);
 
 EWRAM_CODE void AnimeExec(void);
 EWRAM_CODE void AnimeExecSub(void);
-EWRAM_CODE void AnimeExecImg1(void);
-EWRAM_CODE void AnimeExecImg2(void);
+EWRAM_CODE void AnimeExecBg(void);
+EWRAM_CODE void AnimeExecBgV(void);
 EWRAM_CODE void AnimeExecImg3(void);
 EWRAM_CODE void AnimeExecImgLine(void);
 EWRAM_CODE void AnimeExecEffect1(void);

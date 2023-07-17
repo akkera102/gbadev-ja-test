@@ -3,16 +3,18 @@
 
 # -----
 bgm 0 0
-whitein 0
+effect1 16
+bg 254
+wait 1
 
 # -----
-image LEAF
-whiteout 5
+bgv 244
+effect2 16
 wait 200
 
 
 # 特殊エフェクト
-effect 21
+# effect 21
 wait 200
 
 

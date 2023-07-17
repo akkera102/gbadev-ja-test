@@ -14,7 +14,7 @@ extern const unsigned char cct_sjis_bin[];
 extern const unsigned short tbl_spr1d_bin[];
 
 // bg
-// EMPTY
+#include "res/bg_logo.h"
 
 
 // spr
