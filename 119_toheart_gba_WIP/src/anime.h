@@ -8,17 +8,17 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define ANIME_MAX_PAT_CNT			16
+#define ANIME_MAX_PAT_CNT			14
 #define ANIME_MAX_DAT_CNT			3
 #define ANIME_MAX_STR_SIZE			10
 
 enum {
-	ANIME_ACT_EXEC,
 	ANIME_ACT_END,
+	ANIME_ACT_EXEC,
 };
 
 enum {
-	ANIME_DAT_TITLE,
+	ANIME_DAT_LOGO,
 	ANIME_DAT_OPENING,
 	ANIME_DAT_ENDING,
 };
@@ -26,19 +26,21 @@ enum {
 //---------------------------------------------------------------------------
 typedef struct {
 	u32   act;
+	char* pCur;
 
 	bool  isLoop;
-	bool  isKey;
-	u32   waitCnt;
+	bool  isSkip;
+
+	u32   wait;
 	s32   var;
-	char* pCur;
 
 } ST_ANIME;
 
 
 typedef struct {
-	char* pStr;								// ñΩóﬂÇÃï∂éöóÒ
-	void  (*pFunc)(void);					// ñΩóﬂÇÃä÷êî
+	char* pStr;
+	void  (*pFunc)(void);
+
 } ST_ANIME_TABLE;
 
 //---------------------------------------------------------------------------
@@ -48,20 +50,18 @@ EWRAM_CODE void AnimeSetDat(u32 no);
 EWRAM_CODE void AnimeExec(void);
 EWRAM_CODE void AnimeExecSub(void);
 EWRAM_CODE void AnimeExecBg(void);
-EWRAM_CODE void AnimeExecBgV(void);
-EWRAM_CODE void AnimeExecImg3(void);
-EWRAM_CODE void AnimeExecImgLine(void);
+EWRAM_CODE void AnimeExecVis(void);
+EWRAM_CODE void AnimeExecChr(void);
+EWRAM_CODE void AnimeExecStr(void);
+EWRAM_CODE void AnimeExecStrCls(void);
 EWRAM_CODE void AnimeExecEffect1(void);
 EWRAM_CODE void AnimeExecEffect2(void);
-EWRAM_CODE void AnimeExecFill(void);
 EWRAM_CODE void AnimeExecWait(void);
-EWRAM_CODE void AnimeExecKeyWait(void);
 EWRAM_CODE void AnimeExecBgm(void);
-EWRAM_CODE void AnimeExecLoop(void);
-EWRAM_CODE void AnimeExecInc(void);
-EWRAM_CODE void AnimeExecDec(void);
-EWRAM_CODE void AnimeExecJae(void);
-EWRAM_CODE void AnimeExecJbe(void);
+EWRAM_CODE void AnimeExecBgmStop(void);
+EWRAM_CODE void AnimeExecSkip(void);
+EWRAM_CODE void AnimeExecMark(void);
+EWRAM_CODE void AnimeExecSprMode(void);
 EWRAM_CODE void AnimeExecEnd(void);
 
 EWRAM_CODE bool AnimeIsEnd(void);

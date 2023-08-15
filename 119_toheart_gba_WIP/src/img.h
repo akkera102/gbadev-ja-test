@@ -35,10 +35,17 @@ enum {
 	IMG_EFFECT_BLOOD,				// 0x0a
 
 	// 追加
-	IMG_EFFECT_WHITE = 0x10,
+	IMG_EFFECT_WHITE = 0x10,		// 0x10
 	IMG_EFFECT_TXT_ON,
 	IMG_EFFECT_TXT_ON_FAST,
 	IMG_EFFECT_WIPE_TTOB,
+	IMG_EFFECT_TITLE,
+	IMG_EFFECT_OP_SCROLL1,			// 0x15
+	IMG_EFFECT_OP_SCROLL2,
+	IMG_EFFECT_SAKURA1_BLACK,		// 0x17 画面上に桜あり（ブラックイン）
+	IMG_EFFECT_SAKURA1_WHITE,		// 0x18 画面上に桜あり（ホワイトイン）
+	IMG_EFFECT_SAKURA2,				// 0x19 画面外から桜
+	IMG_EFFECT_SHAKE,				// 0x20 どかっ
 };
 
 
@@ -73,7 +80,6 @@ typedef struct {
 	// オプション設定
 	u16  fadeMax;
 
-
 } ST_IMG;
 
 
@@ -88,10 +94,12 @@ EWRAM_CODE void ImgDrawBg(void);
 EWRAM_CODE void ImgDrawChr(void);
 
 EWRAM_CODE void ImgSetBg(u8 no);
-EWRAM_CODE void ImgSetBgV(u8 no);
+EWRAM_CODE void ImgSetVis(u8 no);
 EWRAM_CODE void ImgSetChr(u16 no, u8 pos);
+EWRAM_CODE void ImgSetChrClr(void);
 EWRAM_CODE void ImgSetEffectBefore(u8 no);
 EWRAM_CODE void ImgSetEffectAfter(u8 no);
+EWRAM_CODE u16  ImgGetChr(u8 no);
 
 EWRAM_CODE void ImgShowWindow(void);
 EWRAM_CODE void ImgHideWindow(void);

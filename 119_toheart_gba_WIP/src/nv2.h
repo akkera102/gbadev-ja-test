@@ -15,6 +15,7 @@ extern "C" {
 typedef struct {
 	char* pStr;
 	void  (*pFunc)(void);
+
 } ST_NV_PARSE_TABLE;
 
 //---------------------------------------------------------------------------

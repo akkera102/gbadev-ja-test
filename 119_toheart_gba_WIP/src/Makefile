@@ -41,7 +41,7 @@ VPATH = $(dir $(CFILES) $(SFILES))
 # added libgba
 
 LIBS = -lgba
-export LIBPATHS = $(foreach dir,$(DEVKITPRO)/libgba,-L$(dir)/lib)
+LIBPATHS = $(foreach dir,$(DEVKITPRO)/libgba,-L$(dir)/lib)
 
 INCDIR1 = $(foreach dir,$(INCDIR),-I$(dir))
 INCDIR2 = $(foreach dir,$(DEVKITPRO)/libgba,-I$(dir)/include)

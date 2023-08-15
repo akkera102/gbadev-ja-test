@@ -10,6 +10,7 @@
 #include "file.h"
 #include "siori.h"
 #include "anime.h"
+#include "sakura.h"
 
 
 //---------------------------------------------------------------------------
@@ -84,18 +85,24 @@ EWRAM_CODE void ManageExecInit(void)
 	SioriInit();
 	NvInit();
 
+	AnimeInit();
+	SakuraInit();
+
+///*
+	MenuSetTitle(MENU_TITLE_SEL_START);
+	Manage.act = MANAGE_ACT_TITLE;
+//*/
+
 /*
 	NvSetScn(0);
 	NvSetEvt(1);
 	Manage.act = MANAGE_ACT_NOVEL;
 */
 
-/*
-	MenuSetTitle(MENU_TITLE_SEL_START);
-	Manage.act = MANAGE_ACT_TITLE;
-*/
-	AnimeSetDat(ANIME_DAT_TITLE);
-	Manage.act = MANAGE_ACT_ANIME;
+//	AnimeSetDat(ANIME_DAT_LOGO);
+//	AnimeSetDat(ANIME_DAT_OPENING);
+//	AnimeSetDat(ANIME_DAT_ENDING);
+//	Manage.act = MANAGE_ACT_ANIME;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecTitle(void)
@@ -103,12 +110,15 @@ EWRAM_CODE void ManageExecTitle(void)
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();
+
 		return;
 	}
 
 	if(TxtIsChr() == true)
 	{
 		TxtExecMenu();
+
+		return;
 	}
 
 	MenuExec();
@@ -116,15 +126,22 @@ EWRAM_CODE void ManageExecTitle(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
 {
+	if(SakuraIsEffect() == true)
+	{
+		SakuraExec();
+	}
+
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();
+
 		return;
 	}
 
 	if(TxtIsChr() == true)
 	{
 		TxtExecChr();
+
 		return;
 	}
 
@@ -158,19 +175,34 @@ EWRAM_CODE void ManageExecMenu(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecAnime(void)
 {
+	if(SakuraIsEffect() == true)
+	{
+		SakuraExec();
+	}
+
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();
-		return;
-	}
 
-	if(TxtIsChr() == true)
-	{
-		TxtExecChr();
 		return;
 	}
 
 	AnimeExec();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ManageSetInit(void)
+{
+	Manage.act = MANAGE_ACT_INIT;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ManageSetTitle(void)
+{
+	Manage.act = MANAGE_ACT_TITLE;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ManageSetNovel(void)
+{
+	Manage.act = MANAGE_ACT_NOVEL;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageSetLog(void)
@@ -181,11 +213,6 @@ EWRAM_CODE void ManageSetLog(void)
 EWRAM_CODE void ManageSetMenu(void)
 {
 	Manage.act = MANAGE_ACT_MENU;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ManageSetNovel(void)
-{
-	Manage.act = MANAGE_ACT_NOVEL;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageSetAnime(void)

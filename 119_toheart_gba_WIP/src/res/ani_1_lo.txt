@@ -1,24 +1,30 @@
 # タイトルロゴ
 
 
-# -----
 bgm 0 0
 effect1 16
 bg 254
-wait 1
+wait 40
 
-# -----
-bgv 244
+# Leafロゴ表示
+vis 244
 effect2 16
-wait 200
+wait 180
 
 
-# 特殊エフェクト
-# effect 21
-wait 200
+# 上下エフェクト
+effect2 20
+wait 180
 
 
-# 後処理
-blackin 1
+# タイトル画面
+effect1 1
+vis 245
+effect2 1
 
-end
+# 文字フェード
+effect2 17
+
+
+# 選択肢へ
+end 1

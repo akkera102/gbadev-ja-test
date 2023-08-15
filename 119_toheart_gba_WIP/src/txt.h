@@ -66,8 +66,6 @@ EWRAM_CODE void TxtDrawChr(u16 code);
 EWRAM_CODE void TxtDrawStr(char* p);
 EWRAM_CODE void TxtDrawStrXy(u32 x, u32 y, char* p);
 EWRAM_CODE void TxtDrawWork(void);
-EWRAM_CODE void TxtDrawLog(void);
-EWRAM_CODE void TxtDrawMenu(void);
 EWRAM_CODE void TxtDrawFull(u16* pStr);
 
 EWRAM_CODE void TxtSetChr(void);

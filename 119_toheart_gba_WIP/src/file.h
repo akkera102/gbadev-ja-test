@@ -30,8 +30,6 @@ EWRAM_CODE u8*  FileGetChrMask(u32 no);
 EWRAM_CODE u8*  FileGetVis(u32 no);
 EWRAM_CODE u8*  FileGetMus(u32 no);
 EWRAM_CODE u8*  FileGetSe(u32 no);
-EWRAM_CODE u8*  FileGetImg(char* p);
-
 
 EWRAM_CODE u32  FileGetSize(void);
 

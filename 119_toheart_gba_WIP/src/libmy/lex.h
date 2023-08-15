@@ -8,7 +8,7 @@ extern "C" {
 
 
 //---------------------------------------------------------------------------
-#define LEX_MAX_STR_CNT				32
+#define LEX_MAX_STR_CNT				64
 
 enum {
 	LEX_TOKEN_NUM,
@@ -44,6 +44,7 @@ EWRAM_CODE char  LexGetChr(void);
 
 EWRAM_CODE void  LexGetToken(bool isChr);
 EWRAM_CODE u32   LexGetType(char chr);
+EWRAM_CODE void  LexSkipStr(char* pStr);
 EWRAM_CODE void  LexSkipLine(void);
 EWRAM_CODE void  LexSkipLf(void);
 EWRAM_CODE void  LexUnGet(void);

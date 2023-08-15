@@ -1,74 +1,267 @@
 # ƒGƒ“ƒfƒBƒ“ƒO
 
 
-# -----------------------------------
-img1 0
-effect1 9 3
+bgm 33 0
+skip
+wait 1200
 
+#---------------------------------------
+effect2 17
+wait 20
+str 7 3 Šé@‰æ
+str 6 5 ‚‹´@—´–ç
+wait 240
 
-loop 0
-img_line 11
-effect2 505 0
-inc
-jbe 160
+effect1 16
+strcls
+bg 254
+wait 60
 
-loop 0
-img_line 12
-effect2 505 0
-inc
-jbe 160
+#---------------------------------------
+bg 31
+effect2 16
+wait 60
 
-loop 0
-img_line 13
-effect2 505 0
-inc
-jbe 160
+effect2 17
+wait 20
+str 7 2 ‹r@–{
+str 6 4 ‚‹´@—´–ç
+str 6 5 Â@‡
+str 6 6 ˆ¨@‚à‚è‚Ó‚İ
+wait 240
 
-loop 0
-img_line 14
-effect2 505 0
-inc
-jbe 160
+effect1 16
+strcls
+bg 254
+wait 60
 
-loop 0
-img_line 15
-effect2 505 0
-inc
-jbe 160
+#---------------------------------------
+bg 8
+effect2 16
+wait 60
 
-loop 0
-img_line 16
-effect2 505 0
-inc
-jbe 160
+effect2 17
+wait 20
+str 7 2 Œ´@‰æ
+str 6 4 …–³Œ@“O
+str 6 5 ƒ‰[E‚x‚n‚t
+wait 240
 
-loop 0
-img_line 17
-effect2 505 0
-inc
-jbe 160
+effect1 16
+strcls
+bg 254
+wait 60
 
-loop 0
-img_line 18
-effect2 505 0
-inc
-jbe 160
+#---------------------------------------
+bg 9
+effect2 16
+wait 60
 
-loop 0
-img_line 19
-effect2 505 0
-inc
-jbe 160
+effect2 17
+wait 20
+str 6 1 ƒV[ƒ“\¬
+str 6 3 ‚‹´@—´–ç
+str 6 4 …–³Œ@“O
+str 6 5 ˆŸŠG—
+str 6 6 ƒ‰[E‚x‚n‚t
+wait 240
 
-loop 0
-img_line 20
-effect2 505 0
-inc
-jbe 320
+effect1 16
+strcls
+bg 254
+wait 60
 
+#---------------------------------------
+bg 10
+effect2 16
+wait 60
 
-fill 0 0 0
-effect2 505 2
+effect2 17
+wait 20
+str 6 3 ƒvƒƒOƒ‰ƒ€
+str 2 5 ‚g‚‚Š‚‰‚‚…@‚m‚‰‚‚‚‚‚…
+wait 240
 
+effect1 16
+strcls
+bg 254
+wait 60
 
-end
+#---------------------------------------
+bg 11
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 6 2 ƒOƒ‰ƒtƒBƒNƒX
+str 6 4 ‚j‚d‚m‚j‚d‚m
+str 6 5 ¶”g–²
+str 6 6 ’¹–ì@³M
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 12
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 6 2 ƒOƒ‰ƒtƒBƒNƒX
+str 6 4 ‚Ë‚Ì‚Â‚«‚ä‚«‚µ‚ë
+str 6 5 ‚ë‚İ‚ã
+str 6 6 ƒ”ƒB[ƒiƒX
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 13
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 6 2 ƒOƒ‰ƒtƒBƒNƒX
+str 6 4 ‚c‚n‚y‚`
+str 6 5 e•ƒ
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 14
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 5 3 ”wŒiƒOƒ‰ƒtƒBƒNƒX
+str 6 5 ’¹–ì@³M
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 15
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 7 2 ‰¹@Šy
+str 6 4 ‰ºì@’¼Æ
+str 6 5 ’†ã@˜a‰p
+str 6 6 Îì@^–ç
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 7
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 6 1 ‚d‚cƒ\ƒ“ƒO
+str 5 3 ì@ŒF‚m‚d‚j‚n
+str 5 4 ì•Ò‹ÈF‰ºì’¼Æ
+str 5 5 ƒMƒ^[F•ŸŒ´aŒá
+str 5 6 ˜^@‰¹F—L‘ºŒ’ˆê
+str 5 7 @‰Ì@F‚ ‚Á‚±
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 21
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 5 3 ƒ^ƒCƒgƒ‹ƒƒS
+str 5 5 ƒNƒ‰ƒtƒgƒ}ƒ“
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 32
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 4 3 ‚s‚d‚r‚s@‚o‚k‚`‚x
+str 2 5 ‚`‚k‚k@‚k‚d‚`‚e@‚r‚s‚`‚e‚e
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 60
+
+#---------------------------------------
+bg 17
+effect2 16
+wait 60
+
+effect2 17
+wait 20
+str 7 3 ŠJ@”­
+str 4 5 ‚P‚X‚X‚V@‚k‚d‚`‚e
+wait 240
+
+effect1 16
+strcls
+bg 254
+wait 120
+
+#---------------------------------------
+# ƒŠ[ƒtƒƒS
+# ÷
+vis 244
+effect1 24
+effect2 16
+wait 600
+
+#---------------------------------------
+
+#ƒXƒLƒbƒvƒ|ƒCƒ“ƒg
+mark
+
+bgmstop
+
+# ƒtƒF[ƒh•ƒCƒ“
+effect1 1
+bg 254
+wait 60
+
+sprmode 0
+
+end 0

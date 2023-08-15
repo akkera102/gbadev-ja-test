@@ -4,6 +4,7 @@
 #include "file.h"
 #include "txt.h"
 #include "nv.h"
+#include "sakura.h"
 
 //---------------------------------------------------------------------------
 ST_IMG Img;
@@ -14,11 +15,8 @@ EWRAM_CODE void ImgInit(void)
 {
 	_Memset(&Img, 0x00, sizeof(ST_IMG));
 
+	ImgSetChrClr();
 	Img.fadeMax = 8;
-
-	Img.chr[0]  = 0xffff;
-	Img.chr[1]  = 0xffff;
-	Img.chr[2]  = 0xffff;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgExec(void)
@@ -26,18 +24,21 @@ EWRAM_CODE void ImgExec(void)
 	if(Img.isTxt == true && NvIsSkip() == false && NvIsRestart() == false)
 	{
 		ImgExecTxt();
+
 		return;
 	}
 
 	if(Img.isBefore == true)
 	{
 		ImgExecBefore();
+
 		return;
 	}
 
 	if(Img.isAfter == true)
 	{
 		ImgExecAfter();
+
 		return;
 	}
 }
@@ -73,6 +74,11 @@ IWRAM_CODE void ImgExecBefore(void)
 	switch(Img.before)
 	{
 	// 0x00
+	case IMG_EFFECT_NONE:
+		Img.isBefore = false;
+		break;
+
+	// 0x01
 	case IMG_EFFECT_FADE_PALETTE:
 		if(Img.var1++ < 2)
 		{
@@ -93,6 +99,12 @@ IWRAM_CODE void ImgExecBefore(void)
 
 			Img.var3++;
 			return;
+		}
+
+		if(SakuraIsEffect() == true)
+		{
+			FadeSetSpr(false);
+			SakuraStop();
 		}
 
 		FadeSetBlack(0);
@@ -152,6 +164,12 @@ IWRAM_CODE void ImgExecBefore(void)
 			return;
 		}
 
+		if(SakuraIsEffect() == true)
+		{
+			FadeSetSpr(false);
+			SakuraStop();
+		}
+
 		FadeSetWhite(0);
 		Img.isBefore = false;
 		break;
@@ -176,6 +194,32 @@ IWRAM_CODE void ImgExecBefore(void)
 		Img.isBefore = false;
 		break;
 
+	// 0x17
+	case IMG_EFFECT_SAKURA1_BLACK:
+		FadeSetSpr(true);
+		FadeSetBlack(16);
+		SakuraStart(true);
+
+		Img.isBefore = false;
+		break;
+
+	// 0x18
+	case IMG_EFFECT_SAKURA1_WHITE:
+		FadeSetSpr(true);
+		FadeSetWhite(16);
+		SakuraStart(true);
+
+		Img.isBefore = false;
+		break;
+
+	// 0x19
+	case IMG_EFFECT_SAKURA2:
+		FadeSetSpr(true);
+		SakuraStart(false);
+
+		Img.isBefore = false;
+		break;
+
 	default:
 		SystemError("[Err] ImgExecBefore Img.before=%x\n", Img.before);
 		break;
@@ -187,6 +231,11 @@ IWRAM_CODE void ImgExecAfter(void)
 	switch(Img.after)
 	{
 	// 0x00
+	case IMG_EFFECT_NONE:
+		Img.isAfter = false;
+		break;
+
+	// 0x01
 	case IMG_EFFECT_FADE_PALETTE:
 		if(Img.var4++ == 0)
 		{
@@ -230,7 +279,7 @@ IWRAM_CODE void ImgExecAfter(void)
 
 		if(Img.var5 < 8)
 		{
-			// VCOUNT 160 -> 210
+			// VCOUNT 160 -> 220
 			// TRACE("FADE_MASK S:%d\n", REG_VCOUNT);
 			Mode3DrawFadeMask(Img.var5++);
 			// TRACE("FADE_MASK E:%d\n", REG_VCOUNT);
@@ -329,6 +378,74 @@ IWRAM_CODE void ImgExecAfter(void)
 		Img.isAfter = false;
 		break;
 
+	// 0x14
+	case IMG_EFFECT_TITLE:
+
+		Mode3DrawTitle(Img.var4);
+		Img.var4++;
+
+		if(Img.var4 > 48)
+		{
+			Img.isAfter = false;
+		}
+		break;
+
+	// 0x15
+	case IMG_EFFECT_OP_SCROLL1:
+		FadeSetSpr(true);
+		FadeSetWhite(16);
+		TxtShowMsg();
+		Img.isAfter = false;
+		break;
+
+	// 0x16
+	case IMG_EFFECT_OP_SCROLL2:
+		if(Img.var4++ < 6)
+		{
+			return;
+		}
+		Img.var4 = 0;
+
+		if(Img.var5 == 0)
+		{
+			// 青空と校舎
+			ST_FILE_IMG_HEADER* p1 = (ST_FILE_IMG_HEADER*)FileGetBg(19);
+			ST_FILE_IMG_HEADER* p2 = (ST_FILE_IMG_HEADER*)FileGetBg(17);
+
+			Mode3DrawScroll((u16*)(p1 + 1), (u16*)(p2 + 1));
+		}
+
+		// 白フェードアウト
+		if(Img.var5 <= 16)
+		{
+			FadeSetWhite(16 - Img.var5);
+		}
+
+		// テキスト消去
+		if(Img.var5 == 80)
+		{
+			TxtClear();
+		}
+
+		Mode3Scroll(Img.var5);
+		Img.var5++;
+
+		if(Img.var5 > SCREEN_CY)
+		{
+			Img.isAfter = false;
+		}
+		break;
+
+	// 0x20
+	case IMG_EFFECT_SHAKE:
+		Mode3DrawShake(Img.var4++);
+
+		if(Img.var4 > 7)
+		{
+			// テキスト表示に変更
+			ImgSetEffectAfter(IMG_EFFECT_TXT_ON);
+		}
+		break;
 
 	default:
 		SystemError("[Err] ImgExecAfter Img.after=%x\n", Img.after);
@@ -409,18 +526,18 @@ EWRAM_CODE void ImgSetBg(u8 no)
 
 	Img.bg = no;
 	Img.bgType = IMG_BG_NORMAL;
+
+	ImgSetChrClr();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgSetBgV(u8 no)
+EWRAM_CODE void ImgSetVis(u8 no)
 {
-	TRACE("[ImgSetBgV %x]\n", no);
+	TRACE("[ImgSetVis %x]\n", no);
 
 	Img.bg = no;
 	Img.bgType = IMG_BG_VISUAL;
 
-	Img.chr[0] = 0xffff;
-	Img.chr[1] = 0xffff;
-	Img.chr[2] = 0xffff;
+	ImgSetChrClr();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
@@ -428,7 +545,15 @@ EWRAM_CODE void ImgSetChr(u16 no, u8 pos)
 	TRACE("[ImgSetChr no=%x pos=%x]\n", no, pos);
 
 	_ASSERT(pos < IMG_CHR_ALL);
+
 	Img.chr[pos] = no;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgSetChrClr(void)
+{
+	Img.chr[0] = 0xffff;
+	Img.chr[1] = 0xffff;
+	Img.chr[2] = 0xffff;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetEffectBefore(u8 no)
@@ -458,6 +583,13 @@ EWRAM_CODE void ImgSetEffectAfter(u8 no)
 	Img.isAfter = true;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE u16 ImgGetChr(u8 no)
+{
+	_ASSERT(no < 3);
+
+	return Img.chr[no];
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void ImgShowWindow(void)
 {
 	FadeSetBlack(Img.fadeMax);
@@ -476,6 +608,7 @@ EWRAM_CODE bool ImgIsEffect(void)
 EWRAM_CODE void ImgSetFadeMax(u32 num)
 {
 	Img.fadeMax = num;
+
 	ImgShowWindow();
 }
 //---------------------------------------------------------------------------

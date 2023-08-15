@@ -23,8 +23,9 @@ EWRAM_CODE void BgmPlay(s32 no, bool isLoop)
 
 	BgmPlay2(no, isLoop);
 
-	Bgm.no = no;
+	Bgm.isPlay = true;
 	Bgm.isLoop = isLoop;
+	Bgm.no = no;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
@@ -36,13 +37,21 @@ EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmStop(void)
 {
-	Bgm.no = 0;
+	Bgm.isPlay = false;
+
 	VgmStop();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmRestart(void)
 {
-	BgmPlay2(Bgm.no, Bgm.isLoop);
+	if(Bgm.isPlay == true)
+	{
+		BgmPlay2(Bgm.no, Bgm.isLoop);
+	}
+	else
+	{
+		BgmStop();
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool BgmIsEnd(void)

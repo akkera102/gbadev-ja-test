@@ -193,6 +193,18 @@ EWRAM_CODE u32 LexGetType(char chr)
 	return LEX_TOKEN_STR;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void LexSkipStr(char* pStr)
+{
+	char* p;
+
+	do
+	{
+		LexSkipLine();
+		p = LexGetStr();
+
+	} 	while(_Strncmp(p, pStr, LEX_MAX_STR_CNT) != 0);
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void LexSkipLine(void)
 {
 	ST_LEX* p = &Lex;

@@ -1,35 +1,34 @@
 #include "anime.h"
+#include "res.h"
 #include "libmy/key.h"
 #include "libmy/lex.h"
-#include "res.h"
+#include "libmy/fade.h"
 #include "img.h"
-#include "img2.h"
 #include "bgm.h"
 #include "se.h"
-#include "nv.h"
-
+#include "manage.h"
+#include "txt.h"
+#include "menu.h"
 
 //---------------------------------------------------------------------------
-ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
-	{ "bg",       (void*)AnimeExecBg      },
-	{ "bgv",      (void*)AnimeExecBgV     },
-	{ "img3",     (void*)AnimeExecImg3    },
-	{ "img_line", (void*)AnimeExecImgLine },
-	{ "effect1",  (void*)AnimeExecEffect1 },
-	{ "effect2",  (void*)AnimeExecEffect2 },
-	{ "fill",     (void*)AnimeExecFill    },
-	{ "wait",     (void*)AnimeExecWait    },
-	{ "key_wait", (void*)AnimeExecKeyWait },
-	{ "bgm",      (void*)AnimeExecBgm     },
-	{ "loop",     (void*)AnimeExecLoop    },
-	{ "inc",      (void*)AnimeExecInc     },
-	{ "dec",      (void*)AnimeExecDec     },
-	{ "jae" ,     (void*)AnimeExecJae     },
-	{ "jbe" ,     (void*)AnimeExecJbe     },
-	{ "end",      (void*)AnimeExecEnd     },
+ROM_DATA ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
+	{ "bg",      (void*)AnimeExecBg      },
+	{ "vis",     (void*)AnimeExecVis     },
+	{ "chr",     (void*)AnimeExecChr     },
+	{ "str",     (void*)AnimeExecStr     },
+	{ "strcls",  (void*)AnimeExecStrCls  },
+	{ "effect1", (void*)AnimeExecEffect1 },
+	{ "effect2", (void*)AnimeExecEffect2 },
+	{ "wait",    (void*)AnimeExecWait    },
+	{ "bgm",     (void*)AnimeExecBgm     },
+	{ "bgmstop", (void*)AnimeExecBgmStop },
+	{ "skip",    (void*)AnimeExecSkip    },
+	{ "mark",    (void*)AnimeExecMark    },
+	{ "sprmode", (void*)AnimeExecSprMode },
+	{ "end",     (void*)AnimeExecEnd     },
 };
 
-const char* AnimeDat[ANIME_MAX_DAT_CNT] = {
+ROM_DATA char* AnimeDat[ANIME_MAX_DAT_CNT] = {
 	(char*)&ani_1_lo_txt,
 	(char*)&ani_2_op_txt,
 	(char*)&ani_3_ed_txt,
@@ -43,18 +42,16 @@ ST_ANIME Anime;
 EWRAM_CODE void AnimeInit(void)
 {
 	_Memset(&Anime, 0x00, sizeof(ST_ANIME));
-
-	Anime.act = ANIME_ACT_END;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeSetDat(u32 no)
 {
-	TRACE("[AnimeSetDat: %x]\n", no);
-
-	AnimeInit();
+	TRACE("\n[AnimeSetDat: %x]\n", no);
 
 	_ASSERT(no < ANIME_MAX_DAT_CNT);
-	Anime.pCur = (char*)AnimeDat[no];
+
+	AnimeInit();
+	Anime.pCur = AnimeDat[no];
 
 	LexInit();
 	LexSetCur(Anime.pCur);
@@ -69,17 +66,23 @@ EWRAM_CODE void AnimeExec(void)
 		return;
 	}
 
-	if(Anime.waitCnt != 0)
+	if(Anime.isSkip == true)
 	{
-		Anime.waitCnt--;
-		return;
+		if(KeyGetCnt() & KEY_START)
+		{
+			LexSkipStr("mark");
+
+			Anime.wait = 0;
+			Anime.isSkip = false;
+		}
 	}
 
-	if(Anime.isKey == true)
+	if(Anime.wait != 0)
 	{
+		Anime.wait--;
+
 		return;
 	}
-	Anime.isKey = false;
 
 
 	Anime.isLoop = true;
@@ -120,43 +123,45 @@ EWRAM_CODE void AnimeExecBg(void)
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecBgV(void)
+EWRAM_CODE void AnimeExecVis(void)
 {
 	u32 num = LexGetNum();
 
-	ImgSetBgV(num);
+	ImgSetVis(num);
 
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecImg3(void)
+EWRAM_CODE void AnimeExecChr(void)
 {
 	u32 num = LexGetNum();
-	u32 x   = LexGetNum();
-	u32 y   = LexGetNum();
+	u32 pos = LexGetNum();
 
-//	ImgDirectBlend(num, x, y);
+	ImgSetChr(num, pos);
 
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecImgLine(void)
+EWRAM_CODE void AnimeExecStr(void)
 {
-	u32 num = LexGetNum();
-	u32 cnt = Anime.var;
+	u32 x = LexGetNum();
+	u32 y = LexGetNum();
+	char* s = LexGetStr();
 
-	if(cnt >= 160)
-	{
-		cnt = 159;
-	}
-	ImgDirectLine(num, cnt);
+	TxtDrawStrXy(x, y, s);
+	TxtShowMsg();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecStrCls(void)
+{
+	TxtClear();
 
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecEffect1(void)
 {
-	u32 num  = LexGetNum();
+	u32 num = LexGetNum();
 
 	ImgSetEffectBefore(num);
 
@@ -172,26 +177,10 @@ EWRAM_CODE void AnimeExecEffect2(void)
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecFill(void)
-{
-	u32 r = LexGetNum();
-	u32 g = LexGetNum();
-	u32 b = LexGetNum();
-
-	ImgDirectFill(RGB5(r, g, b));
-
-	Anime.isLoop = false;
-}
-//---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecWait(void)
 {
-	Anime.waitCnt = LexGetNum();
-	Anime.isLoop  = false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecKeyWait(void)
-{
-	Anime.isKey  = true;
+	Anime.wait = LexGetNum();
+
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
@@ -199,53 +188,50 @@ EWRAM_CODE void AnimeExecBgm(void)
 {
 	u32 n1 = LexGetNum();
 	u32 n2 = LexGetNum();
-	bool isLoop = (n2 == 1) ? true : false;
 
-	BgmPlay2(n1, isLoop);
-
-	Anime.isLoop  = false;
+	BgmPlay(n1, (n2 == 1) ? true : false);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecLoop(void)
+EWRAM_CODE void AnimeExecBgmStop(void)
 {
-	Anime.var  = LexGetNum();
-	Anime.pCur = LexGetCur();
+	BgmStop();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecInc(void)
+EWRAM_CODE void AnimeExecSkip(void)
 {
-	Anime.var++;
+	Anime.isSkip = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecDec(void)
+EWRAM_CODE void AnimeExecMark(void)
 {
-	Anime.var--;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecJae(void)
-{
-	s32 v = LexGetNum();
-
-	if(Anime.var >= v)
-	{
-		LexSetCur(Anime.pCur);
-	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AnimeExecJbe(void)
-{
-	s32 v = LexGetNum();
-
-	if(Anime.var <= v)
-	{
-		LexSetCur(Anime.pCur);
-	}
+	// EMPTY
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecEnd(void)
 {
+	s32 v = LexGetNum();
+
+	if(v == 0)
+	{
+		ManageSetNovel();
+	}
+	else
+	{
+		MenuSetTitle(MENU_TITLE_SEL_START);
+		ManageSetTitle();
+	}
+
 	Anime.act = ANIME_ACT_END;
 	Anime.isLoop = false;
+}
+//---------------------------------------------------------------------------
+// fadeモジュール内のspr属性を変更（アニメーション後にspr属性をfalseにする）
+EWRAM_CODE void AnimeExecSprMode(void)
+{
+	u32 num = LexGetNum();
+
+	FadeSetSpr((num == 1) ? true : false);
+	FadeSetWhite(0);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool AnimeIsEnd(void)

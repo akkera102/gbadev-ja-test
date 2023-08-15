@@ -18,6 +18,11 @@ EWRAM_CODE void SprInit(void)
 	MemInc((u16*)spr_itemTiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE, spr_itemTilesLen);
 	MemInc((u16*)spr_itemPal, OBJ_COLORS, spr_itemPalLen);
 
+	// sakura + pal
+	MemInc((u16*)spr_sakura16Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_itemTilesLen, spr_sakura16TilesLen);
+	MemInc((u16*)spr_sakura8Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_itemTilesLen + spr_sakura16TilesLen, spr_sakura8TilesLen);
+	MemInc((u16*)spr_sakura8Pal, OBJ_COLORS + 16, spr_sakura8PalLen);
+
 	// font buffer
 	SprSetChr(0,  18,  22,  512, ATTR0_SQUARE, ATTR1_SIZE_64);
 	SprSetChr(1,  82,  22,  576, ATTR0_SQUARE, ATTR1_SIZE_64);
@@ -169,4 +174,34 @@ EWRAM_CODE void SprHideWindow(void)
 	{
 		SprHide(i);
 	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col)
+{
+	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
+
+	sp->attr0 &= 0x1fff;
+	sp->attr1 &= 0x3fff;
+	sp->attr2 &= 0x0fff;
+	sp->attr0 |= col | form;
+	sp->attr1 |= size;
+	sp->attr2 |= (1 << 12);		// color no
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprDirectSetChr(u32 no, u32 ch)
+{
+	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
+
+	sp->attr2 &= 0xfc00;
+	sp->attr2 |= 512 + SPR_MAX_DAT_CNT + 4 + ch;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y)
+{
+	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
+
+	sp->attr1 &= 0xfe00;
+	sp->attr0 &= 0xff00;
+	sp->attr1 |= (x & 0x01ff);
+	sp->attr0 |= (y & 0x00ff);
 }

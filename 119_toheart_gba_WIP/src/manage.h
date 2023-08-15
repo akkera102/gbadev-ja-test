@@ -28,8 +28,8 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageInit(void);
-
 EWRAM_CODE void ManageExec(void);
+
 EWRAM_CODE void ManageExecInit(void);
 EWRAM_CODE void ManageExecTitle(void);
 EWRAM_CODE void ManageExecNovel(void);
@@ -37,6 +37,8 @@ EWRAM_CODE void ManageExecLog(void);
 EWRAM_CODE void ManageExecMenu(void);
 EWRAM_CODE void ManageExecAnime(void);
 
+EWRAM_CODE void ManageSetInit(void);
+EWRAM_CODE void ManageSetTitle(void);
 EWRAM_CODE void ManageSetNovel(void);
 EWRAM_CODE void ManageSetLog(void);
 EWRAM_CODE void ManageSetMenu(void);

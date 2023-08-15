@@ -17,7 +17,7 @@
 EWRAM_CODE void LibMyInit(void)
 {
 	REG_WSCNT = 0x4317;
-	REG_DISPCNT = (MODE_3 | BG2_ON | OBJ_ON | OBJ_1D_MAP);
+	REG_DISPCNT = MODE_3 | BG2_ON | OBJ_ON | OBJ_1D_MAP;
 
 	GbfsInit();
 	LexInit();

@@ -15,11 +15,22 @@ EWRAM_CODE void TxtInit(void)
 {
 	_Memset(&Txt, 0x00, sizeof(ST_TXT));
 
-//	Txt.waitMax = 1;
+	SprHideWindow();
+	SprClearDat();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtExecChr(void)
 {
+	if(Txt.isRes == true)
+	{
+		SprSetImgWhite();
+		TxtDrawFull(Txt.buf);
+
+		Txt.isRes = false;
+		Txt.isChr = false;
+		return;
+	}
+
 	TxtShowMsg();
 
 	if(Txt.waitMax == 0)
@@ -79,32 +90,53 @@ EWRAM_CODE void TxtExecLog(void)
 {
 	Txt.isChr = false;
 
-	if(Txt.isRes == true)
-	{
-		SprSetImgWhite();
+	SprSetImgGray();
 
-		TxtDrawFull(Txt.buf);
-		Txt.isRes = false;
-		return;
-	}
-
-	TxtDrawLog();
+	u16* p = LogGetBuf();
+	TxtDrawFull(p);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtExecMenu(void)
 {
 	Txt.isChr = false;
 
-	if(Txt.isRes == true)
-	{
-		SprSetImgWhite();
+	u32 reg = MenuGetReg();
+	u32 sel = MenuGetSel();
+	u32 i, x, y;
 
-		TxtDrawFull(Txt.buf);
-		Txt.isRes = false;
-		return;
+	if(MenuGetType() == MENU_TYPE_TITLE)
+	{
+		x = 2;
+		y = 6;
+	}
+	else
+	{
+		x = 0;
+		y = 0;
 	}
 
-	TxtDrawMenu();
+	Txt.isBuf = false;
+	TxtClearDat();
+
+	// メニュー名
+	SprSetImgWhite();
+	TxtDrawStrXy(2, 0, MenuGetSelStr(0));
+
+	// 選択肢
+	for(i=1; i<reg+1; i++)
+	{
+		if(i == sel+1)
+		{
+			SprSetImgWhite();
+		}
+		else
+		{
+			SprSetImgGray();
+		}
+
+		char* p = MenuGetSelStr(i);
+		TxtDrawStrXy(x+3, 1+y+i, p);
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtDrawChr(u16 code)
@@ -163,56 +195,6 @@ EWRAM_CODE void TxtDrawWork(void)
 	for(i=0; i<Txt.workCnt; i++)
 	{
 		TxtDrawChr(Txt.work[i]);
-	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void TxtDrawLog(void)
-{
-	SprSetImgGray();
-
-	u16* p = LogGetBuf();
-	TxtDrawFull(p);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void TxtDrawMenu(void)
-{
-	u32 reg = MenuGetReg();
-	u32 sel = MenuGetSel();
-	u32 i, x, y;
-
-	// 
-	if(MenuGetType() == MENU_TYPE_TITLE)
-	{
-		x = 2;
-		y = 6;
-	}
-	else
-	{
-		x = 0;
-		y = 0;
-	}
-
-	Txt.isBuf = false;
-	TxtClearDat();
-
-	// メニュー名
-	SprSetImgWhite();
-	TxtDrawStrXy(2, 0, MenuGetSelStr(0));
-
-	// 選択肢
-	for(i=1; i<reg+1; i++)
-	{
-		if(i == sel+1)
-		{
-			SprSetImgWhite();
-		}
-		else
-		{
-			SprSetImgGray();
-		}
-
-		char* p = MenuGetSelStr(i);
-		TxtDrawStrXy(x+3, 1+y+i, p);
 	}
 }
 //---------------------------------------------------------------------------

@@ -65,6 +65,12 @@ EWRAM_CODE void SprMoveCursor(u32 x, u32 y);
 EWRAM_CODE void SprShowWindow(void);
 EWRAM_CODE void SprHideWindow(void);
 
+// sakura—p
+EWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col);
+EWRAM_CODE void SprDirectSetChr(u32 no, u32 ch);
+EWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y);
+
+
 #ifdef __cplusplus
 }
 #endif

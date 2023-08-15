@@ -30,6 +30,8 @@ EWRAM_CODE void NvInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvExec(void)
 {
+	Nv.vblankCnt++;
+
 	if(Nv.wait != 0)
 	{
 		Nv.wait--;
@@ -83,6 +85,7 @@ EWRAM_CODE void NvExecKey(void)
 	switch(Nv.step)
 	{
 	case 0:
+		TxtShowMsg();
 		TxtSetCur(true);
 		Nv.step++;
 		break;
@@ -95,7 +98,10 @@ EWRAM_CODE void NvExecKey(void)
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			LogSetInit(LOG_RET_NOVEL);
+			LogSetRet(LOG_RET_NOVEL);
+			TxtSetChr();
+			TxtSetCur(false);
+
 			ManageSetLog();
 			Nv.step--;
 		}
@@ -156,7 +162,10 @@ EWRAM_CODE void NvExecSel(void)
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			LogSetInit(LOG_RET_NOVEL);
+			LogSetRet(LOG_RET_NOVEL);
+			TxtSetChr();
+			TxtSetCur(false);
+
 			ManageSetLog();
 			Nv.step--;
 		}
@@ -255,7 +264,6 @@ EWRAM_CODE void NvSetEffectAfter(u8 no)
 	}
 
 	ImgSetEffectAfter(no);
-//	TODO ImgSetEffectAfter(IMG_EFFECT_WIPE_TTOB);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetScn(u32 no)
@@ -354,18 +362,37 @@ EWRAM_CODE s8 NvGetFlag(u8 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE u16 NvGetChrNo(u16 no)
 {
-	// TODO ‚ ‚©‚è”¯Œ^•ÏX
-
+	// ‚ ‚©‚è‚Ì”¯Œ^
 	if((no >> 8) == 0)
 	{
 		if(Nv.flag[NV_FLAG_AKARI] & 0x01)
 		{
 			no |= 0x80;
 		}
+
 		no |= 0x100;
 	}
 
 	return no;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8 NvGetVisNo(u8 no)
+{
+	// ‚ ‚©‚è‚Ì”¯Œ^
+	if(no == 0x11 || no == 0x13)
+	{
+		if(Nv.flag[NV_FLAG_AKARI] & 0x01)
+		{
+			no = 0x12;
+		}
+	}
+
+	return no;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u32 NvGetVblankCnt(void)
+{
+	return Nv.vblankCnt;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool NvIsSkip(void)

@@ -6,6 +6,9 @@
 #include "siori.h"
 #include "txt.h"
 #include "se.h"
+#include "anime.h"
+#include "manage.h"
+#include "sakura.h"
 
 
 //---------------------------------------------------------------------------
@@ -136,10 +139,17 @@ EWRAM_CODE void NvExecParseEndScn(void)
 	_ASSERT(0);
 }
 //---------------------------------------------------------------------------
-// タイトル処理 0x21+0x03
+// タイトル処理 0x21 0x03
 EWRAM_CODE void NvExecParseTitle(void)
 {
-	_ASSERT(0);
+	TRACE("title rnd=%x\n", Nv.vblankCnt);
+
+	SakuraInitRnd(Nv.vblankCnt);
+	AnimeSetDat(ANIME_DAT_OPENING);
+	ManageSetAnime();
+
+	Nv.isSkip = false;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 選択肢 0x24
@@ -212,11 +222,11 @@ EWRAM_CODE void NvExecParsePushA(void)
 	u8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
 
-	TRACE("pushA %x %x\n", n1, n2);
+	TRACE("pushA %x %x %x\n", n1, n2, n3);
 
-	NvAddFlag(NV_FLAG_A_SCN1, n1);
-	NvAddFlag(NV_FLAG_A_SCN2, n2);
-	NvAddFlag(NV_FLAG_A_BLK,  n3);
+	NvSetFlag(NV_FLAG_A_SCN1, n1);
+	NvSetFlag(NV_FLAG_A_SCN2, n2);
+	NvSetFlag(NV_FLAG_A_BLK,  n3);
 }
 //---------------------------------------------------------------------------
 // RET A 0x2e
@@ -240,9 +250,9 @@ EWRAM_CODE void NvExecParsePushB(void)
 
 	TRACE("pushB %x %x\n", n1, n2);
 
-	NvAddFlag(NV_FLAG_B_SCN1, n1);
-	NvAddFlag(NV_FLAG_B_SCN2, n2);
-	NvAddFlag(NV_FLAG_B_BLK,  n3);
+	NvSetFlag(NV_FLAG_B_SCN1, n1);
+	NvSetFlag(NV_FLAG_B_SCN2, n2);
+	NvSetFlag(NV_FLAG_B_BLK,  n3);
 }
 //---------------------------------------------------------------------------
 // RET B 0x30
@@ -364,6 +374,8 @@ EWRAM_CODE void NvExecParseVisLoad(void)
 EWRAM_CODE void NvExecParseChrLoad(void)
 {
 	_ASSERT(0);
+
+	// 			ToHeartLoadCharacter(lvns, c[2]<<8|c[3], c[1]);
 }
 //---------------------------------------------------------------------------
 // 表示処理 0x45
@@ -373,13 +385,16 @@ EWRAM_CODE void NvExecParseDisp(void)
 
 	TRACE("disp %x\n", n);
 
-	_ASSERT(0);
+	// TODO 処理が正しいか不明
+//	_ASSERT(0);
 }
 //---------------------------------------------------------------------------
 // セピア 0x47 0x01
 EWRAM_CODE void NvExecParseSepia(void)
 {
-	_ASSERT(0);
+	TRACE("sepia\n");
+
+	// EMPTY
 }
 //---------------------------------------------------------------------------
 // 同一内ジャンプ 0x55
@@ -750,7 +765,9 @@ EWRAM_CODE void NvExecParsePage(void)
 // 文字描画速度変更 0xb6
 EWRAM_CODE void NvExecParseTimeTxt(void)
 {
-	_ASSERT(0);
+	TRACE("timeTxt\n");
+
+	// EMPTY
 }
 //---------------------------------------------------------------------------
 // 時間待ち 0xb7
@@ -783,13 +800,17 @@ EWRAM_CODE void NvExecParseFlash(void)
 	_ASSERT(0);
 }
 //---------------------------------------------------------------------------
-// 「どかっ」画面振動 0xbc
+// 「　どかっ」画面振動 0xbc
 EWRAM_CODE void NvExecParseShake(void)
 {
-	_ASSERT(0);
+	TRACE("shake\n");
+
+	NvSetEffectAfter(IMG_EFFECT_SHAKE);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
-// 背景ロードその2 0xbd, 0xbe
+// 背景ロードその2 0xbd
 EWRAM_CODE void NvExecParseBg2(void)
 {
 	u8 n1 = NvGetCurHex();
@@ -808,34 +829,35 @@ EWRAM_CODE void NvExecParseBg2(void)
 // VISUALロード2 0xbf
 EWRAM_CODE void NvExecParseVisLoad2(void)
 {
-	u8 n1 = NvGetCurHex();
-	u8 n2 = NvGetCurHex();
-	u8 n3 = NvGetCurHex();
+	u8 n1  = NvGetCurHex();
+	u8 n2  = NvGetCurHex();
+	u8 n3  = NvGetCurHex();
+	u16 no = NvGetVisNo(n1);
 
 	TRACE("visLoad2 %x %x %x\n", n1, n2, n3);
 
 	NvSetEffectBefore(n2);
-	ImgSetBgV(n1);
+	ImgSetVis(no);
 	NvSetEffectAfter(n3);
 
 	Nv.isLoop = false;
-/*
-	TODO
-        // あかりの髪型処理
-        if ((no == 0x11 || no == 0x13) && 
-            (state->flag[TOHEART_FLAG_AKARI] & 0x01)) {
-            no = 0x12;
-        }
-*/
-
-// ToHeartClearCharacter(lvns, 3);
-
 }
 //---------------------------------------------------------------------------
 // Hシーンロード 0xc0
 EWRAM_CODE void NvExecParseLoadH(void)
 {
-	_ASSERT(0);
+	u8 n1  = NvGetCurHex();
+	u8 n2  = NvGetCurHex();
+	u8 n3  = NvGetCurHex();
+	u16 no = NvGetVisNo(n1);
+
+	TRACE("loadH %x %x %x\n", n1, n2, n3);
+
+	NvSetEffectBefore(n2);
+	ImgSetVis(no);
+	NvSetEffectAfter(n3);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // キャラクタ変更 0xc1
@@ -847,6 +869,12 @@ EWRAM_CODE void NvExecParseChrChg(void)
 
 	TRACE("chrChg %x %x\n", n1, n2);
 
+	if(ImgGetChr(n1) == no)
+	{
+		TRACE("[pass]\n");
+		return;
+	}
+
 	ImgSetChr(no, n1);
 	NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
 
@@ -856,25 +884,75 @@ EWRAM_CODE void NvExecParseChrChg(void)
 // キャラクタ表示 0xc2
 EWRAM_CODE void NvExecParseChrDisp(void)
 {
-	_ASSERT(0);
+	TRACE("chrDisp -> chrChg.");
+
+	NvExecParseChrChg();
 }
 //---------------------------------------------------------------------------
 // キャラクタ全消去後表示 0xc3
 EWRAM_CODE void NvExecParseChrClrAll(void)
 {
-	_ASSERT(0);
+	u8  n1 = NvGetCurHex();
+	u16 n2 = NvGetCurHex();
+	u16 no = NvGetChrNo(n2);
+
+	TRACE("chrClrAll %x %x\n", n1, n2);
+
+	if(ImgGetChr(n1) == no)
+	{
+		TRACE("[pass]\n");
+		return;
+	}
+
+	ImgSetChrClr();
+	ImgSetChr(no, n1);
+	NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 背景付きキャラクタロード 0xc4
 EWRAM_CODE void NvExecParseBgChr(void)
 {
-	_ASSERT(0);
+	u8  n1 = NvGetCurHex();
+	u16 n2 = NvGetCurHex();
+	u8  n3 = NvGetCurHex();
+	u8  n4 = NvGetCurHex();
+	u8  n5 = NvGetCurHex();
+	u16 no = NvGetChrNo(n2);
+
+	TRACE("bgChr %x %x %x %x %x\n", n1, n2, n3, n4, n5);
+
+	NvSetEffectBefore(n4);
+	ImgSetBg(n3);
+	ImgSetChr(no, n1);
+	NvSetEffectAfter(n5);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 3キャラ同時表示 0xc6
 EWRAM_CODE void NvExecParseChr3(void)
 {
-	_ASSERT(0);
+	u8  n1  = NvGetCurHex();
+	u16 n2  = NvGetCurHex();
+	u8  n3  = NvGetCurHex();
+	u16 n4  = NvGetCurHex();
+	u8  n5  = NvGetCurHex();
+	u16 n6  = NvGetCurHex();
+
+	u16 no1 = NvGetChrNo(n2);
+	u16 no2 = NvGetChrNo(n4);
+	u16 no3 = NvGetChrNo(n6);
+
+	TRACE("bgChr %x %x %x %x %x\n", n1, n2, n3, n4, n5, n6);
+
+	ImgSetChr(no1, n1);
+	ImgSetChr(no2, n2);
+	ImgSetChr(no3, n3);
+	NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 日付更新（カレンダー有） 0xf5
@@ -892,7 +970,10 @@ EWRAM_CODE void NvExecParseRain(void)
 // さくら 0xf7 0x04
 EWRAM_CODE void NvExecParseSakura(void)
 {
-	_ASSERT(0);
+	TRACE("sakura\n");
+
+	// EMPTY
+	// TODO 適切なスクリプトは降らす
 }
 //---------------------------------------------------------------------------
 // イベントエンド 0xff

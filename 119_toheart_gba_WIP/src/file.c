@@ -3,7 +3,7 @@
 
 
 //---------------------------------------------------------------------------
-const char* const FileMusTable[FILE_MAX_BGM_CNT] = {
+ROM_DATA char* FileMusTable[FILE_MAX_BGM_CNT] = {
 	"th00.bin",		// 0
 	"th22.bin",		// 1
 	"th02.bin",
@@ -113,14 +113,6 @@ EWRAM_CODE u8* FileGetSe(u32 no)
 {
 	char buf[20];
 	_Sprintf(buf, "TH_VD%02d.raw", no);
-
-	return GbfsGetSafePointer(buf);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE u8*  FileGetImg(char* p)
-{
-	char buf[20];
-	_Sprintf(buf, "%s.img", p);
 
 	return GbfsGetSafePointer(buf);
 }

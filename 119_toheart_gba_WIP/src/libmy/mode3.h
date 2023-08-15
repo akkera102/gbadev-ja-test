@@ -28,6 +28,7 @@ IWRAM_CODE void Mode3Exec(void);
 
 IWRAM_CODE void Mode3DrawBg(u16* pImg);
 IWRAM_CODE void Mode3DrawScroll(u16* pImg1, u16* pImg2);
+IWRAM_CODE void Mode3Draw(u32 cnt);
 
 IWRAM_CODE void Mode3DrawCrop(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg);
 IWRAM_CODE void Mode3DrawClip(u32 sx, u32 sy, u32 cx, u32 cy, u32 gx, u32 gy, u32 gs, u16* pImg);
@@ -41,6 +42,8 @@ IWRAM_CODE void Mode3DrawLineH(s32 sx);
 IWRAM_CODE void Mode3DrawCopyH(s32 sx);
 IWRAM_CODE void Mode3DrawFadeMask(s32 step);
 IWRAM_CODE void Mode3DrawWipeTtoB(s32 step);
+IWRAM_CODE void Mode3DrawTitle(s32 step);
+IWRAM_CODE void Mode3DrawShake(s32 step);
 
 
 #ifdef __cplusplus

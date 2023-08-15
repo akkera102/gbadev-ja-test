@@ -89,6 +89,9 @@ typedef struct {
 	bool isSel;
 	ST_NV_SEL sel;
 
+	// óêêîóp
+	u32  vblankCnt;
+
 } ST_NV;
 
 
@@ -116,6 +119,8 @@ EWRAM_CODE void NvAddFlag(u8 no, s8 val);
 EWRAM_CODE s8   NvGetFlag(u8 no);
 
 EWRAM_CODE u16  NvGetChrNo(u16 no);
+EWRAM_CODE u8   NvGetVisNo(u8 no);
+EWRAM_CODE u32  NvGetVblankCnt(void);
 
 EWRAM_CODE bool NvIsSkip(void);
 EWRAM_CODE bool NvIsRestart(void);

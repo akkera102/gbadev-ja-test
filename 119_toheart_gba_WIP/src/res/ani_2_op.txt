@@ -1,139 +1,379 @@
 # オープニング
 
+#---------------------------------------
+# 前処理
+bgmstop
+strcls
+wait 30
 
-# -----------------------------------
-# 桜もともと降っている
-# 背景 S49D
-# フェード黒アウト
+bgm 1 0
+skip
 
-# OP00
-# 背景 S49Dのみ
-# OP01
-# 背景 S49Dのみ
-# OP02
-# 背景 S49Dのみ
-# OP03
+#---------------------------------------
+# 桜エフェクト
+effect1 23
+
+# 写真1
+vis 240
+effect2 1
+wait 60
+
+bg 49
+effect2 2
+wait 60
+
+#---------------------------------------
+# 写真2
+vis 241
+effect2 2
+wait 60
+
+bg 49
+effect2 2
+wait 60
+
+#---------------------------------------
+# 写真3
+vis 242
+effect2 2
+wait 60
+
+bg 49
+effect2 2
+wait 60
+
+#---------------------------------------
+# 写真4
+vis 243
+effect2 2
+wait 60
 
 # フェード黒イン
+effect1 1
+bg 254
+wait 60
+
+# フェード白イン
 # fill 白
-# フェード白アウト
-# bg S19D
-# bg S17D
-# スクロール上→下
+effect1 16
+bg 254
+wait 30
+
+# 上→下スクロール＋白フェードアウト
+effect2 21
+str 0 1 「Ｂｒａｎｄ　Ｎｅｗ　Ｈｅａｒｔ」
+str 5 3 作詞：ＮＥＫＯ
+str 4 4 作編曲：中上　和英
+str 4 5 ギター：福田　紳吾
+str 3 6 エンジニア：有村　健一
+str 5 7 歌：あっこ
+effect2 22
+wait 60
+
+# タイトル画面
+vis 245
+effect2 2
 
 # 桜降りはじめる
-# TITLE2
+effect1 25
+wait 540
 
 # フェード黒イン
-# 校門CG　S35D
-# WIPE
+effect1 1
+bg 254
+wait 60
+
+#---------------------------------------
+# 校門ワイプ
+bg 35
+effect2 7
+wait 30
 
 # あかり
-# C0181
-# C0182
-# C0185
-# WIPE
-# 黒
+chr 385 1
+effect2 2
+wait 30
+
+chr 386 1
+effect2 2
+wait 30
+
+chr 389 1
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 1
+wait 30
+
+#---------------------------------------
+# 渡り廊下ワイプ
+bg 9
+effect2 7
+wait 30
 
 # 先輩
-# S09D
-# WIPE
-# C0202
-# C0204
-# C0203
-# WIPE
-# 黒
+chr 514 0
+effect2 2
+wait 30
+
+chr 516 0
+effect2 2
+wait 30
+
+chr 515 0
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 0
+wait 30
+
+#---------------------------------------
+# 屋上ワイプ
+bg 15
+effect2 7
+wait 30
 
 # 委員長
-# 屋上金網　S15D
-# WIPE
-# C0301
-# C0303
-# C0302
-# WIPE
-# 黒
+chr 769 1
+effect2 2
+wait 30
+
+chr 771 1
+effect2 2
+wait 30
+
+chr 770 1
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 1
+wait 30
+
+#---------------------------------------
+# 坂道ワイプ
+bg 21
+effect2 7
+wait 30
 
 # 志保
-# S21D　通学路
-# WIPE
-# C0402
-# C0403
-# C0401
-# WIPE
-# 黒
+chr 1026 0
+effect2 2
+wait 30
+
+chr 1027 0
+effect2 2
+wait 30
+
+chr 1025 0
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 0
+wait 30
+
+#---------------------------------------
+# 神社ワイプ
+bg 29
+effect2 7
+wait 30
 
 # 葵
-# S29D 祠
-# WIPE
-# C0501
-# C0508
-# C050C
-# WIPE
-# 黒
+chr 1281 1
+effect2 2
+wait 30
+
+chr 1288 1
+effect2 2
+wait 30
+
+chr 1292 1
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 1
+wait 30
+
+#---------------------------------------
+# 図書室ワイプ
+bg 10
+effect2 7
+wait 30
 
 # マルチ
-# S10D 図書室
-# WIPE
-# C0604
-# C0606
-# C0602
-# WIPE
-# 黒
+chr 1540 0
+effect2 2
+wait 30
+
+chr 1542 0
+effect2 2
+wait 30
+
+chr 1538 0
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 0
+wait 30
+
+#---------------------------------------
+# 公園ワイプ
+bg 26
+effect2 7
+wait 30
 
 # 琴音
-# S26D 公園
-# WIPE
-# C0701
-# C0702
-# C0706
-# WIPE
-# 黒
+chr 1793 1
+effect2 2
+wait 30
+
+chr 1794 1
+effect2 2
+wait 30
+
+chr 1798 1
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 1
+wait 30
+
+#---------------------------------------
+# 中庭ワイプ
+bg 14
+effect2 7
+wait 30
 
 # レミィ
-# S14D 中庭
-# WIPE
-# C0801
-# C0802
-# C0803
-# WIPE
-# 黒
+chr 2049 0
+effect2 2
+wait 30
 
+chr 2050 0
+effect2 2
+wait 30
+
+chr 2051 0
+effect2 2
+wait 30
+
+# フェード黒イン
+effect1 7
+bg 254
+chr 65535 0
+wait 30
+
+#---------------------------------------
 # V41
-# WIPE
-# 黒
+vis 65
+effect2 7
+wait 60
+
+# 黒ワイプ
+effect1 7
+bg 254
+wait 60
 
 # V31
-# WIPE
-# 黒
+vis 49
+effect2 7
+wait 60
+
+# 黒ワイプ
+effect1 7
+bg 254
+wait 60
 
 # V70
-# WIPE
-# 黒
+vis 112
+effect2 7
+wait 60
+
+# 黒ワイプ
+effect1 7
+bg 254
+wait 60
 
 # V50
-# WIPE
-# 黒
+vis 80
+effect2 7
+wait 60
+
+# 黒ワイプ
+effect1 7
+bg 254
+wait 60
 
 # V80
-# WIPE
-# 黒
+vis 128
+effect2 7
+wait 60
+
+# 黒ワイプ
+effect1 7
+bg 254
+wait 60
 
 # V20
-# WIPE
-# 黒
+vis 32
+effect2 7
+wait 60
+
+# 黒ワイプ
+effect1 7
+bg 254
+wait 60
 
 # V12
-# ホワイトイン
+vis 18
+effect2 7
+wait 90
 
+# フェード白イン
+# fill 白
+effect1 16
+bg 254
+wait 90
 
-# OP中断マーク
+#---------------------------------------
+# フェード白アウト
+# 桜エフェクト
+vis 245
+effect1 24
+effect2 16
+wait 300
 
-#さくら舞っている
-# TITLE2
-# 校門CG　S35D
-# ホワイトアウト
+#スキップポイント
+mark
+bgmstop
 
+# フェード白イン
+# fill 白
+effect1 16
+bg 254
+wait 60
 
+bgm 4 1
+sprmode 0
 
-
-end
+end 0

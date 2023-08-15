@@ -12,6 +12,9 @@ extern "C" {
 
 //---------------------------------------------------------------------------
 
+typedef struct {
+	bool isSpr;
+} ST_FADE;
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void FadeInit(void);
@@ -20,6 +23,8 @@ EWRAM_CODE void FadeExec(void);
 EWRAM_CODE void FadeSetMode(u32 mode, u32 cnt);
 EWRAM_CODE void FadeSetBlack(u32 cnt);
 EWRAM_CODE void FadeSetWhite(u32 cnt);
+
+EWRAM_CODE void FadeSetSpr(bool is);
 
 
 #ifdef __cplusplus

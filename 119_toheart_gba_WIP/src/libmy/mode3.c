@@ -1,6 +1,6 @@
 #include "mode3.h"
 #include "mem.h"
-
+#include "../res.h"
 
 //---------------------------------------------------------------------------
 ST_MODE3 Mode3 EWRAM_BSS;
@@ -177,27 +177,37 @@ IWRAM_CODE void Mode3DrawCopyH(s32 sx)
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawFadeMask(s32 step)
 {
-	const s32 sx[8] = { 0, 2, 1, 3, 1, 3, 0, 2 };
-	const s32 sy[8] = { 0, 0, 1, 1, 0, 0, 1, 1 };
+	const s32 sx1[8] = { 0, 2, 1, 3, 1, 3, 0, 2 };
+	const s32 sy1[8] = { 0, 0, 1, 1, 0, 0, 1, 1 };
+
 	s32 x, y;
 
 	for(y=0; y<SCREEN_CY; y+=4)
 	{
-		u16* s1 = Mode3.buf  + sx[step] + (y + sy[step]) * SCREEN_CX;
-		u16* d1 = (u16*)VRAM + sx[step] + (y + sy[step]) * SCREEN_CX;
-
-		u16* s2 = s1 + 2 + SCREEN_CX * 2;
-		u16* d2 = d1 + 2 + SCREEN_CX * 2;
+		u16* s1 = Mode3.buf  + sx1[step] + (y + sy1[step]) * SCREEN_CX;
+		u16* d1 = (u16*)VRAM + sx1[step] + (y + sy1[step]) * SCREEN_CX;
 
 		for(x=0; x<SCREEN_CX; x+=4)
 		{
 			*d1 = *s1;
 			s1 += 4;
 			d1 += 4;
+		}
+	}
 
-			*d2 = *s2;
-			s2 += 4;
-			d2 += 4;
+	const s32 sx2[8] = { 2, 0, 3, 1, 3, 1, 2, 0 };
+	const s32 sy2[8] = { 0, 0, 1, 1, 0, 0, 1, 1 };
+
+	for(y=2; y<SCREEN_CY; y+=4)
+	{
+		u16* s1 = Mode3.buf  + sx2[step] + (y + sy2[step]) * SCREEN_CX;
+		u16* d1 = (u16*)VRAM + sx2[step] + (y + sy2[step]) * SCREEN_CX;
+
+		for(x=0; x<SCREEN_CX; x+=4)
+		{
+			*d1 = *s1;
+			s1 += 4;
+			d1 += 4;
 		}
 	}
 }
@@ -217,4 +227,52 @@ IWRAM_CODE void Mode3DrawWipeTtoB(s32 step)
 			MemFix(&col, (u16*)VRAM + y * SCREEN_CX, SCREEN_CX*2);
 		}
 	}
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawTitle(s32 step)
+{
+	// 上
+	MemInc((u16*)&bg_logoBitmap[240*8*6 - 240*step], (u16*)VRAM, 240*8*2 + 240*2*step);
+	// 下
+	MemInc((u16*)&bg_logoBitmap[240*8*13], (u16*)(VRAM + (240*160*2) - (240*8*2) - (240*2*step)), 240*8*2 + 240*2*step);
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawShake(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc(&Mode3.buf, &Mode3.buf[SCREEN_CX * SCREEN_CY], MODE3_MAX_BUF_SIZE);
+
+		return;
+	}
+
+	// バッファを黒色で塗りつぶし
+	u32 col ALIGN(4);
+	col = 0;
+
+	MemFix(&col, Mode3.buf, MODE3_MAX_BUF_SIZE);
+
+	// 揺れ
+	// 左下、右上、左上、右下、左下、左上、元ポジション
+	_ASSERT((step - 1) < 7);
+
+	const s32 sx[7] = { -8,  8, -8,  8, -8, -8,  0 };
+	const s32 sy[7] = {  8, -8, -8,  8,  8, -8,  0 };
+	s32 x, y;
+
+	for(y=0; y<SCREEN_CY; y++)
+	{
+		for(x=0; x<SCREEN_CX; x++)
+		{
+			s32 dx = x - sx[step - 1];
+			s32 dy = y - sy[step - 1];
+
+			if(dx >= 0 && dy >= 0 && dx < SCREEN_CX && dy < SCREEN_CY)
+			{
+				Mode3.buf[x + y * SCREEN_CX] = Mode3.buf[dx + dy * SCREEN_CX + (SCREEN_CX * SCREEN_CY)];
+			}
+		}
+	}
+
+	Mode3.isDraw = true;
 }

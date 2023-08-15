@@ -11,7 +11,7 @@
 
 
 //---------------------------------------------------------------------------
-const char MenuSelectStr[18][30] = {
+ROM_DATA char MenuSelectStr[18][30] = {
 	// 0
 	"－　システムメニュー　－",
 	"　文字送り",
@@ -74,7 +74,7 @@ EWRAM_CODE void MenuExec(void)
 			Menu.sel = 0;
 		}
 
-		Menu.isDraw = true;
+		TxtSetChr();
 	}
 
 	if(rep & KEY_UP)
@@ -88,15 +88,6 @@ EWRAM_CODE void MenuExec(void)
 			Menu.sel = Menu.reg - 1;
 		}
 
-		Menu.isDraw = true;
-	}
-
-
-	if(Menu.isDraw == true)
-	{
-		Menu.isDraw = false;
-
-		TxtSetCur(false);
 		TxtSetChr();
 	}
 }
@@ -139,7 +130,10 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 	case 2:
 		if(LogIsEmpty() == false)
 		{
-			LogSetInit(LOG_RET_SYSTEM);
+			LogSetRet(LOG_RET_SYSTEM);
+			TxtSetChr();
+			TxtSetCur(false);
+
 			ManageSetLog();
 		}
 		break;
@@ -161,6 +155,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 
 	// ゲーム終了
 	case 6:
+		ManageSetInit();
 		break;
 	}
 }
@@ -183,15 +178,17 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 		if(trg & KEY_LEFT && wait != 0)
 		{
 			wait--;
+
 			TxtSetWaitMax(wait);
-			Menu.isDraw = true;
+			TxtSetChr();
 		}
 
 		if(trg & KEY_RIGHT && wait < 3)
 		{
 			wait++;
+
 			TxtSetWaitMax(wait);
-			Menu.isDraw = true;
+			TxtSetChr();
 		}
 		break;
 
@@ -202,18 +199,19 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 		if(trg & KEY_LEFT && fade != 0)
 		{
 			fade--;
+
 			ImgSetFadeMax(fade);
-			Menu.isDraw = true;
+			TxtSetChr();
 		}
 
 		if(trg & KEY_RIGHT && fade < 16)
 		{
 			fade++;
+
 			ImgSetFadeMax(fade);
-			Menu.isDraw = true;
+			TxtSetChr();
 		}
 		break;
-
 	}
 }
 //---------------------------------------------------------------------------
@@ -289,6 +287,7 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 	{
 	// ゲームを始める
 	case 0:
+		TxtClear();
 		TxtSetChr();
 		TxtSetRes();
 
@@ -313,7 +312,15 @@ EWRAM_CODE void MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* 
 	Menu.msg    = msg;
 	Menu.reg    = reg;
 	Menu.pFunc  = pFunc;
-	Menu.isDraw = isDraw;
+
+
+	TxtShowMsg();
+	TxtSetCur(false);
+
+	if(isDraw == true)
+	{
+		TxtSetChr();
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetSystem(s32 sel)
@@ -336,7 +343,7 @@ EWRAM_CODE void MenuSetLoad(s32 ret)
 	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 12, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void  MenuSetNone(void)
+EWRAM_CODE void MenuSetNone(void)
 {
 	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 13, 0, MenuExecNone, false);
 }

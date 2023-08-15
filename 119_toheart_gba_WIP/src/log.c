@@ -33,11 +33,9 @@ End:
 		}
 		else
 		{
-			TxtClearDat();
 			TxtSetChr();
 
 			MenuSetSystem(MENU_SYSTEM_SEL_LOG);
-
 			ManageSetMenu();
 		}
 
@@ -49,34 +47,26 @@ End:
 		if((Log.sel+1) < Log.cnt)
 		{
 			Log.sel++;
-			Log.isDraw = true;
+
+			TxtSetChr();
 		}
 	}
 
 	if(rep & KEY_RIGHT)
 	{
-		if(Log.sel != 0)
+		if(Log.sel == 0)
 		{
-			Log.sel--;
-			Log.isDraw = true;
+			goto End;
 		}
 
-		goto End;
-	}
+		Log.sel--;
 
-	if(Log.isDraw == true)
-	{
-		Log.isDraw = false;
-
-		TxtSetCur(false);
 		TxtSetChr();
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void LogSetInit(u32 ret)
+EWRAM_CODE void LogSetRet(u32 ret)
 {
-	Log.isDraw = true;
-
 	Log.sel = 0;
 	Log.ret = ret;
 }

@@ -32,7 +32,7 @@ enum {
 };
 
 enum {
-	MENU_SYSTEM_SEL_SKIP = 0,
+	MENU_SYSTEM_SEL_SKIP,
 	MENU_SYSTEM_SEL_NONE,
 	MENU_SYSTEM_SEL_LOG,
 	MENU_SYSTEM_SEL_SAVE,
@@ -41,14 +41,13 @@ enum {
 };
 
 enum {
-	MENU_TITLE_SEL_START = 0,
+	MENU_TITLE_SEL_START,
 	MENU_TITLE_SEL_LOAD,
 };
 
 //---------------------------------------------------------------------------
 
 typedef struct {
-	bool isDraw;				// 描画フラグ
 	s32  type;					// メニュー種類
 	s32  ret;					// メニュー終了先
 	s32  sel;					// 選択中の項目
