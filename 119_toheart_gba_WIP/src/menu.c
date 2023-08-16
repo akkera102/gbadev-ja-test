@@ -130,9 +130,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 	case 2:
 		if(LogIsEmpty() == false)
 		{
-			LogSetRet(LOG_RET_SYSTEM);
-			TxtSetChr();
-			TxtSetCur(false);
+			LogSetDisp(LOG_RET_SYSTEM);
 
 			ManageSetLog();
 		}

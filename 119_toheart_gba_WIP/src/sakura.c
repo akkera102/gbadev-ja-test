@@ -13,12 +13,7 @@ EWRAM_CODE void SakuraInit(void)
 	_Memset(&Sakura, 0x00, sizeof(ST_SAKURA));
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SakuraInitRnd(u32 rnd)
-{
-	tinymt32_init(&Sakura.mt, rnd);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SakuraExec(void)
+IWRAM_CODE void SakuraExec(void)
 {
 	s32 i;
 
@@ -59,7 +54,19 @@ EWRAM_CODE void SakuraExec(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SakuraStart(bool isScn)
+IWRAM_CODE void SakuraStop(void)
+{
+	s32 i;
+
+	for(i=0; i<SAKURA_MAX_DAT; i++)
+	{
+		SprDirectMove(i, SCREEN_CX, SCREEN_CY);
+	}
+
+	Sakura.isEffect = false;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void SakuraRegAll(bool isScn)
 {
 	s32 i;
 
@@ -78,7 +85,7 @@ EWRAM_CODE void SakuraStart(bool isScn)
 	Sakura.isEffect = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SakuraRegDat(u32 no)
+IWRAM_CODE void SakuraRegDat(u32 no)
 {
 	Sakura.dat[no].type = SakuraRnd(3);
 	Sakura.dat[no].wait = 0;
@@ -89,16 +96,9 @@ EWRAM_CODE void SakuraRegDat(u32 no)
 	Sakura.dat[no].my   = SakuraRnd(96)  + 16;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SakuraStop(void)
+EWRAM_CODE void SakuraSeed(u32 rnd)
 {
-	s32 i;
-
-	for(i=0; i<SAKURA_MAX_DAT; i++)
-	{
-		SprDirectMove(i, SCREEN_CX, SCREEN_CY);
-	}
-
-	Sakura.isEffect = false;
+	tinymt32_init(&Sakura.mt, rnd);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE s32 SakuraRnd(s32 num)

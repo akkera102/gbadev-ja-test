@@ -47,11 +47,11 @@ EWRAM_CODE void BgmRestart(void)
 	if(Bgm.isPlay == true)
 	{
 		BgmPlay2(Bgm.no, Bgm.isLoop);
+
+		return;
 	}
-	else
-	{
-		BgmStop();
-	}
+
+	BgmStop();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool BgmIsEnd(void)

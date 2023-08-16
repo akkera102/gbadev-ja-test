@@ -1,4 +1,3 @@
-WIP
 
 　「To Heart」Advance
 　　インストール手順書
@@ -45,7 +44,7 @@ WIP
 
 ■　開発環境
     ・windows10 pro
-    ・devkitARM r61 + python 3.?.? + Pillow ?
+    ・devkitARM r61 + python 3.7.0 + Pillow
 
 ■　簡単な履歴
 

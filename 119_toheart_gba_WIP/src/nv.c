@@ -68,6 +68,7 @@ EWRAM_CODE void NvExecKey(void)
 	u16 cnt = KeyGetCnt();
 	u16 trg = KeyGetTrg();
 
+	// 次の選択肢までスキップ
 	if(Nv.isSkip == true)
 	{
 		if(cnt & KEY_B)
@@ -87,6 +88,7 @@ EWRAM_CODE void NvExecKey(void)
 	case 0:
 		TxtShowMsg();
 		TxtSetCur(true);
+
 		Nv.step++;
 		break;
 
@@ -94,21 +96,21 @@ EWRAM_CODE void NvExecKey(void)
 		if(cnt & KEY_R || trg & KEY_A || trg & KEY_DOWN)
 		{
 			TxtSetCur(false);
+
 			Nv.act = NV_ACT_PARSE;
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			LogSetRet(LOG_RET_NOVEL);
-			TxtSetChr();
-			TxtSetCur(false);
-
+			LogSetDisp(LOG_RET_NOVEL);
 			ManageSetLog();
+
 			Nv.step--;
 		}
 		else if(trg & KEY_B)
 		{
 			MenuSetSystem(MENU_SYSTEM_SEL_SKIP);
 			ManageSetMenu();
+
 			Nv.step--;
 		}
 		break;
@@ -122,6 +124,7 @@ EWRAM_CODE void NvExecSel(void)
 	// 項目の表示
 	case 0:
 		TxtClearXY();
+		TxtShowMsg();
 		TxtSetBuf(false);
 		TxtSetCur(false);
 		Nv.isSkip = false;
@@ -140,8 +143,8 @@ EWRAM_CODE void NvExecSel(void)
 			}
 
 			Nv.pCur = Nv.sel.pStr[i];
-			NvSetCurStr();
 
+			NvSetCurStr();
 			TxtDrawStr(Nv.str);
 			TxtSetLf();
 		}
@@ -162,30 +165,29 @@ EWRAM_CODE void NvExecSel(void)
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			LogSetRet(LOG_RET_NOVEL);
-			TxtSetChr();
-			TxtSetCur(false);
-
+			LogSetDisp(LOG_RET_NOVEL);
 			ManageSetLog();
+
 			Nv.step--;
 		}
 		else if(trg & KEY_B)
 		{
 			MenuSetSystem(MENU_SYSTEM_SEL_SKIP);
 			ManageSetMenu();
+
 			Nv.step--;
 		}
 		else if((trg & KEY_UP) && Nv.sel.num > 0)
 		{
-			TxtClearXY();
-			Nv.step--;
 			Nv.sel.num--;
+
+			Nv.step--;
 		}
 		else if((trg & KEY_DOWN) && (Nv.sel.num + 1) < Nv.sel.cnt)
 		{
-			TxtClearXY();
-			Nv.step--;
 			Nv.sel.num++;
+
+			Nv.step--;
 		}
 		break;
 
@@ -200,11 +202,20 @@ EWRAM_CODE void NvExecSel(void)
 		TxtSetPageNew();
 
 		// 選択肢のアドレスへジャンプ
-		Nv.pCur   = Nv.sel.pSrc;
+		Nv.pCur = Nv.sel.pSrc;
 		Nv.curAdr = Nv.sel.srcAdr;
-//		TRACE("[pCur=%x curADdr=%x]\n", Nv.pCur, Nv.curAdr);
-//		TRACE("[selJump: %x]\n", Nv.curAdr + 1 + 2 + 2*Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
-		NvJumpCurAdr(Nv.curAdr + 3 + 2*Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+
+		// 選択肢 or 可変選択肢
+		if(Nv.isSelOpt == false)
+		{
+//			TRACE("[selJump: %x]\n", Nv.curAdr + 3 + 2 * Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+			NvJumpCurAdr(Nv.curAdr + 3 + 2 * Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+		}
+		else
+		{
+//			TRACE("[selJump: %x]\n", Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.cnt);
+			NvJumpCurAdr(Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.cnt);
+		}
 
 		NvSetAct(NV_ACT_PARSE);
 		break;
@@ -217,7 +228,7 @@ EWRAM_CODE void NvExecRestart(void)
 	{
 	case 0:
 		LogInit();
-		TxtClear();
+		TxtHideMsg();
 		Nv.step++;
 		break;
 
@@ -237,6 +248,9 @@ EWRAM_CODE void NvExecRestart(void)
 		TxtRestart();
 		ImgRestart();
 		NvPopAct();
+
+		// 選択肢の場合のリセット
+		Nv.sel.num = -1;
 		break;
 	}
 }
@@ -264,6 +278,16 @@ EWRAM_CODE void NvSetEffectAfter(u8 no)
 	}
 
 	ImgSetEffectAfter(no);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvSetEffectTime(u8 cnt)
+{
+	if(Nv.isSkip == true)
+	{
+		return;
+	}
+
+	ImgSetEffectTime(cnt);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetScn(u32 no)

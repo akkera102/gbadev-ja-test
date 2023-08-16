@@ -484,10 +484,8 @@ EWRAM_CODE u32 TxtGetWaitMax(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtRestart(void)
 {
-	Txt.waitCnt = 0;
-	Txt.drawCnt = 0;
-	Txt.isChr   = true;
-	Txt.isBuf   = true;
+	TxtSetChr();
+	TxtSetRes();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtSetLf(void)

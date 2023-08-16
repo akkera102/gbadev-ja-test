@@ -65,10 +65,13 @@ End:
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void LogSetRet(u32 ret)
+EWRAM_CODE void LogSetDisp(u32 ret)
 {
 	Log.sel = 0;
 	Log.ret = ret;
+
+	TxtSetChr();
+	TxtSetCur(false);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u16* LogGetBuf(void)

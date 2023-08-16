@@ -40,12 +40,13 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void SakuraInit(void);
-EWRAM_CODE void SakuraInitRnd(u32 rnd);
-EWRAM_CODE void SakuraExec(void);
+IWRAM_CODE void SakuraExec(void);
+IWRAM_CODE void SakuraStop(void);
 
-EWRAM_CODE void SakuraStart(bool isScn);
-EWRAM_CODE void SakuraRegDat(u32 no);
-EWRAM_CODE void SakuraStop(void);
+IWRAM_CODE void SakuraRegAll(bool isScn);
+IWRAM_CODE void SakuraRegDat(u32 no);
+
+EWRAM_CODE void SakuraSeed(u32 rnd);
 EWRAM_CODE s32  SakuraRnd(s32 num);
 EWRAM_CODE bool SakuraIsEffect(void);
 

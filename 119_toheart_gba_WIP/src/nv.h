@@ -8,9 +8,9 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define NV_MAX_FLAG_CNT					256
+#define NV_MAX_FLAG_CNT					0x100
 #define NV_MAX_PARSE_CNT				70
-#define NV_MAX_SEL_CNT					5
+#define NV_MAX_SEL_CNT					12
 #define NV_MAX_SCN_CNT					0xa96
 #define NV_MAX_STR_CNT					256
 
@@ -45,8 +45,8 @@ typedef struct {
 	u8   msg;
 	s8   num;
 
-	u8   item[NV_MAX_SEL_CNT];
-	u8   jump[NV_MAX_SEL_CNT];
+	s8   item[NV_MAX_SEL_CNT];
+	s8   jump[NV_MAX_SEL_CNT];
 	u8*  pStr[NV_MAX_SEL_CNT];
 
 	u8*  pSrc;
@@ -87,6 +87,7 @@ typedef struct {
 
 	// ëIëéà
 	bool isSel;
+	bool isSelOpt;
 	ST_NV_SEL sel;
 
 	// óêêîóp
@@ -104,6 +105,7 @@ EWRAM_CODE void NvExecRestart(void);
 
 EWRAM_CODE void NvSetEffectBefore(u8 no);
 EWRAM_CODE void NvSetEffectAfter(u8 no);
+EWRAM_CODE void NvSetEffectTime(u8 cnt);
 
 EWRAM_CODE void NvSetScn(u32 no);
 EWRAM_CODE void NvSetEvt(u32 no);

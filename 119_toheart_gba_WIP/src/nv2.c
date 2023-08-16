@@ -69,7 +69,7 @@ const ST_NV_PARSE_TABLE NvParseTable[NV_MAX_PARSE_CNT] = {
 	{ "timeWait",    (void*)NvExecParseTimeWait    },
 	{ "txtXY",       (void*)NvExecParseTxtXy       },
 	{ "flash",       (void*)NvExecParseFlash       },
-	{ "vibrate",     (void*)NvExecParseShake       },
+	{ "vibrate",     (void*)NvExecParseVibrate     },
 	{ "bg2",         (void*)NvExecParseBg2         },
 	{ "visLoad2",    (void*)NvExecParseVisLoad2    },
 	{ "loadH",       (void*)NvExecParseLoadH       },
@@ -105,9 +105,9 @@ EWRAM_CODE void NvExecParse(void)
 EWRAM_CODE void NvExecParseSub(void)
 {
 	// アドレス
-	u16 n = NvGetCurHex();
-	TRACE("[%04X] ", n);
-	Nv.curAdr = n;
+	u16 adr = NvGetCurHex();
+	TRACE("[%04X] ", adr);
+	Nv.curAdr = adr;
 
 	// テキストor命令セット
 
@@ -144,7 +144,7 @@ EWRAM_CODE void NvExecParseTitle(void)
 {
 	TRACE("title rnd=%x\n", Nv.vblankCnt);
 
-	SakuraInitRnd(Nv.vblankCnt);
+	SakuraSeed(Nv.vblankCnt);
 	AnimeSetDat(ANIME_DAT_OPENING);
 	ManageSetAnime();
 
@@ -162,6 +162,8 @@ EWRAM_CODE void NvExecParseSel(void)
 	Nv.sel.cnt    = NvGetCurHex();
 	Nv.sel.msg    = NvGetCurHex();
 	Nv.sel.num    = -1;
+	Nv.isSelOpt   = false;
+	Nv.isSel      = true;
 
 	TRACE("%x %x\n", Nv.sel.cnt, Nv.sel.msg);
 
@@ -188,7 +190,6 @@ EWRAM_CODE void NvExecParseSel(void)
 	}
 
 	NvSetMsg(Nv.sel.msg);
-	Nv.isSel  = true;
 }
 //---------------------------------------------------------------------------
 // ジャンプファイル 0x28
@@ -206,16 +207,59 @@ EWRAM_CODE void NvExecParseJmpScn(void)
 // ジャンプブロック 0x29
 EWRAM_CODE void NvExecParseJmpBlk(void)
 {
-	_ASSERT(0);
+	u8 n = NvGetCurHex();
+
+	TRACE("jmpBlk %x\n", n);
+
+	NvSetEvt(n);
 }
 //---------------------------------------------------------------------------
 // 可変選択肢 0x2b
 EWRAM_CODE void NvExecParseSelOpt(void)
 {
-	_ASSERT(0);
+	TRACE("selOpt ");
+
+	Nv.sel.pSrc   = Nv.pCur - 8;
+	Nv.sel.srcAdr = Nv.curAdr;
+	Nv.sel.cnt    = NvGetCurHex();
+	Nv.sel.msg    = NvGetCurHex();
+	Nv.sel.num    = -1;
+	Nv.isSelOpt   = true;
+	Nv.isSel      = true;
+
+	TRACE("%x %x\n", Nv.sel.cnt, Nv.sel.msg);
+
+	s32 cnt = 0;
+	s32 i;
+
+	// 選択肢メッセージとジャンプアドレス抽出
+	for(i=0; i<12; i++)
+	{
+		if(Nv.flag[NV_FLAG_VSELECT_MSG + i] != 0)
+		{
+			Nv.sel.item[cnt] = Nv.flag[NV_FLAG_VSELECT_MSG + i];
+			Nv.sel.jump[cnt] = Nv.flag[NV_FLAG_VSELECT_OFF + i];
+			cnt++;
+		}
+	}
+
+	// 選択肢メッセージ取得
+	for(i=0; i<Nv.sel.cnt; i++)
+	{
+		NvSetMsg(Nv.sel.item[i]);
+
+		while(_IsSJIS(*Nv.pCur) == false)
+		{
+			Nv.pCur++;
+		}
+
+		Nv.sel.pStr[i] = Nv.pCur;
+	}
+
+	NvSetMsg(Nv.sel.msg);
 }
 //---------------------------------------------------------------------------
-// PUSH A 0x2b
+// PUSH A 0x2d
 EWRAM_CODE void NvExecParsePushA(void)
 {
 	u8 n1 = NvGetCurHex();
@@ -298,32 +342,23 @@ EWRAM_CODE void NvExecParseTime(void)
 	Nv.flag[NV_FLAG_EVENT_DONE] = 0;
 	Nv.flag[NV_FLAG_IDOU] = 0;
 
+	// 表示なし
 	if(n >= 0xf0)
 	{
-		// 表示無し更新
 		Nv.flag[NV_FLAG_TIME] = n - 0xf0;
-	}
-	else
-	{
-		// 表示有り更新
-/*
-		int i;
-		int start;
 
-		if (state->fast_clock) {
-		    start = c[1];
-		} else {
-		    start = state->flag[TOHEART_FLAG_TIME];
-		}
-
-		state->flag[TOHEART_FLAG_TIME] = c[1];
-		for (i=start; i<c[1]+1;i++) {
-		    clock_anim[i].type = LVNS_ANIM_IMAGE_ADD;
-		}
-		clock_anim[i].type = LVNS_ANIM_NONE;
-		LvnsAnimation(lvns, clock_anim + start);
-*/
+		return;
 	}
+
+	// 表示あり
+	Nv.flag[NV_FLAG_TIME] = n;
+	NvSetEffectTime(n);
+
+	// チャイム
+//	SeSetNo(23);
+//	SePlay(1);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // フラグ加算 0x34,0x62
@@ -801,11 +836,11 @@ EWRAM_CODE void NvExecParseFlash(void)
 }
 //---------------------------------------------------------------------------
 // 「　どかっ」画面振動 0xbc
-EWRAM_CODE void NvExecParseShake(void)
+EWRAM_CODE void NvExecParseVibrate(void)
 {
-	TRACE("shake\n");
+	TRACE("Vibrate\n");
 
-	NvSetEffectAfter(IMG_EFFECT_SHAKE);
+	NvSetEffectAfter(IMG_EFFECT_VIBRATE);
 
 	Nv.isLoop = false;
 }

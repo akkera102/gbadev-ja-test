@@ -117,6 +117,19 @@ EWRAM_CODE u8* FileGetSe(u32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetTime(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "OC_%02d.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetTimeMask(void)
+{
+	return GbfsGetSafePointer("OC_00_M.img");
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE u32 FileGetSize(void)
 {
 	return GbfsGetFileSize();

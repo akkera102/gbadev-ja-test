@@ -15,16 +15,16 @@ extern "C" {
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE u32  NvGetCurNum(void);
-EWRAM_CODE u32  NvGetCurHex(void);
-EWRAM_CODE void NvSetCurStr(void);
+IWRAM_CODE u32  NvGetCurNum(void);
+IWRAM_CODE u32  NvGetCurHex(void);
+IWRAM_CODE void NvSetCurStr(void);
 
-EWRAM_CODE void NvSkipCurLine(void);
-EWRAM_CODE void NvSkipCurLine2(s32 cnt);
-EWRAM_CODE void NvSkipCurSpace(void);
-EWRAM_CODE void NvSkipCurChr(u8 chr);
+IWRAM_CODE void NvSkipCurLine(void);
+IWRAM_CODE void NvSkipCurLine2(s32 cnt);
+IWRAM_CODE void NvSkipCurSpace(void);
+IWRAM_CODE void NvSkipCurChr(u8 chr);
 
-EWRAM_CODE void NvJumpCurAdr(u16 adr);
+IWRAM_CODE void NvJumpCurAdr(u16 adr);
 
 
 #ifdef __cplusplus

@@ -237,7 +237,7 @@ IWRAM_CODE void Mode3DrawTitle(s32 step)
 	MemInc((u16*)&bg_logoBitmap[240*8*13], (u16*)(VRAM + (240*160*2) - (240*8*2) - (240*2*step)), 240*8*2 + 240*2*step);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode3DrawShake(s32 step)
+IWRAM_CODE void Mode3DrawVibrate(s32 step)
 {
 	if(step == 0)
 	{

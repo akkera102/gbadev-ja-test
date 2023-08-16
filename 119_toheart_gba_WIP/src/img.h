@@ -45,7 +45,8 @@ enum {
 	IMG_EFFECT_SAKURA1_BLACK,		// 0x17 画面上に桜あり（ブラックイン）
 	IMG_EFFECT_SAKURA1_WHITE,		// 0x18 画面上に桜あり（ホワイトイン）
 	IMG_EFFECT_SAKURA2,				// 0x19 画面外から桜
-	IMG_EFFECT_SHAKE,				// 0x20 どかっ
+	IMG_EFFECT_VIBRATE,				// 0x20 どかっ
+	IMG_EFFECT_TIME,				// 0x21 時計表示
 };
 
 
@@ -76,6 +77,7 @@ typedef struct {
 	u16  var4;
 	u16  var5;
 	u16  var6;
+	u16  time;
 
 	// オプション設定
 	u16  fadeMax;
@@ -99,6 +101,7 @@ EWRAM_CODE void ImgSetChr(u16 no, u8 pos);
 EWRAM_CODE void ImgSetChrClr(void);
 EWRAM_CODE void ImgSetEffectBefore(u8 no);
 EWRAM_CODE void ImgSetEffectAfter(u8 no);
+EWRAM_CODE void ImgSetEffectTime(u8 cnt);
 EWRAM_CODE u16  ImgGetChr(u8 no);
 
 EWRAM_CODE void ImgShowWindow(void);

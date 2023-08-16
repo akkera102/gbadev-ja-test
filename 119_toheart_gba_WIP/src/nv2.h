@@ -78,7 +78,7 @@ EWRAM_CODE void NvExecParseTimeTxt(void);
 EWRAM_CODE void NvExecParseTimeWait(void);
 EWRAM_CODE void NvExecParseTxtXy(void);
 EWRAM_CODE void NvExecParseFlash(void);
-EWRAM_CODE void NvExecParseShake(void);
+EWRAM_CODE void NvExecParseVibrate(void);
 EWRAM_CODE void NvExecParseBg2(void);
 EWRAM_CODE void NvExecParseVisLoad2(void);
 EWRAM_CODE void NvExecParseLoadH(void);

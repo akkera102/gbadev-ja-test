@@ -21,7 +21,7 @@ EWRAM_CODE void ImgInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgExec(void)
 {
-	if(Img.isTxt == true && NvIsSkip() == false && NvIsRestart() == false)
+	if(Img.isTxt == true && NvIsSkip() == false && NvIsRestart() == false && Img.after != IMG_EFFECT_VIBRATE)
 	{
 		ImgExecTxt();
 
@@ -198,7 +198,7 @@ IWRAM_CODE void ImgExecBefore(void)
 	case IMG_EFFECT_SAKURA1_BLACK:
 		FadeSetSpr(true);
 		FadeSetBlack(16);
-		SakuraStart(true);
+		SakuraRegAll(true);
 
 		Img.isBefore = false;
 		break;
@@ -207,7 +207,7 @@ IWRAM_CODE void ImgExecBefore(void)
 	case IMG_EFFECT_SAKURA1_WHITE:
 		FadeSetSpr(true);
 		FadeSetWhite(16);
-		SakuraStart(true);
+		SakuraRegAll(true);
 
 		Img.isBefore = false;
 		break;
@@ -215,7 +215,7 @@ IWRAM_CODE void ImgExecBefore(void)
 	// 0x19
 	case IMG_EFFECT_SAKURA2:
 		FadeSetSpr(true);
-		SakuraStart(false);
+		SakuraRegAll(false);
 
 		Img.isBefore = false;
 		break;
@@ -400,7 +400,8 @@ IWRAM_CODE void ImgExecAfter(void)
 
 	// 0x16
 	case IMG_EFFECT_OP_SCROLL2:
-		if(Img.var4++ < 6)
+		// mGBA 3, VBA 5
+		if(Img.var4++ < 3)
 		{
 			return;
 		}
@@ -437,14 +438,47 @@ IWRAM_CODE void ImgExecAfter(void)
 		break;
 
 	// 0x20
-	case IMG_EFFECT_SHAKE:
-		Mode3DrawShake(Img.var4++);
+	case IMG_EFFECT_VIBRATE:
+		Mode3DrawVibrate(Img.var4++);
 
 		if(Img.var4 > 7)
 		{
-			// テキスト表示に変更
-			ImgSetEffectAfter(IMG_EFFECT_TXT_ON);
+			Img.isAfter = false;
 		}
+		break;
+
+	// 0x21
+	case IMG_EFFECT_TIME:
+		if(Img.var6++ == 0)
+		{
+			ST_FILE_IMG_HEADER* p = (ST_FILE_IMG_HEADER*)FileGetTime(Img.time);
+			s32 sy = (SCREEN_CY / 2) - (p->cy / 2);
+			s32 sx = (SCREEN_CX / 2) - (p->cx / 2);
+
+			Mode3DrawBlend(sx, sy, p->cx, p->cy, (u16*)(p + 1), FileGetTimeMask());
+		}
+
+		if(Img.var5++ < 3)
+		{
+			return;
+		}
+		Img.var5 = 0;
+
+		if(Img.var4 < 8)
+		{
+			// VCOUNT 160 -> 220
+			// TRACE("FADE_MASK S:%d\n", REG_VCOUNT);
+			Mode3DrawFadeMask(Img.var4++);
+			// TRACE("FADE_MASK E:%d\n", REG_VCOUNT);
+			return;
+		}
+
+		if(Img.var4++ < 8+10)
+		{
+			return;
+		}
+
+		ImgSetEffectAfter(IMG_EFFECT_FADE_MASK);
 		break;
 
 	default:
@@ -581,6 +615,14 @@ EWRAM_CODE void ImgSetEffectAfter(u8 no)
 	Img.var6    = 0;
 	Img.after   = no;
 	Img.isAfter = true;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgSetEffectTime(u8 cnt)
+{
+	// 時計ファイル番号を格納
+	Img.time = cnt;
+
+	ImgSetEffectAfter(IMG_EFFECT_TIME);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u16 ImgGetChr(u8 no)

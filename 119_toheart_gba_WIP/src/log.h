@@ -34,7 +34,7 @@ typedef struct {
 EWRAM_CODE void LogInit(void);
 EWRAM_CODE void LogExec(void);
 
-EWRAM_CODE void LogSetRet(u32 ret);
+EWRAM_CODE void LogSetDisp(u32 ret);
 EWRAM_CODE u16* LogGetBuf(void);
 EWRAM_CODE void LogAddBuf(u16* p);
 
