@@ -3,6 +3,7 @@
 #include "libmy/key.h"
 #include "libmy/lex.h"
 #include "libmy/fade.h"
+#include "libmy/vgm.arm.h"
 #include "img.h"
 #include "bgm.h"
 #include "se.h"
@@ -20,6 +21,7 @@ ROM_DATA ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "effect1", (void*)AnimeExecEffect1 },
 	{ "effect2", (void*)AnimeExecEffect2 },
 	{ "wait",    (void*)AnimeExecWait    },
+	{ "waitBgm", (void*)AnimeExecWaitBgm },
 	{ "bgm",     (void*)AnimeExecBgm     },
 	{ "bgmstop", (void*)AnimeExecBgmStop },
 	{ "skip",    (void*)AnimeExecSkip    },
@@ -28,7 +30,7 @@ ROM_DATA ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "end",     (void*)AnimeExecEnd     },
 };
 
-ROM_DATA char* AnimeDat[ANIME_MAX_DAT_CNT] = {
+char* AnimeDat[ANIME_MAX_DAT_CNT] = {
 	(char*)&ani_1_lo_txt,
 	(char*)&ani_2_op_txt,
 	(char*)&ani_3_ed_txt,
@@ -82,6 +84,16 @@ EWRAM_CODE void AnimeExec(void)
 		Anime.wait--;
 
 		return;
+	}
+
+	if(Anime.isWaitBgm == true)
+	{
+		if(VgmGetOffset() < Anime.var)
+		{
+			return;
+		}
+
+		Anime.isWaitBgm = false;
 	}
 
 
@@ -190,6 +202,14 @@ EWRAM_CODE void AnimeExecBgm(void)
 	u32 n2 = LexGetNum();
 
 	BgmPlay(n1, (n2 == 1) ? true : false);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecWaitBgm(void)
+{
+	Anime.var = LexGetNum();
+
+	Anime.isWaitBgm = true;
+	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecBgmStop(void)

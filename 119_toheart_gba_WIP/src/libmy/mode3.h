@@ -44,6 +44,7 @@ IWRAM_CODE void Mode3DrawFadeMask(s32 step);
 IWRAM_CODE void Mode3DrawWipeTtoB(s32 step);
 IWRAM_CODE void Mode3DrawTitle(s32 step);
 IWRAM_CODE void Mode3DrawVibrate(s32 step);
+IWRAM_CODE void Mode3DrawScaling(s32 step);
 
 
 #ifdef __cplusplus

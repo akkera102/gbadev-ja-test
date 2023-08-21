@@ -102,7 +102,6 @@ EWRAM_CODE void TxtSetLf(void);
 EWRAM_CODE void TxtSetBuf(bool is);
 
 
-
 #ifdef __cplusplus
 }
 #endif

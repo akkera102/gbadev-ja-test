@@ -23,12 +23,15 @@ enum {
 	MENU_TYPE_SAVE,
 	MENU_TYPE_LOAD,
 	MENU_TYPE_NONE,
+	MENU_TYPE_DEBUG1,
+	MENU_TYPE_DEBUG2,
 };
 
 enum {
 	MENU_RET_NONE,
 	MENU_RET_TITLE,
 	MENU_RET_SYSTEM,
+	MENU_RET_OPTION,
 };
 
 enum {
@@ -43,6 +46,14 @@ enum {
 enum {
 	MENU_TITLE_SEL_START,
 	MENU_TITLE_SEL_LOAD,
+};
+
+enum {
+	MENU_OPTION_SEL_WAIT,
+	MENU_OPTION_SEL_GRAY,
+	MENU_OPTION_SEL_DEBUG1,
+	MENU_OPTION_SEL_DEBUG2,
+	MENU_OPTION_SEL_OMAKE,
 };
 
 //---------------------------------------------------------------------------
@@ -69,16 +80,21 @@ EWRAM_CODE void  MenuExecSave(u16 trg);
 EWRAM_CODE void  MenuExecLoad(u16 trg);
 EWRAM_CODE void  MenuExecNone(u16 trg);
 EWRAM_CODE void  MenuExecTitle(u16 trg);
+EWRAM_CODE void  MenuExecDebug1(u16 trg);
+EWRAM_CODE void  MenuExecDebug2(u16 trg);
 
 EWRAM_CODE void  MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* pFunc, bool isDraw);
 EWRAM_CODE void  MenuSetSystem(s32 sel);
-EWRAM_CODE void  MenuSetOption(void);
+EWRAM_CODE void  MenuSetOption(s32 sel);
 EWRAM_CODE void  MenuSetSave(s32 ret);
 EWRAM_CODE void  MenuSetLoad(s32 ret);
 EWRAM_CODE void  MenuSetNone(void);
 EWRAM_CODE void  MenuSetTitle(s32 sel);
+EWRAM_CODE void  MenuSetDebug1(void);
+EWRAM_CODE void  MenuSetDebug2(void);
 
-EWRAM_CODE char* MenuGetSelStr(s32 sel);
+EWRAM_CODE char* MenuGetStrTitle(void);
+EWRAM_CODE char* MenuGetStrSelect(s32 sel);
 EWRAM_CODE u8    MenuGetSel(void);
 EWRAM_CODE u8    MenuGetReg(void);
 EWRAM_CODE u8    MenuGetType(void);

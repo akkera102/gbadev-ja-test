@@ -276,3 +276,22 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step)
 
 	Mode3.isDraw = true;
 }
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawScaling(s32 step)
+{
+	REG_BG2PA =  0x100 - step;
+	REG_BG2PB =  0;
+	REG_BG2PC =  0;
+	REG_BG2PD =  0x100 - step;
+
+	if(step == 0)
+	{
+		REG_BG2X = 0;
+		REG_BG2Y = 0;
+
+		return;
+	}
+
+	REG_BG2X = 120 * step;
+	REG_BG2Y =  80 * step;
+}

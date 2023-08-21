@@ -16,7 +16,7 @@ EWRAM_CODE void BgmInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmPlay(s32 no, bool isLoop)
 {
-	if(Bgm.no == no)
+	if(Bgm.no == no && Bgm.isPlay == true)
 	{
 		return;
 	}
@@ -44,14 +44,14 @@ EWRAM_CODE void BgmStop(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmRestart(void)
 {
-	if(Bgm.isPlay == true)
+	if(Bgm.isPlay == false)
 	{
-		BgmPlay2(Bgm.no, Bgm.isLoop);
+		BgmStop();
 
 		return;
 	}
 
-	BgmStop();
+	BgmPlay2(Bgm.no, Bgm.isLoop);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool BgmIsEnd(void)

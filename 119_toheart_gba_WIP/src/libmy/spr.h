@@ -11,6 +11,7 @@ extern "C" {
 #define SPR_MAX_OAM_CNT				12
 #define SPR_MAX_DAT_CNT				424							// テキストバッファタイル数
 #define SPR_MAX_DAT_SIZE			(0x20 * SPR_MAX_DAT_CNT)
+#define SPR_MAX_TBL_SIZE			0x3400
 
 #define SPR_FONT_IMG_CX				12
 #define SPR_FONT_IMG_CY				10
@@ -36,7 +37,8 @@ typedef struct {
 	bool isDrawDat;
 
 	ST_SPR_OAM oam[SPR_MAX_OAM_CNT] ALIGN(4);
-	u8 dat[SPR_MAX_DAT_SIZE] ALIGN(4);
+	u8  dat[SPR_MAX_DAT_SIZE] ALIGN(4);
+	u16 tbl[SPR_MAX_TBL_SIZE/2] ALIGN(4);
 
 	u16  mask;			// テキストの色マスク
 
@@ -66,9 +68,9 @@ EWRAM_CODE void SprShowWindow(void);
 EWRAM_CODE void SprHideWindow(void);
 
 // sakura用
-EWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col);
-EWRAM_CODE void SprDirectSetChr(u32 no, u32 ch);
-EWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y);
+IWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col);
+IWRAM_CODE void SprDirectSetChr(u32 no, u32 ch);
+IWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y);
 
 
 #ifdef __cplusplus

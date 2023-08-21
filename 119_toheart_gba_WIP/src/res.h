@@ -18,7 +18,7 @@ extern const unsigned short tbl_spr1d_bin[];
 
 
 // spr
-#include "res/spr_item.h"
+#include "res/spr_cursor.h"
 #include "res/spr_sakura8.h"
 #include "res/spr_sakura16.h"
 

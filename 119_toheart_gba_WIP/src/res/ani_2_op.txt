@@ -76,7 +76,7 @@ effect2 2
 
 # 桜降りはじめる
 effect1 25
-wait 800
+waitBgm 48000
 
 # フェード黒イン
 effect1 1

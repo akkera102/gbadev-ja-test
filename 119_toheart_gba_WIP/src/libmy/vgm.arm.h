@@ -36,6 +36,7 @@ typedef struct {
 EWRAM_CODE void VgmInit(void);
 EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
 EWRAM_CODE void VgmStop(void);
+EWRAM_CODE u32  VgmGetOffset(void);
 IWRAM_CODE void VgmIntrVblank(void);
 
 EWRAM_CODE bool VgmIsEnd(void);

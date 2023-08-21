@@ -62,6 +62,16 @@ EWRAM_CODE void VgmStop(void)
 	*(u8*)(REG_BASE + 0x84) = 0x80;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE u32 VgmGetOffset(void)
+{
+	if(Vgm.id == VGM_ID_STOP)
+	{
+		return 0;
+	}
+
+	return (u32)(Vgm.pCur - Vgm.pFile);
+}
+//---------------------------------------------------------------------------
 IWRAM_CODE void VgmIntrVblank(void)
 {
 	if(Vgm.id == VGM_ID_STOP)

@@ -130,6 +130,43 @@ EWRAM_CODE u8* FileGetTimeMask(void)
 	return GbfsGetSafePointer("OC_00_M.img");
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetMonth(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "CMON_%02d.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetDay(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "CLNO_%02d.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetDay2(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "CSNO_%02d.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetWeek(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "CWEEK_%02d.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetName(char* pName)
+{
+	return GbfsGetSafePointer(pName);
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE u32 FileGetSize(void)
 {
 	return GbfsGetFileSize();

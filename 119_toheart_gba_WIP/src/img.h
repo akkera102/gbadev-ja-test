@@ -47,6 +47,7 @@ enum {
 	IMG_EFFECT_SAKURA2,				// 0x19 画面外から桜
 	IMG_EFFECT_VIBRATE,				// 0x20 どかっ
 	IMG_EFFECT_TIME,				// 0x21 時計表示
+	IMG_EFFECT_CALENDAR,			// 0x22 日めくりカレンダー表示
 };
 
 
@@ -71,13 +72,17 @@ typedef struct {
 	u16  chr[3];
 
 	// 変数
-	u16  var1;
-	u16  var2;
-	u16  var3;
-	u16  var4;
-	u16  var5;
-	u16  var6;
+	s16  var1;
+	s16  var2;
+	s16  var3;
+	s16  var4;
+	s16  var5;
+	s16  var6;
+
 	u16  time;
+	u16  mon;
+	u16  day;
+	u16  week;
 
 	// オプション設定
 	u16  fadeMax;
@@ -99,9 +104,11 @@ EWRAM_CODE void ImgSetBg(u8 no);
 EWRAM_CODE void ImgSetVis(u8 no);
 EWRAM_CODE void ImgSetChr(u16 no, u8 pos);
 EWRAM_CODE void ImgSetChrClr(void);
+EWRAM_CODE void ImgSetVarClr(void);
 EWRAM_CODE void ImgSetEffectBefore(u8 no);
 EWRAM_CODE void ImgSetEffectAfter(u8 no);
-EWRAM_CODE void ImgSetEffectTime(u8 cnt);
+EWRAM_CODE void ImgSetEffectTime(u8 num);
+EWRAM_CODE void ImgSetEffectCal(u8 mon, u8 day, u8 week);
 EWRAM_CODE u16  ImgGetChr(u8 no);
 
 EWRAM_CODE void ImgShowWindow(void);

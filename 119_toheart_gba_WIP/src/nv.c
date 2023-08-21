@@ -38,6 +38,15 @@ EWRAM_CODE void NvExec(void)
 		return;
 	}
 
+	if(Nv.isWaitPcm == true)
+	{
+		if(SeIsEnd2() == false)
+		{
+			return;
+		}
+
+		Nv.isWaitPcm = false;
+	}
 
 	switch(Nv.act)
 	{
@@ -280,14 +289,28 @@ EWRAM_CODE void NvSetEffectAfter(u8 no)
 	ImgSetEffectAfter(no);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void NvSetEffectTime(u8 cnt)
+EWRAM_CODE void NvSetEffectTime(u8 num)
 {
 	if(Nv.isSkip == true)
 	{
 		return;
 	}
 
-	ImgSetEffectTime(cnt);
+	ImgSetEffectTime(num);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void NvSetEffectCal(u8 num)
+{
+	if(Nv.isSkip == true)
+	{
+		return;
+	}
+
+	u8 m = NvGetCalMonth(num);
+	u8 d = NvGetCalDay(num);
+	u8 w = NvGetCalWeek(num);
+
+	ImgSetEffectCal(m, d, w);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetScn(u32 no)
@@ -379,6 +402,11 @@ EWRAM_CODE void NvAddFlag(u8 no, s8 val)
 	Nv.flag[no] += val;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void NvSubFlag(u8 no, s8 val)
+{
+	Nv.flag[no] -= val;
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE s8 NvGetFlag(u8 no)
 {
 	return Nv.flag[no];
@@ -412,6 +440,43 @@ EWRAM_CODE u8 NvGetVisNo(u8 no)
 	}
 
 	return no;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8 NvGetCalMonth(u8 num)
+{
+	if(num <= 31)
+	{
+		return 3;
+	}
+
+	if(num <= 61)
+	{
+		return 4;
+	}
+
+	return 5;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8 NvGetCalDay(u8 num)
+{
+	if(num <= 31)
+	{
+		return num;
+	}
+
+	if(num <= 61)
+	{
+		num -= 31;
+		return num;
+	}
+
+	num -= 61;
+	return num;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8 NvGetCalWeek(u8 num)
+{
+	return DivMod(num + 5, 7);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u32 NvGetVblankCnt(void)

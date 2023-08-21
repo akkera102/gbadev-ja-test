@@ -14,14 +14,17 @@ EWRAM_CODE void SprInit(void)
 	MemClear(&Spr, sizeof(ST_SPR));
 	MemClear(BITMAP_OBJ_BASE_ADR, 0x20 * 512);
 
-	// cursor spr chr + pal
-	MemInc((u16*)spr_itemTiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE, spr_itemTilesLen);
-	MemInc((u16*)spr_itemPal, OBJ_COLORS, spr_itemPalLen);
+	// cursor chr + pal
+	MemInc((u16*)spr_cursorTiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE, spr_cursorTilesLen);
+	MemInc((u16*)spr_cursorPal, OBJ_COLORS, spr_cursorPalLen);
 
-	// sakura + pal
-	MemInc((u16*)spr_sakura16Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_itemTilesLen, spr_sakura16TilesLen);
-	MemInc((u16*)spr_sakura8Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_itemTilesLen + spr_sakura16TilesLen, spr_sakura8TilesLen);
+	// sakura chr + pal
+	MemInc((u16*)spr_sakura16Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_cursorTilesLen, spr_sakura16TilesLen);
+	MemInc((u16*)spr_sakura8Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_cursorTilesLen + spr_sakura16TilesLen, spr_sakura8TilesLen);
 	MemInc((u16*)spr_sakura8Pal, OBJ_COLORS + 16, spr_sakura8PalLen);
+
+	// spr 1d table
+	MemInc((u8*)tbl_spr1d_bin, Spr.tbl, SPR_MAX_TBL_SIZE);
 
 	// font buffer
 	SprSetChr(0,  18,  22,  512, ATTR0_SQUARE, ATTR1_SIZE_64);
@@ -111,7 +114,7 @@ IWRAM_CODE void SprDrawDatChr(u32 x, u32 y, u16 code)
 	{
 		for(ix=0; ix<3; ix++)
 		{
-			u16* pD = (u16*)(Spr.dat + tbl_spr1d_bin[(x * 3) + ix + (y * 52 * 12) + (iy * 52)]);
+			u16* pD = (u16*)(Spr.dat + Spr.tbl[(x * 3) + ix + (y * 52 * 12) + (iy * 52)]);
 
 			*pD++ = *pS++ & Spr.mask;
 		}
@@ -176,7 +179,7 @@ EWRAM_CODE void SprHideWindow(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col)
+IWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col)
 {
 	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
 
@@ -188,7 +191,7 @@ EWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col)
 	sp->attr2 |= (1 << 12);		// color no
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprDirectSetChr(u32 no, u32 ch)
+IWRAM_CODE void SprDirectSetChr(u32 no, u32 ch)
 {
 	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
 
@@ -196,7 +199,7 @@ EWRAM_CODE void SprDirectSetChr(u32 no, u32 ch)
 	sp->attr2 |= 512 + SPR_MAX_DAT_CNT + 4 + ch;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y)
+IWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y)
 {
 	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
 

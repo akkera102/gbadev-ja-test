@@ -120,12 +120,12 @@ EWRAM_CODE void TxtExecMenu(void)
 
 	// ƒƒjƒ…[–¼
 	SprSetImgWhite();
-	TxtDrawStrXy(2, 0, MenuGetSelStr(0));
+	TxtDrawStrXy(4, 0, MenuGetStrTitle());
 
 	// ‘I‘ğˆ
-	for(i=1; i<reg+1; i++)
+	for(i=0; i<reg; i++)
 	{
-		if(i == sel+1)
+		if(i == sel)
 		{
 			SprSetImgWhite();
 		}
@@ -134,8 +134,8 @@ EWRAM_CODE void TxtExecMenu(void)
 			SprSetImgGray();
 		}
 
-		char* p = MenuGetSelStr(i);
-		TxtDrawStrXy(x+3, 1+y+i, p);
+		char* p = MenuGetStrSelect(i);
+		TxtDrawStrXy(3+x, 2+y+i, p);
 	}
 }
 //---------------------------------------------------------------------------

@@ -18,6 +18,7 @@ EWRAM_CODE void SePlay(s32 cnt)
 	u8* pDat = FileGetSe(Se.no);
 	s32 size = FileGetSize();
 
+	Se.cnt = cnt;
 	SndPlay(pDat, size, -6, cnt);
 }
 //---------------------------------------------------------------------------
@@ -33,5 +34,16 @@ EWRAM_CODE void SeSetNo(s32 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SeIsEnd(void)
 {
+	return SndIsEnd();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE bool SeIsEnd2(void)
+{
+	// 無限ループ指定は終了とします
+	if(Se.cnt == 0)
+	{
+		return true;
+	}
+
 	return SndIsEnd();
 }

@@ -63,9 +63,7 @@ IWRAM_CODE void ImgExecTxt(void)
 		return;
 	}
 
-	Img.var1  = 0;
-	Img.var2  = 0;
-	Img.var3  = 0;
+	ImgSetVarClr();
 	Img.isTxt = false;
 }
 //---------------------------------------------------------------------------
@@ -481,6 +479,97 @@ IWRAM_CODE void ImgExecAfter(void)
 		ImgSetEffectAfter(IMG_EFFECT_FADE_MASK);
 		break;
 
+	// 0x21
+	case IMG_EFFECT_CALENDAR:
+		if(Img.var4 == 0)
+		{
+			s32 sx, sy;
+
+			// Bg
+			ST_FILE_IMG_HEADER* pB = (ST_FILE_IMG_HEADER*)FileGetName("CBAK.img");
+			Mode3DrawBg((u16*)(pB + 1));
+
+			// Month
+			ST_FILE_IMG_HEADER* pM = (ST_FILE_IMG_HEADER*)FileGetMonth(Img.mon);
+			sx = (SCREEN_CX / 2) - (pM->cx / 2);
+			sy = (SCREEN_CY / 2) - (pM->cy / 2);
+			Mode3DrawCrop(sx, sy, pM->cx, pM->cy, (u16*)(pM + 1));
+
+			// Week
+			ST_FILE_IMG_HEADER* pW = (ST_FILE_IMG_HEADER*)FileGetWeek(Img.week);
+			sx = (SCREEN_CX / 2) - (pW->cx / 2);
+			sy = 114;
+			Mode3DrawCrop(sx, sy, pW->cx, pW->cy, (u16*)(pW + 1));
+
+			// Day
+			Img.day = 88;
+			if(Img.day < 10)
+			{
+				ST_FILE_IMG_HEADER* pD1 = (ST_FILE_IMG_HEADER*)FileGetDay(Img.day);
+				sx = (SCREEN_CX / 2) - (pD1->cx / 2);
+				sy = (SCREEN_CY / 2) - (pD1->cy / 2) + 8;
+				Mode3DrawCrop(sx, sy, pD1->cx, pD1->cy, (u16*)(pD1 + 1));
+			}
+			else
+			{
+				ST_FILE_IMG_HEADER* pD1 = (ST_FILE_IMG_HEADER*)FileGetDay2(Div(Img.day, 10));
+				ST_FILE_IMG_HEADER* pD2 = (ST_FILE_IMG_HEADER*)FileGetDay2(DivMod(Img.day, 10));
+				sx = (SCREEN_CX / 2) - (pD1->cx / 2) - (pD1->cx / 2);
+				sy = (SCREEN_CY / 2) - (pD1->cy / 2) + 8;
+				Mode3DrawCrop(sx, sy, pD1->cx, pD1->cy, (u16*)(pD1 + 1));
+
+				sx = (SCREEN_CX / 2) - (pD2->cx / 2) + (pD2->cx / 2);
+				sy = (SCREEN_CY / 2) - (pD2->cy / 2) + 8;
+				Mode3DrawCrop(sx, sy, pD2->cx, pD2->cy, (u16*)(pD2 + 1));
+			}
+
+			FadeSetBlack(16);
+			Mode3SetDraw();
+
+			Img.var4++;
+			Img.var5 = 256;
+			Img.var6 = 0;
+		}
+
+		if(Img.var5 >= 0)
+		{
+			Mode3DrawScaling(Img.var5);
+			FadeSetBlack(Div(Img.var5, 16));
+			Img.var5 -= 4;
+
+			return;
+		}
+
+		if(Img.var4 < 60)
+		{
+			Img.var4++;
+			return;
+		}
+
+		if(Img.var6 <= 256)
+		{
+			Mode3DrawScaling(Img.var6);
+			FadeSetBlack(Div(Img.var6, 16));
+			Img.var6 += 4;
+
+			return;
+		}
+
+		if(Img.var4 < 61)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			Mode3SetDraw();
+
+			Img.var4++;
+			return;
+		}
+
+		FadeSetBlack(0);
+		Mode3DrawScaling(0);
+		Img.isAfter = false;
+		break;
+
 	default:
 		SystemError("[Err] ImgExecAfter Img.after=%x\n", Img.after);
 		break;
@@ -590,14 +679,23 @@ EWRAM_CODE void ImgSetChrClr(void)
 	Img.chr[2] = 0xffff;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void ImgSetVarClr(void)
+{
+	Img.var1 = 0;
+	Img.var2 = 0;
+	Img.var3 = 0;
+	Img.var4 = 0;
+	Img.var5 = 0;
+	Img.var6 = 0;
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetEffectBefore(u8 no)
 {
 	TRACE("[ImgSetEffectBefore %x]\n", no);
 
-	Img.var1     = 0;
-	Img.var2     = 0;
-	Img.var3     = 0;
-	Img.before   = no;
+	ImgSetVarClr();
+
+	Img.before = no;
 	Img.isBefore = true;
 }
 //---------------------------------------------------------------------------
@@ -610,19 +708,26 @@ EWRAM_CODE void ImgSetEffectAfter(u8 no)
 
 	TRACE("[ImgSetEffectAfter %x]\n", no);
 
-	Img.var4    = 0;
-	Img.var5    = 0;
-	Img.var6    = 0;
-	Img.after   = no;
+	ImgSetVarClr();
+
+	Img.after = no;
 	Img.isAfter = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgSetEffectTime(u8 cnt)
+EWRAM_CODE void ImgSetEffectTime(u8 num)
 {
-	// ŽžŒvƒtƒ@ƒCƒ‹”Ô†‚ðŠi”[
-	Img.time = cnt;
+	Img.time = num;
 
 	ImgSetEffectAfter(IMG_EFFECT_TIME);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgSetEffectCal(u8 mon, u8 day, u8 week)
+{
+	Img.mon  = mon;
+	Img.day  = day;
+	Img.week = week;
+
+	ImgSetEffectAfter(IMG_EFFECT_CALENDAR);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u16 ImgGetChr(u8 no)

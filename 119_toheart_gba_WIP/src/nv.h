@@ -63,6 +63,7 @@ typedef struct {
 	s32  wait;
 	bool isLoop;
 	bool isSkip;
+	bool isWaitPcm;
 
 	// スクリプト
 	u8   scnNo;
@@ -105,7 +106,8 @@ EWRAM_CODE void NvExecRestart(void);
 
 EWRAM_CODE void NvSetEffectBefore(u8 no);
 EWRAM_CODE void NvSetEffectAfter(u8 no);
-EWRAM_CODE void NvSetEffectTime(u8 cnt);
+EWRAM_CODE void NvSetEffectTime(u8 num);
+EWRAM_CODE void NvSetEffectCal(u8 num);
 
 EWRAM_CODE void NvSetScn(u32 no);
 EWRAM_CODE void NvSetEvt(u32 no);
@@ -118,10 +120,14 @@ EWRAM_CODE void NvPopAct(void);
 
 EWRAM_CODE void NvSetFlag(u8 no, s8 val);
 EWRAM_CODE void NvAddFlag(u8 no, s8 val);
+EWRAM_CODE void NvSubFlag(u8 no, s8 val);
 EWRAM_CODE s8   NvGetFlag(u8 no);
 
 EWRAM_CODE u16  NvGetChrNo(u16 no);
 EWRAM_CODE u8   NvGetVisNo(u8 no);
+EWRAM_CODE u8   NvGetCalMonth(u8 num);
+EWRAM_CODE u8   NvGetCalDay(u8 num);
+EWRAM_CODE u8   NvGetCalWeek(u8 num);
 EWRAM_CODE u32  NvGetVblankCnt(void);
 
 EWRAM_CODE bool NvIsSkip(void);

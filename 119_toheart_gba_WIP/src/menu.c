@@ -6,40 +6,56 @@
 #include "nv.h"
 #include "log.h"
 #include "img.h"
-#include "bgm.h"
-#include "se.h"
 
 
 //---------------------------------------------------------------------------
-ROM_DATA char MenuSelectStr[18][30] = {
+ROM_DATA char MenuSelectStr[][30] = {
 	// 0
-	"－　システムメニュー　－",
-	"　文字送り",
-	"　文字を消す",
-	"　シナリオ回想",
-	"　セーブ",
-	"　ロード",
-	"　オプション",
-	"　ゲーム終了",
+	"０月００日　曜日",
+	"　　文字送り",
+	"　　文字を消す",
+	"　　シナリオ回想",
+	"　　セーブ",
+	"　　ロード",
+	"　　オプション",
+	"　　ゲーム終了",
 
 	// 8
-	"　－　システム設定　－",
+	"　システム設定",
 	"　文字ウェイト　００",
 	"　背景輝度　　　００",
-
-	// 11
-	"　　　－　セーブ　－",
-
-	// 12
-	"　　　－　ロード　－",
-
-	// 13
-	"",
+	"　好感度１",
+	"　好感度２",
+	"　おまけ",
 
 	// 14
+	"　　　セーブ",
+
+	// 15
+	"　　　ロード",
+
+	// 16
+	"",
+
+	// 17
 	"",
 	"ゲームを始める",
 	"ロードする",
+
+	// 20
+	"　　好感度１",
+	"　神岸あかり　００",
+	"　来栖川芹香　００",
+	"　保科智子　　００",
+	"　長岡志保　　００",
+	"　松原葵　　　００",
+	"　マルチ　　　００",
+	"　姫川琴音　　００",
+	"　宮内レミィ　００",
+
+	// 29
+	"　　好感度２",
+	"　雛山理緒　　００",
 };
 
 //---------------------------------------------------------------------------
@@ -148,7 +164,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 
 	// オプション
 	case 5:
-		MenuSetOption();
+		MenuSetOption(MENU_OPTION_SEL_WAIT);
 		break;
 
 	// ゲーム終了
@@ -210,6 +226,41 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 			TxtSetChr();
 		}
 		break;
+
+	// デバッグ１
+	case 2:
+		MenuSetDebug1();
+		break;
+
+	// デバッグ２
+	case 3:
+		MenuSetDebug2();
+		break;
+
+	// おまけ
+	case 4:
+		// TODO
+		break;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuExecDebug1(u16 trg)
+{
+	if(trg & KEY_B)
+	{
+		MenuSetOption(MENU_OPTION_SEL_DEBUG1);
+
+		return;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuExecDebug2(u16 trg)
+{
+	if(trg & KEY_B)
+	{
+		MenuSetOption(MENU_OPTION_SEL_DEBUG2);
+
+		return;
 	}
 }
 //---------------------------------------------------------------------------
@@ -312,11 +363,11 @@ EWRAM_CODE void MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* 
 	Menu.pFunc  = pFunc;
 
 
-	TxtShowMsg();
 	TxtSetCur(false);
 
 	if(isDraw == true)
 	{
+		TxtShowMsg();
 		TxtSetChr();
 	}
 }
@@ -326,45 +377,106 @@ EWRAM_CODE void MenuSetSystem(s32 sel)
 	MenuSetInit(MENU_TYPE_SYSTEM, MENU_RET_NONE, sel, 0, 7, MenuExecSystem, true);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void MenuSetOption(void)
+EWRAM_CODE void MenuSetOption(s32 sel)
 {
-	MenuSetInit(MENU_TYPE_OPTION, MENU_RET_SYSTEM, 0, 8, 2, MenuExecOption, true);
+	MenuSetInit(MENU_TYPE_OPTION, MENU_RET_SYSTEM, sel, 8, 5, MenuExecOption, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetSave(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 11, 8, MenuExecSave, true);
+	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 14, 8, MenuExecSave, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetLoad(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 12, 8, MenuExecLoad, true);
+	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 15, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetNone(void)
 {
-	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 13, 0, MenuExecNone, false);
+	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 16, 0, MenuExecNone, false);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetTitle(s32 sel)
 {
-	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 14, 2, MenuExecTitle, true);
+	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 17, 2, MenuExecTitle, true);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* MenuGetSelStr(s32 sel)
+EWRAM_CODE void MenuSetDebug1(void)
 {
-	if(sel != 0 && (Menu.type == MENU_TYPE_SAVE || Menu.type == MENU_TYPE_LOAD))
+	MenuSetInit(MENU_TYPE_DEBUG1, MENU_RET_OPTION, 0, 20, 8, MenuExecDebug1, true);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void MenuSetDebug2(void)
+{
+	MenuSetInit(MENU_TYPE_DEBUG2, MENU_RET_OPTION, 0, 29, 1, MenuExecDebug2, true);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE char* MenuGetStrTitle(void)
+{
+	if(Menu.type == MENU_TYPE_SYSTEM)
 	{
-		return SioriGetStr(sel - 1);
+		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg], MENU_BUF_SIZE-1);
+
+		u8 v = NvGetFlag(NV_FLAG_DAY);
+		u8 m = NvGetCalMonth(v);
+		u8 d = NvGetCalDay(v);
+		u8 w = NvGetCalWeek(v);
+
+		// "０月００日　曜日",
+		//  01  4567  AB
+
+		// Mon
+		Menu.buf[1] = 0x4f + m;
+
+		// Day
+		if(d < 10)
+		{
+			Menu.buf[4] = 0x81;
+			Menu.buf[5] = 0x40;
+			Menu.buf[7] = 0x4f + d;
+		}
+		else
+		{
+			Menu.buf[5] = 0x4f + Div(d, 10);
+			Menu.buf[7] = 0x4f + DivMod(d, 10);
+		}
+
+		// Week SJISの日月火水木金土
+		switch(w)
+		{
+		case 0: Menu.buf[10] = 0x93; Menu.buf[11] = 0xfa; break;
+		case 1: Menu.buf[10] = 0x8c; Menu.buf[11] = 0x8e; break;
+		case 2: Menu.buf[10] = 0x89; Menu.buf[11] = 0xce; break;
+		case 3: Menu.buf[10] = 0x90; Menu.buf[11] = 0x85; break;
+		case 4: Menu.buf[10] = 0x96; Menu.buf[11] = 0xd8; break;
+		case 5: Menu.buf[10] = 0xd8; Menu.buf[11] = 0x8b; break;
+		case 6: Menu.buf[10] = 0x93; Menu.buf[11] = 0x79; break;
+		default:
+			SystemError("[Err] MenuGetSelStr w=%x\n", w);
+			break;
+		}
+
+		return Menu.buf;
 	}
 
-	if((sel == 1 || sel == 2) && Menu.type == MENU_TYPE_OPTION)
+	return (char*)MenuSelectStr[Menu.msg];
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE char* MenuGetStrSelect(s32 sel)
+{
+	if(Menu.type == MENU_TYPE_SAVE || Menu.type == MENU_TYPE_LOAD)
 	{
-		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + sel], MENU_BUF_SIZE-1);
+		return SioriGetStr(sel);
+	}
+
+	if(Menu.type == MENU_TYPE_OPTION && (sel == 0 || sel == 1))
+	{
+		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
 
 		s32 max;
 
-		if(sel == 1)
+		if(sel == 0)
 		{
 			max = TxtGetWaitMax();
 		}
@@ -380,7 +492,33 @@ EWRAM_CODE char* MenuGetSelStr(s32 sel)
 		return Menu.buf;
 	}
 
-	return (char*)MenuSelectStr[Menu.msg + sel];
+	if(Menu.type == MENU_TYPE_DEBUG1)
+	{
+		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
+
+		s8 flag = NvGetFlag(0x14 + sel);
+
+		// 0x82 0x4f = SJISコード「０」
+		Menu.buf[15] = 0x4f + Div(flag, 10);
+		Menu.buf[17] = 0x4f + DivMod(flag, 10);
+
+		return Menu.buf;
+	}
+
+	if(Menu.type == MENU_TYPE_DEBUG2)
+	{
+		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
+
+		s8 flag = NvGetFlag(0x1d + sel);
+
+		// 0x82 0x4f = SJISコード「０」
+		Menu.buf[15] = 0x4f + Div(flag, 10);
+		Menu.buf[17] = 0x4f + DivMod(flag, 10);
+
+		return Menu.buf;
+	}
+
+	return (char*)MenuSelectStr[Menu.msg + 1 + sel];
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u8 MenuGetSel(void)

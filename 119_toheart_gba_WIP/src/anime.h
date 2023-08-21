@@ -8,7 +8,7 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define ANIME_MAX_PAT_CNT			14
+#define ANIME_MAX_PAT_CNT			15
 #define ANIME_MAX_DAT_CNT			3
 #define ANIME_MAX_STR_SIZE			10
 
@@ -30,9 +30,10 @@ typedef struct {
 
 	bool  isLoop;
 	bool  isSkip;
+	bool  isWaitBgm;
 
 	u32   wait;
-	s32   var;
+	u32   var;
 
 } ST_ANIME;
 
@@ -57,6 +58,7 @@ EWRAM_CODE void AnimeExecStrCls(void);
 EWRAM_CODE void AnimeExecEffect1(void);
 EWRAM_CODE void AnimeExecEffect2(void);
 EWRAM_CODE void AnimeExecWait(void);
+EWRAM_CODE void AnimeExecWaitBgm(void);
 EWRAM_CODE void AnimeExecBgm(void);
 EWRAM_CODE void AnimeExecBgmStop(void);
 EWRAM_CODE void AnimeExecSkip(void);

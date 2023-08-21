@@ -12,7 +12,7 @@
 
 
 //---------------------------------------------------------------------------
-const ST_NV_PARSE_TABLE NvParseTable[NV_MAX_PARSE_CNT] = {
+ROM_DATA ST_NV_PARSE_TABLE NvParseTable[NV_MAX_PARSE_CNT] = {
 	{ "endScn",      (void*)NvExecParseEndScn      },
 	{ "title",       (void*)NvExecParseTitle       },
 	{ "sel",         (void*)NvExecParseSel         },
@@ -219,7 +219,7 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 {
 	TRACE("selOpt ");
 
-	Nv.sel.pSrc   = Nv.pCur - 8;
+	Nv.sel.pSrc   = Nv.pCur - 11;
 	Nv.sel.srcAdr = Nv.curAdr;
 	Nv.sel.cnt    = NvGetCurHex();
 	Nv.sel.msg    = NvGetCurHex();
@@ -235,10 +235,10 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 	// 選択肢メッセージとジャンプアドレス抽出
 	for(i=0; i<12; i++)
 	{
-		if(Nv.flag[NV_FLAG_VSELECT_MSG + i] != 0)
+		if(NvGetFlag(NV_FLAG_VSELECT_MSG + i) != 0)
 		{
-			Nv.sel.item[cnt] = Nv.flag[NV_FLAG_VSELECT_MSG + i];
-			Nv.sel.jump[cnt] = Nv.flag[NV_FLAG_VSELECT_OFF + i];
+			Nv.sel.item[cnt] = NvGetFlag(NV_FLAG_VSELECT_MSG + i);
+			Nv.sel.jump[cnt] = NvGetFlag(NV_FLAG_VSELECT_OFF + i);
 			cnt++;
 		}
 	}
@@ -338,23 +338,23 @@ EWRAM_CODE void NvExecParseTime(void)
 
 	TRACE("time %x\n", n);
 
-	// 行動フラグ初期化。ここで良いのかどうかは不明
-	Nv.flag[NV_FLAG_EVENT_DONE] = 0;
-	Nv.flag[NV_FLAG_IDOU] = 0;
+	// 行動フラグ初期化。ここで良いのかどうかは不明(mglvnsより)
+	NvSetFlag(NV_FLAG_EVENT_DONE, 0);
+	NvSetFlag(NV_FLAG_IDOU, 0);
 
 	// 表示なし
 	if(n >= 0xf0)
 	{
-		Nv.flag[NV_FLAG_TIME] = n - 0xf0;
+		NvSetFlag(NV_FLAG_TIME, n - 0xf0);
 
 		return;
 	}
 
 	// 表示あり
-	Nv.flag[NV_FLAG_TIME] = n;
+	NvSetFlag(NV_FLAG_TIME, n);
 	NvSetEffectTime(n);
 
-	// チャイム
+	// TODO チャイム
 //	SeSetNo(23);
 //	SePlay(1);
 
@@ -367,9 +367,9 @@ EWRAM_CODE void NvExecParseFlagAdd(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 
-	TRACE("[val[%x] += %x]\n", n1, n2);
+	TRACE("[[%x] += %x]\n", n1, n2);
 
-	Nv.flag[n1] += n2;
+	NvAddFlag(n1, n2);
 }
 //---------------------------------------------------------------------------
 // フラグ減算 0x35
@@ -378,9 +378,9 @@ EWRAM_CODE void NvExecParseFlagSub(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 
-	TRACE("[val[%x] -= %x]\n");
+	TRACE("[[%x] -= %x]\n");
 
-	Nv.flag[n1] -= n2;
+	NvSubFlag(n1, n2);
 }
 //---------------------------------------------------------------------------
 // 背景ロード 0x3c
@@ -396,21 +396,39 @@ EWRAM_CODE void NvExecParseBg(void)
 // キャラクタ消去 0x3d
 EWRAM_CODE void NvExecParseChrClr(void)
 {
-	_ASSERT(0);
+	u8 n = NvGetCurHex();
+
+	TRACE("chrClr %x\n", n);
+
+	ImgSetChr(0xffff, n);
 }
 //---------------------------------------------------------------------------
 // VISUALロード 0x42
 EWRAM_CODE void NvExecParseVisLoad(void)
 {
-	_ASSERT(0);
+	u8 n = NvGetCurHex();
+
+	TRACE("visLoad %x\n", n);
+
+	ImgSetVis(n);
 }
 //---------------------------------------------------------------------------
 // キャラクタ表示 0x43
 EWRAM_CODE void NvExecParseChrLoad(void)
 {
-	_ASSERT(0);
+	u8  n1 = NvGetCurHex();
+	u16 n2 = NvGetCurHex();
+	u16 no = NvGetChrNo(n2);
 
-	// 			ToHeartLoadCharacter(lvns, c[2]<<8|c[3], c[1]);
+	TRACE("chrLoad %x %x\n", n1, n2);
+
+	if(ImgGetChr(n1) == no)
+	{
+		TRACE("[pass]\n");
+		return;
+	}
+
+	ImgSetChr(no, n1);
 }
 //---------------------------------------------------------------------------
 // 表示処理 0x45
@@ -420,8 +438,9 @@ EWRAM_CODE void NvExecParseDisp(void)
 
 	TRACE("disp %x\n", n);
 
-	// TODO 処理が正しいか不明
-//	_ASSERT(0);
+	NvSetEffectAfter(n);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // セピア 0x47 0x01
@@ -606,7 +625,9 @@ EWRAM_CODE void NvExecParseFlagBit(void)
 // メッセージ表示後クリア 0x69
 EWRAM_CODE void NvExecParseMsgClr(void)
 {
-	_ASSERT(0);
+	TRACE("msgClr\n");
+
+	// EMPTY
 }
 //---------------------------------------------------------------------------
 // メッセージ表示 0x6a
@@ -696,7 +717,12 @@ EWRAM_CODE void NvExecParseBgm2(void)
 // BGM NEXT 0x88
 EWRAM_CODE void NvExecParseBgmNext(void)
 {
-	_ASSERT(0);
+	// 0162.txt のみで使用。処理としては間違っているけどＯＫとする
+	u16 n = NvGetCurHex();
+
+	TRACE("bgmNext %x\n", n);
+
+	BgmPlay(n, true);
 }
 //---------------------------------------------------------------------------
 // ゲーム終了 0x94
@@ -708,7 +734,14 @@ EWRAM_CODE void NvExecParseGameEnd(void)
 // エンディング 0x95
 EWRAM_CODE void NvExecParseEnding(void)
 {
-	_ASSERT(0);
+	TRACE("ending rnd=%x\n", Nv.vblankCnt);
+
+	SakuraSeed(Nv.vblankCnt);
+	AnimeSetDat(ANIME_DAT_ENDING);
+	ManageSetAnime();
+
+	Nv.isSkip = false;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // PCMロード 0xa0
@@ -744,7 +777,13 @@ EWRAM_CODE void NvExecParsePcmWait(void)
 {
 	TRACE("pcmWait\n");
 
-	// EMPTY
+	if(Nv.isSkip == true)
+	{
+		return;
+	}
+
+	Nv.isWaitPcm = true;
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // メッセージ終了 0xaf
@@ -778,8 +817,7 @@ EWRAM_CODE void NvExecParseKey(void)
 {
 	TRACE("key\n");
 
-	Nv.act = NV_ACT_KEY;
-	Nv.step = 0;
+	NvSetAct(NV_ACT_KEY);
 
 	Nv.isLoop = false;
 }
@@ -791,8 +829,7 @@ EWRAM_CODE void NvExecParsePage(void)
 
 	TxtSetPage();
 
-	Nv.act = NV_ACT_KEY;
-	Nv.step = 0;
+	NvSetAct(NV_ACT_KEY);
 
 	Nv.isLoop = false;
 }
@@ -832,13 +869,16 @@ EWRAM_CODE void NvExecParseTxtXy(void)
 // フラッシュエフェクト 0xbb
 EWRAM_CODE void NvExecParseFlash(void)
 {
-	_ASSERT(0);
+	TRACE("flash\n");
+
+	// ゲームで使われていない
+	// EMPTY
 }
 //---------------------------------------------------------------------------
-// 「　どかっ」画面振動 0xbc
+// 「どかっ」画面振動 0xbc
 EWRAM_CODE void NvExecParseVibrate(void)
 {
-	TRACE("Vibrate\n");
+	TRACE("vibrate\n");
 
 	NvSetEffectAfter(IMG_EFFECT_VIBRATE);
 
@@ -852,7 +892,7 @@ EWRAM_CODE void NvExecParseBg2(void)
 	u8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
 
-	TRACE("Bg2 %x %x %x\n", n1, n2, n3);
+	TRACE("bg2 %x %x %x\n", n1, n2, n3);
 
 	NvSetEffectBefore(n2);
 	ImgSetBg(n1);
@@ -993,7 +1033,14 @@ EWRAM_CODE void NvExecParseChr3(void)
 // 日付更新（カレンダー有） 0xf5
 EWRAM_CODE void NvExecParseDay2(void)
 {
-	_ASSERT(0);
+	u8 n = NvGetCurHex();
+
+	TRACE("day2 %x\n", n);
+
+	NvSetEffectCal(n);
+	NvAddFlag(NV_FLAG_DAY, 1);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 雨 0xf7 0x01
