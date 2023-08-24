@@ -666,7 +666,7 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 			fprintf(fp, "\n");
 
 			// 最小ジャンプに設定
-			c += 3 + c[2] * 2 + c[4];
+			c += 3 + c[2] * 2;
 			break;
 
 		// ジャンプファイル
@@ -685,6 +685,12 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 		case 0x2b:
 			fprintf(fp, "selOpt %x %x\n", c[1], c[2]);
 			c += 3;
+			break;
+
+		// 選択肢前位置
+		case 0x2c:
+			fprintf(fp, "selRdy\n");
+			c++;
 			break;
 
 		// PUSH_A
@@ -937,6 +943,7 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 
 		// PCM再生
 		case 0xa2:
+		case 0xa7: // 追記
 			fprintf(fp, "pcmPlay %x\n", c[1]);
 			c += 3;
 			break;
@@ -1084,7 +1091,6 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 		case 0x25:		// 追記　mglvns取りこぼし
 		case 0x26:
 		case 0x27:		// 1つ前の選択肢に戻るマーク?
-		case 0x2c:		// 選択肢前位置
 		case 0x3f:		// 追記　mglvns取りこぼし
 		case 0x50:
 		case 0x6b:
@@ -1118,7 +1124,6 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 
 		// 謎 3バイト
 		case 0x44:
-		case 0xa7:
 		case 0xba:
 		case 0xcc:
 			fprintf(fp, "skip %x %x %x\n", c[0], c[1], c[2]);

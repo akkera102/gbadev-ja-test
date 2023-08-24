@@ -109,6 +109,7 @@ EWRAM_CODE void ImgSetEffectBefore(u8 no);
 EWRAM_CODE void ImgSetEffectAfter(u8 no);
 EWRAM_CODE void ImgSetEffectTime(u8 num);
 EWRAM_CODE void ImgSetEffectCal(u8 mon, u8 day, u8 week);
+EWRAM_CODE u8   ImgGetBg(void);
 EWRAM_CODE u16  ImgGetChr(u8 no);
 
 EWRAM_CODE void ImgShowWindow(void);

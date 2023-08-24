@@ -69,6 +69,7 @@ EWRAM_CODE u8* FileGetBg(u32 no)
 	case 1: buf[3] = 'E'; break;	// 夕
 	case 2: buf[3] = 'N'; break;	// 曇
 	case 3: buf[3] = 'X'; break;	// 夜
+	case 4: buf[3] = 'Z'; break;	// オカルト研究会用
 
 	default:
 		SystemError("[Err] FileGetBg m=%d d=%d\n", m, d);

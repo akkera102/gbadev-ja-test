@@ -8,8 +8,8 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
+#define NV_MAX_PARSE_CNT				71
 #define NV_MAX_FLAG_CNT					0x100
-#define NV_MAX_PARSE_CNT				70
 #define NV_MAX_SEL_CNT					12
 #define NV_MAX_SCN_CNT					0xa96
 #define NV_MAX_STR_CNT					256
@@ -42,6 +42,7 @@ enum {
 
 typedef struct {
 	u8   cnt;
+	u8   offset;
 	u8   msg;
 	s8   num;
 
@@ -89,6 +90,7 @@ typedef struct {
 	// ëIëéà
 	bool isSel;
 	bool isSelOpt;
+	bool isSelKey;
 	ST_NV_SEL sel;
 
 	// óêêîóp

@@ -295,3 +295,87 @@ IWRAM_CODE void Mode3DrawScaling(s32 step)
 	REG_BG2X = 120 * step;
 	REG_BG2Y =  80 * step;
 }
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawCurtain(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc((u16*)bg_effect5_1Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect5_1BitmapLen);
+
+		return;
+	}
+
+	step--;
+
+	s32 y;
+	s32 sx = step * 8;
+	s32 pat = 7;
+
+	while(0 <= sx)
+	{
+		if(sx < SCREEN_CX)
+		{
+			for(y=0; y<SCREEN_CY; y++)
+			{
+				u32* pS = (u32*)&Mode3.buf[SCREEN_CX * SCREEN_CY + pat * 8 + y * 64];		// 64はimgファイルの幅ドット
+				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
+
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+			}
+		}
+
+		if(pat > 0)
+		{
+			pat--;
+		}
+
+		sx -= 8;
+	}
+
+	Mode3.isDraw = true;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawCurtain2(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc((u16*)bg_effect5_2Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect5_2BitmapLen);
+
+		return;
+	}
+
+	step--;
+
+	s32 y;
+	s32 sx = step * 8;
+	s32 pat = 7;
+
+	while(0 <= sx)
+	{
+		if(sx < SCREEN_CX)
+		{
+			for(y=0; y<SCREEN_CY; y++)
+			{
+				u16* p  = (u16*)VRAM;
+				u32* pV = (u32*)(&p[sx + y * SCREEN_CX]);
+				u32* pS = (u32*)&Mode3.buf[SCREEN_CX * SCREEN_CY + pat * 8 + y * 64];		// 64はimgファイルの幅ドット
+				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
+
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+			}
+		}
+
+		if(pat > 0)
+		{
+			pat--;
+		}
+
+		sx -= 8;
+	}
+}

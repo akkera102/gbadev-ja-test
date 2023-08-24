@@ -109,6 +109,25 @@ IWRAM_CODE void ImgExecBefore(void)
 		Img.isBefore = false;
 		break;
 
+	// 0x05
+	case IMG_EFFECT_WIPE_MASK_LTOR:
+		if(Img.var2++ < 1)
+		{
+			return;
+		}
+		Img.var2 = 0;
+
+		// VCOUNT 160 -> 0 -> 227(2 frame)
+		// TRACE("WIPE_MASK_LTOR S:%d\n", REG_VCOUNT);
+		Mode3DrawCurtain(Img.var3++);
+		// TRACE("WIPE_MASK_LTOR E:%d\n", REG_VCOUNT);
+
+		if(Img.var3 > 30+8)
+		{
+			Img.isBefore = false;
+		}
+		break;
+
 	// 0x07
 	case IMG_EFFECT_WIPE_LTOR:
 		if(Img.var1++ < 2)
@@ -287,6 +306,30 @@ IWRAM_CODE void ImgExecAfter(void)
 		Img.isAfter = false;
 		break;
 
+	// 0x05
+	case IMG_EFFECT_WIPE_MASK_LTOR:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			return;
+		}
+
+		if(Img.var5++ < 1)
+		{
+			return;
+		}
+		Img.var5 = 0;
+
+		Mode3DrawCurtain2(Img.var6++);
+
+		if(Img.var6 > 30+8)
+		{
+			Img.isAfter = false;
+		}
+		
+		break;
+
 	// 0x07
 	case IMG_EFFECT_WIPE_LTOR:
 		if(Img.var4++ == 0)
@@ -398,7 +441,6 @@ IWRAM_CODE void ImgExecAfter(void)
 
 	// 0x16
 	case IMG_EFFECT_OP_SCROLL2:
-		// mGBA 3, VBA 5
 		if(Img.var4++ < 3)
 		{
 			return;
@@ -502,7 +544,6 @@ IWRAM_CODE void ImgExecAfter(void)
 			Mode3DrawCrop(sx, sy, pW->cx, pW->cy, (u16*)(pW + 1));
 
 			// Day
-			Img.day = 88;
 			if(Img.day < 10)
 			{
 				ST_FILE_IMG_HEADER* pD1 = (ST_FILE_IMG_HEADER*)FileGetDay(Img.day);
@@ -728,6 +769,11 @@ EWRAM_CODE void ImgSetEffectCal(u8 mon, u8 day, u8 week)
 	Img.week = week;
 
 	ImgSetEffectAfter(IMG_EFFECT_CALENDAR);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8 ImgGetBg(void)
+{
+	return Img.bg;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u16 ImgGetChr(u8 no)

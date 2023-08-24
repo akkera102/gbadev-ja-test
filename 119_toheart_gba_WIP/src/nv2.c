@@ -19,6 +19,7 @@ ROM_DATA ST_NV_PARSE_TABLE NvParseTable[NV_MAX_PARSE_CNT] = {
 	{ "jmpScn",      (void*)NvExecParseJmpScn      },
 	{ "jmpBlk",      (void*)NvExecParseJmpBlk      },
 	{ "selOpt",      (void*)NvExecParseSelOpt      },
+	{ "selRdy",      (void*)NvExecParseSelRdy      },
 	{ "pushA",       (void*)NvExecParsePushA       },
 	{ "retA",        (void*)NvExecParseRetA        },
 	{ "pushB",       (void*)NvExecParsePushB       },
@@ -162,8 +163,9 @@ EWRAM_CODE void NvExecParseSel(void)
 	Nv.sel.cnt    = NvGetCurHex();
 	Nv.sel.msg    = NvGetCurHex();
 	Nv.sel.num    = -1;
-	Nv.isSelOpt   = false;
 	Nv.isSel      = true;
+	Nv.isSelOpt   = false;
+	Nv.isSelKey   = false;
 
 	TRACE("%x %x\n", Nv.sel.cnt, Nv.sel.msg);
 
@@ -221,13 +223,14 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 
 	Nv.sel.pSrc   = Nv.pCur - 11;
 	Nv.sel.srcAdr = Nv.curAdr;
-	Nv.sel.cnt    = NvGetCurHex();
+	Nv.sel.offset = NvGetCurHex();
 	Nv.sel.msg    = NvGetCurHex();
 	Nv.sel.num    = -1;
-	Nv.isSelOpt   = true;
 	Nv.isSel      = true;
+	Nv.isSelOpt   = true;
+	Nv.isSelKey   = false;
 
-	TRACE("%x %x\n", Nv.sel.cnt, Nv.sel.msg);
+	TRACE("%x %x ", Nv.sel.offset, Nv.sel.msg);
 
 	s32 cnt = 0;
 	s32 i;
@@ -242,6 +245,8 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 			cnt++;
 		}
 	}
+	Nv.sel.cnt = cnt;
+	TRACE("cnt=%x\n", Nv.sel.cnt);
 
 	// 選択肢メッセージ取得
 	for(i=0; i<Nv.sel.cnt; i++)
@@ -257,6 +262,19 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 	}
 
 	NvSetMsg(Nv.sel.msg);
+}
+//---------------------------------------------------------------------------
+// 選択肢前位置 0x2c
+EWRAM_CODE void NvExecParseSelRdy(void)
+{
+	TRACE("selRdy\n");
+
+	s32 i;
+
+	for(i=0; i<12; i++)
+	{
+		NvSetFlag(NV_FLAG_VSELECT_MSG + i, 0);
+	}
 }
 //---------------------------------------------------------------------------
 // PUSH A 0x2d
@@ -353,10 +371,6 @@ EWRAM_CODE void NvExecParseTime(void)
 	// 表示あり
 	NvSetFlag(NV_FLAG_TIME, n);
 	NvSetEffectTime(n);
-
-	// TODO チャイム
-//	SeSetNo(23);
-//	SePlay(1);
 
 	Nv.isLoop = false;
 }
@@ -610,7 +624,7 @@ EWRAM_CODE void NvExecParseFlagBit(void)
 
 	if(n3 != 0)
 	{
-		TRACE("flagBit [%x](%x) |=  %x\n", n1, f,  (1 << n2));
+		TRACE("flagBit [%x](%x) |= %x\n", n1, f,  (1 << n2));
 		f |=  (1 << n2);
 	}
 	else
@@ -796,11 +810,11 @@ EWRAM_CODE void NvExecParseEndMsg(void)
 	// 選択肢メッセージの場合
 	if(Nv.isSel == true)
 	{
-		Nv.isSel  = false;
-		Nv.isLoop = false;
+		Nv.isSel    = false;
+		Nv.isSelKey = true;
 
-		TxtSetPageNew();
-		NvSetAct(NV_ACT_SELECT);
+		NvSetAct(NV_ACT_KEY);
+		Nv.isLoop = false;
 	}
 }
 //---------------------------------------------------------------------------
@@ -861,7 +875,9 @@ EWRAM_CODE void NvExecParseTimeWait(void)
 // 文字位置変更 0xb9
 EWRAM_CODE void NvExecParseTxtXy(void)
 {
-	TRACE("txtXY\n");
+	u8 n = NvGetCurHex();
+
+	TRACE("txtXY %x\n", n);
 
 	// EMPTY
 }
@@ -1020,11 +1036,11 @@ EWRAM_CODE void NvExecParseChr3(void)
 	u16 no2 = NvGetChrNo(n4);
 	u16 no3 = NvGetChrNo(n6);
 
-	TRACE("bgChr %x %x %x %x %x\n", n1, n2, n3, n4, n5, n6);
+	TRACE("chr3 %x %x %x %x %x %x\n", n1, n2, n3, n4, n5, n6);
 
 	ImgSetChr(no1, n1);
-	ImgSetChr(no2, n2);
-	ImgSetChr(no3, n3);
+	ImgSetChr(no2, n3);
+	ImgSetChr(no3, n5);
 	NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
 
 	Nv.isLoop = false;
@@ -1037,10 +1053,13 @@ EWRAM_CODE void NvExecParseDay2(void)
 
 	TRACE("day2 %x\n", n);
 
-	NvSetEffectCal(n);
-	NvAddFlag(NV_FLAG_DAY, 1);
+	if(NvGetFlag(NV_FLAG_DAY) < n)
+	{
+		NvSetEffectCal(n);
+		NvSetFlag(NV_FLAG_DAY, n);
 
-	Nv.isLoop = false;
+		Nv.isLoop = false;
+	}
 }
 //---------------------------------------------------------------------------
 // 雨 0xf7 0x01

@@ -86,8 +86,7 @@ EWRAM_CODE void NvExecKey(void)
 		}
 		else
 		{
-			Nv.act = NV_ACT_PARSE;
-			return;
+			goto KeyOn;
 		}
 	}
 
@@ -104,9 +103,18 @@ EWRAM_CODE void NvExecKey(void)
 	case 1:
 		if(cnt & KEY_R || trg & KEY_A || trg & KEY_DOWN)
 		{
-			TxtSetCur(false);
-
-			Nv.act = NV_ACT_PARSE;
+KeyOn:
+			if(Nv.isSelKey == false)
+			{
+				TxtSetCur(false);
+				NvSetAct(NV_ACT_PARSE);
+			}
+			else
+			{
+				TxtSetPageNew();
+				Nv.isSelKey = false;
+				NvSetAct(NV_ACT_SELECT);
+			}
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
@@ -222,8 +230,8 @@ EWRAM_CODE void NvExecSel(void)
 		}
 		else
 		{
-//			TRACE("[selJump: %x]\n", Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.cnt);
-			NvJumpCurAdr(Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.cnt);
+//			TRACE("[selJump: %x]\n", Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.offset);
+			NvJumpCurAdr(Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.offset);
 		}
 
 		NvSetAct(NV_ACT_PARSE);

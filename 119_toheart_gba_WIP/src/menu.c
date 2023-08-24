@@ -56,6 +56,8 @@ ROM_DATA char MenuSelectStr[][30] = {
 	// 29
 	"@@DŠ´“x‚Q",
 	"@—ŽR—@@‚O‚O",
+	"@‚ ‹Ú’qŽuˆ¨ƒ}‹ÕƒŒ‰ë—‚¨",
+	"@~~~~~~~~~~~",
 };
 
 //---------------------------------------------------------------------------
@@ -73,7 +75,7 @@ EWRAM_CODE void MenuExec(void)
 	u16 trg = KeyGetTrg();
 	u16 rep = KeyGetRep();
 
-	if(trg & KEY_A || trg & KEY_B || trg & KEY_LEFT || trg & KEY_RIGHT)
+	if(trg & KEY_A || trg & KEY_B || trg & KEY_LEFT || trg & KEY_RIGHT || trg & KEY_L || trg & KEY_R)
 	{
 		Menu.pFunc(trg);
 		return;
@@ -229,12 +231,18 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 
 	// ƒfƒoƒbƒO‚P
 	case 2:
-		MenuSetDebug1();
+		if(trg & KEY_A)
+		{
+			MenuSetDebug1();
+		}
 		break;
 
 	// ƒfƒoƒbƒO‚Q
 	case 3:
-		MenuSetDebug2();
+		if(trg & KEY_A)
+		{
+			MenuSetDebug2();
+		}
 		break;
 
 	// ‚¨‚Ü‚¯
@@ -252,6 +260,25 @@ EWRAM_CODE void MenuExecDebug1(u16 trg)
 
 		return;
 	}
+
+	if(!(trg & KEY_RIGHT || trg & KEY_R || trg & KEY_LEFT || trg & KEY_L))
+	{
+		return;
+	}
+
+	s8 flag = NvGetFlag(0x14 + Menu.sel);
+
+	if(trg & KEY_RIGHT) flag +=  1;
+	if(trg & KEY_R    ) flag += 10;
+	if(trg & KEY_LEFT ) flag -=  1;
+	if(trg & KEY_L    ) flag -= 10;
+
+	if(flag > 99) flag = 99;
+	if(flag <  0) flag =  0;
+
+	NvSetFlag(0x14 + Menu.sel, flag);
+
+	TxtSetChr();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuExecDebug2(u16 trg)
@@ -262,6 +289,30 @@ EWRAM_CODE void MenuExecDebug2(u16 trg)
 
 		return;
 	}
+
+	if(!(trg & KEY_RIGHT || trg & KEY_R || trg & KEY_LEFT || trg & KEY_L))
+	{
+		return;
+	}
+
+	if(Menu.sel != 0)
+	{
+		return;
+	}
+
+	s8 flag = NvGetFlag(0x1d + Menu.sel);
+
+	if(trg & KEY_RIGHT) flag +=  1;
+	if(trg & KEY_R    ) flag += 10;
+	if(trg & KEY_LEFT ) flag -=  1;
+	if(trg & KEY_L    ) flag -= 10;
+
+	if(flag > 99) flag = 99;
+	if(flag <  0) flag =  0;
+
+	NvSetFlag(0x1d + Menu.sel, flag);
+
+	TxtSetChr();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuExecSave(u16 trg)
@@ -362,7 +413,6 @@ EWRAM_CODE void MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* 
 	Menu.reg    = reg;
 	Menu.pFunc  = pFunc;
 
-
 	TxtSetCur(false);
 
 	if(isDraw == true)
@@ -409,7 +459,7 @@ EWRAM_CODE void MenuSetDebug1(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetDebug2(void)
 {
-	MenuSetInit(MENU_TYPE_DEBUG2, MENU_RET_OPTION, 0, 29, 1, MenuExecDebug2, true);
+	MenuSetInit(MENU_TYPE_DEBUG2, MENU_RET_OPTION, 0, 29, 3, MenuExecDebug2, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE char* MenuGetStrTitle(void)
@@ -419,6 +469,7 @@ EWRAM_CODE char* MenuGetStrTitle(void)
 		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg], MENU_BUF_SIZE-1);
 
 		u8 v = NvGetFlag(NV_FLAG_DAY);
+
 		u8 m = NvGetCalMonth(v);
 		u8 d = NvGetCalDay(v);
 		u8 w = NvGetCalWeek(v);
@@ -450,7 +501,7 @@ EWRAM_CODE char* MenuGetStrTitle(void)
 		case 2: Menu.buf[10] = 0x89; Menu.buf[11] = 0xce; break;
 		case 3: Menu.buf[10] = 0x90; Menu.buf[11] = 0x85; break;
 		case 4: Menu.buf[10] = 0x96; Menu.buf[11] = 0xd8; break;
-		case 5: Menu.buf[10] = 0xd8; Menu.buf[11] = 0x8b; break;
+		case 5: Menu.buf[10] = 0x8b; Menu.buf[11] = 0xe0; break;
 		case 6: Menu.buf[10] = 0x93; Menu.buf[11] = 0x79; break;
 		default:
 			SystemError("[Err] MenuGetSelStr w=%x\n", w);
@@ -507,15 +558,45 @@ EWRAM_CODE char* MenuGetStrSelect(s32 sel)
 
 	if(Menu.type == MENU_TYPE_DEBUG2)
 	{
-		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
+		if(sel == 0)
+		{
+			_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
 
-		s8 flag = NvGetFlag(0x1d + sel);
+			s8 flag = NvGetFlag(0x1d + sel);
 
-		// 0x82 0x4f = SJISƒR[ƒhu‚Ov
-		Menu.buf[15] = 0x4f + Div(flag, 10);
-		Menu.buf[17] = 0x4f + DivMod(flag, 10);
+			// 0x82 0x4f = SJISƒR[ƒhu‚Ov
+			Menu.buf[15] = 0x4f + Div(flag, 10);
+			Menu.buf[17] = 0x4f + DivMod(flag, 10);
 
-		return Menu.buf;
+			return Menu.buf;
+		}
+
+		if(sel == 2)
+		{
+			_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
+
+			// "@‚ ‹Ú’qŽuˆ¨ƒ}‹ÕƒŒ‰ë—‚¨"
+			// "@~~~~~~~~~~~"
+			// "@ 3 5 7 9 B D F 1 3 5 7
+
+			u8 flag1 = NvGetFlag(0x50);
+			u8 flag2 = NvGetFlag(0x51);
+
+			if(flag1 & 0x01) Menu.buf[0x03] = 0x5A;
+			if(flag1 & 0x02) Menu.buf[0x05] = 0x5A;
+			if(flag1 & 0x04) Menu.buf[0x07] = 0x5A;
+			if(flag1 & 0x08) Menu.buf[0x09] = 0x5A;
+			if(flag1 & 0x10) Menu.buf[0x0B] = 0x5A;
+			if(flag1 & 0x20) Menu.buf[0x0D] = 0x5A;
+			if(flag1 & 0x40) Menu.buf[0x0F] = 0x5A;
+			if(flag1 & 0x80) Menu.buf[0x11] = 0x5A;
+
+			if(flag2 & 0x01) Menu.buf[0x13] = 0x5A;
+			if(flag2 & 0x02) Menu.buf[0x15] = 0x5A;
+			if(flag2 & 0x80) Menu.buf[0x17] = 0x5A;
+
+			return Menu.buf; 
+		}
 	}
 
 	return (char*)MenuSelectStr[Menu.msg + 1 + sel];

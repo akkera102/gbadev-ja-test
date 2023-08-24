@@ -7,4 +7,3 @@ for %%i in (*.scn) do (
 )
 
 del *.scn 2> nul
-

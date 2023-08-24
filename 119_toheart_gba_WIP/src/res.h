@@ -15,6 +15,8 @@ extern const unsigned short tbl_spr1d_bin[];
 
 // bg
 #include "res/bg_logo.h"
+#include "res/bg_effect5_1.h"
+#include "res/bg_effect5_2.h"
 
 
 // spr

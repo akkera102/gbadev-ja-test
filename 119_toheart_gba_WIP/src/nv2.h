@@ -28,6 +28,7 @@ EWRAM_CODE void NvExecParseSel(void);
 EWRAM_CODE void NvExecParseJmpScn(void);
 EWRAM_CODE void NvExecParseJmpBlk(void);
 EWRAM_CODE void NvExecParseSelOpt(void);
+EWRAM_CODE void NvExecParseSelRdy(void);
 EWRAM_CODE void NvExecParsePushA(void);
 EWRAM_CODE void NvExecParseRetA(void);
 EWRAM_CODE void NvExecParsePushB(void);
