@@ -300,7 +300,8 @@ IWRAM_CODE void Mode3DrawCurtain(s32 step)
 {
 	if(step == 0)
 	{
-		MemInc((u16*)bg_effect5_1Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect5_1BitmapLen);
+		// 例外処理
+		MemInc((u16*)bg_effect5_1Bitmap, &Mode3.msk, bg_effect5_1BitmapLen);
 
 		return;
 	}
@@ -317,7 +318,8 @@ IWRAM_CODE void Mode3DrawCurtain(s32 step)
 		{
 			for(y=0; y<SCREEN_CY; y++)
 			{
-				u32* pS = (u32*)&Mode3.buf[SCREEN_CX * SCREEN_CY + pat * 8 + y * 64];		// 64はimgファイルの幅ドット
+				u16* pM = (u16*)Mode3.msk;
+				u32* pS = (u32*)&pM[pat * 8 + y * 64];
 				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
 
 				*pD++ &= *pS++;
@@ -342,7 +344,8 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 {
 	if(step == 0)
 	{
-		MemInc((u16*)bg_effect5_2Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect5_2BitmapLen);
+		// 例外処理
+		MemInc((u16*)bg_effect5_2Bitmap, &Mode3.msk, bg_effect5_2BitmapLen);
 
 		return;
 	}
@@ -359,10 +362,13 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 		{
 			for(y=0; y<SCREEN_CY; y++)
 			{
-				u16* p  = (u16*)VRAM;
-				u32* pV = (u32*)(&p[sx + y * SCREEN_CX]);
-				u32* pS = (u32*)&Mode3.buf[SCREEN_CX * SCREEN_CY + pat * 8 + y * 64];		// 64はimgファイルの幅ドット
+				u16* pM = (u16*)Mode3.msk;
+				u32* pS = (u32*)&pM[pat * 8 + y * 64];
+
 				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
+
+				u16* pR = (u16*)VRAM;
+				u32* pV = (u32*)&pR[sx + y * SCREEN_CX];
 
 				*pV++ = *pD++ & *pS++;
 				*pV++ = *pD++ & *pS++;

@@ -28,9 +28,13 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void  SioriInit(void);
+
 EWRAM_CODE void  SioriSave(u32 no);
-EWRAM_CODE void  SioriSaveFlash(u32 no);
-EWRAM_CODE void  SioriSaveSram(u32 no);
+EWRAM_CODE void  SioriSave2(void);
+EWRAM_CODE void  SioriSaveFlashHeader(void);
+EWRAM_CODE void  SioriSaveFlashData(u32 no);
+EWRAM_CODE void  SioriSaveSramHeader(void);
+EWRAM_CODE void  SioriSaveSramData(u32 no);
 
 EWRAM_CODE bool  SioriLoad(u32 no);
 EWRAM_CODE void  SioriLoadFlag(void);

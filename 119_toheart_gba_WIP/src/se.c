@@ -32,6 +32,11 @@ EWRAM_CODE void SeSetNo(s32 no)
 	Se.no = no;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE s32 SeGetNo(void)
+{
+	return Se.no;
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE bool SeIsEnd(void)
 {
 	return SndIsEnd();

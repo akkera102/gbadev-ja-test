@@ -76,20 +76,32 @@ EWRAM_CODE void SioriSave(u32 no)
 
 	if(SavReadSram(2) == SIORI_TYPE_FLASH)
 	{
-		SioriSaveFlash(no);
+		SioriSaveFlashHeader();
+		SioriSaveFlashData(no);
 	}
 	else
 	{
-		SioriSaveSram(no);
+		SioriSaveSramHeader();
+		SioriSaveSramData(no);
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void  SioriSaveFlash(u32 no)
+EWRAM_CODE void SioriSave2(void)
 {
-	u32 adr = 0x1000 + 0x1000 * no;
-	u32 i;
-	u8* p;
+	TRACE("[SioriSave2]\n");
 
+	if(SavReadSram(2) == SIORI_TYPE_FLASH)
+	{
+		SioriSaveFlashHeader();
+	}
+	else
+	{
+		SioriSaveSramHeader();
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SioriSaveFlashHeader(void)
+{
 	// ヘッダ
 	SavWriteFlashEraseSector(0);
 	SavWriteFlash(0, 'T');
@@ -97,6 +109,13 @@ EWRAM_CODE void  SioriSaveFlash(u32 no)
 	SavWriteFlash(2, SIORI_TYPE_FLASH);
 	SavWriteFlash(3, Nv.flag[0x50]);
 	SavWriteFlash(4, Nv.flag[0x51]);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SioriSaveFlashData(u32 no)
+{
+	u32 adr = 0x1000 + 0x1000 * no;
+	u32 i;
+	u8* p;
 
 	// データ
 	SavWriteFlashEraseSector(1 + no);
@@ -128,17 +147,21 @@ EWRAM_CODE void  SioriSaveFlash(u32 no)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void  SioriSaveSram(u32 no)
+EWRAM_CODE void SioriSaveSramHeader(void)
 {
-	u32 adr = 0x1000 + 0x1000 * no;
-	u32 i;
-	u8* p;
-
+	// ヘッダ
 	SavWriteSram(0, 'T');
 	SavWriteSram(1, 'H');
 	SavWriteSram(2, SIORI_TYPE_SRAM);
 	SavWriteSram(3, Nv.flag[0x50]);
 	SavWriteSram(4, Nv.flag[0x51]);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SioriSaveSramData(u32 no)
+{
+	u32 adr = 0x1000 + 0x1000 * no;
+	u32 i;
+	u8* p;
 
 	// データ
 	SavWriteSram(adr++, 'S');

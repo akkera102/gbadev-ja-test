@@ -24,10 +24,11 @@ typedef struct {
 EWRAM_CODE void FileInit(void);
 
 EWRAM_CODE u8*  FileGetScn(u32 no);
-EWRAM_CODE u8*  FileGetBg(u32 no);
+EWRAM_CODE u8*  FileGetBgS(u32 no);
+EWRAM_CODE u8*  FileGetBgV(u32 no);
+EWRAM_CODE u8*  FileGetBgH(u32 no);
 EWRAM_CODE u8*  FileGetChr(u32 no);
 EWRAM_CODE u8*  FileGetChrMask(u32 no);
-EWRAM_CODE u8*  FileGetVis(u32 no);
 EWRAM_CODE u8*  FileGetMus(u32 no);
 EWRAM_CODE u8*  FileGetSe(u32 no);
 EWRAM_CODE u8*  FileGetTime(u32 no);

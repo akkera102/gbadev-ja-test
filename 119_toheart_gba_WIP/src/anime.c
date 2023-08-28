@@ -130,7 +130,7 @@ EWRAM_CODE void AnimeExecBg(void)
 {
 	u32 num = LexGetNum();
 
-	ImgSetBg(num);
+	ImgSetBgS(num);
 
 	Anime.isLoop = false;
 }
@@ -139,7 +139,7 @@ EWRAM_CODE void AnimeExecVis(void)
 {
 	u32 num = LexGetNum();
 
-	ImgSetVis(num);
+	ImgSetBgV(num);
 
 	Anime.isLoop = false;
 }

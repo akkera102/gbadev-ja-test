@@ -450,8 +450,8 @@ IWRAM_CODE void ImgExecAfter(void)
 		if(Img.var5 == 0)
 		{
 			// Â‹ó‚ÆZŽÉ
-			ST_FILE_IMG_HEADER* p1 = (ST_FILE_IMG_HEADER*)FileGetBg(19);
-			ST_FILE_IMG_HEADER* p2 = (ST_FILE_IMG_HEADER*)FileGetBg(17);
+			ST_FILE_IMG_HEADER* p1 = (ST_FILE_IMG_HEADER*)FileGetBgS(19);
+			ST_FILE_IMG_HEADER* p2 = (ST_FILE_IMG_HEADER*)FileGetBgS(17);
 
 			Mode3DrawScroll((u16*)(p1 + 1), (u16*)(p2 + 1));
 		}
@@ -636,13 +636,17 @@ EWRAM_CODE void ImgDrawBg(void)
 
 	ST_FILE_IMG_HEADER* p;
 
-	if(Img.bgType == IMG_BG_NORMAL)
+	if(Img.bgType == IMG_BG_S)
 	{
-		p = (ST_FILE_IMG_HEADER*)FileGetBg(Img.bg);
+		p = (ST_FILE_IMG_HEADER*)FileGetBgS(Img.bg);
+	}
+	else if(Img.bgType == IMG_BG_V)
+	{
+		p = (ST_FILE_IMG_HEADER*)FileGetBgV(Img.bg);
 	}
 	else
 	{
-		p = (ST_FILE_IMG_HEADER*)FileGetVis(Img.bg);
+		p = (ST_FILE_IMG_HEADER*)FileGetBgH(Img.bg);
 	}
 
 	_ASSERT(p->cx <= SCREEN_CX && p->cy <= SCREEN_CY);
@@ -684,22 +688,32 @@ EWRAM_CODE void ImgDrawChr(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgSetBg(u8 no)
+EWRAM_CODE void ImgSetBgS(u8 no)
 {
-	TRACE("[ImgSetBg %x]\n", no);
+	TRACE("[ImgSetBgS %x]\n", no);
 
 	Img.bg = no;
-	Img.bgType = IMG_BG_NORMAL;
+	Img.bgType = IMG_BG_S;
 
 	ImgSetChrClr();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgSetVis(u8 no)
+EWRAM_CODE void ImgSetBgV(u8 no)
 {
-	TRACE("[ImgSetVis %x]\n", no);
+	TRACE("[ImgSetBgV %x]\n", no);
 
 	Img.bg = no;
-	Img.bgType = IMG_BG_VISUAL;
+	Img.bgType = IMG_BG_V;
+
+	ImgSetChrClr();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgSetBgH(u8 no)
+{
+	TRACE("[ImgSetBgH %x]\n", no);
+
+	Img.bg = no;
+	Img.bgType = IMG_BG_H;
 
 	ImgSetChrClr();
 }
@@ -771,8 +785,10 @@ EWRAM_CODE void ImgSetEffectCal(u8 mon, u8 day, u8 week)
 	ImgSetEffectAfter(IMG_EFFECT_CALENDAR);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8 ImgGetBg(void)
+EWRAM_CODE u8 ImgGetBgS(void)
 {
+	_ASSERT(Img.bgType == IMG_BG_S);
+
 	return Img.bg;
 }
 //---------------------------------------------------------------------------

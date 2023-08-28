@@ -10,8 +10,9 @@ extern "C" {
 //---------------------------------------------------------------------------
 
 enum {
-	IMG_BG_NORMAL,
-	IMG_BG_VISUAL,
+	IMG_BG_S,
+	IMG_BG_V,
+	IMG_BG_H,
 };
 
 enum {
@@ -100,8 +101,9 @@ IWRAM_CODE void ImgExecAfter(void);
 EWRAM_CODE void ImgDrawBg(void);
 EWRAM_CODE void ImgDrawChr(void);
 
-EWRAM_CODE void ImgSetBg(u8 no);
-EWRAM_CODE void ImgSetVis(u8 no);
+EWRAM_CODE void ImgSetBgS(u8 no);
+EWRAM_CODE void ImgSetBgV(u8 no);
+EWRAM_CODE void ImgSetBgH(u8 no);
 EWRAM_CODE void ImgSetChr(u16 no, u8 pos);
 EWRAM_CODE void ImgSetChrClr(void);
 EWRAM_CODE void ImgSetVarClr(void);
@@ -109,7 +111,7 @@ EWRAM_CODE void ImgSetEffectBefore(u8 no);
 EWRAM_CODE void ImgSetEffectAfter(u8 no);
 EWRAM_CODE void ImgSetEffectTime(u8 num);
 EWRAM_CODE void ImgSetEffectCal(u8 mon, u8 day, u8 week);
-EWRAM_CODE u8   ImgGetBg(void);
+EWRAM_CODE u8   ImgGetBgS(void);
 EWRAM_CODE u16  ImgGetChr(u8 no);
 
 EWRAM_CODE void ImgShowWindow(void);

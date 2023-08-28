@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <stdbool.h>
 
 //---------------------------------------------------------------------------
 typedef unsigned char  u_char;
@@ -532,7 +533,8 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 		// フォントコード or 主人公名前
 		if(c[0] < 0x20 || (c[0] >= 0xd1 && c[0] <= 0xf2))
 		{
-			int prev = 0;
+			bool isWrite = false;
+			int  prev = 0;
 
 			do
 			{
@@ -547,49 +549,56 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 					if(code != 0 || (code == 0 && prev >= 0x02 && prev <= 0x35))
 					{
 						fprintf(fp, "%c%c", LeafFontCodeTbl[code * 2], LeafFontCodeTbl[code * 2 + 1]);
+						isWrite = true;
 					}
 					prev = code;
 					break;
 
 				// 主人公名前
-				case 0xd1: fprintf(fp, "藤"); c++; break;
-				case 0xd2: fprintf(fp, "田"); c++; break;
+				case 0xd1: fprintf(fp, "藤"); c++; isWrite=true; break;
+				case 0xd2: fprintf(fp, "田"); c++; isWrite=true; break;
 				case 0xd3:
 				case 0xd4:
 				case 0xd5:
 				case 0xd6: c++; break;
 
-				case 0xd8: fprintf(fp, "浩"); c++; break;
-				case 0xd9: fprintf(fp, "之"); c++; break;
+				case 0xd8: fprintf(fp, "浩"); c++; isWrite=true; break;
+				case 0xd9: fprintf(fp, "之"); c++; isWrite=true; break;
 				case 0xda:
 				case 0xdb:
 				case 0xdc:
 				case 0xdd: c++; break;
 
-				case 0xdf: fprintf(fp, "ヒ"); c++; break;
-				case 0xe0: fprintf(fp, "ロ"); c++; break;
+				case 0xdf: fprintf(fp, "ヒ"); c++; isWrite=true; break;
+				case 0xe0: fprintf(fp, "ロ"); c++; isWrite=true; break;
 				case 0xe1:
 				case 0xe2:
 				case 0xe3:
 				case 0xe4: c++; break;
 
-				case 0xe6: fprintf(fp, "ひ"); c++; break;
-				case 0xe7: fprintf(fp, "ろ"); c++; break;
-				case 0xe8: fprintf(fp, "ゆ"); c++; break;
-				case 0xe9: fprintf(fp, "き"); c++; break;
+				case 0xe6: fprintf(fp, "ひ"); c++; isWrite=true; break;
+				case 0xe7: fprintf(fp, "ろ"); c++; isWrite=true; break;
+				case 0xe8: fprintf(fp, "ゆ"); c++; isWrite=true; break;
+				case 0xe9: fprintf(fp, "き"); c++; isWrite=true; break;
 				case 0xea:
 				case 0xeb: c++; break;
 
-				case 0xed: fprintf(fp, "ヒ"); c++; break;
-				case 0xee: fprintf(fp, "ロ"); c++; break;
-				case 0xef: fprintf(fp, "ユ"); c++; break;
-				case 0xf0: fprintf(fp, "キ"); c++; break;
+				case 0xed: fprintf(fp, "ヒ"); c++; isWrite=true; break;
+				case 0xee: fprintf(fp, "ロ"); c++; isWrite=true; break;
+				case 0xef: fprintf(fp, "ユ"); c++; isWrite=true; break;
+				case 0xf0: fprintf(fp, "キ"); c++; isWrite=true; break;
 				case 0xf1:
 				case 0xf2: c++; break;
 
 				}
 
 			} while(c[0] < 0x20 || (c[0] >= 0xd1 && c[0] <= 0xf2));
+
+			// 空白1文字のみだった場合
+			if(isWrite == false)
+			{
+				fprintf(fp, "　");
+			}
 
 			fprintf(fp, "\n");
 			continue;
@@ -754,6 +763,13 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 			c += 2;
 			break;
 
+		// 追加
+		// 消去エフェクト指定（仮）
+		case 0x40:
+			fprintf(fp, "clrEff %x\n", ScnMapEffect(c[1]));
+			c += 2;
+			break;
+
 		// VISUALロード
 		case 0x42:
 			fprintf(fp, "visLoad %x\n", c[1]);
@@ -764,6 +780,13 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 		case 0x43:
 			fprintf(fp, "chrLoad %x %x\n", c[1], c[2]<<8|c[3]);
 			c += 4;
+			break;
+
+		// 追加
+		// キャラ表示（仮）
+		case 0x44:
+			fprintf(fp, "chrSyn %x %x\n", c[1], c[2]);
+			c += 3;
 			break;
 
 		// 表示処理
@@ -1112,7 +1135,6 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 
 		// 謎 2バイト
 		case 0x23:
-		case 0x40:
 		case 0x6c:
 		case 0x72:
 		case 0xb4:		// 追記　テキストの色変更
@@ -1123,7 +1145,6 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 			break;
 
 		// 謎 3バイト
-		case 0x44:
 		case 0xba:
 		case 0xcc:
 			fprintf(fp, "skip %x %x %x\n", c[0], c[1], c[2]);

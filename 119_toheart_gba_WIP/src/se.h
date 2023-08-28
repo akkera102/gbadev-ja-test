@@ -24,6 +24,7 @@ EWRAM_CODE void SeInit(void);
 EWRAM_CODE void SePlay(s32 cnt);
 EWRAM_CODE void SeStop(void);
 EWRAM_CODE void SeSetNo(s32 no);
+EWRAM_CODE s32  SeGetNo(void);
 EWRAM_CODE bool SeIsEnd(void);
 EWRAM_CODE bool SeIsEnd2(void);
 

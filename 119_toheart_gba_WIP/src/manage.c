@@ -104,8 +104,14 @@ EWRAM_CODE void ManageExecInit(void)
 	Manage.act = MANAGE_ACT_ANIME;
 */
 
-//	AnimeSetDat(ANIME_DAT_OPENING);
-//	AnimeSetDat(ANIME_DAT_ENDING);
+/*
+	AnimeSetDat(ANIME_DAT_OPENING);
+	Manage.act = MANAGE_ACT_ANIME;
+*/
+/*
+	AnimeSetDat(ANIME_DAT_ENDING);
+	Manage.act = MANAGE_ACT_ANIME;
+*/
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecTitle(void)

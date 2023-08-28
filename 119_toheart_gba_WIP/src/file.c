@@ -55,7 +55,7 @@ EWRAM_CODE u8* FileGetScn(u32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8* FileGetBg(u32 no)
+EWRAM_CODE u8* FileGetBgS(u32 no)
 {
 	u32 m = DivMod(no, 50);
 	u32 d = Div(no, 50);
@@ -79,6 +79,22 @@ EWRAM_CODE u8* FileGetBg(u32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetBgV(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "V%02X.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetBgH(u32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "H%02X.img", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE u8* FileGetChr(u32 no)
 {
 	char buf[20];
@@ -91,14 +107,6 @@ EWRAM_CODE u8* FileGetChrMask(u32 no)
 {
 	char buf[20];
 	_Sprintf(buf, "C%04X_M.img", no);
-
-	return GbfsGetSafePointer(buf);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE u8* FileGetVis(u32 no)
-{
-	char buf[20];
-	_Sprintf(buf, "V%02X.img", no);
 
 	return GbfsGetSafePointer(buf);
 }
