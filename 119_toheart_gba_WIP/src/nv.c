@@ -159,10 +159,9 @@ EWRAM_CODE void NvExecSel(void)
 				SprSetImgGray();
 			}
 
-			Nv.pCur = Nv.sel.pStr[i];
+			NvSetSelStr(i);
 
-			NvSetCurStr();
-			TxtDrawStr(Nv.str);
+			TxtDrawStr(Nv.sel.str);
 			TxtSetLf();
 		}
 
@@ -213,9 +212,9 @@ EWRAM_CODE void NvExecSel(void)
 		// 履歴に選択肢を保存
 		TxtClearXY();
 		TxtSetBuf(true);
-		Nv.pCur = Nv.sel.pStr[Nv.sel.num];
-		NvSetCurStr();
-		TxtDrawStr(Nv.str);
+
+		NvSetSelStr(Nv.sel.num);
+		TxtDrawStr(Nv.sel.str);
 		TxtSetPageNew();
 
 		// 選択肢のアドレスへジャンプ

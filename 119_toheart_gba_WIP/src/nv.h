@@ -48,10 +48,12 @@ typedef struct {
 
 	s8   item[NV_MAX_SEL_CNT];
 	s8   jump[NV_MAX_SEL_CNT];
-	u8*  pStr[NV_MAX_SEL_CNT];
+	u8*  pCur[NV_MAX_SEL_CNT];
 
 	u8*  pSrc;
 	u32  srcAdr;
+
+	char str[NV_MAX_STR_CNT] ALIGN(4);
 
 } ST_NV_SEL;
 

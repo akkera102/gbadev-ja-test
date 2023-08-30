@@ -466,9 +466,18 @@ EWRAM_CODE char* MenuGetStrTitle(void)
 {
 	if(Menu.type == MENU_TYPE_SYSTEM)
 	{
-		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg], MENU_BUF_SIZE-1);
-
 		u8 v = NvGetFlag(NV_FLAG_DAY);
+
+		// エピローグ
+		if(v == 0xff)
+		{
+			_Strncpy(Menu.buf, "", 2);
+
+			return Menu.buf;
+		}
+
+		// 日付表示
+		_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg], MENU_BUF_SIZE-1);
 
 		u8 m = NvGetCalMonth(v);
 		u8 d = NvGetCalDay(v);

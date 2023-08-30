@@ -19,6 +19,8 @@ IWRAM_CODE u32  NvGetCurNum(void);
 IWRAM_CODE u32  NvGetCurHex(void);
 IWRAM_CODE void NvSetCurStr(void);
 
+IWRAM_CODE void NvSetSelStr(u32 no);
+
 IWRAM_CODE void NvSkipCurLine(void);
 IWRAM_CODE void NvSkipCurLine2(s32 cnt);
 IWRAM_CODE void NvSkipCurSpace(void);

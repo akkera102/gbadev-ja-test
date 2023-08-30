@@ -56,7 +56,6 @@ IWRAM_CODE void ImgExecTxt(void)
 	}
 	Img.var2 = 0;
 
-
 	if(Img.var3++ < Img.fadeMax)
 	{
 		FadeSetBlack(Img.fadeMax - Img.var3);
@@ -65,6 +64,17 @@ IWRAM_CODE void ImgExecTxt(void)
 
 	ImgSetVarClr();
 	Img.isTxt = false;
+
+
+	// 桜エフェクトがある場合
+	if(SakuraIsEffect() == true)
+	{
+		// 校門と校内背景のみ、そのまま降らす
+		if(Img.bg != 0xb && Img.bg != 0x14)
+		{
+			SakuraStop();
+		}
+	}
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgExecBefore(void)
@@ -97,12 +107,6 @@ IWRAM_CODE void ImgExecBefore(void)
 
 			Img.var3++;
 			return;
-		}
-
-		if(SakuraIsEffect() == true)
-		{
-			FadeSetSpr(false);
-			SakuraStop();
 		}
 
 		FadeSetBlack(0);
@@ -181,12 +185,6 @@ IWRAM_CODE void ImgExecBefore(void)
 			return;
 		}
 
-		if(SakuraIsEffect() == true)
-		{
-			FadeSetSpr(false);
-			SakuraStop();
-		}
-
 		FadeSetWhite(0);
 		Img.isBefore = false;
 		break;
@@ -215,7 +213,7 @@ IWRAM_CODE void ImgExecBefore(void)
 	case IMG_EFFECT_SAKURA1_BLACK:
 		FadeSetSpr(true);
 		FadeSetBlack(16);
-		SakuraRegAll(true);
+		SakuraStart(true);
 
 		Img.isBefore = false;
 		break;
@@ -224,7 +222,7 @@ IWRAM_CODE void ImgExecBefore(void)
 	case IMG_EFFECT_SAKURA1_WHITE:
 		FadeSetSpr(true);
 		FadeSetWhite(16);
-		SakuraRegAll(true);
+		SakuraStart(true);
 
 		Img.isBefore = false;
 		break;
@@ -232,8 +230,75 @@ IWRAM_CODE void ImgExecBefore(void)
 	// 0x19
 	case IMG_EFFECT_SAKURA2:
 		FadeSetSpr(true);
-		SakuraRegAll(false);
+		SakuraStart(false);
 
+		Img.isBefore = false;
+		break;
+
+	// 0x1d
+	case IMG_EFFECT_OP_WHITE:
+		if(Img.var1++ < 2)
+		{
+			return;
+		}
+		Img.var1 = 0;
+
+
+		if(Img.var2++ < 16)
+		{
+			FadeSetWhite(Img.var2);
+			return;
+		}
+
+		if(Img.var3 == 0)
+		{
+			Mode3DrawFill(RGB5(31,31,31));
+			Mode3SetDraw();
+
+			Img.var3++;
+			return;
+		}
+
+		if(SakuraIsEffect() == true)
+		{
+			FadeSetSpr(false);
+			SakuraStop();
+		}
+
+		FadeSetWhite(0);
+		Img.isBefore = false;
+		break;
+
+	// 0x1e
+	case IMG_EFFECT_OP_FADE_PALETTE:
+		if(Img.var1++ < 2)
+		{
+			return;
+		}
+		Img.var1 = 0;
+
+		if(Img.var2++ < 16)
+		{
+			FadeSetBlack(Img.var2);
+			return;
+		}
+
+		if(Img.var3 == 0)
+		{
+			Mode3DrawFill(RGB5(0,0,0));
+			Mode3SetDraw();
+
+			Img.var3++;
+			return;
+		}
+
+		if(SakuraIsEffect() == true)
+		{
+			FadeSetSpr(false);
+			SakuraStop();
+		}
+
+		FadeSetBlack(0);
 		Img.isBefore = false;
 		break;
 
@@ -619,7 +684,7 @@ IWRAM_CODE void ImgExecAfter(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawBg(void)
 {
-	TRACE("[ImgDrawBg]\n");
+	TRACE("[ImgDrawBg %x]\n", Img.bg);
 
 	if(Img.bg == 0)
 	{
@@ -656,7 +721,8 @@ EWRAM_CODE void ImgDrawBg(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawChr(void)
 {
-	TRACE("[ImgDrawChr]\n");
+	TRACE("[ImgDrawChr %x %x %x]\n", Img.chr[0], Img.chr[1], Img.chr[2]);
+
 	s32 i;
 
 	for(i=0; i<3; i++)
@@ -674,6 +740,19 @@ EWRAM_CODE void ImgDrawChr(void)
 		if(i == IMG_CHR_LEFT)
 		{
 			sx = 10;
+
+			// マルチ　エアホッケー
+			if(Img.chr[i] == 0x619)
+			{
+				sx = SCREEN_CX - p->cx;
+				sy = 46;
+			}
+
+			// 志保　机で居眠りの振り
+			if(Img.chr[i] == 0x418)
+			{
+				sx = (SCREEN_CX / 2) - (p->cx / 2);
+			}
 		}
 		else if(i == IMG_CHR_RIGHT)
 		{

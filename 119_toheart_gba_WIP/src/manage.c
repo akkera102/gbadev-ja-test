@@ -94,7 +94,7 @@ EWRAM_CODE void ManageExecInit(void)
 //*/
 
 /*
-	NvSetScn(0);
+	NvSetScn(0x06A5);
 	NvSetEvt(1);
 	Manage.act = MANAGE_ACT_NOVEL;
 */
@@ -164,6 +164,11 @@ EWRAM_CODE void ManageExecNovel(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecLog(void)
 {
+	if(SakuraIsEffect() == true)
+	{
+		SakuraExec();
+	}
+
 	if(TxtIsChr() == true)
 	{
 		TxtExecLog();
@@ -174,6 +179,11 @@ EWRAM_CODE void ManageExecLog(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecMenu(void)
 {
+	if(SakuraIsEffect() == true)
+	{
+		SakuraExec();
+	}
+
 	if(TxtIsChr() == true)
 	{
 		TxtExecMenu();

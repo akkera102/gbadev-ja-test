@@ -6,7 +6,7 @@ char sprintfBuf[0x100] ALIGN(4);
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE u16 _Strlen(char* s1)
+IWRAM_CODE u16 _Strlen(char* s1)
 {
 	u16 i = 0;
 
@@ -18,7 +18,7 @@ EWRAM_CODE u16 _Strlen(char* s1)
 	return i;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size)
+IWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size)
 {
 	volatile char* s1 = ret;
 
@@ -45,7 +45,7 @@ End:
 	return ret;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE s16 _Strncmp(char* s1, char* s2, u16 size)
+IWRAM_CODE s16 _Strncmp(char* s1, char* s2, u16 size)
 {
 	if(size == 0)
 	{
@@ -77,7 +77,7 @@ End:
 	return 0;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* _Strcat(char* ret, char* s2)
+IWRAM_CODE char* _Strcat(char* ret, char* s2)
 {
 	char* s1 = ret;
 
@@ -95,7 +95,7 @@ EWRAM_CODE char* _Strcat(char* ret, char* s2)
 	return ret;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* _Strchr(char* str, char chr)
+IWRAM_CODE char* _Strchr(char* str, char chr)
 {
 	while(chr != *str)
 	{
@@ -108,7 +108,7 @@ EWRAM_CODE char* _Strchr(char* str, char chr)
 	return str;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size)
+IWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size)
 {
 	char* p1 = (char*)s1;
 	char* p2 = (char*)s2;
@@ -128,7 +128,7 @@ End:
 	return s1;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
+IWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
 {
 	char* p1 = (char*)s1;
 	char* p2 = (char*)s2;
@@ -150,7 +150,7 @@ EWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
 	return 0;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE char* _Memset(void* s, u8 c, u32 size)
+IWRAM_CODE char* _Memset(void* s, u8 c, u32 size)
 {
 	volatile char* s1 = (char*)s;
 

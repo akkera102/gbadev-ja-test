@@ -70,6 +70,34 @@ IWRAM_CODE void NvSetCurStr(void)
 	Nv.str[i++] = '\0';
 }
 //---------------------------------------------------------------------------
+IWRAM_CODE void NvSetSelStr(u32 no)
+{
+	Nv.sel.str[0] = '\0';
+	Nv.pCur = Nv.sel.pCur[no];
+
+	for(;;)
+	{
+		Nv.pCur += 5;
+		NvSetCurStr();
+
+		if(_IsSJIS(Nv.str[0]) == true)
+		{
+			_Strcat(Nv.sel.str, Nv.str);
+
+			continue;
+		}
+
+		if(_Strncmp(Nv.str, "endMsg", 8) != 0)
+		{
+			NvSkipCurLine();
+
+			continue;
+		}
+
+		return;
+	}
+}
+//---------------------------------------------------------------------------
 IWRAM_CODE void NvSkipCurLine(void)
 {
 	do {

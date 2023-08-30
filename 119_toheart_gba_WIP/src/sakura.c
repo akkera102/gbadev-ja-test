@@ -66,7 +66,7 @@ IWRAM_CODE void SakuraStop(void)
 	Sakura.isEffect = false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SakuraRegAll(bool isScn)
+IWRAM_CODE void SakuraStart(bool isScn)
 {
 	s32 i;
 

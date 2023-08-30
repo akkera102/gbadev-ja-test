@@ -49,13 +49,13 @@ effect2 2
 wait 60
 
 # フェード黒イン
-effect1 1
+effect1 30
 bg 254
 wait 60
 
 # フェード白イン
 # fill 白
-effect1 16
+effect1 29
 bg 254
 wait 30
 
@@ -79,7 +79,7 @@ effect1 25
 waitBgm 48000
 
 # フェード黒イン
-effect1 1
+effect1 30
 bg 254
 wait 60
 
@@ -351,7 +351,7 @@ wait 90
 
 # フェード白イン
 # fill 白
-effect1 16
+effect1 29
 bg 254
 wait 90
 
@@ -369,7 +369,7 @@ bgmstop
 
 # フェード白イン
 # fill 白
-effect1 16
+effect1 29
 bg 254
 wait 60
 

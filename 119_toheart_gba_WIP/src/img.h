@@ -42,13 +42,15 @@ enum {
 	IMG_EFFECT_WIPE_TTOB,
 	IMG_EFFECT_TITLE,
 	IMG_EFFECT_OP_SCROLL1,			// 0x15
-	IMG_EFFECT_OP_SCROLL2,
+	IMG_EFFECT_OP_SCROLL2,			// 0x16
 	IMG_EFFECT_SAKURA1_BLACK,		// 0x17 画面上に桜あり（ブラックイン）
 	IMG_EFFECT_SAKURA1_WHITE,		// 0x18 画面上に桜あり（ホワイトイン）
 	IMG_EFFECT_SAKURA2,				// 0x19 画面外から桜
-	IMG_EFFECT_VIBRATE,				// 0x20 どかっ
-	IMG_EFFECT_TIME,				// 0x21 時計表示
-	IMG_EFFECT_CALENDAR,			// 0x22 日めくりカレンダー表示
+	IMG_EFFECT_VIBRATE,				// 0x1a どかっ
+	IMG_EFFECT_TIME,				// 0x1b 時計表示
+	IMG_EFFECT_CALENDAR,			// 0x1c 日めくりカレンダー表示
+	IMG_EFFECT_OP_WHITE,			// 0x1d オープニング用ホワイトイン
+	IMG_EFFECT_OP_FADE_PALETTE,		// 0x1e オープニング用フェードパレット
 };
 
 

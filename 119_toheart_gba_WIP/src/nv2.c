@@ -180,17 +180,16 @@ EWRAM_CODE void NvExecParseSel(void)
 		Nv.sel.jump[i] = NvGetCurHex();
 	}
 
-	// 選択肢メッセージ取得
+	// 先にメッセージアドレスを抽出
 	for(i=0; i<Nv.sel.cnt; i++)
 	{
-		NvSetMsg(Nv.sel.item[i]);
+		Nv.pCur = Nv.pMsg + Nv.sel.item[i] * 5;
+		u32 adr = NvGetCurHex();
 
-		while(_IsSJIS(*Nv.pCur) == false)
-		{
-			Nv.pCur++;
-		}
+		Nv.pCur = Nv.pMsg + Nv.maxMsg * 5 + 1;
+		NvJumpCurAdr(adr);
 
-		Nv.sel.pStr[i] = Nv.pCur;
+		Nv.sel.pCur[i] = Nv.pCur;
 	}
 
 	NvSetMsg(Nv.sel.msg);
@@ -250,17 +249,16 @@ EWRAM_CODE void NvExecParseSelOpt(void)
 	Nv.sel.cnt = cnt;
 	TRACE("cnt=%x\n", Nv.sel.cnt);
 
-	// 選択肢メッセージ取得
+	// メッセージアドレスを抽出
 	for(i=0; i<Nv.sel.cnt; i++)
 	{
-		NvSetMsg(Nv.sel.item[i]);
+		Nv.pCur = Nv.pMsg + Nv.sel.item[i] * 5;
+		u32 adr = NvGetCurHex();
 
-		while(_IsSJIS(*Nv.pCur) == false)
-		{
-			Nv.pCur++;
-		}
+		Nv.pCur = Nv.pMsg + Nv.maxMsg * 5 + 1;
+		NvJumpCurAdr(adr);
 
-		Nv.sel.pStr[i] = Nv.pCur;
+		Nv.sel.pCur[i] = Nv.pCur;
 	}
 
 	NvSetMsg(Nv.sel.msg);
@@ -374,15 +372,8 @@ EWRAM_CODE void NvExecParseTime(void)
 	NvSetFlag(NV_FLAG_TIME, n);
 	NvSetEffectTime(n);
 
-/*
-	// 教室 + 平日か土曜放課後のみチャイム
-	// クドイので未実装
-	if(ImgGetBgS() == 1 && (n == 19 || n == 11))
-	{
-		SeSetNo(23);
-		SePlay(1);
-	}
-*/
+	// TODO チャイム処理（何度も鳴るので未実装にする）
+
 	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
@@ -1130,7 +1121,15 @@ EWRAM_CODE void NvExecParseSakura(void)
 {
 	TRACE("sakura\n");
 
-	// TODO 適切なスクリプトは降らす
+	// ４月８日の登校シーンのみ
+	if(Nv.scnNo != 0xAF)
+	{
+		TRACE("[pass]\n");
+		return;
+	}
+
+	SakuraSeed(Nv.vblankCnt);
+	SakuraStart(false);
 }
 //---------------------------------------------------------------------------
 // イベントエンド 0xff
