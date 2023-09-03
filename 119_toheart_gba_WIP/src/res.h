@@ -6,6 +6,8 @@
 extern const char ani_1_lo_txt[];
 extern const char ani_2_op_txt[];
 extern const char ani_3_ed_txt[];
+extern const char ani_4_ti_txt[];
+extern const char ani_5_om_txt[];
 
 
 // fnt
@@ -15,6 +17,8 @@ extern const unsigned short tbl_spr1d_bin[];
 
 // bg
 #include "res/bg_logo.h"
+#include "res/bg_effect4_1.h"
+#include "res/bg_effect4_2.h"
 #include "res/bg_effect5_1.h"
 #include "res/bg_effect5_2.h"
 

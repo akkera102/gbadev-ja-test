@@ -149,7 +149,6 @@ EWRAM_CODE void NvExecParseTitle(void)
 
 	SakuraSeed(Nv.vblankCnt);
 	AnimeSetDat(ANIME_DAT_OPENING);
-	ManageSetAnime();
 
 	Nv.isSkip = false;
 	Nv.isLoop = false;
@@ -195,7 +194,7 @@ EWRAM_CODE void NvExecParseSel(void)
 	NvSetMsg(Nv.sel.msg);
 }
 //---------------------------------------------------------------------------
-// ジャンプファイル 0x28
+// ジャンプスクリプト 0x28
 EWRAM_CODE void NvExecParseJmpScn(void)
 {
 	u16 n1 = NvGetCurHex();
@@ -269,7 +268,7 @@ EWRAM_CODE void NvExecParseSelRdy(void)
 {
 	TRACE("selRdy\n");
 
-	s32 i;
+	u32 i;
 
 	for(i=0; i<12; i++)
 	{
@@ -346,7 +345,8 @@ EWRAM_CODE void NvExecParseDay(void)
 		NvAddFlag(NV_FLAG_DAY, 1);
 	}
 
-	NvSetFlag(NV_FLAG_WEEK, DivMod(NvGetFlag(NV_FLAG_DAY) + 5, 7));
+	s8 day = NvGetFlag(NV_FLAG_DAY);
+	NvSetFlag(NV_FLAG_WEEK, NvGetCalWeek(day));
 }
 //---------------------------------------------------------------------------
 // 時間設定 0x33
@@ -372,7 +372,7 @@ EWRAM_CODE void NvExecParseTime(void)
 	NvSetFlag(NV_FLAG_TIME, n);
 	NvSetEffectTime(n);
 
-	// TODO チャイム処理（何度も鳴るので未実装にする）
+	// TODO チャイム　音がうるさいので未実装
 
 	Nv.isLoop = false;
 }
@@ -404,7 +404,7 @@ EWRAM_CODE void NvExecParseBg(void)
 {
 	u8 n = NvGetCurHex();
 
-	TRACE("bg %x\n", n);
+	TRACE("bgS %x\n", n);
 
 	ImgSetBgS(n);
 }
@@ -441,10 +441,11 @@ EWRAM_CODE void NvExecParseClrEff(void)
 EWRAM_CODE void NvExecParseVisLoad(void)
 {
 	u8 n = NvGetCurHex();
+	u16 no = NvGetBgVNo(n);
 
 	TRACE("visLoad %x\n", n);
 
-	ImgSetBgV(n);
+	ImgSetBgV(no);
 }
 //---------------------------------------------------------------------------
 // キャラクタ表示 0x43
@@ -514,7 +515,7 @@ EWRAM_CODE void NvExecParseIf1(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("if [%x](%x) == %x goto %x\n", n1, f, n2, n3);
 
@@ -530,7 +531,7 @@ EWRAM_CODE void NvExecParseIf2(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("if [%x](%x) != %x goto %x\n", n1, f, n2, n3);
 
@@ -546,7 +547,7 @@ EWRAM_CODE void NvExecParseIf3(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("if [%x](%x) > %x goto %x\n", n1, f, n2, n3);
 
@@ -562,7 +563,7 @@ EWRAM_CODE void NvExecParseIf4(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("if [%x](%x) < %x goto %x\n", n1, f, n2, n3);
 
@@ -578,7 +579,7 @@ EWRAM_CODE void NvExecParseIf5(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("if [%x](%x) >= %x goto %x\n", n1, f, n2, n3);
 
@@ -594,7 +595,7 @@ EWRAM_CODE void NvExecParseIf6(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("if [%x](%x) <= %x goto %x\n", n1, f, n2, n3);
 
@@ -610,7 +611,7 @@ EWRAM_CODE void NvExecParseIfBitSet(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("ifBitSet [%x](%x) & %x goto %x\n", n1, f, 1 << n2, n3);
 
@@ -626,7 +627,7 @@ EWRAM_CODE void NvExecParseIfBitRes(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	TRACE("ifBitRes [%x](%x) & %x goto %x\n", n1, f, 1 << n2, n3);
 
@@ -653,7 +654,7 @@ EWRAM_CODE void NvExecParseFlagBit(void)
 	u8 n1 = NvGetCurHex();
 	s8 n2 = NvGetCurHex();
 	u8 n3 = NvGetCurHex();
-	u8 f  = NvGetFlag(n1);
+	s8 f  = NvGetFlag(n1);
 
 	if(n3 != 0)
 	{
@@ -672,9 +673,14 @@ EWRAM_CODE void NvExecParseFlagBit(void)
 // メッセージ表示後クリア 0x69
 EWRAM_CODE void NvExecParseMsgClr(void)
 {
-	TRACE("msgClr\n");
+	u8 n = NvGetCurHex();
 
-	// EMPTY
+	TRACE("msgClr %x\n", n);
+
+	// 0162.txtのあかりシナリオのみ使用
+
+	NvSetMsg(n);
+	Nv.isMsgClr = true;
 }
 //---------------------------------------------------------------------------
 // メッセージ表示 0x6a
@@ -782,7 +788,6 @@ EWRAM_CODE void NvExecParseGameEnd(void)
 
 	SakuraSeed(Nv.vblankCnt);
 	AnimeSetDat(ANIME_DAT_ENDING);
-	ManageSetAnime();
 
 	Nv.isSkip = false;
 	Nv.isLoop = false;
@@ -791,9 +796,12 @@ EWRAM_CODE void NvExecParseGameEnd(void)
 // エンディング 0x95
 EWRAM_CODE void NvExecParseEnding(void)
 {
-	TRACE("ending rnd=%x\n", Nv.vblankCnt);
+	TRACE("ending\n");
 
-	_ASSERT(0);
+	// タイトル画面へ
+	ManageSetEnd();
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // PCMロード 0xa0
@@ -840,7 +848,7 @@ EWRAM_CODE void NvExecParsePcmWait(void)
 		return;
 	}
 
-	Nv.isWaitPcm = true;
+	Nv.isWaitSe = true;
 	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
@@ -856,6 +864,15 @@ EWRAM_CODE void NvExecParseEndMsg(void)
 	{
 		Nv.isSel    = false;
 		Nv.isSelKey = true;
+
+		NvSetAct(NV_ACT_KEY);
+		Nv.isLoop = false;
+	}
+
+	// 特殊メッセージの場合
+	if(Nv.isMsgClr == true)
+	{
+		Nv.isMsgClr = false;
 
 		NvSetAct(NV_ACT_KEY);
 		Nv.isLoop = false;
@@ -969,7 +986,7 @@ EWRAM_CODE void NvExecParseVisLoad2(void)
 	u8 n1  = NvGetCurHex();
 	u8 n2  = NvGetCurHex();
 	u8 n3  = NvGetCurHex();
-	u16 no = NvGetVisNo(n1);
+	u16 no = NvGetBgVNo(n1);
 
 	TRACE("visLoad2 %x %x %x\n", n1, n2, n3);
 
@@ -986,7 +1003,7 @@ EWRAM_CODE void NvExecParseLoadH(void)
 	u8 n1  = NvGetCurHex();
 	u8 n2  = NvGetCurHex();
 	u8 n3  = NvGetCurHex();
-	u16 no = NvGetVisNo(n1);
+	u16 no = NvGetBgVNo(n1);
 
 	TRACE("loadH %x %x %x\n", n1, n2, n3);
 
@@ -1035,12 +1052,6 @@ EWRAM_CODE void NvExecParseChrClrAll(void)
 
 	TRACE("chrClrAll %x %x\n", n1, n2);
 
-	if(ImgGetChr(n1) == no)
-	{
-		TRACE("[pass]\n");
-		return;
-	}
-
 	ImgSetChrClr();
 	ImgSetChr(no, n1);
 	NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
@@ -1059,6 +1070,18 @@ EWRAM_CODE void NvExecParseBgChr(void)
 	u16 no = NvGetChrNo(n2);
 
 	TRACE("bgChr %x %x %x %x %x\n", n1, n2, n3, n4, n5);
+
+	// patch 虹キャラクタを背景指定に変更
+	if(no == 0x1c01)
+	{
+		NvSetEffectBefore(n4);
+		ImgSetBgV(0xF6);
+		ImgSetChr(0xffff, n1);
+		NvSetEffectAfter(n5);
+
+		Nv.isLoop = false;
+		return;
+	}
 
 	NvSetEffectBefore(n4);
 	ImgSetBgS(n3);
@@ -1084,6 +1107,20 @@ EWRAM_CODE void NvExecParseChr3(void)
 
 	TRACE("chr3 %x %x %x %x %x %x\n", n1, n2, n3, n4, n5, n6);
 
+	// patch 虹キャラクタを背景指定に変更
+	if(no1 == 0x1c01)
+	{
+		ImgSetBgV(0xF6);
+		ImgSetChr(0xffff, n1);
+		ImgSetChr(no2, n3);
+		ImgSetChr(no3, n5);
+		NvSetEffectAfter(IMG_EFFECT_FADE_MASK);
+
+		Nv.isLoop = false;
+		return;
+	}
+
+
 	ImgSetChr(no1, n1);
 	ImgSetChr(no2, n3);
 	ImgSetChr(no3, n5);
@@ -1103,6 +1140,7 @@ EWRAM_CODE void NvExecParseDay2(void)
 	{
 		NvSetEffectCal(n);
 		NvSetFlag(NV_FLAG_DAY, n);
+		NvSetFlag(NV_FLAG_WEEK, NvGetCalWeek(n));
 
 		Nv.isLoop = false;
 	}
@@ -1130,6 +1168,8 @@ EWRAM_CODE void NvExecParseSakura(void)
 
 	SakuraSeed(Nv.vblankCnt);
 	SakuraStart(false);
+
+	Nv.isSakura = true;
 }
 //---------------------------------------------------------------------------
 // イベントエンド 0xff

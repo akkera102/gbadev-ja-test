@@ -3,7 +3,7 @@
 
 bgm 33 0
 wait 400
-strcls
+strCls
 skip
 wait 800
 
@@ -15,12 +15,12 @@ str 6 5 ‚‹´@—´–ç
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 31
+bgS 31
 effect2 16
 wait 60
 
@@ -33,12 +33,12 @@ str 6 6 ˆ¨@‚à‚è‚Ó‚İ
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 8
+bgS 8
 effect2 16
 wait 60
 
@@ -50,12 +50,12 @@ str 6 5 ƒ‰[E‚x‚n‚t
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 9
+bgS 9
 effect2 16
 wait 60
 
@@ -69,12 +69,12 @@ str 6 6 ƒ‰[E‚x‚n‚t
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 10
+bgS 10
 effect2 16
 wait 60
 
@@ -85,12 +85,12 @@ str 2 5 ‚g‚‚Š‚‰‚‚…@‚m‚‰‚‚‚‚‚…
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 11
+bgS 11
 effect2 16
 wait 60
 
@@ -103,12 +103,12 @@ str 6 6 ’¹–ì@³M
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 12
+bgS 12
 effect2 16
 wait 60
 
@@ -121,12 +121,12 @@ str 6 6 ƒ”ƒB[ƒiƒX
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 13
+bgS 13
 effect2 16
 wait 60
 
@@ -138,12 +138,12 @@ str 6 5 e•ƒ
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 14
+bgS 14
 effect2 16
 wait 60
 
@@ -154,12 +154,12 @@ str 6 5 ’¹–ì@³M
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 15
+bgS 15
 effect2 16
 wait 60
 
@@ -172,12 +172,12 @@ str 6 6 Îì@^–ç
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 7
+bgS 7
 effect2 16
 wait 60
 
@@ -192,12 +192,12 @@ str 5 7 @‰Ì@F‚ ‚Á‚±
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 21
+bgS 21
 effect2 16
 wait 60
 
@@ -208,12 +208,12 @@ str 5 5 ƒNƒ‰ƒtƒgƒ}ƒ“
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 32
+bgS 32
 effect2 16
 wait 60
 
@@ -224,12 +224,12 @@ str 2 5 ‚`‚k‚k@‚k‚d‚`‚e@‚r‚s‚`‚e‚e
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 60
 
 #---------------------------------------
-bg 17
+bgS 17
 effect2 16
 wait 60
 
@@ -240,14 +240,14 @@ str 4 5 ‚P‚X‚X‚V@‚k‚d‚`‚e
 wait 240
 
 effect1 16
-strcls
-bg 254
+strCls
+bgS 254
 wait 120
 
 #---------------------------------------
 # ƒŠ[ƒtƒƒS
 # ÷
-vis 244
+bgV 244
 effect1 24
 effect2 16
 wait 600
@@ -255,13 +255,13 @@ wait 600
 #---------------------------------------
 
 #ƒXƒLƒbƒvƒ|ƒCƒ“ƒg
-mark
+skipMark
 
-bgmstop
+bgmStop
 
 # ƒtƒF[ƒh•ƒCƒ“
-effect1 1
-bg 254
+effect1 30
+bgS 254
 wait 60
 
 sprmode 0

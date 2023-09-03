@@ -66,7 +66,7 @@ typedef struct {
 	s32  wait;
 	bool isLoop;
 	bool isSkip;
-	bool isWaitPcm;
+	bool isWaitSe;
 
 	// スクリプト
 	u8   scnNo;
@@ -98,6 +98,12 @@ typedef struct {
 	// 乱数用
 	u32  vblankCnt;
 
+	// 特殊メッセージ有無
+	bool isMsgClr;
+
+	// 特殊エフェクト管理
+	bool isSakura;
+	bool isRein;
 } ST_NV;
 
 
@@ -116,7 +122,7 @@ EWRAM_CODE void NvSetEffectCal(u8 num);
 EWRAM_CODE void NvSetScn(u32 no);
 EWRAM_CODE void NvSetEvt(u32 no);
 EWRAM_CODE void NvSetMsg(u32 no);
-EWRAM_CODE void NvSetNext(void);
+EWRAM_CODE void NvSetSkip(void);
 
 EWRAM_CODE void NvSetAct(s32 act);
 EWRAM_CODE void NvPushAct(s32 act);
@@ -128,11 +134,10 @@ EWRAM_CODE void NvSubFlag(u8 no, s8 val);
 EWRAM_CODE s8   NvGetFlag(u8 no);
 
 EWRAM_CODE u16  NvGetChrNo(u16 no);
-EWRAM_CODE u8   NvGetVisNo(u8 no);
+EWRAM_CODE u8   NvGetBgVNo(u8 no);
 EWRAM_CODE u8   NvGetCalMonth(u8 num);
 EWRAM_CODE u8   NvGetCalDay(u8 num);
 EWRAM_CODE u8   NvGetCalWeek(u8 num);
-EWRAM_CODE u32  NvGetVblankCnt(void);
 
 EWRAM_CODE bool NvIsSkip(void);
 EWRAM_CODE bool NvIsRestart(void);

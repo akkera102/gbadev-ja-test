@@ -246,6 +246,8 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step)
 		return;
 	}
 
+	step--;
+
 	// バッファを黒色で塗りつぶし
 	u32 col ALIGN(4);
 	col = 0;
@@ -254,7 +256,7 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step)
 
 	// 揺れ
 	// 左下、右上、左上、右下、左下、左上、元ポジション
-	_ASSERT((step - 1) < 7);
+	_ASSERT(step < 7);
 
 	const s32 sx[7] = { -8,  8, -8,  8, -8, -8,  0 };
 	const s32 sy[7] = {  8, -8, -8,  8,  8, -8,  0 };
@@ -264,8 +266,8 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step)
 	{
 		for(x=0; x<SCREEN_CX; x++)
 		{
-			s32 dx = x - sx[step - 1];
-			s32 dy = y - sy[step - 1];
+			s32 dx = x - sx[step];
+			s32 dy = y - sy[step];
 
 			if(dx >= 0 && dy >= 0 && dx < SCREEN_CX && dy < SCREEN_CY)
 			{
@@ -300,8 +302,7 @@ IWRAM_CODE void Mode3DrawCurtain(s32 step)
 {
 	if(step == 0)
 	{
-		// 例外処理
-		MemInc((u16*)bg_effect5_1Bitmap, &Mode3.msk, bg_effect5_1BitmapLen);
+		MemInc((u16*)bg_effect5_1Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect5_1BitmapLen);
 
 		return;
 	}
@@ -318,7 +319,7 @@ IWRAM_CODE void Mode3DrawCurtain(s32 step)
 		{
 			for(y=0; y<SCREEN_CY; y++)
 			{
-				u16* pM = (u16*)Mode3.msk;
+				u16* pM = (u16*)&Mode3.buf[SCREEN_CX * SCREEN_CY];
 				u32* pS = (u32*)&pM[pat * 8 + y * 64];
 				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
 
@@ -344,8 +345,7 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 {
 	if(step == 0)
 	{
-		// 例外処理
-		MemInc((u16*)bg_effect5_2Bitmap, &Mode3.msk, bg_effect5_2BitmapLen);
+		MemInc((u16*)bg_effect5_2Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect5_2BitmapLen);
 
 		return;
 	}
@@ -362,7 +362,7 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 		{
 			for(y=0; y<SCREEN_CY; y++)
 			{
-				u16* pM = (u16*)Mode3.msk;
+				u16* pM = (u16*)&Mode3.buf[SCREEN_CX * SCREEN_CY];
 				u32* pS = (u32*)&pM[pat * 8 + y * 64];
 
 				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
@@ -374,6 +374,8 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 				*pV++ = *pD++ & *pS++;
 				*pV++ = *pD++ & *pS++;
 				*pV++ = *pD++ & *pS++;
+
+//				_ASSERT(pV <= VRAM + SCREEN_CX * SCREEN_CY * 2);
 			}
 		}
 
@@ -384,4 +386,118 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 
 		sx -= 8;
 	}
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawDiamond(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc((u16*)bg_effect4_1Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect4_1BitmapLen);
+
+		return;
+	}
+
+	step--;
+
+	s32 y;
+	s32 sx = step * 16;
+	s32 pat = 7;
+
+	while(0 <= sx)
+	{
+		if(sx < SCREEN_CX)
+		{
+			for(y=0; y<SCREEN_CY; y++)
+			{
+				u16* pM = (u16*)&Mode3.buf[SCREEN_CX * SCREEN_CY];
+				u32* pS = (u32*)&pM[pat * 16 + y * 128];
+				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
+
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+			}
+		}
+
+		if(pat > 0)
+		{
+			pat--;
+		}
+
+		sx -= 16;
+	}
+
+	Mode3.isDraw = true;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawDiamond2(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc((u16*)bg_effect4_2Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect4_2BitmapLen);
+
+		return;
+	}
+
+	step--;
+
+	s32 y;
+	s32 sx = step * 16;
+	s32 pat = 7;
+
+	while(0 <= sx)
+	{
+		if(sx < SCREEN_CX)
+		{
+			for(y=0; y<SCREEN_CY; y++)
+			{
+				u16* pM = (u16*)&Mode3.buf[SCREEN_CX * SCREEN_CY];
+				u32* pS = (u32*)&pM[pat * 16 + y * 128];
+
+				u32* pD = (u32*)&Mode3.buf[sx + y * SCREEN_CX];
+
+				u16* pR = (u16*)VRAM;
+				u32* pV = (u32*)&pR[sx + y * SCREEN_CX];
+
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+
+//				_ASSERT(pV <= VRAM + SCREEN_CX * SCREEN_CY * 2);
+			}
+		}
+
+		if(pat > 0)
+		{
+			pat--;
+		}
+
+		sx -= 16;
+	}
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawTopScroll(s32 step)
+{
+	if(step == 0)
+	{
+		MemClear(&Mode3.buf[SCREEN_CX * SCREEN_CY], SCREEN_CX * SCREEN_CY * 2);
+
+		return;
+	}
+
+	step--;
+
+	MemInc((u16*)&Mode3.buf[SCREEN_CX * step], (u16*)VRAM, SCREEN_CX * SCREEN_CY * 2);
 }

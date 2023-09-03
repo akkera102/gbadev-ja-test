@@ -6,7 +6,7 @@ char sprintfBuf[0x100] ALIGN(4);
 
 
 //---------------------------------------------------------------------------
-IWRAM_CODE u16 _Strlen(char* s1)
+EWRAM_CODE u16 _Strlen(char* s1)
 {
 	u16 i = 0;
 
@@ -18,7 +18,7 @@ IWRAM_CODE u16 _Strlen(char* s1)
 	return i;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size)
+EWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size)
 {
 	volatile char* s1 = ret;
 
@@ -45,7 +45,7 @@ End:
 	return ret;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE s16 _Strncmp(char* s1, char* s2, u16 size)
+EWRAM_CODE s16 _Strncmp(char* s1, char* s2, u16 size)
 {
 	if(size == 0)
 	{
@@ -77,7 +77,7 @@ End:
 	return 0;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE char* _Strcat(char* ret, char* s2)
+EWRAM_CODE char* _Strcat(char* ret, char* s2)
 {
 	char* s1 = ret;
 
@@ -95,7 +95,7 @@ IWRAM_CODE char* _Strcat(char* ret, char* s2)
 	return ret;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE char* _Strchr(char* str, char chr)
+EWRAM_CODE char* _Strchr(char* str, char chr)
 {
 	while(chr != *str)
 	{
@@ -108,7 +108,7 @@ IWRAM_CODE char* _Strchr(char* str, char chr)
 	return str;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size)
+EWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size)
 {
 	char* p1 = (char*)s1;
 	char* p2 = (char*)s2;
@@ -128,7 +128,7 @@ End:
 	return s1;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
+EWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
 {
 	char* p1 = (char*)s1;
 	char* p2 = (char*)s2;
@@ -150,7 +150,7 @@ IWRAM_CODE s16 _Memcmp(void* s1, void* s2, u32 size)
 	return 0;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE char* _Memset(void* s, u8 c, u32 size)
+EWRAM_CODE char* _Memset(void* s, u8 c, u32 size)
 {
 	volatile char* s1 = (char*)s;
 
@@ -358,7 +358,12 @@ IWRAM_CODE char* _SprintfString(char* val, char* s)
 	return s;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SystemError(char* format, ...)
+IWRAM_CODE void MappyLog(char* buf)
+{
+	asm("mov r2, %0; ldr r0,=0xc0ded00d; and r0,r0" :: "r"(buf) : "r2", "r0");
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SystemError(char* format, ...)
 {
 	char* ap;
 	va_start(ap, format);
@@ -371,9 +376,4 @@ IWRAM_CODE void SystemError(char* format, ...)
 	{
 		SystemCall(5);
 	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void MappyLog(char* buf)
-{
-	asm("mov r2, %0; ldr r0,=0xc0ded00d; and r0,r0" :: "r"(buf) : "r2", "r0");
 }

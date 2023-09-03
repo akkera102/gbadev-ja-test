@@ -14,7 +14,7 @@ extern "C" {
 
 enum {
 	LOG_RET_NOVEL,
-	LOG_RET_SYSTEM,
+	LOG_RET_MENU,
 };
 
 //---------------------------------------------------------------------------
@@ -34,7 +34,7 @@ typedef struct {
 EWRAM_CODE void LogInit(void);
 EWRAM_CODE void LogExec(void);
 
-EWRAM_CODE void LogSetDisp(u32 ret);
+EWRAM_CODE void LogSetInit(u32 ret);
 EWRAM_CODE u16* LogGetBuf(void);
 EWRAM_CODE void LogAddBuf(u16* p);
 

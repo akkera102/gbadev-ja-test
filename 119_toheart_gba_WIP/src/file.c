@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 ROM_DATA char* FileMusTable[FILE_MAX_BGM_CNT] = {
 	"th00.bin",		// 0
-	"th22.bin",		// 1
+	"th22.bin",		// 1	ダブり
 	"th02.bin",
 	"th03.bin",
 	"th04.bin",
@@ -72,7 +72,7 @@ EWRAM_CODE u8* FileGetBgS(u32 no)
 	case 4: buf[3] = 'Z'; break;	// オカルト研究会用
 
 	default:
-		SystemError("[Err] FileGetBg m=%d d=%d\n", m, d);
+		SystemError("[Err] FileGetBgS m=%d d=%d\n", m, d);
 		break;
 	}
 
@@ -115,7 +115,7 @@ EWRAM_CODE u8* FileGetMus(u32 no)
 {
 	_ASSERT(no < FILE_MAX_BGM_CNT);
 
-	return GbfsGetSafePointer((char*)FileMusTable[no]);
+	return GbfsGetSafePointer(FileMusTable[no]);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u8* FileGetSe(u32 no)
@@ -147,6 +147,7 @@ EWRAM_CODE u8* FileGetMonth(u32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
+// 1桁表示
 EWRAM_CODE u8* FileGetDay(u32 no)
 {
 	char buf[20];
@@ -155,6 +156,7 @@ EWRAM_CODE u8* FileGetDay(u32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
+// 2桁表示
 EWRAM_CODE u8* FileGetDay2(u32 no)
 {
 	char buf[20];
@@ -171,9 +173,9 @@ EWRAM_CODE u8* FileGetWeek(u32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8* FileGetName(char* pName)
+EWRAM_CODE u8* FileGetName(char* p)
 {
-	return GbfsGetSafePointer(pName);
+	return GbfsGetSafePointer(p);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u32 FileGetSize(void)

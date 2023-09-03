@@ -14,7 +14,7 @@ EWRAM_CODE void BgmInit(void)
 	BgmStop();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void BgmPlay(s32 no, bool isLoop)
+EWRAM_CODE void BgmPlay(u32 no, bool isLoop)
 {
 	if(Bgm.no == no && Bgm.isPlay == true)
 	{
@@ -28,7 +28,7 @@ EWRAM_CODE void BgmPlay(s32 no, bool isLoop)
 	Bgm.no = no;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
+EWRAM_CODE void BgmPlay2(u32 no, bool isLoop)
 {
 	u8* pDat = FileGetMus(no);
 

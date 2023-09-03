@@ -54,18 +54,6 @@ IWRAM_CODE void SakuraExec(void)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SakuraStop(void)
-{
-	s32 i;
-
-	for(i=0; i<SAKURA_MAX_DAT; i++)
-	{
-		SprDirectMove(i, SCREEN_CX, SCREEN_CY);
-	}
-
-	Sakura.isEffect = false;
-}
-//---------------------------------------------------------------------------
 IWRAM_CODE void SakuraStart(bool isScn)
 {
 	s32 i;
@@ -83,6 +71,18 @@ IWRAM_CODE void SakuraStart(bool isScn)
 	}
 
 	Sakura.isEffect = true;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void SakuraStop(void)
+{
+	s32 i;
+
+	for(i=0; i<SAKURA_MAX_DAT; i++)
+	{
+		SprDirectMove(i, SCREEN_CX, SCREEN_CY);
+	}
+
+	Sakura.isEffect = false;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SakuraRegDat(u32 no)

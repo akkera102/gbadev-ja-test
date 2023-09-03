@@ -17,6 +17,8 @@ extern "C" {
 EWRAM_CODE void LibMyInit(void);
 IWRAM_CODE void LibMyExec(void);
 
+EWRAM_CODE u32  LibMyGetVblankCnt(void);
+
 
 #ifdef __cplusplus
 }

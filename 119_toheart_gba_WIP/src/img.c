@@ -19,7 +19,7 @@ EWRAM_CODE void ImgInit(void)
 	Img.fadeMax = 8;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExec(void)
+IWRAM_CODE void ImgExec(void)
 {
 	if(Img.isTxt == true && NvIsSkip() == false && NvIsRestart() == false && Img.after != IMG_EFFECT_VIBRATE)
 	{
@@ -64,17 +64,6 @@ IWRAM_CODE void ImgExecTxt(void)
 
 	ImgSetVarClr();
 	Img.isTxt = false;
-
-
-	// ç˜ÉGÉtÉFÉNÉgÇ™Ç†ÇÈèÍçá
-	if(SakuraIsEffect() == true)
-	{
-		// çZñÂÇ∆çZì‡îwåiÇÃÇ›ÅAÇªÇÃÇ‹Ç‹ç~ÇÁÇ∑
-		if(Img.bg != 0xb && Img.bg != 0x14)
-		{
-			SakuraStop();
-		}
-	}
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgExecBefore(void)
@@ -87,6 +76,7 @@ IWRAM_CODE void ImgExecBefore(void)
 		break;
 
 	// 0x01
+	case IMG_EFFECT_BLOOD: // ë„óp 0x0a
 	case IMG_EFFECT_FADE_PALETTE:
 		if(Img.var1++ < 2)
 		{
@@ -113,6 +103,25 @@ IWRAM_CODE void ImgExecBefore(void)
 		Img.isBefore = false;
 		break;
 
+	// 0x04
+	case IMG_EFFECT_WIPE_SQUARE_LTOR:
+		if(Img.var2++ < 3)
+		{
+			return;
+		}
+		Img.var2 = 0;
+
+		// VCOUNT 160 -> 0 -> 227(2 frame)
+		// TRACE("WIPE_SQUARE_LTOR S:%d\n", REG_VCOUNT);
+		Mode3DrawDiamond(Img.var3++);
+		// TRACE("WIPE_SQUARE_LTOR E:%d\n", REG_VCOUNT);
+
+		if(Img.var3 > 22)
+		{
+			Img.isBefore = false;
+		}
+		break;
+
 	// 0x05
 	case IMG_EFFECT_WIPE_MASK_LTOR:
 		if(Img.var2++ < 1)
@@ -126,7 +135,7 @@ IWRAM_CODE void ImgExecBefore(void)
 		Mode3DrawCurtain(Img.var3++);
 		// TRACE("WIPE_MASK_LTOR E:%d\n", REG_VCOUNT);
 
-		if(Img.var3 > 30+8)
+		if(Img.var3 > 36+1)
 		{
 			Img.isBefore = false;
 		}
@@ -158,6 +167,17 @@ IWRAM_CODE void ImgExecBefore(void)
 //		ImgDrawBg();
 //		ImgDrawChr();
 //		Mode3SetDraw();
+		Img.isBefore = false;
+		break;
+
+	// 0x09
+	case IMG_EFFECT_TOP_SCROLL:
+		if(Img.var1 < 160 + 1)
+		{
+			Mode3DrawTopScroll(Img.var1++);
+			return;
+		}
+
 		Img.isBefore = false;
 		break;
 
@@ -371,6 +391,30 @@ IWRAM_CODE void ImgExecAfter(void)
 		Img.isAfter = false;
 		break;
 
+	// 0x04
+	case IMG_EFFECT_WIPE_SQUARE_LTOR:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			return;
+		}
+
+		if(Img.var5++ < 3)
+		{
+			return;
+		}
+		Img.var5 = 0;
+
+		Mode3DrawDiamond2(Img.var6++);
+
+		if(Img.var6 > 22)
+		{
+			Img.isAfter = false;
+		}
+		
+		break;
+
 	// 0x05
 	case IMG_EFFECT_WIPE_MASK_LTOR:
 		if(Img.var4++ == 0)
@@ -388,7 +432,7 @@ IWRAM_CODE void ImgExecAfter(void)
 
 		Mode3DrawCurtain2(Img.var6++);
 
-		if(Img.var6 > 30+8)
+		if(Img.var6 > 36+1)
 		{
 			Img.isAfter = false;
 		}
@@ -486,7 +530,6 @@ IWRAM_CODE void ImgExecAfter(void)
 
 	// 0x14
 	case IMG_EFFECT_TITLE:
-
 		Mode3DrawTitle(Img.var4);
 		Img.var4++;
 

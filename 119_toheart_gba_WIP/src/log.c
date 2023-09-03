@@ -65,7 +65,7 @@ End:
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void LogSetDisp(u32 ret)
+EWRAM_CODE void LogSetInit(u32 ret)
 {
 	Log.sel = 0;
 	Log.ret = ret;

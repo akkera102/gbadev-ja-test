@@ -3,11 +3,11 @@
 
 bgm 0 0
 effect1 16
-bg 254
+bgS 254
 wait 40
 
 # Leafロゴ表示
-vis 244
+bgV 244
 effect2 16
 wait 180
 
@@ -19,7 +19,7 @@ wait 180
 
 # タイトル画面
 effect1 1
-vis 245
+bgV 245
 effect2 1
 
 # 文字フェード

@@ -1,6 +1,7 @@
 #include "nv.h"
 #include "nv2.h"
 #include "nv3.h"
+#include "libmy/libmy.h"
 #include "libmy/gbfs.h"
 #include "libmy/key.h"
 #include "libmy/spr.h"
@@ -12,8 +13,7 @@
 #include "manage.h"
 #include "bgm.h"
 #include "se.h"
-#include "siori.h"
-
+#include "sakura.h"
 
 //---------------------------------------------------------------------------
 ST_NV Nv;
@@ -38,14 +38,14 @@ EWRAM_CODE void NvExec(void)
 		return;
 	}
 
-	if(Nv.isWaitPcm == true)
+	if(Nv.isWaitSe == true)
 	{
 		if(SeIsEnd2() == false)
 		{
 			return;
 		}
 
-		Nv.isWaitPcm = false;
+		Nv.isWaitSe = false;
 	}
 
 	switch(Nv.act)
@@ -104,6 +104,7 @@ EWRAM_CODE void NvExecKey(void)
 		if(cnt & KEY_R || trg & KEY_A || trg & KEY_DOWN)
 		{
 KeyOn:
+			// 選択肢メッセージ表示後かチェック
 			if(Nv.isSelKey == false)
 			{
 				TxtSetCur(false);
@@ -118,7 +119,7 @@ KeyOn:
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			LogSetDisp(LOG_RET_NOVEL);
+			LogSetInit(LOG_RET_NOVEL);
 			ManageSetLog();
 
 			Nv.step--;
@@ -126,6 +127,14 @@ KeyOn:
 		else if(trg & KEY_B)
 		{
 			MenuSetSystem(MENU_SYSTEM_SEL_SKIP);
+			ManageSetMenu();
+
+			Nv.step--;
+		}
+		else if(trg & KEY_L)
+		{
+			TxtHideWindow();
+			MenuSetNone(MENU_RET_NOVEL);
 			ManageSetMenu();
 
 			Nv.step--;
@@ -181,7 +190,7 @@ EWRAM_CODE void NvExecSel(void)
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			LogSetDisp(LOG_RET_NOVEL);
+			LogSetInit(LOG_RET_NOVEL);
 			ManageSetLog();
 
 			Nv.step--;
@@ -189,6 +198,14 @@ EWRAM_CODE void NvExecSel(void)
 		else if(trg & KEY_B)
 		{
 			MenuSetSystem(MENU_SYSTEM_SEL_SKIP);
+			ManageSetMenu();
+
+			Nv.step--;
+		}
+		else if(trg & KEY_L)
+		{
+			TxtHideWindow();
+			MenuSetNone(MENU_RET_NOVEL);
 			ManageSetMenu();
 
 			Nv.step--;
@@ -224,12 +241,12 @@ EWRAM_CODE void NvExecSel(void)
 		// 選択肢 or 可変選択肢
 		if(Nv.isSelOpt == false)
 		{
-//			TRACE("[selJump: %x]\n", Nv.curAdr + 3 + 2 * Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
+			// TRACE("[selJump: %x]\n", Nv.curAdr + 3 + 2 * Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
 			NvJumpCurAdr(Nv.curAdr + 3 + 2 * Nv.sel.cnt + Nv.sel.jump[Nv.sel.num]);
 		}
 		else
 		{
-//			TRACE("[selJump: %x]\n", Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.offset);
+			// TRACE("[selJump: %x]\n", Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.offset);
 			NvJumpCurAdr(Nv.curAdr + 3 + Nv.sel.jump[Nv.sel.num] * Nv.sel.offset);
 		}
 
@@ -245,6 +262,7 @@ EWRAM_CODE void NvExecRestart(void)
 	case 0:
 		LogInit();
 		TxtHideMsg();
+		SakuraStop();
 		Nv.step++;
 		break;
 
@@ -255,8 +273,8 @@ EWRAM_CODE void NvExecRestart(void)
 
 	case 2:
 		ImgSetEffectAfter(IMG_EFFECT_FADE_PALETTE);
-		SeStop();
 		BgmRestart();
+		SeStop();
 		Nv.step++;
 		break;
 
@@ -264,6 +282,14 @@ EWRAM_CODE void NvExecRestart(void)
 		TxtRestart();
 		ImgRestart();
 		NvPopAct();
+
+		if(Nv.isSakura == true)
+		{
+			Nv.vblankCnt += LibMyGetVblankCnt();
+			TRACE("[sakura seed = %x]\n", Nv.vblankCnt);
+			SakuraSeed(Nv.vblankCnt);
+			SakuraStart(false);
+		}
 
 		// 選択肢の場合のリセット
 		Nv.sel.num = -1;
@@ -283,6 +309,18 @@ EWRAM_CODE void NvSetEffectBefore(u8 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetEffectAfter(u8 no)
 {
+	if(Nv.isSakura == true)
+	{
+		u8 bg = ImgGetBgS();
+
+		// 校門と校内背景のみ、そのまま降らす
+		if(bg != 0xb && bg != 0x14)
+		{
+			SakuraStop();
+			Nv.isSakura = false;
+		}
+	}
+
 	if(Nv.isSkip == true)
 	{
 		if(no == IMG_EFFECT_TXT_ON)
@@ -377,7 +415,7 @@ EWRAM_CODE void NvSetMsg(u32 no)
 	TRACE("[NvSetMsg %x %x]\n", no, adr);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void NvSetNext(void)
+EWRAM_CODE void NvSetSkip(void)
 {
 	Nv.isSkip = true;
 }
@@ -435,7 +473,7 @@ EWRAM_CODE u16 NvGetChrNo(u16 no)
 	return no;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8 NvGetVisNo(u8 no)
+EWRAM_CODE u8 NvGetBgVNo(u8 no)
 {
 	// あかりの髪型
 	if(no == 0x11 || no == 0x13)
@@ -484,11 +522,6 @@ EWRAM_CODE u8 NvGetCalDay(u8 num)
 EWRAM_CODE u8 NvGetCalWeek(u8 num)
 {
 	return DivMod(num + 5, 7);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE u32 NvGetVblankCnt(void)
-{
-	return Nv.vblankCnt;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool NvIsSkip(void)

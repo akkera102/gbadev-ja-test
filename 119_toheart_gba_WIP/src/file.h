@@ -37,7 +37,7 @@ EWRAM_CODE u8*  FileGetMonth(u32 no);
 EWRAM_CODE u8*  FileGetDay(u32 no);
 EWRAM_CODE u8*  FileGetDay2(u32 no);
 EWRAM_CODE u8*  FileGetWeek(u32 no);
-EWRAM_CODE u8*  FileGetName(char* pName);
+EWRAM_CODE u8*  FileGetName(char* p);
 
 EWRAM_CODE u32  FileGetSize(void);
 

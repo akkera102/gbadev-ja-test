@@ -29,16 +29,16 @@ typedef char* va_list;
 
 
 //---------------------------------------------------------------------------
-IWRAM_CODE u16   _Strlen(char* s1);
-IWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size);
-IWRAM_CODE s16   _Strncmp(char* s1, char* s2, u16 size);
-IWRAM_CODE char* _Strcat(char* ret, char* s2);
-IWRAM_CODE char* _Strchr(char* str, char chr);
-IWRAM_CODE u16   _Atoi(char* s);
+EWRAM_CODE u16   _Strlen(char* s1);
+EWRAM_CODE char* _Strncpy(char* ret, char* s2, u16 size);
+EWRAM_CODE s16   _Strncmp(char* s1, char* s2, u16 size);
+EWRAM_CODE char* _Strcat(char* ret, char* s2);
+EWRAM_CODE char* _Strchr(char* str, char chr);
+EWRAM_CODE u16   _Atoi(char* s);
 
-IWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size);
-IWRAM_CODE s16   _Memcmp(void* s1, void* s2, u32 size);
-IWRAM_CODE char* _Memset(void* s, u8 c, u32 size);
+EWRAM_CODE char* _Memcpy(void* s1, void* s2, u32 size);
+EWRAM_CODE s16   _Memcmp(void* s1, void* s2, u32 size);
+EWRAM_CODE char* _Memset(void* s, u8 c, u32 size);
 
 IWRAM_CODE void  _Printf(char* format, ...);
 IWRAM_CODE char* _Sprintf(char* buf, char* format, ...);
@@ -49,9 +49,8 @@ IWRAM_CODE char* _SprintfHex(u32 val, char* s, char hex);
 IWRAM_CODE char* _SprintfHexCol(u32 val, char* s, s32 col, char colChr, bool isTop, char hex);
 IWRAM_CODE char* _SprintfString(char* val, char* s);
 
-IWRAM_CODE void SystemError(char* format, ...);
 IWRAM_CODE void MappyLog(char* buf);
-
+EWRAM_CODE void SystemError(char* format, ...);
 
 #ifdef __cplusplus
 }

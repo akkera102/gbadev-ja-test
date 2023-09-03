@@ -1,23 +1,23 @@
-MAKEFLAGS	+=--no-print-directory
+MAKEFLAGS += --no-print-directory
 
-SHELL		= sh
-NAME		= test
-GAMECODE	= TEST
-PREFIX		= arm-none-eabi-
+SHELL      = sh
+NAME       = test
+GAMECODE   = TEST
+PREFIX     = arm-none-eabi-
 
-AS			= $(PREFIX)as
-CC 			= $(PREFIX)gcc
-CPP			= $(PREFIX)g++
-LD 			= $(PREFIX)g++
-AR 			= $(PREFIX)ar
-OBJCOPY		= $(PREFIX)objcopy
-NM			= $(PREFIX)nm
+AS         = $(PREFIX)as
+CC         = $(PREFIX)gcc
+CPP        = $(PREFIX)g++
+LD         = $(PREFIX)g++
+AR         = $(PREFIX)ar
+OBJCOPY    = $(PREFIX)objcopy
+NM         = $(PREFIX)nm
 
-OBJDIR		= obj
-MAPFILE		= $(NAME).map
-NMFILE		= $(NAME).nm
-TARGET_ELF	= $(NAME).elf
-TARGET_BIN	= $(NAME).gba
+OBJDIR     = obj
+MAPFILE    = $(NAME).map
+NMFILE     = $(NAME).nm
+TARGET_ELF = $(NAME).elf
+TARGET_BIN = $(NAME).gba
 
 INCDIR	= . ./libmy ./libgba
 

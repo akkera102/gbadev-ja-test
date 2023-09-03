@@ -1,0 +1,15 @@
+# タイトルのみ
+
+
+bgmStop
+
+# タイトル画面
+effect1 1
+bgV 245
+effect2 1
+
+# 文字フェード
+effect2 17
+
+# 選択肢へ
+end

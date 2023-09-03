@@ -15,7 +15,7 @@ extern "C" {
 typedef struct {
 	bool isPlay;
 	bool isLoop;
-	s32  no;
+	u32  no;
 
 } ST_BGM;
 
@@ -23,8 +23,8 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmInit(void);
 
-EWRAM_CODE void BgmPlay(s32 no, bool isLoop);
-EWRAM_CODE void BgmPlay2(s32 no, bool isLoop);
+EWRAM_CODE void BgmPlay(u32 no, bool isLoop);
+EWRAM_CODE void BgmPlay2(u32 no, bool isLoop);
 EWRAM_CODE void BgmStop(void);
 EWRAM_CODE void BgmRestart(void);
 

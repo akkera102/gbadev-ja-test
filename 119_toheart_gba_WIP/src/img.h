@@ -95,7 +95,7 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgInit(void);
-EWRAM_CODE void ImgExec(void);
+IWRAM_CODE void ImgExec(void);
 IWRAM_CODE void ImgExecTxt(void);
 IWRAM_CODE void ImgExecBefore(void);
 IWRAM_CODE void ImgExecAfter(void);

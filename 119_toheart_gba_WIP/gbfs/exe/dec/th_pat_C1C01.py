@@ -28,4 +28,3 @@ for y in range(0, ih):
 
 img1.close()
 img2.save("C1C01.BMP")
-

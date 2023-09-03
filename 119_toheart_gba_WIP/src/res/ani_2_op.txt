@@ -2,8 +2,8 @@
 
 #---------------------------------------
 # 前処理
-bgmstop
-strcls
+bgmStop
+strCls
 wait 30
 
 bgm 1 0
@@ -14,49 +14,49 @@ skip
 effect1 23
 
 # 写真1
-vis 240
+bgV 240
 effect2 1
 wait 60
 
-bg 49
+bgS 49
 effect2 2
 wait 60
 
 #---------------------------------------
 # 写真2
-vis 241
+bgV 241
 effect2 2
 wait 60
 
-bg 49
+bgS 49
 effect2 2
 wait 60
 
 #---------------------------------------
 # 写真3
-vis 242
+bgV 242
 effect2 2
 wait 60
 
-bg 49
+bgS 49
 effect2 2
 wait 60
 
 #---------------------------------------
 # 写真4
-vis 243
+bgV 243
 effect2 2
 wait 60
 
 # フェード黒イン
 effect1 30
-bg 254
+bgS 254
 wait 60
 
 # フェード白イン
 # fill 白
 effect1 29
-bg 254
+bgS 254
 wait 30
 
 # 上→下スクロール＋白フェードアウト
@@ -71,7 +71,7 @@ effect2 22
 wait 60
 
 # タイトル画面
-vis 245
+bgV 245
 effect2 2
 
 # 桜降りはじめる
@@ -80,12 +80,12 @@ waitBgm 48000
 
 # フェード黒イン
 effect1 30
-bg 254
+bgS 254
 wait 60
 
 #---------------------------------------
 # 校門ワイプ
-bg 35
+bgS 35
 effect2 7
 wait 30
 
@@ -104,13 +104,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 1
 wait 30
 
 #---------------------------------------
 # 渡り廊下ワイプ
-bg 9
+bgS 9
 effect2 7
 wait 30
 
@@ -129,13 +129,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 0
 wait 30
 
 #---------------------------------------
 # 屋上ワイプ
-bg 15
+bgS 15
 effect2 7
 wait 30
 
@@ -154,13 +154,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 1
 wait 30
 
 #---------------------------------------
 # 坂道ワイプ
-bg 21
+bgS 21
 effect2 7
 wait 30
 
@@ -179,13 +179,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 0
 wait 30
 
 #---------------------------------------
 # 神社ワイプ
-bg 29
+bgS 29
 effect2 7
 wait 30
 
@@ -204,13 +204,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 1
 wait 30
 
 #---------------------------------------
 # 図書室ワイプ
-bg 10
+bgS 10
 effect2 7
 wait 30
 
@@ -229,13 +229,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 0
 wait 30
 
 #---------------------------------------
 # 公園ワイプ
-bg 26
+bgS 26
 effect2 7
 wait 30
 
@@ -254,13 +254,13 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 1
 wait 30
 
 #---------------------------------------
 # 中庭ワイプ
-bg 14
+bgS 14
 effect2 7
 wait 30
 
@@ -279,98 +279,98 @@ wait 30
 
 # フェード黒イン
 effect1 7
-bg 254
+bgS 254
 chr 65535 0
 wait 30
 
 #---------------------------------------
 # V41
-vis 65
+bgV 65
 effect2 7
 wait 60
 
 # 黒ワイプ
 effect1 7
-bg 254
+bgS 254
 wait 60
 
 # V31
-vis 49
+bgV 49
 effect2 7
 wait 60
 
 # 黒ワイプ
 effect1 7
-bg 254
+bgS 254
 wait 60
 
 # V70
-vis 112
+bgV 112
 effect2 7
 wait 60
 
 # 黒ワイプ
 effect1 7
-bg 254
+bgS 254
 wait 60
 
 # V50
-vis 80
+bgV 80
 effect2 7
 wait 60
 
 # 黒ワイプ
 effect1 7
-bg 254
+bgS 254
 wait 60
 
 # V80
-vis 128
+bgV 128
 effect2 7
 wait 60
 
 # 黒ワイプ
 effect1 7
-bg 254
+bgS 254
 wait 60
 
 # V20
-vis 32
+bgV 32
 effect2 7
 wait 60
 
 # 黒ワイプ
 effect1 7
-bg 254
+bgS 254
 wait 60
 
 # V12
-vis 18
+bgV 18
 effect2 7
 wait 90
 
 # フェード白イン
 # fill 白
 effect1 29
-bg 254
+bgS 254
 wait 90
 
 #---------------------------------------
 # フェード白アウト
 # 桜エフェクト
-vis 245
+bgV 245
 effect1 24
 effect2 16
 wait 480
 
 #スキップポイント
-mark
-bgmstop
+skipMark
+bgmStop
 
 # フェード白イン
 # fill 白
 effect1 29
-bg 254
+bgS 254
 wait 60
 
 bgm 4 1

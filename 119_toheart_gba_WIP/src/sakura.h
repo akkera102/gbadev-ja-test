@@ -41,11 +41,11 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void SakuraInit(void);
 IWRAM_CODE void SakuraExec(void);
-IWRAM_CODE void SakuraStop(void);
 
 IWRAM_CODE void SakuraStart(bool isScn);
-IWRAM_CODE void SakuraRegDat(u32 no);
+IWRAM_CODE void SakuraStop(void);
 
+IWRAM_CODE void SakuraRegDat(u32 no);
 EWRAM_CODE void SakuraSeed(u32 rnd);
 EWRAM_CODE s32  SakuraRnd(s32 num);
 EWRAM_CODE bool SakuraIsEffect(void);

@@ -305,6 +305,9 @@ rem 校舎屋上の背景と虹を合成
 
 python ..\exe\dec\th_pat_C1C01.py
 
+del VF6.BMP 2> nul
+ren C1C01.BMP VF6.BMP
+
 
 rem ---------------------------------
 rem マスクファイル修正

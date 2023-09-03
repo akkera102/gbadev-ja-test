@@ -43,10 +43,6 @@ EWRAM_CODE void ManageExec(void)
 			ManageExecInit();
 			break;
 
-		case MANAGE_ACT_TITLE:
-			ManageExecTitle();
-			break;
-
 		case MANAGE_ACT_NOVEL:
 			ManageExecNovel();
 			break;
@@ -59,8 +55,8 @@ EWRAM_CODE void ManageExec(void)
 			ManageExecMenu();
 			break;
 
-		case MANAGE_ACT_ANIME:
-			ManageExecAnime();
+		case MANAGE_ACT_END:
+			ManageExecEnd();
 			break;
 
 		default:
@@ -88,49 +84,23 @@ EWRAM_CODE void ManageExecInit(void)
 	AnimeInit();
 	SakuraInit();
 
-///*
+/*
+// DEBUG1
 	MenuSetTitle(MENU_TITLE_SEL_START);
-	Manage.act = MANAGE_ACT_TITLE;
-//*/
+	Manage.act = MANAGE_ACT_MENU;
+*/
 
 /*
-	NvSetScn(0x06A5);
+// DEBUG2
+	NvSetScn(0x0620);
 	NvSetEvt(1);
 	Manage.act = MANAGE_ACT_NOVEL;
 */
 
-/*
+///*
 	AnimeSetDat(ANIME_DAT_LOGO);
-	Manage.act = MANAGE_ACT_ANIME;
-*/
-
-/*
-	AnimeSetDat(ANIME_DAT_OPENING);
-	Manage.act = MANAGE_ACT_ANIME;
-*/
-/*
-	AnimeSetDat(ANIME_DAT_ENDING);
-	Manage.act = MANAGE_ACT_ANIME;
-*/
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ManageExecTitle(void)
-{
-	if(ImgIsEffect() == true)
-	{
-		ImgExec();
-
-		return;
-	}
-
-	if(TxtIsChr() == true)
-	{
-		TxtExecMenu();
-
-		return;
-	}
-
-	MenuExec();
+	Manage.act = MANAGE_ACT_NOVEL;
+//*/
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
@@ -143,6 +113,13 @@ EWRAM_CODE void ManageExecNovel(void)
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();
+
+		return;
+	}
+
+	if(AnimeIsExec() == true)
+	{
+		AnimeExec();
 
 		return;
 	}
@@ -192,13 +169,8 @@ EWRAM_CODE void ManageExecMenu(void)
 	MenuExec();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ManageExecAnime(void)
+EWRAM_CODE void ManageExecEnd(void)
 {
-	if(SakuraIsEffect() == true)
-	{
-		SakuraExec();
-	}
-
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();
@@ -206,17 +178,15 @@ EWRAM_CODE void ManageExecAnime(void)
 		return;
 	}
 
-	AnimeExec();
+	ManageExecInit();
+
+	AnimeSetDat(ANIME_DAT_TITLE);
+	Manage.act = MANAGE_ACT_NOVEL;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageSetInit(void)
 {
 	Manage.act = MANAGE_ACT_INIT;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ManageSetTitle(void)
-{
-	Manage.act = MANAGE_ACT_TITLE;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageSetNovel(void)
@@ -234,7 +204,7 @@ EWRAM_CODE void ManageSetMenu(void)
 	Manage.act = MANAGE_ACT_MENU;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ManageSetAnime(void)
+EWRAM_CODE void ManageSetEnd(void)
 {
-	Manage.act = MANAGE_ACT_ANIME;
+	Manage.act = MANAGE_ACT_END;
 }

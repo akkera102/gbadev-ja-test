@@ -32,6 +32,7 @@ enum {
 	MENU_RET_TITLE,
 	MENU_RET_SYSTEM,
 	MENU_RET_OPTION,
+	MENU_RET_NOVEL,
 };
 
 enum {
@@ -88,7 +89,7 @@ EWRAM_CODE void  MenuSetSystem(s32 sel);
 EWRAM_CODE void  MenuSetOption(s32 sel);
 EWRAM_CODE void  MenuSetSave(s32 ret);
 EWRAM_CODE void  MenuSetLoad(s32 ret);
-EWRAM_CODE void  MenuSetNone(void);
+EWRAM_CODE void  MenuSetNone(s32 ret);
 EWRAM_CODE void  MenuSetTitle(s32 sel);
 EWRAM_CODE void  MenuSetDebug1(void);
 EWRAM_CODE void  MenuSetDebug2(void);

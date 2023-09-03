@@ -4,8 +4,13 @@
 #include "txt.h"
 #include "siori.h"
 #include "nv.h"
+#include "nv3.h"
 #include "log.h"
 #include "img.h"
+#include "bgm.h"
+#include "se.h"
+#include "sakura.h"
+#include "anime.h"
 
 
 //---------------------------------------------------------------------------
@@ -24,8 +29,8 @@ ROM_DATA char MenuSelectStr[][30] = {
 	"　システム設定",
 	"　文字ウェイト　００",
 	"　背景輝度　　　００",
-	"　好感度１",
-	"　好感度２",
+	"　デバッグ１",
+	"　デバッグ２",
 	"　おまけ",
 
 	// 14
@@ -43,7 +48,7 @@ ROM_DATA char MenuSelectStr[][30] = {
 	"ロードする",
 
 	// 20
-	"　　好感度１",
+	"　デバッグ１",
 	"　神岸あかり　００",
 	"　来栖川芹香　００",
 	"　保科智子　　００",
@@ -54,7 +59,7 @@ ROM_DATA char MenuSelectStr[][30] = {
 	"　宮内レミィ　００",
 
 	// 29
-	"　　好感度２",
+	"　デバッグ２",
 	"　雛山理緒　　００",
 	"　あ芹智志葵マ琴レ雅理お",
 	"　×××××××××××",
@@ -75,7 +80,7 @@ EWRAM_CODE void MenuExec(void)
 	u16 trg = KeyGetTrg();
 	u16 rep = KeyGetRep();
 
-	if(trg & KEY_A || trg & KEY_B || trg & KEY_LEFT || trg & KEY_RIGHT || trg & KEY_L || trg & KEY_R)
+	if(trg & KEY_A || trg & KEY_B || trg & KEY_LEFT || trg & KEY_RIGHT)
 	{
 		Menu.pFunc(trg);
 		return;
@@ -130,7 +135,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 	{
 	// 文字送り
 	case 0:
-		NvSetNext();
+		NvSetSkip();
 
 		TxtSetChr();
 		TxtSetRes();
@@ -141,14 +146,14 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 	// 文字を消す
 	case 1:
 		TxtHideWindow();
-		MenuSetNone();
+		MenuSetNone(MENU_RET_SYSTEM);
 		break;
 
 	// シナリオ回想
 	case 2:
 		if(LogIsEmpty() == false)
 		{
-			LogSetDisp(LOG_RET_SYSTEM);
+			LogSetInit(LOG_RET_MENU);
 
 			ManageSetLog();
 		}
@@ -171,7 +176,20 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 
 	// ゲーム終了
 	case 6:
-		ManageSetInit();
+		ImgSetEffectBefore(IMG_EFFECT_FADE_PALETTE);
+		ImgSetBgS(0);
+		ImgSetChrClr();
+		ImgSetEffectAfter(IMG_EFFECT_FADE_PALETTE);
+
+		BgmStop();
+		SeStop();
+
+		if(SakuraIsEffect() == true)
+		{
+			SakuraStop();
+		}
+
+		ManageSetEnd();
 		break;
 	}
 }
@@ -220,7 +238,7 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 			TxtSetChr();
 		}
 
-		if(trg & KEY_RIGHT && fade < 16)
+		if(trg & KEY_RIGHT && fade < 13)
 		{
 			fade++;
 
@@ -247,7 +265,31 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 
 	// おまけ
 	case 4:
-		// TODO
+		ImgSetEffectBefore(IMG_EFFECT_FADE_PALETTE);
+		ImgSetBgS(0);
+		ImgSetChrClr();
+		ImgSetEffectAfter(IMG_EFFECT_FADE_PALETTE);
+
+		BgmStop();
+		SeStop();
+
+		TxtSetPageNew();
+
+		if(SakuraIsEffect() == true)
+		{
+			SakuraStop();
+		}
+
+		NvSetAct(NV_ACT_PARSE);
+		NvSetScn(0x72);
+		NvSetEvt(1);
+
+		// GBA側のパッチ 日付とタイトル表示をアニメーション側に受け持ちます
+		NvSetFlag(NV_FLAG_DAY, 0x27);
+		NvJumpCurAdr(0x0010);
+		AnimeSetDat(ANIME_DAT_OMAKE);
+
+		ManageSetNovel();
 		break;
 	}
 }
@@ -260,25 +302,6 @@ EWRAM_CODE void MenuExecDebug1(u16 trg)
 
 		return;
 	}
-
-	if(!(trg & KEY_RIGHT || trg & KEY_R || trg & KEY_LEFT || trg & KEY_L))
-	{
-		return;
-	}
-
-	s8 flag = NvGetFlag(0x14 + Menu.sel);
-
-	if(trg & KEY_RIGHT) flag +=  1;
-	if(trg & KEY_R    ) flag += 10;
-	if(trg & KEY_LEFT ) flag -=  1;
-	if(trg & KEY_L    ) flag -= 10;
-
-	if(flag > 99) flag = 99;
-	if(flag <  0) flag =  0;
-
-	NvSetFlag(0x14 + Menu.sel, flag);
-
-	TxtSetChr();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuExecDebug2(u16 trg)
@@ -289,30 +312,6 @@ EWRAM_CODE void MenuExecDebug2(u16 trg)
 
 		return;
 	}
-
-	if(!(trg & KEY_RIGHT || trg & KEY_R || trg & KEY_LEFT || trg & KEY_L))
-	{
-		return;
-	}
-
-	if(Menu.sel != 0)
-	{
-		return;
-	}
-
-	s8 flag = NvGetFlag(0x1d + Menu.sel);
-
-	if(trg & KEY_RIGHT) flag +=  1;
-	if(trg & KEY_R    ) flag += 10;
-	if(trg & KEY_LEFT ) flag -=  1;
-	if(trg & KEY_L    ) flag -= 10;
-
-	if(flag > 99) flag = 99;
-	if(flag <  0) flag =  0;
-
-	NvSetFlag(0x1d + Menu.sel, flag);
-
-	TxtSetChr();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuExecSave(u16 trg)
@@ -370,9 +369,21 @@ EWRAM_CODE void MenuExecNone(u16 trg)
 {
 	if(trg & KEY_B)
 	{
-		MenuSetSystem(MENU_SYSTEM_SEL_NONE);
+		if(Menu.ret == MENU_RET_SYSTEM)
+		{
+			// システムメニューに復帰
+			MenuSetSystem(MENU_SYSTEM_SEL_NONE);
+			TxtShowWindow();
+		}
+		else
+		{
+			// ノベルに復帰
+			TxtSetChr();
+			TxtSetRes();
+			TxtShowWindow();
 
-		TxtShowWindow();
+			ManageSetNovel();
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -442,9 +453,9 @@ EWRAM_CODE void MenuSetLoad(s32 ret)
 	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 15, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void MenuSetNone(void)
+EWRAM_CODE void MenuSetNone(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, MENU_RET_NONE, 0, 16, 0, MenuExecNone, false);
+	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 16, 0, MenuExecNone, false);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetTitle(s32 sel)
@@ -558,6 +569,22 @@ EWRAM_CODE char* MenuGetStrSelect(s32 sel)
 
 		s8 flag = NvGetFlag(0x14 + sel);
 
+		if(flag >= 100)
+		{
+			// SJISコード「＋」
+			Menu.buf[12] = 0x81;
+			Menu.buf[13] = 0x7b;
+			flag = 99;
+		}
+
+		if(flag < 0)
+		{
+			// SJISコード「－」
+			Menu.buf[12] = 0x81;
+			Menu.buf[13] = 0x7c;
+			flag *= -1;
+		}
+
 		// 0x82 0x4f = SJISコード「０」
 		Menu.buf[15] = 0x4f + Div(flag, 10);
 		Menu.buf[17] = 0x4f + DivMod(flag, 10);
@@ -572,6 +599,22 @@ EWRAM_CODE char* MenuGetStrSelect(s32 sel)
 			_Strncpy(Menu.buf, (char*)MenuSelectStr[Menu.msg + 1 + sel], MENU_BUF_SIZE-1);
 
 			s8 flag = NvGetFlag(0x1d + sel);
+
+			if(flag >= 100)
+			{
+				// SJISコード「＋」
+				Menu.buf[12] = 0x81;
+				Menu.buf[13] = 0x7b;
+				flag = 99;
+			}
+
+			if(flag < 0)
+			{
+				// SJISコード「－」
+				Menu.buf[12] = 0x81;
+				Menu.buf[13] = 0x7c;
+				flag *= -1;
+			}
 
 			// 0x82 0x4f = SJISコード「０」
 			Menu.buf[15] = 0x4f + Div(flag, 10);
