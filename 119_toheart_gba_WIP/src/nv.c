@@ -1,7 +1,6 @@
 #include "nv.h"
 #include "nv2.h"
 #include "nv3.h"
-#include "libmy/libmy.h"
 #include "libmy/gbfs.h"
 #include "libmy/key.h"
 #include "libmy/spr.h"
@@ -14,6 +13,7 @@
 #include "bgm.h"
 #include "se.h"
 #include "sakura.h"
+#include "rein.h"
 
 //---------------------------------------------------------------------------
 ST_NV Nv;
@@ -285,7 +285,6 @@ EWRAM_CODE void NvExecRestart(void)
 
 		if(Nv.isSakura == true)
 		{
-			Nv.vblankCnt += LibMyGetVblankCnt();
 			TRACE("[sakura seed = %x]\n", Nv.vblankCnt);
 			SakuraSeed(Nv.vblankCnt);
 			SakuraStart(false);
@@ -314,12 +313,33 @@ EWRAM_CODE void NvSetEffectAfter(u8 no)
 		u8 bg = ImgGetBgS();
 
 		// Z–å‚ÆZ“à”wŒi‚Ì‚ÝA‚»‚Ì‚Ü‚Ü~‚ç‚·
-		if(bg != 0xb && bg != 0x14)
+		if(bg != 0x0b && bg != 0x14)
 		{
 			SakuraStop();
 			Nv.isSakura = false;
 		}
 	}
+
+	if(Nv.isRein == true)
+	{
+		if(ImgIsBgS() == false)
+		{
+			ReinStop();
+			Nv.isRein = false;
+		}
+		else
+		{
+			u8 bg = ImgGetBgS();
+
+			// Œö‰€i‰J‰_jAŒö‰€i–éjA¤“XŠX
+			if(bg != 0x1a && bg != 0xb0 && bg != 0x17)
+			{
+				ReinStop();
+				Nv.isRein = false;
+			}
+		}
+	}
+
 
 	if(Nv.isSkip == true)
 	{
@@ -482,6 +502,12 @@ EWRAM_CODE u8 NvGetBgVNo(u8 no)
 		{
 			no = 0x12;
 		}
+	}
+
+	// ƒŒƒ~ƒBƒpƒ“ƒc‚ÌFˆá‚¢BV82‚ÍŒ‡”Ô
+	if(no >= 0x81 && no <= 0x86)
+	{
+		no = 0x80;
 	}
 
 	return no;

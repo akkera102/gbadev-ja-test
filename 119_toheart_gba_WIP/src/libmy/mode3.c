@@ -501,3 +501,14 @@ IWRAM_CODE void Mode3DrawTopScroll(s32 step)
 
 	MemInc((u16*)&Mode3.buf[SCREEN_CX * step], (u16*)VRAM, SCREEN_CX * SCREEN_CY * 2);
 }
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawSlide(s32 step)
+{
+	REG_BG2PA =  0x100;
+	REG_BG2PB =  0;
+	REG_BG2PC =  0;
+	REG_BG2PD =  0x100 + step * 10;
+
+	REG_BG2X =  0;
+	REG_BG2Y =  -80 * step * 10;
+}

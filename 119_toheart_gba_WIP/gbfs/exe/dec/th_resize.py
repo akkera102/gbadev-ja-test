@@ -15,6 +15,7 @@ def Resize(file):
   if(iw % 2 != 0): iw -= 1
   if(ih % 2 != 0): ih -= 1
 
+  p = p.convert("RGB")
   p = p.resize((iw,ih), Image.LANCZOS)
 
   p.save(file)

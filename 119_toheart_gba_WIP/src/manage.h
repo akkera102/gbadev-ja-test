@@ -35,7 +35,6 @@ EWRAM_CODE void ManageExecLog(void);
 EWRAM_CODE void ManageExecMenu(void);
 EWRAM_CODE void ManageExecEnd(void);
 
-EWRAM_CODE void ManageSetInit(void);
 EWRAM_CODE void ManageSetNovel(void);
 EWRAM_CODE void ManageSetLog(void);
 EWRAM_CODE void ManageSetMenu(void);

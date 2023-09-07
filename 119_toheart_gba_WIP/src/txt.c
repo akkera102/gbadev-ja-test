@@ -190,7 +190,7 @@ EWRAM_CODE void TxtDrawStrXy(u32 x, u32 y, char* p)
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtDrawWork(void)
 {
-	u32 i;
+	s32 i;
 
 	for(i=0; i<Txt.workCnt; i++)
 	{

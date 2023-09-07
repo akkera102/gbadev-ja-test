@@ -9,7 +9,7 @@
 #include "anime.h"
 #include "manage.h"
 #include "sakura.h"
-
+#include "rein.h"
 
 //---------------------------------------------------------------------------
 ROM_DATA ST_NV_PARSE_TABLE NvParseTable[NV_MAX_PARSE_CNT] = {
@@ -1003,12 +1003,11 @@ EWRAM_CODE void NvExecParseLoadH(void)
 	u8 n1  = NvGetCurHex();
 	u8 n2  = NvGetCurHex();
 	u8 n3  = NvGetCurHex();
-	u16 no = NvGetBgVNo(n1);
 
 	TRACE("loadH %x %x %x\n", n1, n2, n3);
 
 	NvSetEffectBefore(n2);
-	ImgSetBgH(no);
+	ImgSetBgH(n1);
 	NvSetEffectAfter(n3);
 
 	Nv.isLoop = false;
@@ -1151,7 +1150,10 @@ EWRAM_CODE void NvExecParseRain(void)
 {
 	TRACE("rein\n");
 
-	// TODO
+	ReinSeed(Nv.vblankCnt);
+	ReinStart();
+
+	Nv.isRein = true;
 }
 //---------------------------------------------------------------------------
 // ‚³‚­‚ç 0xf7 0x04

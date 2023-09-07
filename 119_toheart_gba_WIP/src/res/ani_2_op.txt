@@ -92,15 +92,15 @@ wait 30
 # あかり
 chr 385 1
 effect2 2
-wait 30
+wait 20
 
 chr 386 1
 effect2 2
-wait 30
+wait 20
 
 chr 389 1
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -117,15 +117,15 @@ wait 30
 # 先輩
 chr 514 0
 effect2 2
-wait 30
+wait 20
 
 chr 516 0
 effect2 2
-wait 30
+wait 20
 
 chr 515 0
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -142,15 +142,15 @@ wait 30
 # 委員長
 chr 769 1
 effect2 2
-wait 30
+wait 20
 
 chr 771 1
 effect2 2
-wait 30
+wait 20
 
 chr 770 1
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -167,15 +167,15 @@ wait 30
 # 志保
 chr 1026 0
 effect2 2
-wait 30
+wait 20
 
 chr 1027 0
 effect2 2
-wait 30
+wait 20
 
 chr 1025 0
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -192,15 +192,15 @@ wait 30
 # 葵
 chr 1281 1
 effect2 2
-wait 30
+wait 20
 
 chr 1288 1
 effect2 2
-wait 30
+wait 20
 
 chr 1292 1
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -217,15 +217,15 @@ wait 30
 # マルチ
 chr 1540 0
 effect2 2
-wait 30
+wait 20
 
 chr 1542 0
 effect2 2
-wait 30
+wait 20
 
 chr 1538 0
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -242,15 +242,15 @@ wait 30
 # 琴音
 chr 1793 1
 effect2 2
-wait 30
+wait 20
 
 chr 1794 1
 effect2 2
-wait 30
+wait 20
 
 chr 1798 1
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -267,15 +267,15 @@ wait 30
 # レミィ
 chr 2049 0
 effect2 2
-wait 30
+wait 20
 
 chr 2050 0
 effect2 2
-wait 30
+wait 20
 
 chr 2051 0
 effect2 2
-wait 30
+wait 20
 
 # フェード黒イン
 effect1 7
@@ -287,7 +287,7 @@ wait 30
 # V41
 bgV 65
 effect2 7
-wait 60
+wait 90
 
 # 黒ワイプ
 effect1 7
@@ -297,7 +297,7 @@ wait 60
 # V31
 bgV 49
 effect2 7
-wait 60
+wait 90
 
 # 黒ワイプ
 effect1 7
@@ -307,7 +307,7 @@ wait 60
 # V70
 bgV 112
 effect2 7
-wait 60
+wait 90
 
 # 黒ワイプ
 effect1 7
@@ -317,7 +317,7 @@ wait 60
 # V50
 bgV 80
 effect2 7
-wait 60
+wait 90
 
 # 黒ワイプ
 effect1 7
@@ -327,7 +327,7 @@ wait 60
 # V80
 bgV 128
 effect2 7
-wait 60
+wait 90
 
 # 黒ワイプ
 effect1 7
@@ -337,7 +337,7 @@ wait 60
 # V20
 bgV 32
 effect2 7
-wait 60
+wait 90
 
 # 黒ワイプ
 effect1 7

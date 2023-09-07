@@ -27,23 +27,23 @@ typedef struct {
 	bool isRes;
 
 	// 文字表示
-	u8   x;
-	u8   y;
+	s32  x;
+	s32  y;
 
 	// 文字表示
 	bool isChr;
-	u8   drawCnt;
-	u8   waitCnt;
-	u8   waitMax;
+	s32  drawCnt;
+	s32  waitCnt;
+	s32  waitMax;
 
 	// カーソル
 	bool isCur;
 	bool isCurBlink;
-	u8   curCnt;
+	s32  curCnt;
 
 	// 禁則文字処理ワークエリア
 	u16  work[TXT_SCREEN_CX * TXT_SCREEN_CY] ALIGN(4);
-	u8   workCnt;
+	s32  workCnt;
 
 	// メッセージ退避用バッファ
 	u16  buf[TXT_SCREEN_CX * TXT_SCREEN_CY] ALIGN(4);

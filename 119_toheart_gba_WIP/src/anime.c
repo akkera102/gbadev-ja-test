@@ -30,7 +30,7 @@ ROM_DATA ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "end",      (void*)AnimeExecEnd      },
 };
 
-char* AnimeDat[ANIME_MAX_DAT_CNT] = {
+ROM_DATA char* AnimeDat[ANIME_MAX_DAT_CNT] = {
 	(char*)&ani_1_lo_txt,
 	(char*)&ani_2_op_txt,
 	(char*)&ani_3_ed_txt,
@@ -55,7 +55,6 @@ EWRAM_CODE void AnimeSetDat(u32 no)
 	_ASSERT(no < ANIME_MAX_DAT_CNT);
 
 	AnimeInit();
-
 	Anime.pCur = AnimeDat[no];
 	Anime.dat  = no;
 
@@ -229,7 +228,6 @@ EWRAM_CODE void AnimeExecSkipMark(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecEnd(void)
 {
-	// ロゴもしくはタイトルの場合、選択肢へ
 	if(Anime.dat == ANIME_DAT_LOGO || Anime.dat == ANIME_DAT_TITLE)
 	{
 		MenuSetTitle(MENU_TITLE_SEL_START);
@@ -244,7 +242,6 @@ EWRAM_CODE void AnimeExecSprMode(void)
 {
 	u32 num = LexGetNum();
 
-	// spr属性を変更。sprとfadeを同時に行う
 	FadeSetSpr((num == 1) ? true : false);
 	FadeSetWhite(0);
 }

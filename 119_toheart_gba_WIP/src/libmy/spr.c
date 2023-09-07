@@ -23,6 +23,10 @@ EWRAM_CODE void SprInit(void)
 	MemInc((u16*)spr_sakura8Tiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_cursorTilesLen + spr_sakura16TilesLen, spr_sakura8TilesLen);
 	MemInc((u16*)spr_sakura8Pal, OBJ_COLORS + 16, spr_sakura8PalLen);
 
+	// rein + pal
+	MemInc((u16*)spr_reinTiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE + spr_cursorTilesLen + spr_sakura16TilesLen + spr_sakura8TilesLen, spr_reinTilesLen);
+	MemInc((u16*)spr_reinPal, OBJ_COLORS + 32, spr_reinPalLen);
+
 	// spr 1d table
 	MemInc((u8*)tbl_spr1d_bin, Spr.tbl, SPR_MAX_TBL_SIZE);
 
@@ -47,7 +51,7 @@ EWRAM_CODE void SprInit(void)
 	SprSetImgWhite();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprExec(void)
+IWRAM_CODE void SprExec(void)
 {
 	if(Spr.isDrawOam == true)
 	{
@@ -181,19 +185,19 @@ EWRAM_CODE void SprHideWindow(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprDirectSetSize(u32 no, u32 size, u32 form, u32 col)
 {
-	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
+	OBJATTR* sp = (OBJATTR*)OAM + 12 + no;
 
 	sp->attr0 &= 0x1fff;
 	sp->attr1 &= 0x3fff;
 	sp->attr2 &= 0x0fff;
-	sp->attr0 |= col | form;
+	sp->attr0 |= OBJ_16_COLOR | form;
 	sp->attr1 |= size;
-	sp->attr2 |= (1 << 12);		// color no
+	sp->attr2 |= (col << 12);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprDirectSetChr(u32 no, u32 ch)
 {
-	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
+	OBJATTR* sp = (OBJATTR*)OAM + 12 + no;
 
 	sp->attr2 &= 0xfc00;
 	sp->attr2 |= 512 + SPR_MAX_DAT_CNT + 4 + ch;
@@ -201,7 +205,7 @@ IWRAM_CODE void SprDirectSetChr(u32 no, u32 ch)
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprDirectMove(u32 no, s32 x, s32 y)
 {
-	OBJATTR* sp = (OBJATTR*)OAM + no + 12;
+	OBJATTR* sp = (OBJATTR*)OAM + 12 + no;
 
 	sp->attr1 &= 0xfe00;
 	sp->attr0 &= 0xff00;

@@ -75,12 +75,12 @@ typedef struct {
 	u16  chr[3];
 
 	// ïœêî
-	s16  var1;
-	s16  var2;
-	s16  var3;
-	s16  var4;
-	s16  var5;
-	s16  var6;
+	s32  var1;
+	s32  var2;
+	s32  var3;
+	s32  var4;
+	s32  var5;
+	s32  var6;
 
 	u16  time;
 	u16  mon;
@@ -88,7 +88,7 @@ typedef struct {
 	u16  week;
 
 	// ÉIÉvÉVÉáÉìê›íË
-	u16  fadeMax;
+	s32  fadeMax;
 
 } ST_IMG;
 
@@ -120,6 +120,7 @@ EWRAM_CODE void ImgShowWindow(void);
 EWRAM_CODE void ImgHideWindow(void);
 
 EWRAM_CODE bool ImgIsEffect(void);
+EWRAM_CODE bool ImgIsBgS(void);
 
 EWRAM_CODE void ImgSetFadeMax(u32 num);
 EWRAM_CODE u32  ImgGetFadeMax(void);

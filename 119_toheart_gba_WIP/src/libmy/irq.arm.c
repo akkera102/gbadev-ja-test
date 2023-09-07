@@ -1,8 +1,11 @@
 #include "irq.arm.h"
 #include "vgm.arm.h"
 #include "snd.arm.h"
+#include "../sakura.h"
+#include "../rein.h"
 
 //---------------------------------------------------------------------------
+u32 IrqVblankCnt;
 
 
 //---------------------------------------------------------------------------
@@ -24,8 +27,20 @@ IWRAM_CODE void IrqHandler(void)
 
 	if(flag & IRQ_VBLANK)
 	{
+		IrqVblankCnt++;
+
 		VgmIntrVblank();
 		SndIntrVblank();
+
+		if(SakuraIsEffect() == true)
+		{
+			SakuraExec();
+		}
+
+		if(ReinIsEffect() == true)
+		{
+			ReinExec();
+		}
 
 		REG_IRQ_WAITFLAGS |= IRQ_VBLANK;
 	}

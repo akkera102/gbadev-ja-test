@@ -11,6 +11,7 @@
 #include "siori.h"
 #include "anime.h"
 #include "sakura.h"
+#include "rein.h"
 
 
 //---------------------------------------------------------------------------
@@ -83,6 +84,7 @@ EWRAM_CODE void ManageExecInit(void)
 
 	AnimeInit();
 	SakuraInit();
+	ReinInit();
 
 /*
 // DEBUG1
@@ -92,24 +94,20 @@ EWRAM_CODE void ManageExecInit(void)
 
 /*
 // DEBUG2
-	NvSetScn(0x0620);
+	NvSetScn(0x07BE);
 	NvSetEvt(1);
 	Manage.act = MANAGE_ACT_NOVEL;
 */
 
 ///*
 	AnimeSetDat(ANIME_DAT_LOGO);
+//	AnimeSetDat(ANIME_DAT_OPENING);
 	Manage.act = MANAGE_ACT_NOVEL;
 //*/
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
 {
-	if(SakuraIsEffect() == true)
-	{
-		SakuraExec();
-	}
-
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();
@@ -141,11 +139,6 @@ EWRAM_CODE void ManageExecNovel(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecLog(void)
 {
-	if(SakuraIsEffect() == true)
-	{
-		SakuraExec();
-	}
-
 	if(TxtIsChr() == true)
 	{
 		TxtExecLog();
@@ -156,11 +149,6 @@ EWRAM_CODE void ManageExecLog(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecMenu(void)
 {
-	if(SakuraIsEffect() == true)
-	{
-		SakuraExec();
-	}
-
 	if(TxtIsChr() == true)
 	{
 		TxtExecMenu();
@@ -182,11 +170,6 @@ EWRAM_CODE void ManageExecEnd(void)
 
 	AnimeSetDat(ANIME_DAT_TITLE);
 	Manage.act = MANAGE_ACT_NOVEL;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ManageSetInit(void)
-{
-	Manage.act = MANAGE_ACT_INIT;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageSetNovel(void)

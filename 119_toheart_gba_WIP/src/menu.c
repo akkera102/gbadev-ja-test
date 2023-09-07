@@ -11,6 +11,7 @@
 #include "se.h"
 #include "sakura.h"
 #include "anime.h"
+#include "rein.h"
 
 
 //---------------------------------------------------------------------------
@@ -189,6 +190,11 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 			SakuraStop();
 		}
 
+		if(ReinIsEffect() == true)
+		{
+			ReinStop();
+		}
+
 		ManageSetEnd();
 		break;
 	}
@@ -278,6 +284,11 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 		if(SakuraIsEffect() == true)
 		{
 			SakuraStop();
+		}
+
+		if(ReinIsEffect() == true)
+		{
+			ReinStop();
 		}
 
 		NvSetAct(NV_ACT_PARSE);

@@ -13,7 +13,6 @@
 #include "lex.h"
 
 //---------------------------------------------------------------------------
-u32 LibMyVblankCnt;
 
 
 //---------------------------------------------------------------------------
@@ -41,14 +40,7 @@ EWRAM_CODE void LibMyInit(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void LibMyExec(void)
 {
-	LibMyVblankCnt++;
-
 	KeyExec();
 	SprExec();
 	Mode3Exec();
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE u32 LibMyGetVblankCnt(void)
-{
-	return LibMyVblankCnt++;
 }

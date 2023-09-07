@@ -141,6 +141,26 @@ IWRAM_CODE void ImgExecBefore(void)
 		}
 		break;
 
+	// 0x06
+	case IMG_EFFECT_SLIDE_LTOR:
+		Img.var1++;
+		Img.var2 += Img.var1;
+		Mode3DrawSlide(Img.var2);
+
+		if(Img.var3 == 1)
+		{
+			Mode3DrawScaling(0);
+			Img.isBefore = false;
+		}
+		else if(Img.var2 >= 3000)
+		{
+			Mode3DrawFill(RGB5(0,0,0));
+			Mode3SetDraw();
+
+			Img.var3++;
+		}
+		break;
+
 	// 0x07
 	case IMG_EFFECT_WIPE_LTOR:
 		if(Img.var1++ < 2)
@@ -164,9 +184,8 @@ IWRAM_CODE void ImgExecBefore(void)
 
 	// 0x08
 	case IMG_EFFECT_NORMAL:
-//		ImgDrawBg();
-//		ImgDrawChr();
-//		Mode3SetDraw();
+		Mode3DrawFill(RGB5(0,0,0));
+		Mode3SetDraw();
 		Img.isBefore = false;
 		break;
 
@@ -174,7 +193,8 @@ IWRAM_CODE void ImgExecBefore(void)
 	case IMG_EFFECT_TOP_SCROLL:
 		if(Img.var1 < 160 + 1)
 		{
-			Mode3DrawTopScroll(Img.var1++);
+			Mode3DrawTopScroll(Img.var1);
+			Img.var1 += 8;
 			return;
 		}
 
@@ -437,6 +457,26 @@ IWRAM_CODE void ImgExecAfter(void)
 			Img.isAfter = false;
 		}
 		
+		break;
+
+	// 0x06
+	case IMG_EFFECT_SLIDE_LTOR:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			Mode3SetDraw();
+			Img.var5 = 3000;
+		}
+
+		Img.var5 -= 78 - Img.var4;
+		Mode3DrawSlide(Img.var5);
+
+		if(Img.var5 < 0)
+		{
+			Mode3DrawScaling(0);
+			Img.isAfter = false;
+		}
 		break;
 
 	// 0x07
@@ -796,6 +836,13 @@ EWRAM_CODE void ImgDrawChr(void)
 			{
 				sx = (SCREEN_CX / 2) - (p->cx / 2);
 			}
+
+			// レミィ　女のコといっしょ
+			if(Img.chr[i] == 0x1101)
+			{
+				sx = (SCREEN_CX / 2) - (p->cx / 2) - 16;
+				sy = SCREEN_CY - p->cy - 3;
+			}
 		}
 		else if(i == IMG_CHR_RIGHT)
 		{
@@ -934,6 +981,11 @@ EWRAM_CODE void ImgHideWindow(void)
 EWRAM_CODE bool ImgIsEffect(void)
 {
 	return (Img.isBefore || Img.isAfter);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE bool ImgIsBgS(void)
+{
+	return (Img.bgType == IMG_BG_S) ? true : false;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetFadeMax(u32 num)
