@@ -274,7 +274,7 @@ EWRAM_CODE void TxtSetDraw(char* p)
 }
 //---------------------------------------------------------------------------
 // ã÷ë•ï∂éöèàóù
-IWRAM_CODE bool TxtCalcStr(char* p)
+EWRAM_CODE bool TxtCalcStr(char* p)
 {
 	u32 x = Txt.x;
 	u32 y = Txt.y;
@@ -339,7 +339,7 @@ IWRAM_CODE bool TxtCalcStr(char* p)
 	return false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE bool TxtIsChrFront(u16 code)
+EWRAM_CODE bool TxtIsChrFront(u16 code)
 {
 	switch(code)
 	{
@@ -383,7 +383,7 @@ IWRAM_CODE bool TxtIsChrFront(u16 code)
 	return false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE bool TxtIsChrBack(u16 code)
+EWRAM_CODE bool TxtIsChrBack(u16 code)
 {
 	switch(code)
 	{

@@ -76,8 +76,8 @@ IWRAM_CODE void ImgExecBefore(void)
 		break;
 
 	// 0x01
-	case IMG_EFFECT_BLOOD: // 代用 0x0a
 	case IMG_EFFECT_FADE_PALETTE:
+	case IMG_EFFECT_BLOOD: // 代用 0x0a
 		if(Img.var1++ < 2)
 		{
 			return;
@@ -103,6 +103,22 @@ IWRAM_CODE void ImgExecBefore(void)
 		Img.isBefore = false;
 		break;
 
+	// 0x03
+	case IMG_EFFECT_FADE_SQUARE:
+		if(Img.var2++ < 3)
+		{
+			return;
+		}
+		Img.var2 = 0;
+
+		Mode3DrawSquare(Img.var3++);
+
+		if(Img.var3 > 7+1)
+		{
+			Img.isBefore = false;
+		}
+		break;
+
 	// 0x04
 	case IMG_EFFECT_WIPE_SQUARE_LTOR:
 		if(Img.var2++ < 3)
@@ -113,7 +129,7 @@ IWRAM_CODE void ImgExecBefore(void)
 
 		// VCOUNT 160 -> 0 -> 227(2 frame)
 		// TRACE("WIPE_SQUARE_LTOR S:%d\n", REG_VCOUNT);
-		Mode3DrawDiamond(Img.var3++);
+		Mode3DrawSquareLtoR(Img.var3++);
 		// TRACE("WIPE_SQUARE_LTOR E:%d\n", REG_VCOUNT);
 
 		if(Img.var3 > 22)
@@ -411,6 +427,30 @@ IWRAM_CODE void ImgExecAfter(void)
 		Img.isAfter = false;
 		break;
 
+	// 0x03
+	case IMG_EFFECT_FADE_SQUARE:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			return;
+		}
+
+		if(Img.var5++ < 3)
+		{
+			return;
+		}
+		Img.var5 = 0;
+
+		Mode3DrawSquare2(Img.var6++);
+
+		if(Img.var6 > 7+1)
+		{
+			Img.isAfter = false;
+		}
+		
+		break;
+
 	// 0x04
 	case IMG_EFFECT_WIPE_SQUARE_LTOR:
 		if(Img.var4++ == 0)
@@ -426,7 +466,7 @@ IWRAM_CODE void ImgExecAfter(void)
 		}
 		Img.var5 = 0;
 
-		Mode3DrawDiamond2(Img.var6++);
+		Mode3DrawSquareLtoR2(Img.var6++);
 
 		if(Img.var6 > 22)
 		{
@@ -759,6 +799,81 @@ IWRAM_CODE void ImgExecAfter(void)
 		Img.isAfter = false;
 		break;
 
+	// 0x1f
+	case IMG_EFFECT_ZOOM1:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			Mode3SetDraw();
+			Img.var6 = 5;
+		}
+
+		Img.var5 += Img.var6;
+		Mode3DrawZoom(Img.var5, 40, 40);
+
+		if(Img.var5 > 200)
+		{
+			Img.var6 *= -1;
+		}
+
+		if(Img.var5 < 0)
+		{
+			Mode3DrawScaling(0);
+			Img.isAfter = false;
+		}
+		break;
+
+	// 0x20
+	case IMG_EFFECT_ZOOM2:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			Mode3SetDraw();
+			Img.var6 = 5;
+		}
+
+		Img.var5 += Img.var6;
+		Mode3DrawZoom(Img.var5, 200, 40);
+
+		if(Img.var5 > 200)
+		{
+			Img.var6 *= -1;
+		}
+
+		if(Img.var5 < 0)
+		{
+			Mode3DrawScaling(0);
+			Img.isAfter = false;
+		}
+		break;
+
+	// 0x21
+	case IMG_EFFECT_ZOOM3:
+		if(Img.var4++ == 0)
+		{
+			ImgDrawBg();
+			ImgDrawChr();
+			Mode3SetDraw();
+			Img.var6 = 5;
+		}
+
+		Img.var5 += Img.var6;
+		Mode3DrawZoom(Img.var5, 120, 40);
+
+		if(Img.var5 > 200)
+		{
+			Img.var6 *= -1;
+		}
+
+		if(Img.var5 < 0)
+		{
+			Mode3DrawScaling(0);
+			Img.isAfter = false;
+		}
+		break;
+
 	default:
 		SystemError("[Err] ImgExecAfter Img.after=%x\n", Img.after);
 		break;
@@ -831,8 +946,13 @@ EWRAM_CODE void ImgDrawChr(void)
 				sy = 46;
 			}
 
+			// 志保　机で居眠りの振り（目はこっち）
 			// 志保　机で居眠りの振り
-			if(Img.chr[i] == 0x418)
+			// 志保　机で居眠り
+			// 志保　机で起きてる（目はこっち）
+			// 志保　机で勉強してる
+			// 志保　机でニヤリ。消しゴム一杯
+			if(Img.chr[i] == 0x417 || Img.chr[i] == 0x418 || Img.chr[i] == 0x40e || Img.chr[i] == 0x40f || Img.chr[i] == 0x410 || Img.chr[i] == 0x411)
 			{
 				sx = (SCREEN_CX / 2) - (p->cx / 2);
 			}
@@ -842,6 +962,25 @@ EWRAM_CODE void ImgDrawChr(void)
 			{
 				sx = (SCREEN_CX / 2) - (p->cx / 2) - 16;
 				sy = SCREEN_CY - p->cy - 3;
+			}
+
+			// 智子　机で読書
+			// 智子　机で読書（目はこっち）
+			if(Img.chr[i] == 0x30c || Img.chr[i] == 0x30d)
+			{
+				sx = (SCREEN_CX / 2) - (p->cx / 2);
+			}
+
+			// 葵　スカート
+			if(Img.chr[i] == 0x517)
+			{
+				sx = (SCREEN_CX / 2) - (p->cx / 2);
+			}
+
+			// 理緒　リョウタ
+			if(Img.chr[i] >= 0x1f01 && Img.chr[i] <= 0x1f06)
+			{
+				sx = (SCREEN_CX / 2) - (p->cx / 2);
 			}
 		}
 		else if(i == IMG_CHR_RIGHT)

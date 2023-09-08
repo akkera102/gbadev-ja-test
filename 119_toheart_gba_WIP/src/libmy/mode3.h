@@ -47,10 +47,14 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step);
 IWRAM_CODE void Mode3DrawScaling(s32 step);
 IWRAM_CODE void Mode3DrawCurtain(s32 step);
 IWRAM_CODE void Mode3DrawCurtain2(s32 step);
-IWRAM_CODE void Mode3DrawDiamond(s32 step);
-IWRAM_CODE void Mode3DrawDiamond2(s32 step);
+IWRAM_CODE void Mode3DrawSquareLtoR(s32 step);
+IWRAM_CODE void Mode3DrawSquareLtoR2(s32 step);
 IWRAM_CODE void Mode3DrawTopScroll(s32 step);
 IWRAM_CODE void Mode3DrawSlide(s32 step);
+IWRAM_CODE void Mode3DrawSquare(s32 step);
+IWRAM_CODE void Mode3DrawSquare2(s32 step);
+IWRAM_CODE void Mode3DrawZoom(s32 step, s32 x, s32 y);
+
 
 #ifdef __cplusplus
 }

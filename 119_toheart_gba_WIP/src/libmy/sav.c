@@ -15,7 +15,9 @@ EWRAM_CODE u8 SavReadSram(u32 adr)
 {
 	u8* p = (u8*)SRAM + adr;
 
-	return *p;
+	u8 ret = *p;
+
+	return ret;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u8 SavReadFlash(u32 adr)
@@ -28,6 +30,8 @@ EWRAM_CODE void SavWriteSram(u32 adr, u8 dat)
 	u8* p = (u8*)SRAM + adr;
 
 	*p = dat;
+
+	__asm("NOP");
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SavWriteFlash(u32 adr, u8 dat)
@@ -54,6 +58,7 @@ EWRAM_CODE void SavWriteFlashCmd(u32 adr, u8 dat)
 	u8* p = (u8*)SRAM + adr;
 
 	*p = dat;
+
 	__asm("NOP");
 }
 //---------------------------------------------------------------------------
@@ -82,16 +87,15 @@ EWRAM_CODE bool SavIsFlash(void)
 	u8 t2 = ~t1;
 
 	SavWriteSram(0x7FFF, t2);
-	SavWriteSram(0x7FFF, t2+1);
 
-	if(SavReadSram(0x7FFF) == t2+1)
+	if(SavReadSram(0x7FFF) != t2)
 	{
 		SavWriteSram(0x7FFF, t1);
 
-		return false;
+		return true;
 	}
 
-	return true;
+	return false;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u8* SavGetPointer(u32 adr)

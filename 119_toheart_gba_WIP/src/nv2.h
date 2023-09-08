@@ -93,6 +93,7 @@ EWRAM_CODE void NvExecParseChr3(void);
 EWRAM_CODE void NvExecParseDay2(void);
 EWRAM_CODE void NvExecParseRain(void);
 EWRAM_CODE void NvExecParseSakura(void);
+EWRAM_CODE void NvExecParseZoom(void);
 EWRAM_CODE void NvExecParseEndEvent(void);
 EWRAM_CODE void NvExecParseSkip(void);
 

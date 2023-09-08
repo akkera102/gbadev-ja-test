@@ -51,6 +51,9 @@ enum {
 	IMG_EFFECT_CALENDAR,			// 0x1c 日めくりカレンダー表示
 	IMG_EFFECT_OP_WHITE,			// 0x1d オープニング用ホワイトイン
 	IMG_EFFECT_OP_FADE_PALETTE,		// 0x1e オープニング用フェードパレット
+	IMG_EFFECT_ZOOM1,				// 0x1f ズーム左
+	IMG_EFFECT_ZOOM2,				// 0x20 ズーム右
+	IMG_EFFECT_ZOOM3,				// 0x21 ズーム中央
 };
 
 

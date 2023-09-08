@@ -84,6 +84,7 @@ ROM_DATA ST_NV_PARSE_TABLE NvParseTable[NV_MAX_PARSE_CNT] = {
 	{ "day2",        (void*)NvExecParseDay2        },
 	{ "rein",        (void*)NvExecParseRain        },
 	{ "sakura",      (void*)NvExecParseSakura      },
+	{ "zoom",        (void*)NvExecParseZoom        },
 	{ "endEvent",    (void*)NvExecParseEndEvent    },
 	{ "skip",        (void*)NvExecParseSkip        },
 };
@@ -139,7 +140,13 @@ EWRAM_CODE void NvExecParseSub(void)
 // シナリオ終了 0x20
 EWRAM_CODE void NvExecParseEndScn(void)
 {
-	_ASSERT(0);
+	TRACE("endScn\n");
+
+	// おまけシナリオ（0072.txt）のみ使用
+	// タイトル画面へ
+	ManageSetEnd();
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // タイトル処理 0x21 0x03
@@ -360,6 +367,13 @@ EWRAM_CODE void NvExecParseTime(void)
 	NvSetFlag(NV_FLAG_EVENT_DONE, 0);
 	NvSetFlag(NV_FLAG_IDOU, 0);
 
+	// 葵シナリオ　夜なのに昼に戻っている（バグ？）
+	if(Nv.scnNo == 0x511)
+	{
+		return;
+	}
+
+
 	// 表示なし
 	if(n >= 0xf0)
 	{
@@ -420,6 +434,15 @@ EWRAM_CODE void NvExecParseChrClr(void)
 	{
 		ImgSetChrClr();
 		return;
+	}
+
+	if(n == 2)
+	{
+		n = 1;
+	}
+	else if(n == 1)
+	{
+		n = 2;
 	}
 
 	ImgSetChr(0xffff, n);
@@ -783,7 +806,6 @@ EWRAM_CODE void NvExecParseGameEnd(void)
 {
 	TRACE("gameEnd rnd=%x\n", Nv.vblankCnt);
 
-	BgmStop();
 	SioriSave2();
 
 	SakuraSeed(Nv.vblankCnt);
@@ -797,6 +819,12 @@ EWRAM_CODE void NvExecParseGameEnd(void)
 EWRAM_CODE void NvExecParseEnding(void)
 {
 	TRACE("ending\n");
+
+	// おまけシナリオの場合
+	if(Nv.scnNo == 0x72)
+	{
+		return;
+	}
 
 	// タイトル画面へ
 	ManageSetEnd();
@@ -1172,6 +1200,31 @@ EWRAM_CODE void NvExecParseSakura(void)
 	SakuraStart(false);
 
 	Nv.isSakura = true;
+}
+//---------------------------------------------------------------------------
+// 拡大ズーム 0xf8
+EWRAM_CODE void NvExecParseZoom(void)
+{
+	u8 n = NvGetCurHex();
+
+	TRACE("zoom %x\n", n);
+
+	// f8 0 レミィ 画面中央
+	// f8 1 来栖川 左側　顔
+	// f8 2 来栖川 右側　顔
+	// f8 3 来栖川 中央　顔
+	// f8 4 マルチ 画面中央
+	// f8 5 おまけ 琴音「天」
+
+	// 代用
+	if(n == 0 || n == 4 || n == 5)
+	{
+		n = 3;
+	}
+
+	NvSetEffectAfter(IMG_EFFECT_ZOOM1 + n - 1);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // イベントエンド 0xff

@@ -74,9 +74,9 @@ EWRAM_CODE void TxtSetRes(void);
 EWRAM_CODE void TxtSetPage(void);
 EWRAM_CODE void TxtSetPageNew(void);
 EWRAM_CODE void TxtSetDraw(char* p);
-IWRAM_CODE bool TxtCalcStr(char* p);
-IWRAM_CODE bool TxtIsChrFront(u16 code);
-IWRAM_CODE bool TxtIsChrBack(u16 code);
+EWRAM_CODE bool TxtCalcStr(char* p);
+EWRAM_CODE bool TxtIsChrFront(u16 code);
+EWRAM_CODE bool TxtIsChrBack(u16 code);
 
 EWRAM_CODE void TxtClear(void);
 EWRAM_CODE void TxtClearBuf(void);

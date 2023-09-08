@@ -388,7 +388,7 @@ IWRAM_CODE void Mode3DrawCurtain2(s32 step)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode3DrawDiamond(s32 step)
+IWRAM_CODE void Mode3DrawSquareLtoR(s32 step)
 {
 	if(step == 0)
 	{
@@ -436,7 +436,7 @@ IWRAM_CODE void Mode3DrawDiamond(s32 step)
 	Mode3.isDraw = true;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode3DrawDiamond2(s32 step)
+IWRAM_CODE void Mode3DrawSquareLtoR2(s32 step)
 {
 	if(step == 0)
 	{
@@ -511,4 +511,97 @@ IWRAM_CODE void Mode3DrawSlide(s32 step)
 
 	REG_BG2X =  0;
 	REG_BG2Y =  -80 * step * 10;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawSquare(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc((u16*)bg_effect3_1Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect3_1BitmapLen);
+
+		return;
+	}
+
+	step--;
+
+	s32 sx, sy, y;
+
+	for(sy=0; sy<SCREEN_CY; sy+=16)
+	{
+		for(sx=0; sx<SCREEN_CX; sx+=16)
+		{
+			for(y=0; y<16; y++)
+			{
+				u32* pD = (u32*)&Mode3.buf[sx + (sy + y) * SCREEN_CX];
+				u16* pM = (u16*)&Mode3.buf[SCREEN_CX * SCREEN_CY];
+				u32* pS = (u32*)&pM[step * 16 + y * 128];
+
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+				*pD++ &= *pS++;
+			}
+		}
+	}
+
+	Mode3.isDraw = true;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawSquare2(s32 step)
+{
+	if(step == 0)
+	{
+		MemInc((u16*)bg_effect3_2Bitmap, &Mode3.buf[SCREEN_CX * SCREEN_CY], bg_effect3_2BitmapLen);
+
+		return;
+	}
+
+	step--;
+
+	s32 sx, sy, y;
+
+	for(sy=0; sy<SCREEN_CY; sy+=16)
+	{
+		for(sx=0; sx<SCREEN_CX; sx+=16)
+		{
+			for(y=0; y<16; y++)
+			{
+				u16* pM = (u16*)&Mode3.buf[SCREEN_CX * SCREEN_CY];
+				u32* pS = (u32*)&pM[step * 16 + y * 128];
+
+				u32* pD = (u32*)&Mode3.buf[sx + (sy + y) * SCREEN_CX];
+
+				u16* pR = (u16*)VRAM;
+				u32* pV = (u32*)&pR[sx + (sy + y) * SCREEN_CX];
+
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+				*pV++ = *pD++ & *pS++;
+
+//				_ASSERT(pV <= VRAM + SCREEN_CX * SCREEN_CY * 2);
+			}
+		}
+	}
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3DrawZoom(s32 step, s32 x, s32 y)
+{
+	REG_BG2PA = 0x100 - step;
+	REG_BG2PB = 0;
+	REG_BG2PC = 0;
+	REG_BG2PD = 0x100 - step;
+
+	REG_BG2X = x * step;
+	REG_BG2Y = y * step;
 }

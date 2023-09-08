@@ -8,7 +8,7 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define NV_MAX_PARSE_CNT				73
+#define NV_MAX_PARSE_CNT				74
 #define NV_MAX_FLAG_CNT					0x100
 #define NV_MAX_SEL_CNT					12
 #define NV_MAX_SCN_CNT					0xa96
@@ -69,7 +69,7 @@ typedef struct {
 	bool isWaitSe;
 
 	// スクリプト
-	u8   scnNo;
+	u16  scnNo;
 	u8   evtNo;
 	u8   msgNo;
 	u8   maxEvt;

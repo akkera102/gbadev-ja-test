@@ -1103,6 +1103,12 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 			c += 2;
 			break;
 
+		// 拡大縮小エフェクト
+		case 0xf8:
+			fprintf(fp, "zoom %x\n", c[1]);
+			c += 2;
+			break;
+
 		// 終了
 		case 0xff:
 			fprintf(fp, "endEvent\n");
@@ -1139,7 +1145,6 @@ void ScnSaveSub(char chr, u_char* p, long size, FILE* fp)
 		case 0x72:
 		case 0xb4:		// 追記　テキストの色変更
 		case 0xcf:
-		case 0xf8:		// 追記　拡大縮小エフェクト
 			fprintf(fp, "skip %x %x\n", c[0], c[1]);
 			c += 2;
 			break;
