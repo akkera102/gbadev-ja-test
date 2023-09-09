@@ -8,5 +8,5 @@ del *.raw 2> nul
 del *.txt 2> nul
 
 rem ---------------------------------
-copy /b ..\exe\Test.gba+test.gbfs ..\..\toheart.gba
+copy /b ..\exe\test.gba+test.gbfs ..\..\toheart.gba
 rem del test.gbfs 2> nul
