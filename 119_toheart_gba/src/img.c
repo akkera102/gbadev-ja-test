@@ -503,13 +503,19 @@ IWRAM_CODE void ImgExecAfter(void)
 	case IMG_EFFECT_SLIDE_LTOR:
 		if(Img.var4++ == 0)
 		{
+			Img.var5 = 3000;
+			Img.var6 = 78;
+		}
+
+		if(Img.var4 == 2)
+		{
 			ImgDrawBg();
 			ImgDrawChr();
 			Mode3SetDraw();
-			Img.var5 = 3000;
 		}
 
-		Img.var5 -= 78 - Img.var4;
+		Img.var5 -= Img.var6;
+		Img.var6--;
 		Mode3DrawSlide(Img.var5);
 
 		if(Img.var5 < 0)
