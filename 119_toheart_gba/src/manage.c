@@ -94,7 +94,7 @@ EWRAM_CODE void ManageExecInit(void)
 
 /*
 // DEBUG2
-	NvSetScn(0x00B6);
+	NvSetScn(0x0642);
 	NvSetEvt(1);
 	Manage.act = MANAGE_ACT_NOVEL;
 */
