@@ -32,15 +32,15 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void ReinInit(void);
-IWRAM_CODE void ReinExec(void);
+IWRAM_CODE void ReinIntrExec(void);
 
 EWRAM_CODE void ReinStart(void);
 EWRAM_CODE void ReinStop(void);
 
-IWRAM_CODE void ReinRegDat(u32 no);
+EWRAM_CODE void ReinRegDat(u32 no);
 EWRAM_CODE void ReinSeed(u32 rnd);
 EWRAM_CODE s32  ReinRnd(s32 num);
-EWRAM_CODE bool ReinIsEffect(void);
+IWRAM_CODE bool ReinIsEffect(void);
 
 
 #ifdef __cplusplus

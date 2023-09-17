@@ -21,7 +21,7 @@ IWRAM_CODE void Mode3Exec(void)
 	Mode3.isDraw = false;
 
 
-	MemInc(Mode3.buf, (u16*)VRAM, MODE3_MAX_BUF_SIZE);
+	MemIncFast(Mode3.buf, (u16*)VRAM, MODE3_MAX_BUF_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawBg(u16* pImg)
@@ -122,7 +122,7 @@ IWRAM_CODE void Mode3DrawBlend(u32 sx, u32 sy, u32 cx, u32 cy, u16* pImg, u8* pM
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3Scroll(u32 cnt)
 {
-	MemInc(Mode3.buf + SCREEN_CX * cnt, (u16*)VRAM, MODE3_MAX_BUF_SIZE);
+	MemIncFast(Mode3.buf + SCREEN_CX * cnt, (u16*)VRAM, MODE3_MAX_BUF_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3SetDraw(void)
@@ -136,7 +136,7 @@ IWRAM_CODE void Mode3DrawFill(u16 col)
 
 	c =((u32)col << 16) | (u32)col;
 
-	MemFix(&c, Mode3.buf, MODE3_MAX_BUF_SIZE);
+	MemFixFast(&c, Mode3.buf, MODE3_MAX_BUF_SIZE);
 
 	Mode3.isDraw = true;
 }
@@ -241,7 +241,7 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step)
 {
 	if(step == 0)
 	{
-		MemInc(&Mode3.buf, &Mode3.buf[SCREEN_CX * SCREEN_CY], MODE3_MAX_BUF_SIZE);
+		MemIncFast(&Mode3.buf, &Mode3.buf[SCREEN_CX * SCREEN_CY], MODE3_MAX_BUF_SIZE);
 
 		return;
 	}
@@ -252,7 +252,7 @@ IWRAM_CODE void Mode3DrawVibrate(s32 step)
 	u32 col ALIGN(4);
 	col = 0;
 
-	MemFix(&col, Mode3.buf, MODE3_MAX_BUF_SIZE);
+	MemFixFast(&col, Mode3.buf, MODE3_MAX_BUF_SIZE);
 
 	// 揺れ
 	// 左下、右上、左上、右下、左下、左上、元ポジション

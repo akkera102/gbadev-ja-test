@@ -154,6 +154,10 @@ EWRAM_CODE void NvExecParseTitle(void)
 {
 	TRACE("title rnd=%x\n", Nv.vblankCnt);
 
+	// 次回改ページ分の処理を今行う
+	TxtSetPage(false);
+	TxtSetPageNew();
+
 	SakuraSeed(Nv.vblankCnt);
 	AnimeSetDat(ANIME_DAT_OPENING);
 
@@ -930,7 +934,7 @@ EWRAM_CODE void NvExecParsePage(void)
 {
 	TRACE("page\n");
 
-	TxtSetPage();
+	TxtSetPage(true);
 
 	NvSetAct(NV_ACT_KEY);
 
@@ -1214,7 +1218,7 @@ EWRAM_CODE void NvExecParseZoom(void)
 	// f8 2 来栖川 右側　顔
 	// f8 3 来栖川 中央　顔
 	// f8 4 マルチ 画面中央
-	// f8 5 おまけ 琴音「天」
+	// f8 5 おまけ 琴音「天
 
 	// 代用
 	if(n == 0 || n == 4 || n == 5)

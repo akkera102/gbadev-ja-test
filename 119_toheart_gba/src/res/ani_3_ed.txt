@@ -264,6 +264,6 @@ effect1 30
 bgS 254
 wait 60
 
-sprmode 0
+sprMode 0
 
 end 0

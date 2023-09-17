@@ -71,7 +71,7 @@ EWRAM_CODE void TxtDrawFull(u16* pStr);
 EWRAM_CODE void TxtSetChr(void);
 EWRAM_CODE void TxtSetCur(bool is);
 EWRAM_CODE void TxtSetRes(void);
-EWRAM_CODE void TxtSetPage(void);
+EWRAM_CODE void TxtSetPage(bool is);
 EWRAM_CODE void TxtSetPageNew(void);
 EWRAM_CODE void TxtSetDraw(char* p);
 EWRAM_CODE bool TxtCalcStr(char* p);

@@ -374,6 +374,6 @@ bgS 254
 wait 60
 
 bgm 4 1
-sprmode 0
+sprMode 0
 
 end 0

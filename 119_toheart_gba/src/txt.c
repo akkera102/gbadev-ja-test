@@ -233,9 +233,9 @@ EWRAM_CODE void TxtSetRes(void)
 	Txt.isRes = true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TxtSetPage(void)
+EWRAM_CODE void TxtSetPage(bool is)
 {
-	Txt.isPage = true;
+	Txt.isPage = is;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtSetPageNew(void)

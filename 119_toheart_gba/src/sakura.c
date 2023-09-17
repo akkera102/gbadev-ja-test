@@ -19,7 +19,7 @@ EWRAM_CODE void SakuraInit(void)
 	SakuraStop();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SakuraExec(void)
+IWRAM_CODE void SakuraIntrExec(void)
 {
 	s32 i;
 
@@ -92,7 +92,7 @@ EWRAM_CODE void SakuraStop(void)
 	Sakura.isEffect = false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SakuraRegDat(u32 no)
+EWRAM_CODE void SakuraRegDat(u32 no)
 {
 	Sakura.dat[no].type = SakuraRnd(3);
 	Sakura.dat[no].wait = 0;
@@ -113,7 +113,7 @@ EWRAM_CODE s32 SakuraRnd(s32 num)
 	return DivMod(tinymt32_generate_uint32(&Sakura.mt) & 0x7FFFFFFF , num);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool SakuraIsEffect(void)
+IWRAM_CODE bool SakuraIsEffect(void)
 {
 	return Sakura.isEffect;
 }

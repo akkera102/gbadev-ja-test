@@ -94,13 +94,14 @@ EWRAM_CODE void ManageExecInit(void)
 
 /*
 // DEBUG2
-	NvSetScn(0x0072);
+	NvSetScn(0x00B6);
 	NvSetEvt(1);
 	Manage.act = MANAGE_ACT_NOVEL;
 */
 
-	AnimeSetDat(ANIME_DAT_LOGO);
+//	AnimeSetDat(ANIME_DAT_ENDING);
 //	AnimeSetDat(ANIME_DAT_OPENING);
+	AnimeSetDat(ANIME_DAT_LOGO);
 	Manage.act = MANAGE_ACT_NOVEL;
 }
 //---------------------------------------------------------------------------

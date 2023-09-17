@@ -285,9 +285,14 @@ EWRAM_CODE void NvExecRestart(void)
 
 		if(Nv.isSakura == true)
 		{
-			TRACE("[sakura seed = %x]\n", Nv.vblankCnt);
 			SakuraSeed(Nv.vblankCnt);
 			SakuraStart(false);
+		}
+
+		if(Nv.isRein == true)
+		{
+			ReinSeed(Nv.vblankCnt);
+			ReinStart();
 		}
 
 		// 選択肢の場合のリセット

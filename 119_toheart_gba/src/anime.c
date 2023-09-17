@@ -26,7 +26,7 @@ ROM_DATA ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "bgmStop",  (void*)AnimeExecBgmStop  },
 	{ "skip",     (void*)AnimeExecSkip     },
 	{ "skipMark", (void*)AnimeExecSkipMark },
-	{ "sprmode",  (void*)AnimeExecSprMode  },
+	{ "sprMode",  (void*)AnimeExecSprMode  },
 	{ "end",      (void*)AnimeExecEnd      },
 };
 

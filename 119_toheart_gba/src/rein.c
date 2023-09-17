@@ -19,7 +19,7 @@ EWRAM_CODE void ReinInit(void)
 	ReinStop();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ReinExec(void)
+IWRAM_CODE void ReinIntrExec(void)
 {
 	s32 i;
 
@@ -76,7 +76,7 @@ EWRAM_CODE void ReinStop(void)
 	Rein.isEffect = false;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ReinRegDat(u32 no)
+EWRAM_CODE void ReinRegDat(u32 no)
 {
 	Rein.dat[no].wait = 0;
 	Rein.dat[no].x = ReinRnd(240) - 80;
@@ -93,7 +93,7 @@ EWRAM_CODE s32 ReinRnd(s32 num)
 	return DivMod(tinymt32_generate_uint32(&Rein.mt) & 0x7FFFFFFF , num);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool ReinIsEffect(void)
+IWRAM_CODE bool ReinIsEffect(void)
 {
 	return Rein.isEffect;
 }

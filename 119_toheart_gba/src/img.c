@@ -629,7 +629,7 @@ IWRAM_CODE void ImgExecAfter(void)
 
 	// 0x16
 	case IMG_EFFECT_OP_SCROLL2:
-		if(Img.var4++ < 3)
+		if(Img.var4++ < 4)
 		{
 			return;
 		}

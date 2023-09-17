@@ -34,12 +34,12 @@ IWRAM_CODE void IrqHandler(void)
 
 		if(SakuraIsEffect() == true)
 		{
-			SakuraExec();
+			SakuraIntrExec();
 		}
 
 		if(ReinIsEffect() == true)
 		{
-			ReinExec();
+			ReinIntrExec();
 		}
 
 		REG_IRQ_WAITFLAGS |= IRQ_VBLANK;
