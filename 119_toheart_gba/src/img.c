@@ -807,12 +807,19 @@ IWRAM_CODE void ImgExecAfter(void)
 			ImgDrawChr();
 			Mode3SetDraw();
 			Img.var6 = 5;
+
+			return;
+		}
+
+		if(Img.var4 == 2)
+		{
+			return;
 		}
 
 		Img.var5 += Img.var6;
 		Mode3DrawZoom(Img.var5, 40, 40);
 
-		if(Img.var5 > 200)
+		if(Img.var5 > 160)
 		{
 			Img.var6 *= -1;
 		}
@@ -832,12 +839,19 @@ IWRAM_CODE void ImgExecAfter(void)
 			ImgDrawChr();
 			Mode3SetDraw();
 			Img.var6 = 5;
+
+			return;
+		}
+
+		if(Img.var4 == 2)
+		{
+			return;
 		}
 
 		Img.var5 += Img.var6;
 		Mode3DrawZoom(Img.var5, 200, 40);
 
-		if(Img.var5 > 200)
+		if(Img.var5 > 160)
 		{
 			Img.var6 *= -1;
 		}
@@ -857,12 +871,19 @@ IWRAM_CODE void ImgExecAfter(void)
 			ImgDrawChr();
 			Mode3SetDraw();
 			Img.var6 = 5;
+
+			return;
+		}
+
+		if(Img.var4 == 2)
+		{
+			return;
 		}
 
 		Img.var5 += Img.var6;
 		Mode3DrawZoom(Img.var5, 120, 40);
 
-		if(Img.var5 > 200)
+		if(Img.var5 > 160)
 		{
 			Img.var6 *= -1;
 		}

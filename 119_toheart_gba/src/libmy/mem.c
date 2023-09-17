@@ -37,6 +37,8 @@ EWRAM_CODE void MemFix(void* src, void* dst, u32 size)
 //---------------------------------------------------------------------------
 EWRAM_CODE void MemClear(void* dst, u32 size)
 {
+	// _ASSERT((size & 0x1) == 0);
+
 	MemFix(&Mem.dummy, dst, size);
 }
 //---------------------------------------------------------------------------
@@ -49,4 +51,3 @@ EWRAM_CODE void MemFixFast(void* src, void* dst, u32 size)
 {
 	CpuFastSet(src, dst, (size / 4) | CPUSET_SRC_FIX);
 }
-
