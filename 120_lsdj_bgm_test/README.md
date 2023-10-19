@@ -26,6 +26,8 @@ Place it in the exe folder and run lsdj2log.exe.
 
 ## link
 
+- [lsdpack](https://github.com/jkotlinski/lsdpack)
+
 - [InfoGB](https://github.com/jay-kumogata/InfoGB)
 
 - [libLSDJ](https://github.com/stijnfrishert/libLSDJ)
