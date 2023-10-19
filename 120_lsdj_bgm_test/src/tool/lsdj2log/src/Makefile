@@ -1,3 +1,5 @@
+# MSYS2 MINGW64 GCC
+
 MAKEFLAGS	+=--no-print-directory
 
 SHELL		= sh
