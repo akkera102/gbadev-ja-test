@@ -43,7 +43,7 @@ void infogb_open_audio();
 void infogb_close_audio();
 
 /* main */
-static const char* CLASS_NAME = "InfoGB_CLASS";
+// static const char* CLASS_NAME = "InfoGB_CLASS";
 
 //---------------------------------------------------------------------------
 int infogb_init(char *display)
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
   char szFileName[ 256 ];
 
 	infogb_init(NULL);
-	infogb_create_window(APP_NAME, 160, 144);
+//	infogb_create_window(APP_NAME, 160, 144);
 	infogb_open_audio();
 
 	if(argc != 2)

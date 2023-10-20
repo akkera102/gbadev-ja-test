@@ -232,6 +232,9 @@ int load_rom(char *filename)
           return 0;
      }
 
+     // 2023/10/20 patch. lsdj.gb missed!!
+     cartridge_rom[0x149] = RAM_SIZE_128KB;
+
      if(cartridge_rom[0x149] != 0x00) {
           printf("Ram Size: ");
           switch(cartridge_rom[0x149]) {
@@ -247,18 +250,14 @@ int load_rom(char *filename)
                     printf("32 KB\n");
                     cartridge_ramsize = RAM_SIZE_32KB;
                     break;
-               // 2023/10/19 patch. infoGB missed!!
-               default:
                case RAM_SIZE_128KB:
                     printf("128 KB\n");
                     cartridge_ramsize =  RAM_SIZE_128KB;
                     break;
-/*
                default:
                     printf("Unknown (%d)\n", cartridge_rom[0x149]);
                     cartridge_ramsize = (ramsize)SIZE_Unknown;
                     break;
-*/
           }
           if(cartridge_ramsize == SIZE_Unknown) {
                printf("Error! Unknown ram size!\n");

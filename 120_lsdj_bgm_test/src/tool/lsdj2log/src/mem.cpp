@@ -681,7 +681,6 @@ void memory_write_word(unsigned short int address, unsigned short int value)
 static int wait = 0;
 static int step = 0;
 static int step2 = 0;
-static unsigned char endmark;
 
 void memory_file_gba_patch(unsigned char reg, unsigned char value)
 {
@@ -777,13 +776,12 @@ void memory_file_gba_patch(unsigned char reg, unsigned char value)
 	}
 
 	// endmark
-	if(reg == 0x26 && endmark != value)
+	if(reg == 0x26)
 	{
 		step2++;
-		endmark = value;
 //		printf("%d reg:%x value:%x\n", step2, reg, value);
 
-		if(step2 >= 4)
+		if(step2 >= 6)
 		{
 			printf("end\n");
 
@@ -816,7 +814,6 @@ void Memory_key_gba_patch(void)
 	case 6:
 		step++;
 		joypad_press(GB_START);
-		endmark = memory_read_hibyte(0x26);
 		break;
 
 	case 7:

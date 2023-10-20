@@ -1,5 +1,3 @@
-# MSYS2 MINGW64 GCC
-
 MAKEFLAGS	+=--no-print-directory
 
 SHELL		= sh
@@ -34,7 +32,7 @@ VPATH = $(dir $(CFILES) $(SFILES))
 
 ASFLAGS = 
 LDFLAGS = -Map $(MAPFILE) -Wall
-CFLAGS  = -g -O3 -Wall -W -Wshadow -Wno-unused-parameter
+CFLAGS  = -g -O3 -Wall -W -Wshadow -Wno-unused-parameter -Wno-enum-compare -Wno-switch
 OFILES  = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(basename $(notdir $(SFILES) $(CFILES)))))
 DFILES  = $(addprefix $(OBJDIR)/, $(addsuffix .d, $(basename $(notdir $(SFILES) $(CFILES)))))
 
