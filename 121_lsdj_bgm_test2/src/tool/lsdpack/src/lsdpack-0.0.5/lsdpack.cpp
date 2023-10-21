@@ -203,19 +203,19 @@ void record_dump(int argc, char* argv[], bool dmg_mode) {
         load_gb(argv[optind], flags);
 
         for (int song_index = 0; song_index < 32; ++song_index) {
-            writer = new DumpWriter();
+            printf("Checking song %i...\n", song_index + 1);
 
             if (load_song(song_index)) {
                 printf("Playing song %i...\n", song_index + 1);
+                writer = new DumpWriter();
 
                 char suffix[20];
                 snprintf(suffix, sizeof(suffix), "-%i.bin", song_index + 1);
                 make_out_path(argv[optind], suffix);
 
                 play_song();
+                delete writer;
             }
-
-            delete writer;
         }
     }
 }
