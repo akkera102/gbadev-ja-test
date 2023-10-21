@@ -20,7 +20,7 @@ GBA makes 6 calls per frame and outputs the log. This mechanism was based on lsd
 
 ## lsdsng data
 
-Sample data used is a file in the LSDJ resources folder. The license is MIT.
+Sample data used is a file in the libLSDJ resources folder. The license is MIT.
 
 HFF command is required at the end of the song.
 
