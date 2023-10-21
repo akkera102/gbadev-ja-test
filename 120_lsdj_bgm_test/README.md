@@ -1,5 +1,11 @@
 # 120_lsdj_bgm_test
 
+2023/10/21: I made a new one. Look here.
+
+[121_lsdj_bgm_test2](https://github.com/akkera102/gbadev-ja-test/tree/main/121_lsdj_bgm_test2)
+
+
+
 It is often buggy and does not work as expected. ;)
 
 ## mechanism
