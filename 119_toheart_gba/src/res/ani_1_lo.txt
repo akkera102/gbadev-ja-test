@@ -25,7 +25,6 @@ effect2 1
 # 文字フェード
 effect2 17
 
-bgmStop
 
 # 選択肢へ
 end 1
