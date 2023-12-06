@@ -1,7 +1,7 @@
 @echo off
 
 rem ---------------------------------
-..\exe\rom\gbfs test.gbfs *.img *.raw *.txt ..\exe\snd\bin\*.bin
+..\exe\rom\gbfs test.gbfs *.img *.raw *.txt ..\exe\snd\bin\*.bin ..\exe\rom\savid.bin
 
 del *.img 2> nul
 del *.raw 2> nul
