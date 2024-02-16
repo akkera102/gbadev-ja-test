@@ -1,0 +1,94 @@
+# パタパタアニメ　カイト→ウルフィ
+
+# フェードインアウト
+effect 36
+clear 7
+effect 37
+
+bgmStop
+bgm 24 0
+wait 40
+
+pata  0 20
+pata  1  1
+pata  2  1
+pata  3  1
+pata 16  1
+pata  5  1
+pata  6  1
+pata  7  1
+pata  8  1
+pata  9  1
+pata 10  1
+pata 16  0
+pata 14  0
+pata  0  0
+pata  2  0
+pata 16  0
+pata  6  0
+pata  8  0
+pata  9  0
+pata 11  0
+pata 13  0
+pata 15  0
+pata  1  0
+pata  3  0
+pata  5  0
+pata  7  0
+pata  8  0
+pata 10  0
+pata 16  0
+pata 14  0
+pata  0  0
+pata  2  0
+pata  3  0
+pata 16  0
+pata  5  0
+pata  6  0
+pata  7  0
+pata  8  0
+pata  9  0
+pata 10  0
+pata 11  0
+pata 16  1
+pata 13  1
+pata 14  1
+pata 15  1
+pata  0  1
+pata  1  1
+pata  2  1
+pata  3  1
+pata 16  2
+pata  5  2
+pata  6  2
+pata  7  2
+pata  8  2
+pata  9  2
+pata 10  2
+pata 11  2
+pata 16  3
+pata 13  3
+pata 14  3
+pata 15  3
+pata  0  3
+pata  1  3
+pata  2  3
+pata  3  3
+pata 16  4
+pata  5  4
+pata  6  4
+pata  7  4
+pata  8 10
+
+# タイトル表示
+pat
+pata2 8
+effect 43
+wait 200
+
+# フェードインアウト
+effect 36
+clear 7
+effect 37
+
+end
