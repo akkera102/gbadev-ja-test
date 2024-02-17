@@ -12,14 +12,16 @@ cls
 goto loop
 
 :run
-if exist test.gbfs goto run2
+if exist test2.gbfs goto run2
 test.gba
 goto end
 
 :run2
-copy /b test.gba+test.gbfs test2.gba
-gbafix.exe test2.gba -tTest -cTest
-test2.gba
+copy /b test.gba+test1.gbfs test2_1.gba
+copy /b test.gba+test2.gbfs test2_2.gba
+gbafix.exe test2_1.gba -tTest -cTest
+gbafix.exe test2_2.gba -tTest -cTest
+test2_2.gba
 
 :end
 pause

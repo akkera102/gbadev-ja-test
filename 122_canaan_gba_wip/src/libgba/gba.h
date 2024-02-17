@@ -121,6 +121,13 @@
 
 
 //---------------------------------------------------------------------------
+// mGBA debug
+#define REG_DEBUG_ENABLE  *(vu16*) 0x4FFF780
+#define REG_DEBUG_FLAGS   *(vu16*) 0x4FFF700
+#define REG_DEBUG_STR      (char*) 0x4FFF600
+
+
+//---------------------------------------------------------------------------
 // Etc
 #if _DEBUG
 #define TRACE					_Printf

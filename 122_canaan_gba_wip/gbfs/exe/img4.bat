@@ -4,8 +4,9 @@ cd img
 
 rem ---------------------------------
 rem リサイズ
+pause
 for %%i in (*.png) do python ..\..\exe\img\png_size.py %%i
-
+pause
 
 rem ---------------------------------
 rem アルファブレンド画像をバイナリに変更
@@ -40,10 +41,7 @@ rename e029.img.bin e029.img
 rename e29b.img.bin e29b.img
 rename e033.img.bin e033.img
 rename e050.img.bin e050.img
-rename s028.img.bin s028.img
-rename s030.img.bin s030.img
 rename s034.img.bin s034.img
-rename s040.img.bin s040.img
 
 rem LZ77しないフリップをリネーム
 rename pata00.img.bin pata00.img
@@ -67,8 +65,8 @@ rename pata19.img.bin pata19.img
 rename pata20.img.bin pata20.img
 
 rem LZ77しない背景画像をリネーム
-copy waku06b.img.bin waku.img 2> nul
-copy waku06b.png waku.png 2> nul
+copy waku06b.img.bin waku.img > nul
+copy waku06b.png waku.png > nul
 
 
 rem ---------------------------------

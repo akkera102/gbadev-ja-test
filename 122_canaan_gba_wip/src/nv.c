@@ -157,6 +157,7 @@ EWRAM_CODE void NvExecLoad(void)
 	case 0:
 		LogInit();
 		TxtHideMsg();
+		MenuSetChap(Nv.chap);
 		ImgSetEff(IMG_EFFECT_IGNORE_LOAD_IN);
 
 		Nv.step++;

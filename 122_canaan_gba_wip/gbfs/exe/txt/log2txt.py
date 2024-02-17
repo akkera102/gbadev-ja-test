@@ -266,8 +266,8 @@ txt = re.sub('IMG ca086', 'HSC ca086', txt)
 
 # ---------------------------------------------------------------------------
 # ÉXÉNÉçÅ[Éã
-txt = re.sub('IMG e020l\nIMG e020h\n', 'SCR e020 2\n', txt)
-txt = re.sub('IMG e29bl\nIMG e29bh\n', 'SCR e29b 2\n', txt)
+txt = re.sub('IMG e020l\nIMG e020h\n', 'SCR e020 1\n', txt)
+txt = re.sub('IMG e29bl\nIMG e29bh\n', 'SCR e29b 1\n', txt)
 txt = re.sub('IMG bg12l\nIMG bg12h\n', 'SCR bg12 1\n', txt)
 txt = re.sub('IMG e033l\nIMG e033h\nIMG e033l\nIMG e033h\n', 'SCR e033 1\nSCR e033 2\n', txt)
 txt = re.sub('IMG e050l\nIMG e050h\n', 'SCR e050 1\n', txt)

@@ -8,6 +8,7 @@
 #include "img.h"
 #include "file.h"
 #include "anime.h"
+#include "bgm.h"
 
 //---------------------------------------------------------------------------
 char MenuSelectStr[][20+1] = {
@@ -251,6 +252,11 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 
 		if(trg & KEY_A)
 		{
+			LogInit();
+			TxtHideMsg();
+			TxtClear();
+			BgmStop();
+
 			NvSetTxt(Menu.chap, 1);
 			NvSetAct(NV_ACT_PARSE);
 

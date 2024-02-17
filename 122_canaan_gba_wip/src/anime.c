@@ -263,7 +263,7 @@ EWRAM_CODE void AnimeExecSkipMark(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecEnd(void)
 {
-	if(Anime.dat == ANIME_DAT_TITLE || Anime.dat == ANIME_DAT_NEXT_ROM)
+	if(Anime.dat == ANIME_DAT_TITLE || Anime.dat == ANIME_DAT_NEXT_ROM || Anime.dat == ANIME_DAT_ENDING)
 	{
 		MenuSetTitle(MENU_TITLE_SEL_LOAD);
 		ManageSetMenu();

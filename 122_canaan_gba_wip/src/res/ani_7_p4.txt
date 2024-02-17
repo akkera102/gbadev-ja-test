@@ -83,4 +83,5 @@ effect 36
 clear 7
 effect 37
 
+bgmStop
 end

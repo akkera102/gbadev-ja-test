@@ -176,6 +176,7 @@ IWRAM_CODE void _Printf(char* format, ...)
 	_DoSprintf(sprintfBuf, format, ap);
 	va_end(ap);
 
+//	MgbaLog(sprintfBuf);
 	MappyLog(sprintfBuf);
 }
 //---------------------------------------------------------------------------
@@ -361,6 +362,24 @@ IWRAM_CODE char* _SprintfString(char* val, char* s)
 	return s;
 }
 //---------------------------------------------------------------------------
+IWRAM_CODE void MgbaLog(char* buf)
+{
+	REG_DEBUG_ENABLE = 0xC0DE;
+
+    u32 len = _Strlen(buf);
+
+	while(len)
+	{
+		u32 write = _Min(len, 256);
+
+		_Memcpy(REG_DEBUG_STR, buf, write);
+		REG_DEBUG_FLAGS = 0x102;				// mGBA Warning
+
+		buf += write;
+		len -= write;
+	}
+}
+//---------------------------------------------------------------------------
 IWRAM_CODE void MappyLog(char* buf)
 {
 	__asm volatile("mov r2, %0; ldr r0,=0xc0ded00d; and r0,r0" :: "r"(buf) : "r2", "r0");
@@ -373,6 +392,7 @@ EWRAM_CODE void SystemError(char* format, ...)
 	_DoSprintf(sprintfBuf, format, ap);
 	va_end(ap);
 
+//	MgbaLog(sprintfBuf);
 	MappyLog(sprintfBuf);
 
 	for(;;)

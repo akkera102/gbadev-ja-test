@@ -1,13 +1,13 @@
 @echo off
 
 rem ---------------------------------
-..\exe\rom\gbfs test1.gbfs rom1\*.img rom1\*.msk rom1\*.snd txt\*.txt ..\exe\rom\savid.bin
-..\exe\rom\gbfs test2.gbfs rom2\*.img rom2\*.msk rom2\*.snd txt\*.txt ..\exe\rom\savid.bin
+..\exe\rom\gbfs test1.gbfs rom1\*.img rom1\*.msk rom1\*.snd rom1\*.txt ..\exe\rom\savid.bin
+..\exe\rom\gbfs test2.gbfs rom2\*.img rom2\*.msk rom2\*.snd rom2\*.txt ..\exe\rom\savid.bin
 
 
 rem ---------------------------------
-rem copy /b ..\exe\test.gba+test1.gbfs ..\..\canaan1.gba
-rem copy /b ..\exe\test.gba+test1.gbfs ..\..\canaan2.gba
+copy /b ..\exe\test.gba+test1.gbfs ..\..\canaan1.gba
+copy /b ..\exe\test.gba+test2.gbfs ..\..\canaan2.gba
 
 
 rem ---------------------------------

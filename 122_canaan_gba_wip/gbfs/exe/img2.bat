@@ -18,14 +18,8 @@ python ..\..\exe\img\png_sepa.py e033h.png
 python ..\..\exe\img\png_sepa.py e033l.png
 python ..\..\exe\img\png_sepa.py e050h.png
 python ..\..\exe\img\png_sepa.py e050l.png
-python ..\..\exe\img\png_sepa.py s028h.png
-python ..\..\exe\img\png_sepa.py s028l.png
-python ..\..\exe\img\png_sepa.py s030h.png
-python ..\..\exe\img\png_sepa.py s030l.png
 python ..\..\exe\img\png_sepa.py s034h.png
 python ..\..\exe\img\png_sepa.py s034l.png
-python ..\..\exe\img\png_sepa.py s040h.png
-python ..\..\exe\img\png_sepa.py s040l.png
 
 rem 結合
 python ..\..\exe\img\png_comb.py bg12
@@ -34,10 +28,7 @@ python ..\..\exe\img\png_comb.py e029
 python ..\..\exe\img\png_comb.py e29b
 python ..\..\exe\img\png_comb.py e033
 python ..\..\exe\img\png_comb.py e050
-python ..\..\exe\img\png_comb.py s028
-python ..\..\exe\img\png_comb.py s030
 python ..\..\exe\img\png_comb.py s034
-python ..\..\exe\img\png_comb.py s040
 
 del bg12h.png
 del bg12l.png
@@ -51,16 +42,19 @@ del e033h.png
 del e033l.png
 del e050h.png
 del e050l.png
+del s034h.png
+del s034l.png
+del en04h.png
+del en04l.png
+
+rem 不要ファイルを消去
 del s028h.png
 del s028l.png
 del s030h.png
 del s030l.png
-del s034h.png
-del s034l.png
 del s040h.png
 del s040l.png
-del en04h.png
-del en04l.png
+
 
 rem ---------------------------------
 rem 不要ファイルを消去
@@ -179,9 +173,7 @@ del pro03.png
 del pro04.png
 del pro05.png
 
-del s028.png
 del s029.png
-del s030.png
 del s031.png
 del s032.png
 del s033.png
@@ -190,7 +182,6 @@ del s036.png
 del s037.png
 del s038.png
 del s039.png
-del s040.png
 del s041.png
 del s042.png
 del s044.png

@@ -96,6 +96,11 @@ EWRAM_CODE void ManageExecInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
 {
+	if(SeIsEnd() == false)
+	{
+		return;
+	}
+
 	if(ImgIsEffect() == true)
 	{
 		ImgExec();

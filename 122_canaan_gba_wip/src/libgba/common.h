@@ -29,6 +29,7 @@ typedef char* va_list;
 
 #define COMMON_SPRINT_BUF_CNT	0x200
 
+
 //---------------------------------------------------------------------------
 EWRAM_CODE s32   _Strlen(char* s1);
 EWRAM_CODE char* _Strncpy(char* ret, char* s2, s32 size);
@@ -50,6 +51,7 @@ IWRAM_CODE char* _SprintfHex(u32 val, char* s, char hex);
 IWRAM_CODE char* _SprintfHexCol(u32 val, char* s, s32 col, char colChr, bool isTop, char hex);
 IWRAM_CODE char* _SprintfString(char* val, char* s);
 
+IWRAM_CODE void MgbaLog(char* buf);
 IWRAM_CODE void MappyLog(char* buf);
 EWRAM_CODE void SystemError(char* format, ...);
 

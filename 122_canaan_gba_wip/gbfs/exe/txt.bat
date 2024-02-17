@@ -32,10 +32,10 @@ rem sファイルをデコード
 for %%f in (*.s) do python ..\..\exe\txt\s2scn.py %%f %%fcn
 
 rem 一部スクリプトの別コピーを作成
-copy cs05_13.scn cs05_40.scn 2> nul
-copy cs22_11.scn cs22_19.scn 2> nul
-copy cs22_15.scn cs22_20.scn 2> nul
-copy cs22_10.scn cs22_21.scn 2> nul
+copy cs05_13.scn cs05_40.scn > nul
+copy cs22_11.scn cs22_19.scn > nul
+copy cs22_15.scn cs22_20.scn > nul
+copy cs22_10.scn cs22_21.scn > nul
 
 
 rem ---------------------------------
@@ -45,13 +45,13 @@ for %%f in (*.scn) do ..\..\exe\txt\scn2log %%f
 
 rem ---------------------------------
 rem オープニングの追加分
-copy ..\..\exe\rom\cs00_01.log . 2> nul
+copy ..\..\exe\rom\cs00_01.log . > nul
 
 
 rem ---------------------------------
 rem ログを正規表現テキスト出力
 for %%f in (*.log) do python ..\..\exe\txt\log2txt.py %%f %%~nf.txt
-
+pause
 
 rem ---------------------------------
 rem 一部特殊フォントをバイナリ化

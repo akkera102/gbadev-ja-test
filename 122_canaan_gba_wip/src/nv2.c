@@ -332,7 +332,7 @@ EWRAM_CODE void NvExecParseScr(void)
 {
 	char* s = NvNextCurStr();
 	s32 n = NvNextCurNum();
-//	TRACE("%s\n", p);
+//	TRACE("%s %d\n", s, n);
 
 	ImgClrAll();
 	ImgDrawVramClear();
@@ -378,5 +378,6 @@ EWRAM_CODE void NvExecParseEnd(void)
 		AnimeSetDat(ANIME_DAT_ENDING);
 	}
 
+	Nv.isSkip = false;
 	Nv.isLoop = false;
 }
