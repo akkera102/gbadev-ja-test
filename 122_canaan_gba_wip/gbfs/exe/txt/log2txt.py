@@ -18,8 +18,8 @@ with open(sys.argv[1], "r", encoding='cp932') as f:
 
 # ---------------------------------------------------------------------------
 # 拡張子消去
-txt = re.sub('\.g', '', txt)
-txt = re.sub('\.lsp', '', txt)
+txt = re.sub('\\.g', '', txt)
+txt = re.sub('\\.lsp', '', txt)
 
 # 演奏コマンド重複
 txt = re.sub('BST\nBST\nBST\n', 'BST\n', txt)

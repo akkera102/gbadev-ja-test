@@ -292,7 +292,7 @@ EWRAM_CODE void NvExecParseSsg(void)
 	s32 no = NvNextCurNum();
 //	TRACE("%d\n", no);
 
-	SePlaySsg(no);
+//	SePlaySsg(no, true);
 }
 //---------------------------------------------------------------------------
 // 効果音FMX
@@ -301,7 +301,7 @@ EWRAM_CODE void NvExecParseFmx(void)
 	s32 no = NvNextCurNum();
 //	TRACE("%d\n", no);
 
-	SePlayFmx(no);
+//	SePlayFmx(no, true);
 }
 //---------------------------------------------------------------------------
 // パタパタアニメーション

@@ -366,7 +366,7 @@ IWRAM_CODE void MgbaLog(char* buf)
 {
 	REG_DEBUG_ENABLE = 0xC0DE;
 
-    u32 len = _Strlen(buf);
+	u32 len = _Strlen(buf);
 
 	while(len)
 	{

@@ -28,7 +28,8 @@ EWRAM_CODE u8*   FileGetPat(s32 no);
 EWRAM_CODE u8*   FileGetPata(s32 no);
 EWRAM_CODE char* FileGetTxt(s32 chap, s32 no);
 EWRAM_CODE u8*   FileGetMus(s32 no);
-EWRAM_CODE u8*   FileGetSe(s32 no);
+EWRAM_CODE u8*   FileGetSsg(s32 no);
+EWRAM_CODE u8*   FileGetFmx(s32 no);
 EWRAM_CODE s32   FileGetSize(void);
 EWRAM_CODE bool  FileIsFirstPart(void);
 

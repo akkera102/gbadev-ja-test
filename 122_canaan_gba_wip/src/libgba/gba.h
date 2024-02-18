@@ -2,7 +2,7 @@
 #define	_GBA_H_
 
 //---------------------------------------------------------------------------
-#define _DEBUG					1
+#define _DEBUG					0
 
 
 //---------------------------------------------------------------------------
@@ -122,8 +122,8 @@
 
 //---------------------------------------------------------------------------
 // mGBA debug
-#define REG_DEBUG_ENABLE  *(vu16*) 0x4FFF780
-#define REG_DEBUG_FLAGS   *(vu16*) 0x4FFF700
+#define REG_DEBUG_ENABLE  *(volatile u16*) 0x4FFF780
+#define REG_DEBUG_FLAGS   *(volatile u16*) 0x4FFF700
 #define REG_DEBUG_STR      (char*) 0x4FFF600
 
 

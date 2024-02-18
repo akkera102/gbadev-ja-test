@@ -59,10 +59,18 @@ EWRAM_CODE u8* FileGetMus(s32 no)
 	return GbfsGetSafePointer(buf);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE u8* FileGetSe(s32 no)
+EWRAM_CODE u8* FileGetSsg(s32 no)
 {
 	char buf[20];
-	_Sprintf(buf, "se%02d.bin", no);
+	_Sprintf(buf, "ssg%02d.bin", no);
+
+	return GbfsGetSafePointer(buf);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u8* FileGetFmx(s32 no)
+{
+	char buf[20];
+	_Sprintf(buf, "fmx%02d.bin", no);
 
 	return GbfsGetSafePointer(buf);
 }

@@ -4,9 +4,8 @@ cd img
 
 rem ---------------------------------
 rem リサイズ
-pause
 for %%i in (*.png) do python ..\..\exe\img\png_size.py %%i
-pause
+
 
 rem ---------------------------------
 rem アルファブレンド画像をバイナリに変更

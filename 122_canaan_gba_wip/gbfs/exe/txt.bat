@@ -51,7 +51,7 @@ copy ..\..\exe\rom\cs00_01.log . > nul
 rem ---------------------------------
 rem ログを正規表現テキスト出力
 for %%f in (*.log) do python ..\..\exe\txt\log2txt.py %%f %%~nf.txt
-pause
+
 
 rem ---------------------------------
 rem 一部特殊フォントをバイナリ化

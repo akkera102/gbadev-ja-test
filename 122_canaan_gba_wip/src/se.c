@@ -1,26 +1,36 @@
-#include "bgm.h"
+#include "se.h"
 #include "libmy/vgm.arm.h"
 #include "file.h"
 
 //---------------------------------------------------------------------------
+ST_SE Se;
 
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void SeInit(void)
 {
-	// EMPTY
+	_Memset(&Se, 0x00, sizeof(ST_SE));
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SePlaySsg(s32 no)
+EWRAM_CODE void SePlay(u8* p, bool isWait)
 {
-//	u8* p = FileGetSe(no);
-//	VgmPlay(p, false);
+	VgmPlay(p, false);
+
+	Se.isWait = isWait;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SePlayFmx(s32 no)
+EWRAM_CODE void SePlaySsg(s32 no, bool isWait)
 {
-	// TODO noÇ…è¨ç◊çH
-	// SePlaySsg(no);
+	u8* p = FileGetSsg(no);
+
+	SePlay(p, isWait);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SePlayFmx(s32 no, bool isWait)
+{
+	u8* p = FileGetFmx(no);
+
+	SePlay(p, isWait);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SeStop(void)
@@ -30,5 +40,10 @@ EWRAM_CODE void SeStop(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SeIsEnd(void)
 {
+	if(Se.isWait == false)
+	{
+		return true;
+	}
+
 	return VgmIsEnd();
 }

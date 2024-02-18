@@ -390,6 +390,7 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 			MenuSetChap(18);
 		}
 
+		NvSetAct(NV_ACT_PARSE);
 		ManageSetNovel();
 		break;
 
