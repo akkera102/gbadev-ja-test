@@ -9,7 +9,7 @@ extern "C" {
 
 //---------------------------------------------------------------------------
 #define SIORI_MAX_CNT				8
-#define SIORI_MAX_SIZE				0x1000
+#define SIORI_MAX_SIZE				(0x1000 - 0x16)
 
 enum {
 	SIORI_TYPE_SRAM,

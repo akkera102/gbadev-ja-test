@@ -11,10 +11,10 @@
 
 
 // ヘッダ　　　0x0000 - 0x0004
-// データ１　　0x1000 - 0x1FFF
-// データ２　　0x2000 - 0x2FFF
+// データ１　　0x0010 - 0x1FFF
+// データ２　　0x1010 - 0x2FFF
 // （中略）
-// データ８　　0x9000 - 0x9FFF
+// データ８　　0x7010 - 0x7FFF
 
 
 //---------------------------------------------------------------------------
@@ -113,12 +113,22 @@ EWRAM_CODE void SioriSaveFlashHeader(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriSaveFlashData(u32 no)
 {
-	u32 adr = 0x1000 + 0x1000 * no;
+	u32 adr = 0x1000 * no + 0x10;
 	u32 i;
 	u8* p;
 
+	SavWriteFlashEraseSector(no);
+
 	// データ
-	SavWriteFlashEraseSector(1 + no);
+	if(no == 0)
+	{
+		SavWriteFlash(0, 'T');
+		SavWriteFlash(1, 'H');
+		SavWriteFlash(2, SIORI_TYPE_FLASH);
+		SavWriteFlash(3, 0x00);
+		SavWriteFlash(4, 0x00);
+	}
+
 	SavWriteFlash(adr++, 'S');
 	SavWriteFlash(adr++, 'I');
 
@@ -159,7 +169,7 @@ EWRAM_CODE void SioriSaveSramHeader(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriSaveSramData(u32 no)
 {
-	u32 adr = 0x1000 + 0x1000 * no;
+	u32 adr = 0x1000 * no + 0x10;
 	u32 i;
 	u8* p;
 
@@ -206,7 +216,7 @@ EWRAM_CODE bool SioriLoad(u32 no)
 	u8* p;
 
 	// データ
-	u32 adr = 0x1000 + 0x1000 * no + 2;
+	u32 adr = 0x1000 * no + 0x10 + 2;
 
 	p = (u8*)&Nv;
 	for(i=0; i<sizeof(ST_NV); i++)
@@ -253,7 +263,7 @@ EWRAM_CODE char* SioriGetStr(u32 no)
 		return "－－－－－－－－－－－";
 	}
 
-	return (char*)SavGetPointer(0x1000 + 0x1000 * no + 2 + sizeof(ST_NV) + sizeof(ST_TXT) - TXT_SIORI_SIZE);
+	return (char*)SavGetPointer(0x1000 * no + 0x10 + 2 + sizeof(ST_NV) + sizeof(ST_TXT) - TXT_SIORI_SIZE);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SioriIsInit(void)
@@ -266,8 +276,8 @@ EWRAM_CODE bool SioriIsInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SioriIsItem(u32 no)
 {
-	if(SavReadSram(0x1000 + 0x1000 * no + 0) != 'S') return false;
-	if(SavReadSram(0x1000 + 0x1000 * no + 1) != 'I') return false;
+	if(SavReadSram(0x1000 * no + 0x10 + 0) != 'S') return false;
+	if(SavReadSram(0x1000 * no + 0x10 + 1) != 'I') return false;
 
 	return true;
 }
