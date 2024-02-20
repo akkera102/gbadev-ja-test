@@ -112,7 +112,7 @@ IWRAM_CODE void VgmIntrVblank(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool VgmIsEnd(void)
+EWRAM_CODE bool VgmIsPlay(void)
 {
-	return (Vgm.act == VGM_ACT_STOP) ? true : false;
+	return (Vgm.act == VGM_ACT_STOP) ? false : true;
 }

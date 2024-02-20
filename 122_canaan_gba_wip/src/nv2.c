@@ -268,7 +268,7 @@ EWRAM_CODE void NvExecParseSet(void)
 EWRAM_CODE void NvExecParseClr(void)
 {
 	s32 no = NvNextCurNum();
-//	TRACE("%d\n", no);
+	TRACE("%d\n", no);
 
 	switch(no)
 	{
@@ -279,6 +279,8 @@ EWRAM_CODE void NvExecParseClr(void)
 	case 5: ImgClrIco();  break;
 	case 6: ImgClrMin();  break;
 	case 7: ImgClrAll();  break;
+	case 8: ImgClrIco(); ImgDrawIcoClear(); break;
+	case 9: ImgClrMin(); ImgDrawMinClear(); break;
 
 	default:
 		SystemError("[Err] NvExecParseClr no=%x\n", no);
@@ -323,7 +325,6 @@ EWRAM_CODE void NvExecParseLds(void)
 	s32 chap = NvNextCurNum();
 	s32 no   = NvNextCurNum();
 
-	MenuSetChap(chap);
 	NvSetTxt(chap, no);
 }
 //---------------------------------------------------------------------------

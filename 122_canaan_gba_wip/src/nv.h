@@ -31,8 +31,8 @@ typedef struct {
 
 	char* pTxt;
 	char* pCur;
-	s32   part;
 	s32   chap;
+	s32   part;
 
 } ST_NV;
 
@@ -49,6 +49,7 @@ EWRAM_CODE void  NvSetTxt(s32 chap, s32 part);
 EWRAM_CODE void  NvSetTxt2(s32 chap, s32 part, u32 offset);
 EWRAM_CODE void  NvSetAct(s32 act);
 EWRAM_CODE void  NvSetSkip(void);
+EWRAM_CODE s32   NvGetChap(void);
 EWRAM_CODE bool  NvIsSkip(void);
 
 EWRAM_CODE s32   NvNextCurNum(void);

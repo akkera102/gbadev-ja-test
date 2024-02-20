@@ -26,9 +26,6 @@ typedef struct {
 	bool isCurBlink;
 	s32  curWaitCnt;
 
-	// ウィンドウフェード
-	s32  fadeMax;
-
 	// セレクトバッファ
 	u16  selBuf[TXT_SCREEN_CX] ALIGN(4);
 	s32  selCnt;

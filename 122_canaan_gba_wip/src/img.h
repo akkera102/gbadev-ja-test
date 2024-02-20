@@ -38,10 +38,10 @@ enum {
 	IMG_EFFECT_NORMAL,				// 31
 	IMG_EFFECT_WIPE_LR,				// 32
 	IMG_EFFECT_WIPE_UD,				// 33
-	IMG_EFFECT_FADE_WHITE_IN,		// 34
-	IMG_EFFECT_FADE_WHITE_OUT,		// 35
-	IMG_EFFECT_FADE_BLACK_IN,		// 36
-	IMG_EFFECT_FADE_BLACK_OUT,		// 37
+	IMG_EFFECT_WHITE_IN,			// 34
+	IMG_EFFECT_WHITE_OUT,			// 35
+	IMG_EFFECT_BLACK_IN,			// 36
+	IMG_EFFECT_BLACK_OUT,			// 37
 	IMG_EFFECT_SCROLL_UD,			// 38
 	IMG_EFFECT_SCROLL_DU,			// 39
 	IMG_EFFECT_FALL,				// 40
@@ -57,6 +57,15 @@ enum {
 	IMG_EFFECT_IGNORE_LOAD_OUT,		// 62
 	IMG_EFFECT_IGNORE_BG_CHR_SCR,	// 63
 	IMG_EFFECT_IGNORE_WAIT_ICO,		// 64
+
+	// オープニング、エンディングエフェクト
+	IMG_EFFECT_ANIME_WHITE_IN = 80,	// 80
+	IMG_EFFECT_ANIME_WHITE_OUT,		// 81
+	IMG_EFFECT_ANIME_BLACK_IN,		// 82
+	IMG_EFFECT_ANIME_BLACK_OUT,		// 83
+	IMG_EFFECT_ANIME_MOVE_LR,		// 84
+	IMG_EFFECT_ANIME_MOVE_RL,		// 85
+
 };
 
 enum {
@@ -111,10 +120,10 @@ EWRAM_CODE void ImgExecNone(void);
 EWRAM_CODE void ImgExecNormal(void);
 EWRAM_CODE void ImgExecWipeLr(void);
 EWRAM_CODE void ImgExecWipeUd(void);
-EWRAM_CODE void ImgExecFadeWhiteIn(void);
-EWRAM_CODE void ImgExecFadeWhiteOut(void);
-EWRAM_CODE void ImgExecFadeBlackIn(void);
-EWRAM_CODE void ImgExecFadeBlackOut(void);
+EWRAM_CODE void ImgExecWhiteIn(void);
+EWRAM_CODE void ImgExecWhiteOut(void);
+EWRAM_CODE void ImgExecBlackIn(void);
+EWRAM_CODE void ImgExecBlackOut(void);
 EWRAM_CODE void ImgExecScrollUd(void);
 EWRAM_CODE void ImgExecScrollDu(void);
 EWRAM_CODE void ImgExecFall(void);

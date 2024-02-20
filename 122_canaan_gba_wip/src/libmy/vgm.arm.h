@@ -38,7 +38,7 @@ EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
 EWRAM_CODE void VgmStop(void);
 IWRAM_CODE void VgmIntrVblank(void);
 
-EWRAM_CODE bool VgmIsEnd(void);
+EWRAM_CODE bool VgmIsPlay(void);
 
 #ifdef __cplusplus
 }

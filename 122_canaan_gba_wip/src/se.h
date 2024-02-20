@@ -26,7 +26,7 @@ EWRAM_CODE void SePlay(u8* p, bool isWait);
 EWRAM_CODE void SePlayFmx(s32 no, bool isWait);
 EWRAM_CODE void SePlaySsg(s32 no, bool isWait);
 EWRAM_CODE void SeStop(void);
-EWRAM_CODE bool SeIsEnd(void);
+EWRAM_CODE bool SeIsPlay(void);
 
 
 #ifdef __cplusplus

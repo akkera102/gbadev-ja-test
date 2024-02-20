@@ -1,5 +1,320 @@
 # ƒGƒ“ƒfƒBƒ“ƒO
 
+# ƒzƒƒCƒgƒCƒ“{ƒ^ƒCƒgƒ‹{ƒAƒEƒg
+eff 80
+set ed00 1
+eff 81
+wait 60
+
+str 0 0 ‚b‚‚“‚”
+wait 60
+strCls
+
+# ƒuƒ‰ƒbƒNƒCƒ“{ƒEƒ‹ƒtƒB{ƒAƒEƒgi‘ã—pj
+eff 82
+set s003 1
+eff 83
+wait 30
+str 0 0 ‚v‚‚Œ‚†‚™
+wait 60
+strCls
+
+set s004 1
+eff 84
+wait 30
+str 0 0 ‚q‚‚‚‚‚‚™
+wait 60
+strCls
+
+set s005 1
+eff 85
+wait 30
+str 0 0 ‚m‚…‚…‚”‚ˆ
+wait 60
+strCls
+
+set s006 1
+eff 84
+wait 30
+str 0 0 ‚h‚’‚‰‚
+wait 60
+strCls
+
+set s007 1
+eff 85
+wait 30
+str 0 0 ‚k‚…‚‚‚
+wait 60
+strCls
+
+set s008 1
+eff 84
+wait 30
+str 0 0 ‚c‚‚Œ‚
+wait 60
+strCls
+
+set s009 1
+eff 85
+wait 30
+str 0 0 ‚a‚Œ‚•‚…
+wait 60
+strCls
+
+set s010 1
+eff 84
+wait 30
+str 0 0 ‚j‚‰‚”‚…
+wait 60
+strCls
+
+set s011 1
+eff 85
+wait 30
+str 0 0 ‚`‚‚‡‚…‚Œ‚
+wait 60
+strCls
+
+set s012 1
+eff 84
+wait 30
+str 0 0 ‚e‚‚’
+wait 60
+strCls
+
+set s013 1
+eff 85
+wait 30
+str 0 0 ‚l‚‰‚’‚
+wait 60
+strCls
+
+set s014 1
+eff 84
+wait 30
+str 0 0 ‚c‚…‚Œ‚Œ‚‰‚
+wait 60
+strCls
+
+set s015 1
+eff 85
+wait 30
+str 0 0 ‚k‚•‚Œ‚™
+wait 60
+strCls
+
+set s016 1
+eff 84
+wait 30
+str 0 0 ‚j‚™‚‚…i‚c‚’D‚v‚‚’‚Œ‚Œ‚…‚j
+wait 60
+strCls
+
+set s017 1
+eff 85
+wait 30
+str 0 0 ‚a‚‰‚‚‚ƒ‚@‚‚“@‚a‚…‚…
+wait 60
+strCls
+
+set s018 1
+eff 84
+wait 30
+str 0 0 ‚`‚Œ‚‰‚ƒ‚…@‚‚“@‚a‚‰‚‚‚ƒ‚
+wait 60
+strCls
+
+set s019 1
+eff 85
+wait 30
+str 0 0 ‚a‚‰‚‚”‚Œ‚‰‚”‚ˆ
+wait 60
+strCls
+
+set s020 1
+eff 84
+wait 30
+str 0 0 ‚b‚‚“‚“‚™
+wait 60
+strCls
+
+set s021 1
+eff 85
+wait 30
+str 0 0 ‚d‚Œ‚š‚
+wait 60
+strCls
+
+set s022 1
+eff 84
+wait 30
+str 0 0 ‚s‚‰‚”‚™
+wait 60
+strCls
+
+set s023 1
+eff 85
+wait 30
+str 0 0 ‚q‚‚“‚…‚‚‚’‚™
+wait 60
+strCls
+
+set s024 1
+eff 84
+wait 30
+str 0 0 ‚l‚‰‚‚
+wait 60
+strCls
+
+set s025 1
+eff 85
+wait 30
+str 0 0 ‚q‚…‚Š‚‰‚…‚‚
+wait 60
+strCls
+
+set s026 1
+eff 84
+wait 30
+str 0 0 ‚k‚‰‚Œ‚™
+wait 60
+strCls
+
+set s027 1
+eff 85
+wait 30
+str 0 0 ‚c‚‰‚‚‚
+wait 60
+strCls
+
+# ‹È‚Æƒ^ƒCƒ~ƒ“ƒO‚ğ‡‚í‚¹‚é
+
+
+# ƒtƒF[ƒhƒCƒ“{’n‹…‹V{ƒAƒEƒg
+eff 82
+set s02 1
+eff 83
+
+strCol 0
+
+strInt 0 0
+str 0 0 [‚b‚`‚m‚`‚`‚m[
+str 0 0 ‚`‚k‚k@‚r‚s‚`‚e‚e
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ƒVƒiƒŠƒI
+str 0 0 O•ô“Ş
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ƒVƒiƒŠƒI‹¦—Í
+str 0 0 ¼èŒ\ˆê
+str 0 0 ‚½‚¢‚ç‚Ğ‚Æ‚µ
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ƒƒCƒ“Œ´‰æ
+str 0 0 —ÖŒ‰¾‹g–¤
+str 0 0 ‚«‚á‚ë‚ç‚¢‚ñ‚æ‚¤‚±
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ƒTƒuŒ´‰æ
+str 0 0 ‚½‚¢‚ç‚Ğ‚Æ‚µ
+str 0 0 ‹{“c‚ß‚®‚Ş
+str 0 0 ‚l‚d‚q‚b‚x@‚q‚`‚a‚a‚h‚s
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ‚b‚fƒ[ƒN
+str 0 0 ‹{“c‚ß‚®‚Ş
+str 0 0 ‚µ‚µ‚Ü‚é
+str 0 0 –Ø–{‚ç‚¢
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ‚b‚fƒ[ƒN
+str 0 0 ‚ ‚¯‚±
+str 0 0 •½–ì–ƒ‹Õ
+str 0 0 ‚q‚x‚n
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ‚b‚fƒ[ƒN
+str 0 0 –‚¢‚Ë[‚¸
+str 0 0 ‡‹‚·‚½‚¶‚¨‚n‚w
+str 0 0 ‡‹ƒV[ƒ‰ƒCƒIƒ“
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ƒVƒXƒeƒ€ƒvƒƒOƒ‰ƒ€
+str 0 0 ‰“co•ä
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ƒVƒiƒŠƒIƒvƒƒOƒ‰ƒ€
+str 0 0 “‡ª•‘l
+str 0 0 ƒVƒiƒŠƒIƒvƒƒOƒ‰ƒ€ƒTƒ|[ƒg
+str 0 0 ƒwƒ‹ƒp[‚s‚n‚r‚g‚h
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+strInt 0 0
+str 0 0 ‰¹Šy
+str 0 0 ‚g‚•‚l‚h
+strInt 0 15
+wait 60
+strInt 15 0
+strCls
+
+# ƒuƒ‰ƒbƒNƒCƒ“{ƒtƒ@ƒAEƒiƒCƒ“{ƒAƒEƒg
+eff 82
+set stl13 1
+eff 83
+wait 60
+
+set end_t 1
+# ‚¢‚Â‚Ì“ú‚É‚©@‚«‚Á‚ÆA
+
+
+# –l’B‚Í‚»‚±‚É
+
+
+# ‚½‚Ç‚è‚Â‚¯‚é‚¾‚ë‚¤B
+
+
+
+
 # ‘I‘ğˆ‚Ö
 end
 

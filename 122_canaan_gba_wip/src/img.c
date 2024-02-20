@@ -53,20 +53,20 @@ EWRAM_CODE void ImgExec(void)
 		ImgExecWipeUd();
 		break;
 
-	case IMG_EFFECT_FADE_WHITE_IN:
-		ImgExecFadeWhiteIn();
+	case IMG_EFFECT_WHITE_IN:
+		ImgExecWhiteIn();
 		break;
 
-	case IMG_EFFECT_FADE_WHITE_OUT:
-		ImgExecFadeWhiteOut();
+	case IMG_EFFECT_WHITE_OUT:
+		ImgExecWhiteOut();
 		break;
 
-	case IMG_EFFECT_FADE_BLACK_IN:
-		ImgExecFadeBlackIn();
+	case IMG_EFFECT_BLACK_IN:
+		ImgExecBlackIn();
 		break;
 
-	case IMG_EFFECT_FADE_BLACK_OUT:
-		ImgExecFadeBlackOut();
+	case IMG_EFFECT_BLACK_OUT:
+		ImgExecBlackOut();
 		break;
 
 	case IMG_EFFECT_SCROLL_UD:
@@ -190,7 +190,7 @@ EWRAM_CODE void ImgExecWipeUd(void)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecFadeWhiteIn(void)
+EWRAM_CODE void ImgExecWhiteIn(void)
 {
 	if(Img.var[0]++ < Img.fadeWait)
 	{
@@ -217,7 +217,7 @@ EWRAM_CODE void ImgExecFadeWhiteIn(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecFadeWhiteOut(void)
+EWRAM_CODE void ImgExecWhiteOut(void)
 {
 	if(Img.var[0]++ == 0)
 	{
@@ -242,7 +242,7 @@ EWRAM_CODE void ImgExecFadeWhiteOut(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecFadeBlackIn(void)
+EWRAM_CODE void ImgExecBlackIn(void)
 {
 	if(Img.var[0]++ < Img.fadeWait)
 	{
@@ -269,7 +269,7 @@ EWRAM_CODE void ImgExecFadeBlackIn(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecFadeBlackOut(void)
+EWRAM_CODE void ImgExecBlackOut(void)
 {
 	if(Img.var[0]++ == 0)
 	{
@@ -858,7 +858,7 @@ EWRAM_CODE void ImgSetEffTxt(s32 no)
 	case IMG_EFFECT_SCRIPT_11:
 		ImgClrAll();
 		ImgSetBgl("waku06b");
-		ImgSetEff(IMG_EFFECT_FADE_BLACK_OUT);
+		ImgSetEff(IMG_EFFECT_BLACK_OUT);
 		break;
 
 	// ‰½‚à‚µ‚È‚¢
@@ -971,10 +971,11 @@ EWRAM_CODE void ImgSetSelCol(s32 num)
 {
 	Img.selCol = num;
 
-	u16 col = RGB5(0,31,31);
+	u16 col = RGB5(0,31,31);				// …F
 
-	if(num == 1) col = RGB5(31,31,0);
-	if(num == 2) col = RGB5(31,31,31);
+	if(num == 1) col = RGB5(31,31, 0);		// ‰©
+	if(num == 2) col = RGB5( 0,31, 0);		// —Î
+	if(num == 3) col = RGB5(31,31,31);		// ”’
 
 	SprSetSelectCol(col);
 }

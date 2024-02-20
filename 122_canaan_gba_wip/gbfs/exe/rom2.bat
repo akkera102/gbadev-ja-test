@@ -1354,6 +1354,38 @@ copy txt\cs28_05.txt rom2 > nul
 copy txt\cs28_06.txt rom2 > nul
 
 rem エンディング
+copy img\ed00.img rom2 > nul
+copy img\s003.img rom2 > nul
+copy img\s004.img rom2 > nul
+copy img\s005.img rom2 > nul
+copy img\s006.img rom2 > nul
+copy img\s007.img rom2 > nul
+copy img\s008.img rom2 > nul
+copy img\s009.img rom2 > nul
+copy img\s010.img rom2 > nul
+copy img\s011.img rom2 > nul
+copy img\s012.img rom2 > nul
+copy img\s013.img rom2 > nul
+copy img\s014.img rom2 > nul
+copy img\s015.img rom2 > nul
+copy img\s016.img rom2 > nul
+copy img\s017.img rom2 > nul
+copy img\s018.img rom2 > nul
+copy img\s019.img rom2 > nul
+copy img\s020.img rom2 > nul
+copy img\s021.img rom2 > nul
+copy img\s022.img rom2 > nul
+copy img\s023.img rom2 > nul
+copy img\s024.img rom2 > nul
+copy img\s025.img rom2 > nul
+copy img\s026.img rom2 > nul
+copy img\s027.img rom2 > nul
+copy img\bg33.img rom2 > nul
+copy img\s02.img rom2 > nul
+copy img\stl13.img rom2 > nul
+copy img\end_t.img rom2 > nul
+
+rem タイトル
 copy img\titlep.img rom2 > nul
 
 

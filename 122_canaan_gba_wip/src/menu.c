@@ -27,20 +27,21 @@ char MenuSelectStr[][20+1] = {
 	"　背景輝度　　　００",
 	"　背景ウェイト　００",
 	"　章ジャンプ　　００",
-	"　選択肢　　　　青色",
+	"　選択肢　　　　水色",
 	"　選択肢　　　　黄色",
+	"　選択肢　　　　緑色",
 	"　選択肢　　　　白色",
 
-	// 14
+	// 16
 	"　　　セーブ",
 
-	// 15
+	// 17
 	"　　　ロード",
 
-	// 16
+	// 18
 	"",
 
-	// 17
+	// 19
 	"",
 	"　　ゲームを始める",
 	"　　ロードする",
@@ -169,7 +170,8 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 		break;
 
 	// オプション
-	case 5:
+	case 5: ;
+		Menu.chap = NvGetChap();
 		MenuSetOption(MENU_OPTION_SEL_WINDOW);
 		break;
 
@@ -276,7 +278,7 @@ EWRAM_CODE void MenuExecOption(u16 trg)
 			TxtSetChr();
 		}
 
-		if(trg & KEY_RIGHT && selCol < 2)
+		if(trg & KEY_RIGHT && selCol < 3)
 		{
 			selCol++;
 
@@ -377,17 +379,15 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 	{
 	// ゲームを始める
 	case 0:
-		ImgSetEff(IMG_EFFECT_FADE_BLACK_IN);
+		ImgSetEff(IMG_EFFECT_BLACK_IN);
 
 		if(FileIsFirstPart() == true)
 		{
 			NvSetTxt(0, 1);
-			MenuSetChap(0);
 		}
 		else
 		{
 			NvSetTxt(18, 1);
-			MenuSetChap(18);
 		}
 
 		NvSetAct(NV_ACT_PARSE);
@@ -438,22 +438,22 @@ EWRAM_CODE void MenuSetOption(s32 sel)
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetSave(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 15, 8, MenuExecSave, true);
+	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 16, 8, MenuExecSave, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetLoad(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 16, 8, MenuExecLoad, true);
+	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 17, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetNone(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 17, 0, MenuExecNone, false);
+	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 18, 0, MenuExecNone, false);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetTitle(s32 sel)
 {
-	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 18, 2, MenuExecTitle, true);
+	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 19, 2, MenuExecTitle, true);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetChap(s32 num)

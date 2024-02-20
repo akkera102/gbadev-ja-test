@@ -348,8 +348,6 @@ txt = re.sub('BGL bg18\n', 'CHR bg18\n', txt)
 txt = re.sub('BGL e032\n', 'CHR e032\n', txt)
 # ミィ
 txt = re.sub('BGL e060a\n', 'CHR e060a\n', txt)
-# ミィ
-txt = re.sub('BGL e060a\n', 'CHR e060a\n', txt)
 # アルファ
 txt = re.sub('BGL e060b\n', 'CHR e060b\n', txt)
 
@@ -449,8 +447,8 @@ if(sys.argv[1] == "cs02_23.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLD
 if(sys.argv[1] == "cs03_03.log"): txt = re.sub('SSG 15\n', 'SSG 15\nEFF 34\nEFF 35\n', txt)
 # インアウト枠　ヘリに移動
 if(sys.argv[1] == "cs03_03.log"): txt = re.sub('EFF 4\n', 'EFF 36\nEFF 11\n', txt)
-# MIN消去　飛行機の死体
-if(sys.argv[1] == "cs03_04.log"): txt = re.sub('SEL 怪物\nICO wolf09\n', 'SEL 怪物\nICO wolf09\nEFF 60\n', txt)
+# MINICO消去　飛行機の死体
+if(sys.argv[1] == "cs03_04.log"): txt = re.sub('SEL 怪物\nICO wolf09\n', 'SEL 怪物\nICO wolf09\nCLR 8\nCLR 9\n', txt)
 # インアウト枠　ファーと会話
 if(sys.argv[1] == "cs03_04.log"): txt = re.sub('EFF 4\n', 'EFF 36\nEFF 11\n', txt)
 # イン　ファーと合流１
@@ -509,8 +507,8 @@ if(sys.argv[1] == "cs05_03.log"): txt = re.sub('BGL e003a2\n', 'SET e003a2 1\nEF
 if(sys.argv[1] == "cs05_03.log"): txt = re.sub('BGL e003b2\n', 'SET e003b2 1\nEFF 33\n', txt)
 # UDに変更　ドーラ、カイトに攻撃
 if(sys.argv[1] == "cs05_03.log"): txt = re.sub('BGL e003b\n', 'SET e003b 1\nEFF 33\n', txt)
-# 消去矢
-if(sys.argv[1] == "cs05_03.log"): txt = re.sub('胸に走り続けた。\nKEY\n', '胸に走り続けた。\nKEY\nEFF 60\n', txt)
+# MIN消去　矢
+if(sys.argv[1] == "cs05_03.log"): txt = re.sub('胸に走り続けた。\nKEY\n', '胸に走り続けた。\nKEY\nCLR 9\n', txt)
 # ２重文章消去　レオナドーラ銃を撃つ
 if(sys.argv[1] == "cs05_08.log"): txt = re.sub('SSG 24\nKEY\nMSG ばーーーーーーーん\\\\eb\\\\b8\n', '', txt)
 # インアウト枠　カイトとアンジェラ逃走
@@ -521,10 +519,10 @@ if(sys.argv[1] == "cs05_09.log"): txt = re.sub('CHR ca009a\nMIN', 'SET ca009a 4\
 if(sys.argv[1] == "cs05_12.log"): txt = re.sub('BPL 19\nEFF 4\n', 'BPL 19\nEFF 36\nEFF 11\n', txt)
 # 全角３個消去　ミラのミラはミラクルのミラ
 if(sys.argv[1] == "cs05_21.log"): txt = re.sub('MSG 　　　', 'MSG ', txt)
-# アイコン消去　カイト図書室で本を閲覧
-if(sys.argv[1] == "cs05_26.log"): txt = re.sub('MSG 『Ｈｉ', 'EFF 60\nMSG 『Ｈｉ', txt)
-# アイコン消去　医務室
-if(sys.argv[1] == "cs05_27.log"): txt = re.sub('MSG 妻が', 'EFF 60\nMSG 妻が', txt)
+# ICO消去　カイト図書室で本を閲覧
+if(sys.argv[1] == "cs05_26.log"): txt = re.sub('MSG 『Ｈｉ', 'CLR 8\nMSG 『Ｈｉ', txt)
+# ICO消去　医務室
+if(sys.argv[1] == "cs05_27.log"): txt = re.sub('MSG 妻が', 'CLR 8\nMSG 妻が', txt)
 # インアウト枠　ミラの部屋を出る
 if(sys.argv[1] == "cs05_31.log"): txt = re.sub('EFF 8\n', 'EFF 36\nEFF 11\n', txt)
 # 消去　ミラH
@@ -533,8 +531,8 @@ if(sys.argv[1] == "cs05_33.log"): txt = re.sub('EFF 6\n', '', txt)
 if(sys.argv[1] == "cs05_34.log"): txt = re.sub('EFF 15\n', 'EFF 9\nWAT 30\nEFF 11\n', txt)
 
 
-# MIN消去　イリア、レオナ、ドーラ飲んべ中
-if(sys.argv[1] == "cs06_03.log"): txt = re.sub('EFF 4\nBGL bg02\n', 'EFF 60\n', txt)
+# MINICO消去BGL消去　イリア、レオナ、ドーラ飲んべ中
+if(sys.argv[1] == "cs06_03.log"): txt = re.sub('EFF 4\nBGL bg02\n', 'CLR 8\nCLR 9\n', txt)
 # キャラとアイコン消去　飲み会終了
 if(sys.argv[1] == "cs06_04.log"): txt = re.sub('BST\nMSG い', 'BST\nCLR 2\nCLR 3\nEFF 33\nMSG い', txt)
 # フラッシュ　キャシーの爪攻撃
@@ -550,27 +548,27 @@ if(sys.argv[1] == "cs06_08.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLD
 
 
 # MIN消去　監視カメラ
-if(sys.argv[1] == "cs07_07.log"): txt = re.sub('ん・・・」\nKEY\n', 'ん・・・」\nKEY\nEFF 60\n', txt)
-# MIN消去　犬の死体
-if(sys.argv[1] == "cs07_09.log"): txt = re.sub('ーっ」\nKEY\n', 'ーっ」\nKEY\nEFF 60\n', txt)
+if(sys.argv[1] == "cs07_07.log"): txt = re.sub('ん・・・」\nKEY\n', 'ん・・・」\nKEY\nCLR 9\n', txt)
+# MINICO消去　犬の死体
+if(sys.argv[1] == "cs07_09.log"): txt = re.sub('ーっ」\nKEY\n', 'ーっ」\nKEY\nCLR 8\nCLR 9\n', txt)
 # MIN消去　羽の標本
-if(sys.argv[1] == "cs07_10.log"): txt = re.sub('っている。\nKEY\n', 'っている。\nKEY\nEFF 60\n', txt)
+if(sys.argv[1] == "cs07_10.log"): txt = re.sub('っている。\nKEY\n', 'っている。\nKEY\nCLR 9\n', txt)
 # ホワイトインアウト、ホワイトインアウト　一瞬の羽の記憶
 if(sys.argv[1] == "cs07_11.log"): txt = re.sub('BGL e028\nICO kait06\n', 'EFF 34\nCLR 7\nSET e028 1\nEFF 35\nWAT 60\nEFF 34\nSET bg44 1\nSET ca009b 4\nSET kait06 7\nSET mini12 8\nEFF 35\nICO kait06\n', txt)
 # アンジェラ消去　混乱している
 if(sys.argv[1] == "cs07_11.log"): txt = re.sub('SEL 話す\nICO angl0d\n', 'CLR 2\nEFF 33\nSEL 話す\nICO angl0d\n', txt)
-# MIN消去　手とICO
-if(sys.argv[1] == "cs07_11.log"): txt = re.sub('MSG 「・・・・・・\\\\eb\\\\c1」\nKEY\nMSG ・・', 'MSG 「・・・・・・\\\\eb\\\\c1」\nKEY\nEFF 60\nMSG ・・', txt)
+# MINICO消去　手をつなぐ
+if(sys.argv[1] == "cs07_11.log"): txt = re.sub('MSG 「・・・・・・\\\\eb\\\\c1」\nKEY\nMSG ・・', 'MSG 「・・・・・・\\\\eb\\\\c1」\nKEY\nCLR 8\nCLR 9\nMSG ・・', txt)
 # インアウト枠　カイト音の正体を調べる
 if(sys.argv[1] == "cs07_11.log"): txt = re.sub('EFF 4\nSSG 21\n', 'EFF 36\nEFF 11\nSSG 21\n', txt)
 # エルザ消去　カイトたちより逃走
 if(sys.argv[1] == "cs07_12.log"): txt = re.sub('EFF 4\nBST\n', 'CLR 2\nEFF 33\nBST\n', txt)
 # MIN消去　ベットの血
-if(sys.argv[1] == "cs07_13.log"): txt = re.sub('ラ・・・」\nKEY\n', 'ラ・・・」\nKEY\nEFF 60\n', txt)
+if(sys.argv[1] == "cs07_13.log"): txt = re.sub('ラ・・・」\nKEY\n', 'ラ・・・」\nKEY\nCLR 9\n', txt)
 
 
 # MIN消去　野菜の話を商人と
-if(sys.argv[1] == "cs08_02.log"): txt = re.sub('ICO xtra04\nMSG 「すまない', 'EFF 60\nICO xtra04\nMSG 「すまない', txt)
+if(sys.argv[1] == "cs08_02.log"): txt = re.sub('ICO xtra04\nMSG 「すまない', 'CLR 9\nICO xtra04\nMSG 「すまない', txt)
 # インアウト枠　酒場の後のセイラム村
 if(sys.argv[1] == "cs08_06.log"): txt = re.sub('BPL 17\nEFF 4\n', 'BPL 17\nEFF 36\nEFF 11\n', txt)
 # インキャラアイコン消去アウト　ローズマリーに診てもらう
@@ -730,7 +728,7 @@ if(sys.argv[1] == "cs13_40.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLD
 
 
 # MIN消去　手を放す
-if(sys.argv[1] == "cs14_01.log"): txt = re.sub('ICO angl22\n', 'EFF 60\nICO angl22\n', txt)
+if(sys.argv[1] == "cs14_01.log"): txt = re.sub('ICO angl22\n', 'CLR 9\nICO angl22\n', txt)
 # インアウト枠　社の外
 if(sys.argv[1] == "cs14_01.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # インアウト枠　薬を手に入れる決意
@@ -862,11 +860,11 @@ if(sys.argv[1] == "cs17_27.log"): txt = re.sub('EFF 6\n', 'EFF 9\nEFF 11\n', txt
 # UD黒＋アウト枠　研究所に移動
 if(sys.argv[1] == "cs17_30.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # MIN消去　犬の死体
-if(sys.argv[1] == "cs17_33.log"): txt = re.sub('SEL 話す\nICO angl08\n', 'EFF 60\nSEL 話す\nICO angl08\n', txt)
-# MIN消去　コンピュータ
-if(sys.argv[1] == "cs17_35.log"): txt = re.sub('SEL 話す\nMSG 壁の', 'EFF 60\nSEL 話す\nMSG 壁の', txt)
+if(sys.argv[1] == "cs17_33.log"): txt = re.sub('SEL 話す\nICO angl08\n', 'CLR 9\nSEL 話す\nICO angl08\n', txt)
+# MINICO消去　コンピュータ
+if(sys.argv[1] == "cs17_35.log"): txt = re.sub('SEL 話す\nMSG 壁の', 'CLR 8\nCLR 9\nSEL 話す\nMSG 壁の', txt)
 # MIN消去　ラビィの宝石
-if(sys.argv[1] == "cs17_37.log"): txt = re.sub('・・・）\nKEY\n', '・・・）\nKEY\nEFF 60\n', txt)
+if(sys.argv[1] == "cs17_37.log"): txt = re.sub('・・・）\nKEY\n', '・・・）\nKEY\nCLR 9\n', txt)
 # インアウト枠　ディライアにイジュウインシティを案内してもらう
 if(sys.argv[1] == "cs17_42.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # インアウト枠　ラビィを気長に待つ
@@ -921,18 +919,18 @@ if(sys.argv[1] == "cs19_02.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLD
 if(sys.argv[1] == "cs19_03.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # インアウト枠　入口
 if(sys.argv[1] == "cs19_04.log"): txt = re.sub('EFF 4\nSSG 21', 'EFF 36\nEFF 11\nSSG 21', txt)
-# MIN消去　アメーバ
-if(sys.argv[1] == "cs19_06.log"): txt = re.sub('MSG 我に返った', 'EFF 60\nMSG 我に返った', txt)
+# MINICO消去　アメーバ
+if(sys.argv[1] == "cs19_06.log"): txt = re.sub('MSG 我に返った', 'CLR 8\nCLR 9\nMSG 我に返った', txt)
 # MIN消去　鉄格子
-if(sys.argv[1] == "cs19_08.log"): txt = re.sub('ICO kait17\nMSG 「すっ', 'EFF 60\nICO kait17\nMSG 「すっ', txt)
+if(sys.argv[1] == "cs19_08.log"): txt = re.sub('ICO kait17\nMSG 「すっ', 'CLR 9\nICO kait17\nMSG 「すっ', txt)
 
 
 # インアウト枠　部屋に入る
 if(sys.argv[1] == "cs20_05.log"): txt = re.sub('EFF 4\nBST', 'EFF 36\nEFF 11\nBST', txt)
 # インアウト枠　風呂
 if(sys.argv[1] == "cs20_05.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
-# MIN消去　クラゲ
-if(sys.argv[1] == "cs20_07.log"): txt = re.sub('MSG 僕は意', 'EFF 60\nMSG 僕は意', txt)
+# MINICO消去　クラゲをロボットに付ける
+if(sys.argv[1] == "cs20_07.log"): txt = re.sub('MSG 僕は意', 'CLR 8\nCLR 9\nMSG 僕は意', txt)
 
 
 # インアウト枠　Ａ級市民居住区の扉を開ける
@@ -940,19 +938,19 @@ if(sys.argv[1] == "cs21_01.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLD
 # 消去
 if(sys.argv[1] == "cs21_02.log"): txt = re.sub('EFF 8\nBGL bg13\n', '', txt)
 # MIN消去　カイト背中
-if(sys.argv[1] == "cs21_05.log"): txt = re.sub('SEL 話す\nICO irih16\n', 'EFF 60\nSEL 話す\nICO irih16\n', txt)
+if(sys.argv[1] == "cs21_05.log"): txt = re.sub('SEL 話す\nICO irih16\n', 'CLR 9\nSEL 話す\nICO irih16\n', txt)
 # インアウト枠　ビィの会話終了
 if(sys.argv[1] == "cs21_08.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # インアウト枠　エルザの部屋扉前、地図を見て
 if(sys.argv[1] == "cs21_09.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
-# MIN消去　イリアが扉の錠を壊す
-if(sys.argv[1] == "cs21_10.log"): txt = re.sub('SSG 26\n', 'EFF 60\nSSG 26\n', txt)
+# MINICO消去　イリアが扉の錠を壊す
+if(sys.argv[1] == "cs21_10.log"): txt = re.sub('SSG 26\n', 'CLR 8\nCLR 9\nSSG 26\n', txt)
 # イン＋キャラ消去＋アウト枠　エルザに事情説明
 if(sys.argv[1] == "cs21_10.log"): txt = re.sub('LDS', 'EFF 36\nCLR 2\nEFF 37\nLDS', txt)
-# MIN消去　アンジェラとカイト手をつなぐ
-if(sys.argv[1] == "cs21_12.log"): txt = re.sub('MSG アンジェラは僕', 'EFF 60\nMSG アンジェラは僕', txt)
+# MINICO消去　アンジェラとカイト手をつなぐ
+if(sys.argv[1] == "cs21_12.log"): txt = re.sub('MSG アンジェラは僕', 'CLR 8\nCLR 9\nMSG アンジェラは僕', txt)
 # MIN消去　アンジェラ、エルザにキス
-if(sys.argv[1] == "cs21_12.log"): txt = re.sub('ICO angl0f\nMSG 「それじゃ', 'EFF 60\nICO angl0f\nMSG 「それじゃ', txt)
+if(sys.argv[1] == "cs21_12.log"): txt = re.sub('ICO angl0f\nMSG 「それじゃ', 'CLR 9\nICO angl0f\nMSG 「それじゃ', txt)
 # インアウト枠　エルザの部屋から出る
 if(sys.argv[1] == "cs21_12.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # インアウト枠　誘導されてる（正規表現２回）
@@ -964,15 +962,19 @@ if(sys.argv[1] == "cs21_13.log"): txt = re.sub('BST\nEFF 4\n', 'BST\nEFF 36\nEFF
 # インアウト枠　コンピュータを探そう
 if(sys.argv[1] == "cs22_01.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLDS', txt)
 # MIN消去　アンジェラキス
-if(sys.argv[1] == "cs22_04.log"): txt = re.sub('ICO angl05\nMSG 「これで', 'EFF 60\nICO angl05\nMSG 「これで', txt)
+if(sys.argv[1] == "cs22_04.log"): txt = re.sub('ICO angl05\nMSG 「これで', 'CLR 9\nICO angl05\nMSG 「これで', txt)
 # インアウト枠　ハーパー博士の部屋を出る
 if(sys.argv[1] == "cs22_09.log"): txt = re.sub('BST\nEFF 4\n', 'BST\nEFF 36\nEFF 11\n', txt)
+# 消去　音楽再演奏
+if(sys.argv[1] == "cs22_10.log"): txt = re.sub('BST\nBPL 20\n', '', txt)
 # 消去　レオナH
 if(sys.argv[1] == "cs22_13.log"): txt = re.sub('EFF 9\n', '', txt)
 # 消去　レオナH
 if(sys.argv[1] == "cs22_13.log"): txt = re.sub('EFF 6\n', 'EFF 9\n', txt)
 # インアウト枠　レオナH終了
 if(sys.argv[1] == "cs22_13.log"): txt = re.sub('EFF 11\n', 'EFF 36\nEFF 11\n', txt)
+# 消去　音楽再演奏
+if(sys.argv[1] == "cs22_14.log"): txt = re.sub('BST\nBPL 20\n', '', txt)
 # 消去　ドーラH
 if(sys.argv[1] == "cs22_16.log"): txt = re.sub('EFF 6\n', '', txt)
 # 消去　ドーラH
@@ -1048,7 +1050,7 @@ if(sys.argv[1] == "cs23_12.log"): txt = re.sub('EFF 12\nCHR ca010c\n', 'EFF 36\n
 # ホワイトインアウト枠　地球
 if(sys.argv[1] == "cs23_12.log"): txt = re.sub('EFF 4\nLDS', 'EFF 34\nCLR 7\nSET waku06b 1\nEFF 35\nLDS', txt)
 # MIN消去　ミズクラゲの代わり
-if(sys.argv[1] == "cs23_14.log"): txt = re.sub('というわけや」\nKEY\n', 'というわけや」\nKEY\nEFF 60\n', txt)
+if(sys.argv[1] == "cs23_14.log"): txt = re.sub('というわけや」\nKEY\n', 'というわけや」\nKEY\nCLR 9\n', txt)
 
 
 # インアウト枠　アンジェラを救出に行く
@@ -1092,7 +1094,7 @@ if(sys.argv[1] == "cs26_04.log"): txt = re.sub('BGL e007_\nBGL e012b2\n', 'BGL e
 # フラッシュ３回　爆発（本来は５回だが眩しすぎる為）
 if(sys.argv[1] == "cs26_04.log"): txt = re.sub('MSG 同時に', 'EFF 41\nEFF 41\nEFF 41\nMSG 同時に', txt)
 # ホワイトインアウト枠　戦闘終了
-if(sys.argv[1] == "cs26_04.log"): txt = re.sub('EFF 4\nPTY pty050\n', 'EFF 34\nCLR 7\nSET waku06b 1\nEFF 35\nPTY pty050\n', txt)
+if(sys.argv[1] == "cs26_04.log"): txt = re.sub('EFF 4\nPTY pty050\n', 'EFF 34\nCLR 7\nSET waku06b 1\nWAT 60\nEFF 35\nPTY pty050\n', txt)
 
 
 # キャラ消去　脱出するだけ

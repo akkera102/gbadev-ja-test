@@ -157,7 +157,6 @@ EWRAM_CODE void NvExecLoad(void)
 	case 0:
 		LogInit();
 		TxtHideMsg();
-		MenuSetChap(Nv.chap);
 		ImgSetEff(IMG_EFFECT_IGNORE_LOAD_IN);
 
 		Nv.step++;
@@ -198,6 +197,11 @@ EWRAM_CODE void NvSetAct(s32 act)
 EWRAM_CODE void NvSetSkip(void)
 {
 	Nv.isSkip = true;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE s32 NvGetChap(void)
+{
+	return Nv.chap;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool NvIsSkip(void)

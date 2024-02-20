@@ -38,12 +38,12 @@ EWRAM_CODE void SeStop(void)
 	VgmStop();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool SeIsEnd(void)
+EWRAM_CODE bool SeIsPlay(void)
 {
 	if(Se.isWait == false)
 	{
-		return true;
+		return false;
 	}
 
-	return VgmIsEnd();
+	return VgmIsPlay();
 }

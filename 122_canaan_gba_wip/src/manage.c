@@ -86,7 +86,6 @@ EWRAM_CODE void ManageExecInit(void)
 	// NvSetTxt(9, 19);
 	// DUUDスクロールエフェクト
 	// NvSetTxt(23, 2);
-	// NvSetTxt(28, 4);
 	// Manage.act = MANAGE_ACT_NOVEL;
 
 	// DEBUG2
@@ -96,7 +95,7 @@ EWRAM_CODE void ManageExecInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
 {
-	if(SeIsEnd() == false)
+	if(SeIsPlay() == true)
 	{
 		return;
 	}
