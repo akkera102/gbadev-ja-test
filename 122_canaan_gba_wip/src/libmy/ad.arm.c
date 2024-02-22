@@ -34,7 +34,7 @@ s32 AdIndiceTable[16] = {
 	-1, -1, -1, -1, 2, 4, 7, 12,
 };
 
-s32 AdStepTable[89] = {
+u32 AdStepTable[89] = {
 	      7,    8,    9,   10,   11,   12,   13,   14,   16,   17,
 	     19,   21,   23,   25,   28,   31,   34,   37,   41,   45,
 	     50,   55,   60,   66,   73,   80,   88,   97,  107,  118,
@@ -65,6 +65,7 @@ EWRAM_CODE void AdInit(void)
 IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
 {
 	AdStop();
+	AdInit();
 
 	Ad.isLoop   = isLoop;
 	Ad.pCur     = pDat;
@@ -74,7 +75,6 @@ IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
 	Ad.lastIdx  = 0;
 	Ad.bufIdx   = 0;
 
-	REG_TM0CNT_H = 0;
 	REG_TM0CNT_L = 0x10000 - AD_SAMPLE_TIME;
 	REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
 
@@ -86,20 +86,13 @@ IWRAM_CODE void AdReset(void)
 	Ad.pCur     = Ad.pTop;
 	Ad.lastSamp = 0;
 	Ad.lastIdx  = 0;
-	Ad.bufIdx   = 0;
-
-	REG_TM0CNT_H = 0;
-	REG_TM0CNT_L = 0x10000 - AD_SAMPLE_TIME;
-	REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
-
-	Ad.act = AD_ACT_READY;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdStop(void)
 {
 	REG_SOUNDCNT_H &= ~(SNDA_R_ENABLE | SNDA_L_ENABLE);
 	REG_DMA1CNT = 0;
-//	REG_SOUNDCNT_H |=  (SNDA_RESET_FIFO);
+	REG_SOUNDCNT_H |=  (SNDA_RESET_FIFO);
 
 	Ad.act = AD_ACT_STOP;
 }

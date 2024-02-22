@@ -228,9 +228,9 @@ strCls
 wait 60
 
 fontCol 3
-str 5 3 シナリオ協力
-str 6 4 西崎圭一
-str 5 5 たいらひとし
+str 5 4 シナリオ協力
+str 6 5 西崎圭一
+str 5 6 たいらひとし
 fontIn
 wait 120
 fontOut
@@ -238,9 +238,9 @@ strCls
 wait 60
 
 fontCol 3
-str 6 3 メイン原画
-str 6 4 輪月伽吉巳
-str 4 5 きゃろらいんようこ
+str 6 4 メイン原画
+str 6 5 輪月伽吉巳
+str 4 6 きゃろらいんようこ
 fontIn
 wait 120
 fontOut

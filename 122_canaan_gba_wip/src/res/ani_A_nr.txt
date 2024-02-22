@@ -8,7 +8,7 @@ effect 37
 
 wait 20
 str 4 2 本体の電源を切り、
-str 4 4 後編ロムに
+str 4 4 後編のロムに
 str 4 6 差し替えてください。
 str 6 8 前編　終了
 wait 600
