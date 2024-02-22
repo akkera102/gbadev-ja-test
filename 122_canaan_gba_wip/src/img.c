@@ -85,17 +85,22 @@ EWRAM_CODE void ImgExec(void)
 		ImgExecFlash();
 		break;
 
-	case IMG_EFFECT_FLASH2:
-		ImgExecFlash2();
+	case IMG_EFFECT_FLASH_DRAW:
+		ImgExecFlashDraw();
+		break;
+
+	case IMG_EFFECT_BUFFER:
+		ImgExecBuffer();
+		break;
+
+	case IMG_EFFECT_BUFFER_DRAW:
+		ImgExecBufferDraw();
 		break;
 
 	case IMG_EFFECT_TXT_IN:
 		ImgExecTxtIn();
 		break;
 
-	case IMG_EFFECT_BUFFER:
-		ImgExecBuffer();
-		break;
 
 	case IMG_EFFECT_IGNORE_LOAD_IN:
 		ImgExecLoadIn();
@@ -111,6 +116,30 @@ EWRAM_CODE void ImgExec(void)
 
 	case IMG_EFFECT_IGNORE_WAIT_ICO:
 		ImgExecWaitIco();
+		break;
+
+	case IMG_EFFECT_ANIME_SLOW_WHITE_IN:
+		ImgExecSlowWhiteIn();
+		break;
+
+	case IMG_EFFECT_ANIME_SLOW_WHITE_OUT:
+		ImgExecSlowWhiteOut();
+		break;
+
+	case IMG_EFFECT_ANIME_SLOW_BLACK_IN:
+		ImgExecSlowBlackIn();
+		break;
+
+	case IMG_EFFECT_ANIME_SLOW_BLACK_OUT:
+		ImgExecSlowBlackOut();
+		break;
+
+	case IMG_EFFECT_ANIME_MOVE_LR:
+		ImgExecMoveLr();
+		break;
+
+	case IMG_EFFECT_ANIME_MOVE_RL:
+		ImgExecMoveRl();
 		break;
 
 	default:
@@ -408,7 +437,8 @@ EWRAM_CODE void ImgExecFlash(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecFlash2(void)
+// èëÇ´ä∑Ç¶Ç†ÇË
+EWRAM_CODE void ImgExecFlashDraw(void)
 {
 	if(Img.var[0]++ < 16)
 	{
@@ -433,9 +463,15 @@ EWRAM_CODE void ImgExecFlash2(void)
 
 	Img.isEffect = false;
 }
-
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgExecBuffer(void)
+{
+	ImgDrawBuf();
+
+	Img.isEffect = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecBufferDraw(void)
 {
 	Mode3SetDraw();
 
@@ -570,6 +606,168 @@ EWRAM_CODE void ImgExecWaitIco(void)
 	}
 
 	Img.isEffect = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecSlowWhiteIn(void)
+{
+	if(Img.var[0]++ < 8)
+	{
+		return;
+	}
+	Img.var[0] = 0;
+
+	if(Img.var[1]++ < 16)
+	{
+		FadeSetWhite(Img.var[1]);
+
+		return;
+	}
+
+	if(Img.var[2]++ == 0)
+	{
+		Mode3DrawFill(RGB5(31,31,31));
+		Mode3SetDraw();
+
+		return;
+	}
+
+	FadeSetWhite(0);
+	Img.isEffect = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecSlowWhiteOut(void)
+{
+	if(Img.var[0]++ == 0)
+	{
+		FadeSetWhite(16);
+		ImgDrawBuf();
+		Mode3SetDraw();
+	}
+
+	if(Img.var[1]++ < 8)
+	{
+		return;
+	}
+	Img.var[1] = 0;
+
+	if(Img.var[2]++ < 16)
+	{
+		FadeSetWhite(16 - Img.var[2]);
+
+		return;
+	}
+
+	Img.isEffect = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecSlowBlackIn(void)
+{
+	if(Img.var[0]++ < 8)
+	{
+		return;
+	}
+	Img.var[0] = 0;
+
+	if(Img.var[1]++ < 16)
+	{
+		FadeSetBlack(Img.var[1]);
+
+		return;
+	}
+
+	if(Img.var[2]++ == 0)
+	{
+		Mode3DrawFill(RGB5(0,0,0));
+		Mode3SetDraw();
+
+		return;
+	}
+
+	FadeSetBlack(0);
+	Img.isEffect = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecSlowBlackOut(void)
+{
+	if(Img.var[0]++ == 0)
+	{
+		FadeSetBlack(16);
+		ImgDrawBuf();
+		Mode3SetDraw();
+	}
+
+	if(Img.var[1]++ < 8)
+	{
+		return;
+	}
+	Img.var[1] = 0;
+
+	if(Img.var[2]++ < 16)
+	{
+		FadeSetBlack(16 - Img.var[2]);
+
+		return;
+	}
+
+	Img.isEffect = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecMoveLr(void)
+{
+	if(Img.var[0]++ == 0)
+	{
+		ImgDrawBuf();
+		Img.var[2] = 4;
+		return;
+	}
+
+	// wait
+	if(Img.var[1] < 2)
+	{
+		Img.var[1]++;
+		return;
+	}
+	Img.var[1] = 0;
+
+	Mode3VramCrop2(4, 0, SCREEN_CX - 4, SCREEN_CY, 0, 0);
+	Mode3VramCrop(0, 0, Img.var[2], SCREEN_CY, SCREEN_CX - Img.var[2], 0);
+//	TRACE("%d %d,%d %d,%d, e:%d,%d\n", Img.var[2], 4, 0, SCREEN_CX - 4, SCREEN_CY, 0, 0);
+//	TRACE("%d %d,%d %d,%d, e:%d,%d\n", Img.var[2], 0, 0, Img.var[2], SCREEN_CY, SCREEN_CX - Img.var[2], 0);
+	Img.var[2] += 4;
+
+	if(Img.var[2] > SCREEN_CX)
+	{
+		Img.isEffect = false;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecMoveRl(void)
+{
+	if(Img.var[0]++ == 0)
+	{
+		ImgDrawBuf();
+		Img.var[2] = 4;
+		return;
+	}
+
+	// wait
+	if(Img.var[1] < 2)
+	{
+		Img.var[1]++;
+		return;
+	}
+	Img.var[1] = 0;
+
+	Mode3VramCrop2b(Img.var[2] - 4, 0, SCREEN_CX - Img.var[2], SCREEN_CY, Img.var[2], 0);
+	Mode3VramCrop(SCREEN_CX - Img.var[2], 0, Img.var[2], SCREEN_CY, 0, 0);
+//	TRACE("%d %d,%d %d,%d, e:%d,%d\n", Img.var[2], Img.var[2] - 4, 0, SCREEN_CX - Img.var[2], SCREEN_CY, Img.var[2], 0);
+//	TRACE("%d %d,%d %d,%d, e:%d,%d\n", Img.var[2], SCREEN_CX - Img.var[2], 0, Img.var[2], SCREEN_CY, 0, 0);
+	Img.var[2] += 4;
+
+	if(Img.var[2] > SCREEN_CX)
+	{
+		Img.isEffect = false;
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawBuf(void)
@@ -960,6 +1158,12 @@ EWRAM_CODE void ImgSetFade(s32 num)
 EWRAM_CODE void ImgSetFade2(s32 num)
 {
 	FadeSetBlack(num);
+}
+//---------------------------------------------------------------------------
+// ÉçÅ[Éhéûçƒê›íË
+EWRAM_CODE void ImgSetFade3(void)
+{
+	FadeSetBlack(Img.fade);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetFadeWait(s32 num)

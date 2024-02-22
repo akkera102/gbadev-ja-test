@@ -19,6 +19,8 @@ for %%f in (*.txt) do python ..\..\exe\txt\txt2txt.py %%f
 
 cd ..
 
+
+rem ---------------------------------
 rem call ..\exe\rom1.bat
 rem copy /Y test1.gbfs ..\..\src\test1.gbfs
 

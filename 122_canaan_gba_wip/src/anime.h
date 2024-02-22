@@ -8,7 +8,7 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define ANIME_MAX_PAT_CNT			16
+#define ANIME_MAX_PAT_CNT			22
 #define ANIME_MAX_DAT_CNT			10
 #define ANIME_MAX_STR_SIZE			10
 
@@ -42,9 +42,14 @@ typedef struct {
 	bool  isSkip;
 	s32   wait;
 	u32   waitBgm;
-	s32   var;
+	s32   waitFontIn;
+	s32   waitFontOut;
+	s32   waitBlend;
 	s32   arg;
+	s32   var[4];
 
+	s32   envFadeWait;
+	s32   envSelCol;
 } ST_ANIME;
 
 
@@ -70,13 +75,19 @@ EWRAM_CODE void AnimeExecClear(void);
 EWRAM_CODE void AnimeExecStr(void);
 EWRAM_CODE void AnimeExecStrCls(void);
 EWRAM_CODE void AnimeExecEffect(void);
+EWRAM_CODE void AnimeExecBlend(void);
 EWRAM_CODE void AnimeExecWait(void);
 EWRAM_CODE void AnimeExecWaitBgm(void);
 EWRAM_CODE void AnimeExecBgm(void);
 EWRAM_CODE void AnimeExecBgmStop(void);
 EWRAM_CODE void AnimeExecSkip(void);
 EWRAM_CODE void AnimeExecSkipMark(void);
+EWRAM_CODE void AnimeExecFontCol(void);
+EWRAM_CODE void AnimeExecFontIn(void);
+EWRAM_CODE void AnimeExecFontOut(void);
 EWRAM_CODE void AnimeExecEnd(void);
+EWRAM_CODE void AnimeExecEnvSave(void);
+EWRAM_CODE void AnimeExecEnvLoad(void);
 
 EWRAM_CODE bool AnimeIsExec(void);
 

@@ -107,8 +107,8 @@ IWRAM_CODE void Mode3DrawBlend(s32 sx, s32 sy, s32 cx, s32 cy, u16* pImg, u8* pM
 			}
 			else
 			{
-				s32 rb = *pD & 0x7c1f;
-				s32 g  = *pD & 0x03e0;
+				u32 rb = *pD & 0x7c1f;
+				u32 g  = *pD & 0x03e0;
 				rb    += (((*pS & 0x7c1f) - rb) * *pM) >> 5;
 				g     += (((*pS & 0x03e0) - g ) * *pM) >> 5;
 				*pD    = (rb & 0x7c1f) | (g & 0x03e0);
@@ -186,6 +186,20 @@ IWRAM_CODE void Mode3VramCrop2(s32 sx, s32 sy, s32 cx, s32 cy, s32 ex, s32 ey)
 	}
 }
 //---------------------------------------------------------------------------
+// VRAM <- VRAM x minus dir
+IWRAM_CODE void Mode3VramCrop2b(s32 sx, s32 sy, s32 cx, s32 cy, s32 ex, s32 ey)
+{
+	s32 x, y;
+
+	for(y=0; y<cy; y++)
+	{
+		for(x=cx-1; x>=0; x--)
+		{
+			((u16*)VRAM)[(ey + y) * SCREEN_CX + (ex + x)] = ((u16*)VRAM)[(sy + y) * SCREEN_CX + (sx + x)];
+		}
+	}
+}
+//---------------------------------------------------------------------------
 // VRAM <- Img
 IWRAM_CODE void Mode3VramCrop3(s32 sx, s32 sy, s32 cx, s32 cy, u16* pImg)
 {
@@ -201,6 +215,42 @@ IWRAM_CODE void Mode3VramCrop3(s32 sx, s32 sy, s32 cx, s32 cy, u16* pImg)
 
 		pS += cx;
 		pD += SCREEN_CX;
+	}
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3VramBlendCopy(s32 sx, s32 sy, s32 cx, s32 cy, u8 msk)
+{
+	u16* pS = Mode3.buf + sy * SCREEN_CX + sx;
+	u16* pD = (u16*)VRAM + sy * SCREEN_CX + sx;
+	s32 x, y;
+
+	for(y=sy; y<sy+cy; y++)
+	{
+		for(x=sx; x<sx+cx; x++)
+		{
+			if(msk == 0x00)
+			{
+				// EMPTY
+			}
+			else if(msk == 0x1f)
+			{
+				*pD = *pS;
+			}
+			else
+			{
+				u32 rb = *pD & 0x7c1f;
+				u32 g  = *pD & 0x03e0;
+				rb    += (((*pS & 0x7c1f) - rb) * msk) >> 5;
+				g     += (((*pS & 0x03e0) - g ) * msk) >> 5;
+				*pD    = (rb & 0x7c1f) | (g & 0x03e0);
+			}
+
+			pS++;
+			pD++;
+		}
+
+		pS += SCREEN_CX - cx;
+		pD += SCREEN_CX - cx;
 	}
 }
 //---------------------------------------------------------------------------

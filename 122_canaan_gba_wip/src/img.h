@@ -34,37 +34,38 @@ enum {
 	IMG_EFFECT_SCRIPT_15,
 
 	// img.cで使用されるエフェクト
-	IMG_EFFECT_NONE = 30,			// 30
-	IMG_EFFECT_NORMAL,				// 31
-	IMG_EFFECT_WIPE_LR,				// 32
-	IMG_EFFECT_WIPE_UD,				// 33
-	IMG_EFFECT_WHITE_IN,			// 34
-	IMG_EFFECT_WHITE_OUT,			// 35
-	IMG_EFFECT_BLACK_IN,			// 36
-	IMG_EFFECT_BLACK_OUT,			// 37
-	IMG_EFFECT_SCROLL_UD,			// 38
-	IMG_EFFECT_SCROLL_DU,			// 39
-	IMG_EFFECT_FALL,				// 40
-	IMG_EFFECT_FLASH,				// 41
-	IMG_EFFECT_FLASH2,				// 42
-	IMG_EFFECT_BUFFER,				// 43
-	IMG_EFFECT_TXT_IN,				// 44
-	IMG_EFFECT_TXT_OUT,				// 45
+	IMG_EFFECT_NONE = 30,					// 30
+	IMG_EFFECT_NORMAL,						// 31
+	IMG_EFFECT_WIPE_LR,						// 32
+	IMG_EFFECT_WIPE_UD,						// 33
+	IMG_EFFECT_WHITE_IN,					// 34
+	IMG_EFFECT_WHITE_OUT,					// 35
+	IMG_EFFECT_BLACK_IN,					// 36
+	IMG_EFFECT_BLACK_OUT,					// 37
+	IMG_EFFECT_SCROLL_UD,					// 38
+	IMG_EFFECT_SCROLL_DU,					// 39
+	IMG_EFFECT_FALL,						// 40
+	IMG_EFFECT_FLASH,						// 41
+	IMG_EFFECT_FLASH_DRAW,					// 42
+	IMG_EFFECT_BUFFER,						// 43
+	IMG_EFFECT_BUFFER_DRAW,					// 44
+	IMG_EFFECT_TXT_IN,						// 45
+	IMG_EFFECT_TXT_OUT,						// 46
 
 	// 以降はテキストフェード処理を無視したエフェクト
-	IMG_EFFECT_IGNORE_NORMAL = 60,	// 60
-	IMG_EFFECT_IGNORE_LOAD_IN,		// 61
-	IMG_EFFECT_IGNORE_LOAD_OUT,		// 62
-	IMG_EFFECT_IGNORE_BG_CHR_SCR,	// 63
-	IMG_EFFECT_IGNORE_WAIT_ICO,		// 64
+	IMG_EFFECT_IGNORE_NORMAL = 60,			// 60
+	IMG_EFFECT_IGNORE_LOAD_IN,				// 61
+	IMG_EFFECT_IGNORE_LOAD_OUT,				// 62
+	IMG_EFFECT_IGNORE_BG_CHR_SCR,			// 63
+	IMG_EFFECT_IGNORE_WAIT_ICO,				// 64
 
 	// オープニング、エンディングエフェクト
-	IMG_EFFECT_ANIME_WHITE_IN = 80,	// 80
-	IMG_EFFECT_ANIME_WHITE_OUT,		// 81
-	IMG_EFFECT_ANIME_BLACK_IN,		// 82
-	IMG_EFFECT_ANIME_BLACK_OUT,		// 83
-	IMG_EFFECT_ANIME_MOVE_LR,		// 84
-	IMG_EFFECT_ANIME_MOVE_RL,		// 85
+	IMG_EFFECT_ANIME_SLOW_WHITE_IN = 90,	// 90
+	IMG_EFFECT_ANIME_SLOW_WHITE_OUT,		// 91
+	IMG_EFFECT_ANIME_SLOW_BLACK_IN,			// 92
+	IMG_EFFECT_ANIME_SLOW_BLACK_OUT,		// 93
+	IMG_EFFECT_ANIME_MOVE_LR,				// 94
+	IMG_EFFECT_ANIME_MOVE_RL,				// 95
 
 };
 
@@ -128,8 +129,9 @@ EWRAM_CODE void ImgExecScrollUd(void);
 EWRAM_CODE void ImgExecScrollDu(void);
 EWRAM_CODE void ImgExecFall(void);
 EWRAM_CODE void ImgExecFlash(void);
-EWRAM_CODE void ImgExecFlash2(void);
+EWRAM_CODE void ImgExecFlashDraw(void);
 EWRAM_CODE void ImgExecBuffer(void);
+EWRAM_CODE void ImgExecBufferDraw(void);
 
 EWRAM_CODE void ImgExecTxtIn(void);
 EWRAM_CODE void ImgExecTxtOut(void);
@@ -137,6 +139,13 @@ EWRAM_CODE void ImgExecLoadIn(void);
 EWRAM_CODE void ImgExecLoadOut(void);
 EWRAM_CODE void ImgExecBgChrScr(void);
 EWRAM_CODE void ImgExecWaitIco(void);
+
+EWRAM_CODE void ImgExecSlowWhiteIn(void);
+EWRAM_CODE void ImgExecSlowWhiteOut(void);
+EWRAM_CODE void ImgExecSlowBlackIn(void);
+EWRAM_CODE void ImgExecSlowBlackOut(void);
+EWRAM_CODE void ImgExecMoveLr(void);
+EWRAM_CODE void ImgExecMoveRl(void);
 
 EWRAM_CODE void ImgDrawBuf(void);
 EWRAM_CODE void ImgDrawVram(void);
@@ -177,6 +186,7 @@ EWRAM_CODE s32  ImgGetFadeWait(void);
 EWRAM_CODE s32  ImgGetSelCol(void);
 EWRAM_CODE void ImgSetFade(s32 num);
 EWRAM_CODE void ImgSetFade2(s32 num);
+EWRAM_CODE void ImgSetFade3(void);
 EWRAM_CODE void ImgSetFadeWait(s32 num);
 EWRAM_CODE void ImgSetSelCol(s32 num);
 

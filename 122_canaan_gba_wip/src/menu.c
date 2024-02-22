@@ -177,6 +177,14 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 
 	// ゲーム終了
 	case 6:
+		ImgInit();
+		TxtInit();
+		LogInit();
+		MenuInit();
+		SioriInit();
+		NvInit();
+		AnimeInit();
+
 		AnimeSetDat(ANIME_DAT_TITLE);
 		ManageSetNovel();
 		break;
@@ -379,8 +387,6 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 	{
 	// ゲームを始める
 	case 0:
-		ImgSetEff(IMG_EFFECT_BLACK_IN);
-
 		if(FileIsFirstPart() == true)
 		{
 			NvSetTxt(0, 1);
@@ -389,6 +395,9 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 		{
 			NvSetTxt(18, 1);
 		}
+
+		LogInit();
+		ImgSetEff(IMG_EFFECT_BLACK_IN);
 
 		NvSetAct(NV_ACT_PARSE);
 		ManageSetNovel();

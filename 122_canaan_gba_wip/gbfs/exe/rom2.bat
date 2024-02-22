@@ -1354,6 +1354,7 @@ copy txt\cs28_05.txt rom2 > nul
 copy txt\cs28_06.txt rom2 > nul
 
 rem エンディング
+copy snd\g423_86.snd rom2 > nul
 copy img\ed00.img rom2 > nul
 copy img\s003.img rom2 > nul
 copy img\s004.img rom2 > nul
@@ -1388,6 +1389,3 @@ copy img\end_t.img rom2 > nul
 rem タイトル
 copy img\titlep.img rom2 > nul
 
-
-..\exe\rom\gbfs test2.gbfs rom2\*.* ..\exe\rom\savid.bin
-copy /Y test2.gbfs ..\..\src\test.gbfs

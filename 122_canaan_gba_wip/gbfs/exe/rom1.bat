@@ -1500,8 +1500,6 @@ copy img\pata14.img rom1 > nul
 copy img\pata15.img rom1 > nul
 copy img\pata16.img rom1 > nul
 
-copy snd\g400_86.snd rom1 > nul
-copy snd\g401_86.snd rom1 > nul
 copy snd\g402_86.snd rom1 > nul
 copy snd\g403_86.snd rom1 > nul
 copy snd\g404_86.snd rom1 > nul
@@ -1888,6 +1886,7 @@ copy txt\cs17_49.txt rom1 > nul
 copy txt\cs17_50.txt rom1 > nul
 
 rem オープニング
+copy snd\g401_86.snd rom1 > nul
 copy img\bg12.img rom1 > nul
 copy img\e036.img rom1 > nul
 copy img\e037.img rom1 > nul
@@ -1906,5 +1905,3 @@ copy img\s059.img rom1 > nul
 copy img\s061.img rom1 > nul
 copy img\titlep.img rom1 > nul
 
-..\exe\rom\gbfs test1.gbfs rom1\*.* ..\exe\rom\savid.bin
-copy /Y test1.gbfs ..\..\src\test.gbfs

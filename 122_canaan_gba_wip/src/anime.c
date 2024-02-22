@@ -3,6 +3,7 @@
 #include "libmy/key.h"
 #include "libmy/lex.h"
 #include "libmy/mode3.h"
+#include "libmy/spr.h"
 #include "img.h"
 #include "bgm.h"
 #include "manage.h"
@@ -20,12 +21,18 @@ ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "str",      (void*)AnimeExecStr      },
 	{ "strCls",   (void*)AnimeExecStrCls   },
 	{ "effect",   (void*)AnimeExecEffect   },
+	{ "blend",    (void*)AnimeExecBlend    },
 	{ "wait",     (void*)AnimeExecWait     },
 	{ "waitBgm",  (void*)AnimeExecWaitBgm  },
 	{ "bgm",      (void*)AnimeExecBgm      },
 	{ "bgmStop",  (void*)AnimeExecBgmStop  },
 	{ "skip",     (void*)AnimeExecSkip     },
 	{ "skipMark", (void*)AnimeExecSkipMark },
+	{ "fontCol",  (void*)AnimeExecFontCol  },
+	{ "fontIn",   (void*)AnimeExecFontIn   },
+	{ "fontOut",  (void*)AnimeExecFontOut  },
+	{ "envSave",  (void*)AnimeExecEnvSave  },
+	{ "envLoad",  (void*)AnimeExecEnvLoad  },
 	{ "end",      (void*)AnimeExecEnd      },
 };
 
@@ -88,6 +95,31 @@ EWRAM_CODE void AnimeExec(void)
 	{
 		Anime.wait--;
 
+		return;
+	}
+
+	if(Anime.waitBlend != 0)
+	{
+		Mode3VramBlendCopy(Anime.var[0], Anime.var[1], Anime.var[2], Anime.var[3], 32 - Anime.waitBlend);
+		Anime.waitBlend--;
+		return;
+	}
+
+	if(Anime.waitFontIn != 0)
+	{
+		u32 c = 32 - Anime.waitFontIn;
+		SprSetSelectCol(RGB5(c,c,c));
+
+		Anime.waitFontIn--;
+		return;
+	}
+
+	if(Anime.waitFontOut != 0)
+	{
+		u32 c = Anime.waitFontOut - 1;
+		SprSetSelectCol(RGB5(c,c,c));
+
+		Anime.waitFontOut--;
 		return;
 	}
 
@@ -226,6 +258,17 @@ EWRAM_CODE void AnimeExecEffect(void)
 	Anime.isLoop = false;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecBlend(void)
+{
+	Anime.var[0] = LexGetNum();
+	Anime.var[1] = LexGetNum();
+	Anime.var[2] = LexGetNum();
+	Anime.var[3] = LexGetNum();
+
+	Anime.waitBlend = 31;
+	Anime.isLoop = false;
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecWait(void)
 {
 	Anime.wait = LexGetNum();
@@ -263,16 +306,61 @@ EWRAM_CODE void AnimeExecSkipMark(void)
 	// EMPTY
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecFontCol(void)
+{
+	s32 n = LexGetNum();
+
+	if(n == 1) SprSetWhite();
+	if(n == 2) SprSetGray();
+
+	if(n == 3)
+	{
+		SprSetSelect();
+		SprSetSelectCol(RGB5(0,0,0));
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecFontIn(void)
+{
+	Anime.waitFontIn = 31;
+	Anime.isLoop = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecFontOut(void)
+{
+	Anime.waitFontOut = 31;
+	Anime.isLoop = false;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecEnvSave(void)
+{
+	Anime.envFadeWait = ImgGetFadeWait();
+	Anime.envSelCol = ImgGetSelCol();
+
+	ImgSetFadeWait(1);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecEnvLoad(void)
+{
+	ImgSetFadeWait(Anime.envFadeWait);
+	ImgSetSelCol(Anime.envSelCol);
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecEnd(void)
 {
-	if(Anime.dat == ANIME_DAT_TITLE || Anime.dat == ANIME_DAT_NEXT_ROM || Anime.dat == ANIME_DAT_ENDING)
+	Anime.act = ANIME_ACT_END;
+	Anime.isLoop = false;
+
+	if(Anime.dat == ANIME_DAT_TITLE)
 	{
 		MenuSetTitle(MENU_TITLE_SEL_LOAD);
 		ManageSetMenu();
 	}
 
-	Anime.act = ANIME_ACT_END;
-	Anime.isLoop = false;
+	if(Anime.dat == ANIME_DAT_ENDING || Anime.dat == ANIME_DAT_NEXT_ROM)
+	{
+		AnimeSetDat(ANIME_DAT_TITLE);
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool AnimeIsExec(void)

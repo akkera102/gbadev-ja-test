@@ -46,8 +46,8 @@ def Palette(file):
   iw, ih = img.size
 
 
-  # 最大画像
-  if iw == 640 and ih == 400:
+  # 最大画像　エンディングのニース絵(s005)は例外
+  if iw == 640 and ih == 400 and file != "s005.png":
     return
 
   # スクロール画像

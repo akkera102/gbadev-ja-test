@@ -60,12 +60,9 @@ EWRAM_CODE void AdInit(void)
 	REG_SOUNDCNT_X = SNDSTAT_ENABLE;
 	REG_SOUNDCNT_L = 0;
 	REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_RESET_FIFO;
-
-	REG_TM0CNT_L   = 0x10000 - AD_SAMPLE_TIME;
-	REG_TM0CNT_H   = TIMER_FREQ_PER_1 | TIMER_START;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
+IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
 {
 	AdStop();
 
@@ -77,25 +74,34 @@ EWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
 	Ad.lastIdx  = 0;
 	Ad.bufIdx   = 0;
 
+	REG_TM0CNT_H = 0;
+	REG_TM0CNT_L = 0x10000 - AD_SAMPLE_TIME;
+	REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
+
 	Ad.act = AD_ACT_READY;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AdStop(void)
+IWRAM_CODE void AdReset(void)
 {
-	REG_SOUNDCNT_H &= ~(SNDA_R_ENABLE | SNDA_L_ENABLE);
-	REG_DMA1CNT = 0;
-	REG_SOUNDCNT_H |=  (SNDA_RESET_FIFO);
-
-	Ad.act = AD_ACT_STOP;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void AdReset(void)
-{
-	Ad.pCur = Ad.pTop;
-
+	Ad.pCur     = Ad.pTop;
 	Ad.lastSamp = 0;
 	Ad.lastIdx  = 0;
 	Ad.bufIdx   = 0;
+
+	REG_TM0CNT_H = 0;
+	REG_TM0CNT_L = 0x10000 - AD_SAMPLE_TIME;
+	REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
+
+	Ad.act = AD_ACT_READY;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void AdStop(void)
+{
+	REG_SOUNDCNT_H &= ~(SNDA_R_ENABLE | SNDA_L_ENABLE);
+	REG_DMA1CNT = 0;
+//	REG_SOUNDCNT_H |=  (SNDA_RESET_FIFO);
+
+	Ad.act = AD_ACT_STOP;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool AdIsEnd(void)

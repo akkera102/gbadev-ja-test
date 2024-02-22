@@ -42,7 +42,6 @@ rename e033.img.bin e033.img
 rename e050.img.bin e050.img
 rename s034.img.bin s034.img
 
-rem LZ77しないフリップをリネーム
 rename pata00.img.bin pata00.img
 rename pata01.img.bin pata01.img
 rename pata02.img.bin pata02.img
@@ -63,7 +62,6 @@ rename pata18.img.bin pata18.img
 rename pata19.img.bin pata19.img
 rename pata20.img.bin pata20.img
 
-rem LZ77しない背景画像をリネーム
 copy waku06b.img.bin waku.img > nul
 copy waku06b.png waku.png > nul
 

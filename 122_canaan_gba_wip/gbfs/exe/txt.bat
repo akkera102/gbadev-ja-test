@@ -31,7 +31,7 @@ rem ---------------------------------
 rem sファイルをデコード
 for %%f in (*.s) do python ..\..\exe\txt\s2scn.py %%f %%fcn
 
-rem 一部スクリプトの別コピーを作成
+rem 一部スクリプトのコピー作成。別分岐の為
 copy cs05_13.scn cs05_40.scn > nul
 copy cs22_11.scn cs22_19.scn > nul
 copy cs22_15.scn cs22_20.scn > nul

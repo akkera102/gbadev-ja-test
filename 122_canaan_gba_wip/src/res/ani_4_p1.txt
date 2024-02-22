@@ -83,7 +83,7 @@ pata  0 10
 # タイトル表示
 pat
 pata2 0
-effect 43
+effect 44
 wait 200
 
 # フェードインアウト

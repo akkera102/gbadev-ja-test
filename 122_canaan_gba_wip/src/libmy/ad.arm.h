@@ -39,9 +39,9 @@ typedef struct {
 //---------------------------------------------------------------------------
 EWRAM_CODE void AdInit(void);
 
-EWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop);
-EWRAM_CODE void AdStop(void);
-EWRAM_CODE void AdReset(void);
+IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop);
+IWRAM_CODE void AdReset(void);
+IWRAM_CODE void AdStop(void);
 EWRAM_CODE bool AdIsEnd(void);
 EWRAM_CODE u32  AdGetOffset(void);
 
