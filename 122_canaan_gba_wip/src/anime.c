@@ -101,6 +101,7 @@ EWRAM_CODE void AnimeExec(void)
 	if(Anime.waitBlend != 0)
 	{
 		Mode3VramBlendCopy(Anime.var[0], Anime.var[1], Anime.var[2], Anime.var[3], 32 - Anime.waitBlend);
+
 		Anime.waitBlend--;
 		return;
 	}
@@ -108,7 +109,7 @@ EWRAM_CODE void AnimeExec(void)
 	if(Anime.waitFontIn != 0)
 	{
 		u32 c = 32 - Anime.waitFontIn;
-		SprSetSelectCol(RGB5(c,c,c));
+		SprSetSelectCol(RGB5(c, c, c));
 
 		Anime.waitFontIn--;
 		return;
@@ -117,7 +118,7 @@ EWRAM_CODE void AnimeExec(void)
 	if(Anime.waitFontOut != 0)
 	{
 		u32 c = Anime.waitFontOut - 1;
-		SprSetSelectCol(RGB5(c,c,c));
+		SprSetSelectCol(RGB5(c, c, c));
 
 		Anime.waitFontOut--;
 		return;

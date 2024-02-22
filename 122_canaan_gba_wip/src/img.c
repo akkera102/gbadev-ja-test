@@ -544,6 +544,15 @@ EWRAM_CODE void ImgExecLoadIn(void)
 		return;
 	}
 
+	if(Img.var[3]++ == 0)
+	{
+		Mode3DrawFill(RGB5(0,0,0));
+		Mode3SetDraw();
+
+		return;
+	}
+
+	FadeSetBlack(0);
 	Img.isTxt = false;
 	Img.isEffect = false;
 }
@@ -1160,12 +1169,6 @@ EWRAM_CODE void ImgSetFade2(s32 num)
 	FadeSetBlack(num);
 }
 //---------------------------------------------------------------------------
-// ÉçÅ[Éhéûçƒê›íË
-EWRAM_CODE void ImgSetFade3(void)
-{
-	FadeSetBlack(Img.fade);
-}
-//---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetFadeWait(s32 num)
 {
 	Img.fadeWait = num;
@@ -1182,6 +1185,11 @@ EWRAM_CODE void ImgSetSelCol(s32 num)
 	if(num == 3) col = RGB5(31,31,31);		// îí
 
 	SprSetSelectCol(col);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgSetSelCol2(void)
+{
+	ImgSetSelCol(Img.selCol);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool ImgIsEffect(void)

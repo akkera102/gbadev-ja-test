@@ -320,7 +320,7 @@ fontOut
 strCls
 
 # 曲とタイミングを合わせる
-waitBgm 1660000
+waitBgm 1665000
 
 # スローブラックイン＋ファア・ナイン＋アウト
 effect 92

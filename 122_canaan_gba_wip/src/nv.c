@@ -163,7 +163,7 @@ EWRAM_CODE void NvExecLoad(void)
 		break;
 
 	case 1:
-		ImgSetFade3();
+		ImgSetSelCol2();
 		BgmPlayLoad();
 		ImgSetEff(IMG_EFFECT_IGNORE_LOAD_OUT);
 

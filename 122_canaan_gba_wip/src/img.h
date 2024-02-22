@@ -186,9 +186,9 @@ EWRAM_CODE s32  ImgGetFadeWait(void);
 EWRAM_CODE s32  ImgGetSelCol(void);
 EWRAM_CODE void ImgSetFade(s32 num);
 EWRAM_CODE void ImgSetFade2(s32 num);
-EWRAM_CODE void ImgSetFade3(void);
 EWRAM_CODE void ImgSetFadeWait(s32 num);
 EWRAM_CODE void ImgSetSelCol(s32 num);
+EWRAM_CODE void ImgSetSelCol2(void);
 
 EWRAM_CODE bool ImgIsEffect(void);
 EWRAM_CODE bool ImgIsTxt(void);
