@@ -2,7 +2,7 @@
 
 rem １～１７章のデータをrom1フォルダにコピー
 
-echo 前編ROMデータをコピー中・・・。
+echo 前編のロムデータをコピー中・・・。
 rmdir /s /q rom1 2> nul
 mkdir rom1
 
@@ -1902,6 +1902,14 @@ copy img\s052.img rom1 > nul
 copy img\s054.img rom1 > nul
 copy img\s058.img rom1 > nul
 copy img\s059.img rom1 > nul
+copy img\e031b.img rom1 > nul
+copy img\s060.img rom1 > nul
 copy img\s061.img rom1 > nul
+copy img\ed00.img rom1 > nul
+copy img\stl13.img rom1 > nul
+
+rem タイトル
 copy img\titlep.img rom1 > nul
 
+
+..\exe\rom\gbfs test1.gbfs rom1\*.img rom1\*.msk rom1\*.snd rom1\*.txt ..\exe\rom\savid.bin

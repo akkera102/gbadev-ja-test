@@ -19,11 +19,13 @@ goto end
 :run2
 copy /b test.gba+test1.gbfs test1.gba
 gbafix.exe test1.gba -tTest -cTest
-rem test1.gba
 
 copy /b test.gba+test2.gbfs test2.gba
 gbafix.exe test2.gba -tTest -cTest
-test2.gba
+
+
+test1.gba
+rem test2.gba
 
 
 :end

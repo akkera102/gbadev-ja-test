@@ -1,5 +1,431 @@
 # オープニング
 
-# 選択肢へ
-end
+envSave
+envFade 0
+clear 7
+strCls
 
+bgmStop
+bgm 1 0
+
+# スキップ許可
+skip
+
+# フラッシュ
+wait 260
+effect 60
+effect 41
+
+wait 10
+fontCol 4
+str 4 2 １つの時代の終焉。
+wait 150
+str 7 4 それは
+wait 150
+str 3 6 新しい時代のはじまり……。
+wait 240
+fontOut
+strCls
+wait 10
+
+# スクロール塔SLOW UD
+set bg12 10
+effect 94
+wait 30
+
+# イン＋培養部屋＋アウト
+effect 36
+set bg00 3
+effect 37
+wait 10
+
+# イン＋カイト＋アウト
+effect 36
+set e001 3
+effect 37
+wait 10
+
+# イン
+effect 36
+clear 7
+
+wait 20
+fontCol 4
+str 4 1 君を、守りたい。
+wait 150
+str 4 3 それだけが僕の願い。
+wait 150
+str 4 5 君を、守りたい。
+wait 150
+str 4 7 それだけが僕の全て。
+wait 300
+fontOut
+strCls
+wait 10
+
+# アンジェラヘリ＋アウト
+set e002a 3
+effect 37
+wait 10
+
+# イン＋ファーヘリ＋アウト
+effect 36
+set e006 3
+effect 37
+wait 10
+
+# ノーマル＋アンジェラ捕まる
+effect 36
+wait 30
+set e036 3
+effect 37
+wait 230
+
+# フラッシュ＋消去
+clear 7
+effect 42
+
+wait 60
+fontCol 4
+str 3 3 大事なことはただ１つ――
+wait 150
+str 4 5 そう、信じること。
+wait 300
+fontOut
+strCls
+wait 10
+
+# ノーマル＋イリア
+set e005 3
+effect 60
+wait 20
+
+# ノーマル＋レオナ
+set e003a 3
+effect 60
+wait 20
+
+# ノーマル＋ドーラ
+set e003b 3
+effect 60
+wait 20
+
+# ノーマル＋怪我ウルフィ
+set e037 3
+effect 60
+wait 20
+
+# ノーマル＋祈るアンジェラ羽
+set e022b 3
+effect 60
+wait 20
+
+# ノーマル＋ファーとアンジェラ
+set e028 3
+effect 60
+wait 20
+
+# インアウト
+effect 36
+clear 7
+effect 37
+
+wait 30
+fontCol 4
+str 1 1 君がいればきっと僕は翔べるから
+wait 150
+str 6 3 信じさせて
+wait 150
+str 6 5 この胸に
+wait 150
+str 2 7 永遠の思い　抱きしめて…。
+wait 210
+fontOut
+strCls
+wait 10
+
+# 右→中央　背景地下
+set bg11z 3
+effect 92
+wait 20
+
+# 中央→左　消去
+clear 1
+effect 43
+effect 92
+wait 20
+
+# 左→中央　セイラム村火事
+set bg03b 3
+effect 93
+wait 20
+
+# 中央→右　消去
+clear 1
+effect 43
+effect 93
+wait 20
+
+# 右→中央　橋通路
+set bg34z 3
+effect 92
+wait 20
+
+# 中央→左　消去
+clear 1
+effect 43
+effect 92
+wait 20
+
+# 左→中央　外シェルター火事
+set bg07z 3
+effect 93
+wait 20
+
+# 中央→右　消去
+clear 1
+effect 43
+effect 93
+wait 20
+
+# イン＋ミラ鉄集中線交互3回＋アウト
+set e011a 3
+effect 37
+
+set e011a 3
+effect 60
+set e011a2 3
+effect 60
+set e011a 3
+effect 60
+set e011a2 3
+effect 60
+set e011a 3
+effect 60
+set e011a2 3
+effect 60
+wait 20
+
+clear 7
+effect 36
+
+# イン＋キャシー集中線交互3回＋アウト
+set e014a 3
+effect 37
+
+set e014a 3
+effect 60
+set e014a2 3
+effect 60
+set e014a 3
+effect 60
+set e014a2 3
+effect 60
+set e014a 3
+effect 60
+set e014a2 3
+effect 60
+wait 20
+
+clear 7
+effect 36
+
+# イン＋ウルフィ集中線交互3回＋アウト
+set e007 3
+effect 37
+
+set e007 3
+effect 60
+set e007_ 3
+effect 60
+set e007 3
+effect 60
+set e007_ 3
+effect 60
+set e007 3
+effect 60
+set e007_ 3
+effect 60
+wait 20
+
+clear 7
+effect 36
+
+# イン＋カイト集中線交互3回＋アウト
+set e012b 3
+effect 37
+
+set e012b 3
+effect 60
+set e012b2 3
+effect 60
+set e012b 3
+effect 60
+set e012b2 3
+effect 60
+set e012b 3
+effect 60
+set e012b2 3
+effect 60
+wait 20
+
+clear 7
+effect 36
+
+wait 30
+fontCol 4
+str 0 0 変異体と呼ばれるたくましき種が、
+wait 120
+str 0 2 人類に代わって文明を築きはじめた
+str 6 4 遠い未来。
+wait 120
+str 4 6 人間の存在は既に
+wait 120
+str 1 8 伝説の彼方に追いやられていた。
+wait 210
+fontOut
+strCls
+wait 10
+
+# スクロール変異体DU
+set s034 9
+effect 95
+wait 10
+
+# イン＋ＷＦイリア＋アウト
+effect 36
+set s048 3
+effect 37
+wait 10
+
+# イン＋ＷＦレオナとドーラ＋アウト
+effect 36
+set s049 3
+effect 37
+wait 10
+
+# イン＋ＷＦティティ＋アウト
+effect 36
+set s052 3
+effect 37
+wait 10
+
+# イン＋ＷＦシルフ＋アウト
+effect 36
+set s054 3
+effect 37
+wait 10
+
+# イン＋ＷＦエンザ＋アウト
+effect 36
+set s055 3
+effect 37
+wait 10
+
+# イン＋ＷＦブルー＋アウト
+effect 36
+set s056 3
+effect 37
+wait 10
+
+# イン＋ＷＦブルー負傷＋アウト
+effect 36
+set s057 3
+effect 37
+wait 10
+
+# イン＋ＷＦイリア背景炎＋アウト
+effect 36
+set s058 3
+effect 37
+wait 10
+
+# イン＋ＷＦ仲間＋アウト（本来はエフェクト特殊
+effect 36
+set s059 3
+effect 37
+wait 60
+
+# イン
+effect 36
+clear 7
+
+wait 30
+fontCol 4
+str 1 1 人類が自然から見捨てられた時代。
+wait 120
+str 3 3 世界の果てにあるという
+wait 120
+str 1 5 伝説の理想郷カナンを追い求め、
+wait 120
+str 1 7 今、人と変異体の旅が始まる…。
+wait 210
+fontOut
+strCls
+wait 10
+
+# ディライア負傷
+effect 36
+set e031b 3
+effect 37
+
+# ＷＦラビィ
+effect 36
+set s060 3
+effect 37
+
+# リリィ
+effect 36
+set e024 3
+effect 37
+
+# ＷＦウルフィとラビィ
+effect 36
+set s061 3
+effect 37
+
+# アンジェラ手をつかまれる
+effect 36
+set e027 3
+effect 37
+
+# アンジェラとミラ
+effect 36
+set e028 3
+effect 37
+wait 10
+
+# BGMウェイト
+waitBgm 1040000
+
+# ホワイトイン＋タイトル＋アウト
+envFade 3
+effect 34
+set ed00 3
+effect 35
+wait 180
+
+# イン＋フォアナイン＋アウト
+effect 36
+set stl13 3
+effect 37
+wait 120
+
+envFade 10
+effect 36
+
+# スキップマーク
+skipMark
+
+bgmStop
+strCls
+
+envFade 1
+effect 36
+clear 7
+effect 37
+
+envLoad
+
+# cs00_01へ
+end

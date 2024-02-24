@@ -8,10 +8,12 @@ bgmStop
 bgm 23 0
 
 # スローホワイトイン＋タイトル＋アウト
-effect 90
+envFade 8
+effect 34
 set ed00 1
 wait 60
-effect 91
+effect 35
+envFade 1
 wait 600
 
 str 7 3 Ｃａｓｔ
@@ -19,101 +21,104 @@ wait 600
 strCls
 wait 60
 
-# ブラックイン＋ウルフィ＋アウト（代用）
-effect 92
+# スローブラックイン＋ウルフィ＋アウト（代用）
+envFade 8
+effect 36
 set s003 1
-effect 93
+effect 37
+envFade 1
+
 wait 30
 str 8 1 Ｗｏｌｆｙ
 wait 120
 strCls
 
 set s004 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｒａｂｂｙ
 wait 120
 strCls
 
 set s005 1
-effect 95
+effect 91
 wait 30
 str 8 1 Ｎｅｅｔｈ
 wait 120
 strCls
 
 set s006 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｉｒｉａ
 wait 120
 strCls
 
 set s007 1
-effect 95
+effect 91
 wait 30
 str 8 1 Ｌｅｏｎａ
 wait 120
 strCls
 
 set s008 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｄｏｌａ
 wait 120
 strCls
 
 set s009 1
-effect 95
+effect 91
 wait 30
 str 9 1 Ｂｌｕｅ
 wait 120
 strCls
 
 set s010 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｋｉｔｅ
 wait 120
 strCls
 
 set s011 1
-effect 95
+effect 91
 wait 30
 str 7 1 Ａｎｇｅｌａ
 wait 120
 strCls
 
 set s012 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｆａｒ
 wait 120
 strCls
 
 set s013 1
-effect 95
+effect 91
 wait 30
 str 9 1 Ｍｉｒａ
 wait 120
 strCls
 
 set s014 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｄｅｌｌｉａ
 wait 120
 strCls
 
 set s015 1
-effect 95
+effect 91
 wait 30
 str 9 1 Ｌｕｌｙ
 wait 120
 strCls
 
 set s016 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｋｙｎｅ
 str 4 9 （Ｄｒ．Ｗａｒｌｌｅｎ）
@@ -121,7 +126,7 @@ wait 120
 strCls
 
 set s017 1
-effect 95
+effect 91
 wait 30
 str 6 0 Ｂｉａｎｃａ
 str 7 1 ａｓ　Ｂｅｅ
@@ -129,7 +134,7 @@ wait 120
 strCls
 
 set s018 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ａｌｉｃｅ
 str 5 9 ａｓ　Ｂｉａｎｃａ
@@ -137,73 +142,76 @@ wait 120
 strCls
 
 set s019 1
-effect 95
+effect 91
 wait 30
 str 5 1 Ｂｉａｔｌｉｔｈ
 wait 120
 strCls
 
 set s020 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｃａｓｓｙ
 wait 120
 strCls
 
 set s021 1
-effect 95
+effect 91
 wait 30
 str 9 1 Ｅｌｚａ
 wait 120
 strCls
 
 set s022 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｔｉｔｙ
 wait 120
 strCls
 
 set s023 1
-effect 95
+effect 91
 wait 30
 str 5 1 Ｒｏｓｅｍａｒｙ
 wait 120
 strCls
 
 set s024 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｍｉｎａ
 wait 120
 strCls
 
 set s025 1
-effect 95
+effect 91
 wait 30
 str 6 1 Ｒｅｊｉｅｎａ
 wait 120
 strCls
 
 set s026 1
-effect 94
+effect 90
 wait 30
 str 4 8 Ｌｉｌｙ
 wait 120
 strCls
 
 set s027 1
-effect 95
+effect 91
 wait 30
 str 8 1 Ｄｉａｎａ
 wait 120
 strCls
 
 
-# フェードイン＋地球儀＋アウト
-effect 92
+# スローフェードイン＋地球儀＋アウト
+envFade 8
+effect 36
 set bg33 3
-effect 93
+effect 37
+envFade 1
+
 wait 60
 set s02 3
 effect 60
@@ -323,14 +331,18 @@ strCls
 waitBgm 1665000
 
 # スローブラックイン＋ファア・ナイン＋アウト
-effect 92
+envFade 8
+effect 36
 set stl13 3
-effect 93
+effect 37
+envFade 1
+
 wait 200
 
-
 #ラストメッセージ
-effect 92
+envFade 8
+effect 36
+envFade 1
 clear 7
 set end_t 3
 effect 43
@@ -397,9 +409,11 @@ blend 181 90 7 7
 
 wait 600
 
-effect 92
+envFade 8
+effect 36
 clear 7
-effect 93
+effect 37
+envFade 1
 
 envLoad
 

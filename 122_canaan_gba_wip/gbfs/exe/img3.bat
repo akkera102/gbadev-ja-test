@@ -171,6 +171,11 @@ python ..\..\exe\img\png_cut4.py e050.png
 
 
 rem ---------------------------------
+rem s034専用カット
+python ..\..\exe\img\png_cut5.py s034.png
+
+
+rem ---------------------------------
 rem pngパレットの変更
 for %%f in (*.png) do python ..\..\exe\img\png_pal.py "%%f"
 

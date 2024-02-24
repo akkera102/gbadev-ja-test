@@ -59,13 +59,15 @@ enum {
 	IMG_EFFECT_IGNORE_BG_CHR_SCR,			// 63
 	IMG_EFFECT_IGNORE_WAIT_ICO,				// 64
 
-	// オープニング、エンディングエフェクト
-	IMG_EFFECT_ANIME_SLOW_WHITE_IN = 90,	// 90
-	IMG_EFFECT_ANIME_SLOW_WHITE_OUT,		// 91
-	IMG_EFFECT_ANIME_SLOW_BLACK_IN,			// 92
-	IMG_EFFECT_ANIME_SLOW_BLACK_OUT,		// 93
-	IMG_EFFECT_ANIME_MOVE_LR,				// 94
-	IMG_EFFECT_ANIME_MOVE_RL,				// 95
+	// エンディング追加エフェクト
+	IMG_EFFECT_ANIME_MOVE_LR = 90,			// 90 
+	IMG_EFFECT_ANIME_MOVE_RL,				// 91
+
+	// オープニング追加エフェクト
+	IMG_EFFECT_ANIME_FAST_LR,				// 92
+	IMG_EFFECT_ANIME_FAST_RL,				// 93
+	IMG_EFFECT_ANIME_SLOW_SCROLL_UD,		// 94
+	IMG_EFFECT_ANIME_SLOW_SCROLL_DU,		// 95
 
 };
 
@@ -140,12 +142,12 @@ EWRAM_CODE void ImgExecLoadOut(void);
 EWRAM_CODE void ImgExecBgChrScr(void);
 EWRAM_CODE void ImgExecWaitIco(void);
 
-EWRAM_CODE void ImgExecSlowWhiteIn(void);
-EWRAM_CODE void ImgExecSlowWhiteOut(void);
-EWRAM_CODE void ImgExecSlowBlackIn(void);
-EWRAM_CODE void ImgExecSlowBlackOut(void);
 EWRAM_CODE void ImgExecMoveLr(void);
 EWRAM_CODE void ImgExecMoveRl(void);
+EWRAM_CODE void ImgExecFastLr(void);
+EWRAM_CODE void ImgExecFastRl(void);
+EWRAM_CODE void ImgExecSlowScrollUd(void);
+EWRAM_CODE void ImgExecSlowScrollDu(void);
 
 EWRAM_CODE void ImgDrawBuf(void);
 EWRAM_CODE void ImgDrawVram(void);

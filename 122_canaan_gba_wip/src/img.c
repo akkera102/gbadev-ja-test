@@ -1,5 +1,5 @@
 #include "img.h"
-#include "libmy/mode3.h"
+#include "libmy/mode3.arm.h"
 #include "libmy/spr.h"
 #include "libmy/fade.h"
 #include "file.h"
@@ -118,28 +118,28 @@ EWRAM_CODE void ImgExec(void)
 		ImgExecWaitIco();
 		break;
 
-	case IMG_EFFECT_ANIME_SLOW_WHITE_IN:
-		ImgExecSlowWhiteIn();
-		break;
-
-	case IMG_EFFECT_ANIME_SLOW_WHITE_OUT:
-		ImgExecSlowWhiteOut();
-		break;
-
-	case IMG_EFFECT_ANIME_SLOW_BLACK_IN:
-		ImgExecSlowBlackIn();
-		break;
-
-	case IMG_EFFECT_ANIME_SLOW_BLACK_OUT:
-		ImgExecSlowBlackOut();
-		break;
-
 	case IMG_EFFECT_ANIME_MOVE_LR:
 		ImgExecMoveLr();
 		break;
 
 	case IMG_EFFECT_ANIME_MOVE_RL:
 		ImgExecMoveRl();
+		break;
+
+	case IMG_EFFECT_ANIME_FAST_LR:
+		ImgExecFastLr();
+		break;
+
+	case IMG_EFFECT_ANIME_FAST_RL:
+		ImgExecFastRl();
+		break;
+
+	case IMG_EFFECT_ANIME_SLOW_SCROLL_UD:
+		ImgExecSlowScrollUd();
+		break;
+
+	case IMG_EFFECT_ANIME_SLOW_SCROLL_DU:
+		ImgExecSlowScrollDu();
 		break;
 
 	default:
@@ -617,110 +617,6 @@ EWRAM_CODE void ImgExecWaitIco(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecSlowWhiteIn(void)
-{
-	if(Img.var[0]++ < 8)
-	{
-		return;
-	}
-	Img.var[0] = 0;
-
-	if(Img.var[1]++ < 16)
-	{
-		FadeSetWhite(Img.var[1]);
-
-		return;
-	}
-
-	if(Img.var[2]++ == 0)
-	{
-		Mode3DrawFill(RGB5(31,31,31));
-		Mode3SetDraw();
-
-		return;
-	}
-
-	FadeSetWhite(0);
-	Img.isEffect = false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecSlowWhiteOut(void)
-{
-	if(Img.var[0]++ == 0)
-	{
-		FadeSetWhite(16);
-		ImgDrawBuf();
-		Mode3SetDraw();
-	}
-
-	if(Img.var[1]++ < 8)
-	{
-		return;
-	}
-	Img.var[1] = 0;
-
-	if(Img.var[2]++ < 16)
-	{
-		FadeSetWhite(16 - Img.var[2]);
-
-		return;
-	}
-
-	Img.isEffect = false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecSlowBlackIn(void)
-{
-	if(Img.var[0]++ < 8)
-	{
-		return;
-	}
-	Img.var[0] = 0;
-
-	if(Img.var[1]++ < 16)
-	{
-		FadeSetBlack(Img.var[1]);
-
-		return;
-	}
-
-	if(Img.var[2]++ == 0)
-	{
-		Mode3DrawFill(RGB5(0,0,0));
-		Mode3SetDraw();
-
-		return;
-	}
-
-	FadeSetBlack(0);
-	Img.isEffect = false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecSlowBlackOut(void)
-{
-	if(Img.var[0]++ == 0)
-	{
-		FadeSetBlack(16);
-		ImgDrawBuf();
-		Mode3SetDraw();
-	}
-
-	if(Img.var[1]++ < 8)
-	{
-		return;
-	}
-	Img.var[1] = 0;
-
-	if(Img.var[2]++ < 16)
-	{
-		FadeSetBlack(16 - Img.var[2]);
-
-		return;
-	}
-
-	Img.isEffect = false;
-}
-//---------------------------------------------------------------------------
 EWRAM_CODE void ImgExecMoveLr(void)
 {
 	if(Img.var[0]++ == 0)
@@ -775,6 +671,89 @@ EWRAM_CODE void ImgExecMoveRl(void)
 
 	if(Img.var[2] > SCREEN_CX)
 	{
+		Img.isEffect = false;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecFastLr(void)
+{
+	if(Img.var[0]++ == 0)
+	{
+		ImgDrawBuf();
+		Img.var[2] = 4;
+	}
+
+	Mode3VramCrop2(4, 0, SCREEN_CX - 4, SCREEN_CY, 0, 0);
+	Mode3VramCrop(0, 0, Img.var[2], SCREEN_CY, SCREEN_CX - Img.var[2], 0);
+	Img.var[2] += 4;
+
+	if(Img.var[2] > SCREEN_CX)
+	{
+		Img.isEffect = false;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecFastRl(void)
+{
+	if(Img.var[0]++ == 0)
+	{
+		ImgDrawBuf();
+		Img.var[2] = 4;
+	}
+
+	Mode3VramCrop2b(Img.var[2] - 4, 0, SCREEN_CX - Img.var[2], SCREEN_CY, Img.var[2], 0);
+	Mode3VramCrop(SCREEN_CX - Img.var[2], 0, Img.var[2], SCREEN_CY, 0, 0);
+	Img.var[2] += 4;
+
+	if(Img.var[2] > SCREEN_CX)
+	{
+		Img.isEffect = false;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecSlowScrollUd(void)
+{
+	if(Img.var[0]++ < 4)
+	{
+		return;
+	}
+	Img.var[0] = 0;
+
+
+	Mode3VramScroll(Img.pBg, Img.var[2]);
+	Img.var[2]++;
+
+	if(Img.var[2] > Img.bgCy - SCREEN_CY)
+	{
+		ImgDrawBuf();
+		Mode3SetDraw();
+
+		Img.isEffect = false;
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void ImgExecSlowScrollDu(void)
+{
+	if(Img.var[0]++ < 2)
+	{
+		return;
+	}
+	Img.var[0] = 0;
+
+
+	if(Img.var[1]++ == 0)
+	{
+		Img.var[2] = Img.bgCy - SCREEN_CY;
+	}
+
+	Mode3VramScroll(Img.pBg, Img.var[2]);
+	Img.var[2]--;
+
+	if(Img.var[2] < 0)
+	{
+		ImgDrawBuf();
+		Mode3SetDraw();
+
 		Img.isEffect = false;
 	}
 }

@@ -3,7 +3,7 @@
 #include "gbfs.h"
 #include "key.h"
 #include "sav.h"
-#include "mode3.h"
+#include "mode3.arm.h"
 #include "spr.h"
 #include "fade.h"
 #include "sjis.h"

@@ -1,4 +1,4 @@
-#include "mode3.h"
+#include "mode3.arm.h"
 #include "mem.h"
 #include "../res.h"
 

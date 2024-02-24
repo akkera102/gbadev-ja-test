@@ -268,7 +268,7 @@ EWRAM_CODE void NvExecParseSet(void)
 EWRAM_CODE void NvExecParseClr(void)
 {
 	s32 no = NvNextCurNum();
-	TRACE("%d\n", no);
+//	TRACE("%d\n", no);
 
 	switch(no)
 	{

@@ -2,7 +2,7 @@
 #include "res.h"
 #include "libmy/key.h"
 #include "libmy/lex.h"
-#include "libmy/mode3.h"
+#include "libmy/mode3.arm.h"
 #include "libmy/spr.h"
 #include "img.h"
 #include "bgm.h"
@@ -10,6 +10,7 @@
 #include "txt.h"
 #include "menu.h"
 #include "file.h"
+#include "nv.h"
 
 //---------------------------------------------------------------------------
 ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
@@ -33,6 +34,7 @@ ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "fontOut",  (void*)AnimeExecFontOut  },
 	{ "envSave",  (void*)AnimeExecEnvSave  },
 	{ "envLoad",  (void*)AnimeExecEnvLoad  },
+	{ "envFade",  (void*)AnimeExecEnvFade  },
 	{ "end",      (void*)AnimeExecEnd      },
 };
 
@@ -134,6 +136,8 @@ EWRAM_CODE void AnimeExec(void)
 		Anime.waitBgm = 0;
 	}
 
+//	TRACE("%d\n", BgmGetOffset());
+
 
 	Anime.isLoop = true;
 
@@ -198,14 +202,16 @@ EWRAM_CODE void AnimeExecSet(void)
 
 	switch(no)
 	{
-	case 1: ImgSetBgl(p);  break;
-	case 2: ImgSetBgc(p);  break;
-	case 3: ImgSetBgb(p);  break;
-	case 4: ImgSetChr1(p); break;
-	case 5: ImgSetChr2(p); break;
-	case 6: ImgSetPty(p);  break;
-	case 7: ImgSetIco(p);  break;
-	case 8: ImgSetMin(p);  break;
+	case 1:  ImgSetBgl(p);   break;
+	case 2:  ImgSetBgc(p);   break;
+	case 3:  ImgSetBgb(p);   break;
+	case 4:  ImgSetChr1(p);  break;
+	case 5:  ImgSetChr2(p);  break;
+	case 6:  ImgSetPty(p);   break;
+	case 7:  ImgSetIco(p);   break;
+	case 8:  ImgSetMin(p);   break;
+	case 9:  ImgSetScrDu(p); break;
+	case 10: ImgSetScrUd(p); break;
 
 	default:
 		SystemError("[Err] AnimeExecSet no=%x\n", no);
@@ -319,6 +325,12 @@ EWRAM_CODE void AnimeExecFontCol(void)
 		SprSetSelect();
 		SprSetSelectCol(RGB5(0,0,0));
 	}
+
+	if(n == 4)
+	{
+		SprSetSelect();
+		SprSetSelectCol(RGB5(31,31,31));
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecFontIn(void)
@@ -347,20 +359,34 @@ EWRAM_CODE void AnimeExecEnvLoad(void)
 	ImgSetSelCol(Anime.envSelCol);
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecEnvFade(void)
+{
+	s32 n = LexGetNum();
+
+	ImgSetFadeWait(n);
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecEnd(void)
 {
 	Anime.act = ANIME_ACT_END;
 	Anime.isLoop = false;
 
-	if(Anime.dat == ANIME_DAT_TITLE)
+
+	switch(Anime.dat)
 	{
+	case ANIME_DAT_TITLE:
 		MenuSetTitle(MENU_TITLE_SEL_LOAD);
 		ManageSetMenu();
-	}
+		break;
 
-	if(Anime.dat == ANIME_DAT_ENDING || Anime.dat == ANIME_DAT_NEXT_ROM)
-	{
+	case ANIME_DAT_NEXT_ROM:
+	case ANIME_DAT_ENDING:
 		AnimeSetDat(ANIME_DAT_TITLE);
+		break;
+
+	default:
+		// EMPTY
+		break;
 	}
 }
 //---------------------------------------------------------------------------

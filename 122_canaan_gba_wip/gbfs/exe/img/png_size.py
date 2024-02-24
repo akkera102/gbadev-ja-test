@@ -22,6 +22,10 @@ def Resize(file):
     # スクロール背景
     iw = 240
     ih = 384
+  elif iw == 480 and ih == 664:
+    # スクロール背景（s034）
+    iw = 240
+    ih = 332
   elif iw == 480 and ih == 288:
     # 大背景
     iw = 240

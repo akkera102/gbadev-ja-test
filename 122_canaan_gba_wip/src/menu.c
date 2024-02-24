@@ -387,8 +387,11 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 	{
 	// ÉQÅ[ÉÄÇénÇﬂÇÈ
 	case 0:
+		LogInit();
+
 		if(FileIsFirstPart() == true)
 		{
+			AnimeSetDat(ANIME_DAT_OPENING);
 			NvSetTxt(0, 1);
 		}
 		else
@@ -396,10 +399,9 @@ EWRAM_CODE void MenuExecTitle(u16 trg)
 			NvSetTxt(18, 1);
 		}
 
-		LogInit();
+		NvSetAct(NV_ACT_PARSE);
 		ImgSetEff(IMG_EFFECT_BLACK_IN);
 
-		NvSetAct(NV_ACT_PARSE);
 		ManageSetNovel();
 		break;
 

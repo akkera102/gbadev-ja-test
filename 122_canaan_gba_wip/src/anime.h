@@ -8,7 +8,7 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define ANIME_MAX_PAT_CNT			22
+#define ANIME_MAX_PAT_CNT			23
 #define ANIME_MAX_DAT_CNT			10
 #define ANIME_MAX_STR_SIZE			10
 
@@ -88,6 +88,7 @@ EWRAM_CODE void AnimeExecFontOut(void);
 EWRAM_CODE void AnimeExecEnd(void);
 EWRAM_CODE void AnimeExecEnvSave(void);
 EWRAM_CODE void AnimeExecEnvLoad(void);
+EWRAM_CODE void AnimeExecEnvFade(void);
 
 EWRAM_CODE bool AnimeIsExec(void);
 
