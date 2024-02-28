@@ -11,6 +11,7 @@
 #include "menu.h"
 #include "file.h"
 #include "nv.h"
+#include "se.h"
 
 //---------------------------------------------------------------------------
 ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
@@ -27,6 +28,7 @@ ST_ANIME_TABLE AnimePat[ANIME_MAX_PAT_CNT] = {
 	{ "waitBgm",  (void*)AnimeExecWaitBgm  },
 	{ "bgm",      (void*)AnimeExecBgm      },
 	{ "bgmStop",  (void*)AnimeExecBgmStop  },
+	{ "ssg",      (void*)AnimeExecSsg      },
 	{ "skip",     (void*)AnimeExecSkip     },
 	{ "skipMark", (void*)AnimeExecSkipMark },
 	{ "fontCol",  (void*)AnimeExecFontCol  },
@@ -301,6 +303,13 @@ EWRAM_CODE void AnimeExecWaitBgm(void)
 EWRAM_CODE void AnimeExecBgmStop(void)
 {
 	BgmStop();
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void AnimeExecSsg(void)
+{
+	s32 no = LexGetNum();
+
+	SePlaySsg(no);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecSkip(void)

@@ -391,7 +391,7 @@ effect 37
 
 # アンジェラとミラ
 effect 36
-set e028 3
+set e010 3
 effect 37
 wait 10
 

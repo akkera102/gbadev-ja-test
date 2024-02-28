@@ -3,34 +3,31 @@
 #include "file.h"
 
 //---------------------------------------------------------------------------
-ST_SE Se;
 
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void SeInit(void)
 {
-	_Memset(&Se, 0x00, sizeof(ST_SE));
+	// EMPTY
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SePlay(u8* p, bool isWait)
+EWRAM_CODE void SePlay(u8* p)
 {
-	VgmPlay(p, false);
-
-	Se.isWait = isWait;
+	VgmPlay(p);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SePlaySsg(s32 no, bool isWait)
+EWRAM_CODE void SePlaySsg(s32 no)
 {
 	u8* p = FileGetSsg(no);
 
-	SePlay(p, isWait);
+	SePlay(p);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SePlayFmx(s32 no, bool isWait)
+EWRAM_CODE void SePlayFmx(s32 no)
 {
 	u8* p = FileGetFmx(no);
 
-	SePlay(p, isWait);
+	SePlay(p);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SeStop(void)
@@ -38,12 +35,8 @@ EWRAM_CODE void SeStop(void)
 	VgmStop();
 }
 //---------------------------------------------------------------------------
+// 演奏中であり、かつ次の演奏の予約がある場合はウェイトを入れます
 EWRAM_CODE bool SeIsPlay(void)
 {
-	if(Se.isWait == false)
-	{
-		return false;
-	}
-
-	return VgmIsPlay();
+	return VgmIsNext();
 }

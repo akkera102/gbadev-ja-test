@@ -1,4 +1,5 @@
 # coding: Shift_JIS
+# スクロール画像の結合
 
 import os
 import sys

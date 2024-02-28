@@ -154,7 +154,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 	case 3:
 		TxtHideMsg();
 		ImgSetFade2(0);
-		ImgSetEff(IMG_EFFECT_IGNORE_BG_CHR_SCR);
+		ImgDrawVramClear();
 
 		MenuSetNone(MENU_RET_SYSTEM);
 		break;

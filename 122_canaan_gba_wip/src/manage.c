@@ -79,9 +79,8 @@ EWRAM_CODE void ManageExecInit(void)
 
 	// DEBUG1
 	// NvSetTxt(0, 1);				// 落下エフェクト
-	// NvSetTxt(4, 7);				// DUスクロールエフェクト
-	// NvSetTxt(9, 19);				// DUUDスクロールエフェクト
-	// NvSetTxt(23, 2);
+	// NvSetTxt(9, 19);				// DUスクロールエフェクト
+	// NvSetTxt(23, 2);				// DUUDスクロールエフェクト
 
 	// DEBUG2
 	// AnimeSetDat(ANIME_DAT_ENDING);

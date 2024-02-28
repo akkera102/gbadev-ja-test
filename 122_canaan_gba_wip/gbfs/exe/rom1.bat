@@ -1319,7 +1319,6 @@ copy img\xtra06.img rom1 > nul
 copy img\xtra07.img rom1 > nul
 copy img\xtra08.img rom1 > nul
 copy img\xtra09.img rom1 > nul
-copy img\xtra0a.img rom1 > nul
 copy img\xtra0b.img rom1 > nul
 copy img\xtra0c.img rom1 > nul
 copy img\xtra0d.img rom1 > nul

@@ -24,21 +24,21 @@ enum {
 
 typedef struct {
 
-	s32  act;
-	u8*  pCur;
-	u8*  pFile;
-
-	bool isLoop;
+	s32 act;
+	u8* pCur;
+	u8* pTop;
+	u8* pNext;
 
 } ST_VGM;
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void VgmInit(void);
-EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
-EWRAM_CODE void VgmStop(void);
+IWRAM_CODE void VgmPlay(u8* p);
+IWRAM_CODE void VgmStop(void);
 IWRAM_CODE void VgmIntrVblank(void);
 
 EWRAM_CODE bool VgmIsPlay(void);
+EWRAM_CODE bool VgmIsNext(void);
 
 #ifdef __cplusplus
 }

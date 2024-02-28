@@ -8,25 +8,36 @@ ST_VGM Vgm;
 EWRAM_CODE void VgmInit(void)
 {
 	_Memset(&Vgm, 0x00, sizeof(ST_VGM));
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
-{
-	VgmInit();
-	VgmStop();
 
-	Vgm.act    = VGM_ACT_PLAY;
-	Vgm.pCur   = pFile;
-	Vgm.pFile  = pFile;
-	Vgm.isLoop = isLoop;
+	VgmStop();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void VgmStop(void)
+IWRAM_CODE void VgmPlay(u8* p)
+{
+	_ASSERT(Vgm.pNext == NULL);
+
+	// ‰‰‘t’†‚È‚çŽŸ‚Ì‰¹‚ð—\–ñ‚µ‚Ü‚·
+	if(Vgm.act == VGM_ACT_PLAY)
+	{
+		Vgm.pNext = p;
+
+		return;
+	}
+
+	Vgm.act  = VGM_ACT_PLAY;
+	Vgm.pCur = p;
+	Vgm.pTop = p;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void VgmStop(void)
 {
 	Vgm.act = VGM_ACT_STOP;
 
 	// REG_SOUNDCNT
 //	*(u8*)(REG_BASE + 0x84) = 0x00;
+//	*(u8*)(REG_BASE + 0x80) = 0x77;
+//	*(u8*)(REG_BASE + 0x81) = 0xff;
+//	*(u8*)(REG_BASE + 0x84) = 0x80;
 
 	// ch1
 	*(u8*)(REG_BASE + 0x60) = 0x00;
@@ -55,11 +66,6 @@ EWRAM_CODE void VgmStop(void)
 	*(u8*)(REG_BASE + 0x79) = 0x00;
 	*(u8*)(REG_BASE + 0x7c) = 0x00;
 	*(u8*)(REG_BASE + 0x7d) = 0x00;
-
-	// REG_SOUNDCNT
-//	*(u8*)(REG_BASE + 0x80) = 0x77;
-//	*(u8*)(REG_BASE + 0x81) = 0xff;
-//	*(u8*)(REG_BASE + 0x84) = 0x80;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmIntrVblank(void)
@@ -89,30 +95,29 @@ IWRAM_CODE void VgmIntrVblank(void)
 
 		if(cmd == VGM_CMD_EOM)
 		{
-			if(Vgm.isLoop == false)
+			if(Vgm.pNext != NULL)
 			{
-				VgmStop();
+				Vgm.pCur  = Vgm.pNext;
+				Vgm.pTop  = Vgm.pNext;
+				Vgm.pNext = NULL;
 
 				return;
 			}
 
-			u32 loop;
-
-			loop  = *Vgm.pCur++;
-			loop |= *Vgm.pCur++ << 8;
-			loop |= *Vgm.pCur++ << 16;
-			loop |= *Vgm.pCur++ << 24;
-
-			Vgm.pCur = Vgm.pFile + loop;
-
-			continue;
+			VgmStop();
+			return;
 		}
 
-		SystemError("VgmIntrVblank adr=%x", Vgm.pCur - Vgm.pFile);
+		SystemError("VgmIntrVblank adr=%x", Vgm.pCur - Vgm.pTop);
 	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool VgmIsPlay(void)
 {
 	return (Vgm.act == VGM_ACT_STOP) ? false : true;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE bool VgmIsNext(void)
+{
+	return (Vgm.pNext == NULL) ? false : true;
 }

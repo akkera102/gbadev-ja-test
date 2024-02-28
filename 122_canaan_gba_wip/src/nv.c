@@ -109,7 +109,7 @@ KeyOn:
 	{
 		TxtHideMsg();
 		ImgSetFade2(0);
-		ImgSetEff(IMG_EFFECT_IGNORE_BG_CHR_SCR);
+		ImgDrawVramClear();
 
 		MenuSetNone(MENU_RET_NOVEL);
 

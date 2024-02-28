@@ -297,7 +297,7 @@ txt = re.sub('IMG mini', 'MIN mini', txt)
 
 
 # ---------------------------------------------------------------------------
-# ˆêŠ‡•ÔŠÒ
+# ˆêŠ‡•ÏŠ·
 txt = re.sub('IMG ca', 'CHR ca', txt)
 txt = re.sub('IMG bg', 'BGL bg', txt)
 txt = re.sub('IMG s', 'BGL s', txt)

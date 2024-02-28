@@ -101,17 +101,12 @@ EWRAM_CODE void ImgExec(void)
 		ImgExecTxtIn();
 		break;
 
-
 	case IMG_EFFECT_IGNORE_LOAD_IN:
 		ImgExecLoadIn();
 		break;
 
 	case IMG_EFFECT_IGNORE_LOAD_OUT:
 		ImgExecLoadOut();
-		break;
-
-	case IMG_EFFECT_IGNORE_BG_CHR_SCR:
-		ImgExecBgChrScr();
 		break;
 
 	case IMG_EFFECT_IGNORE_WAIT_ICO:
@@ -589,14 +584,6 @@ EWRAM_CODE void ImgExecLoadOut(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void ImgExecBgChrScr(void)
-{
-	ImgDrawBuf();
-	Mode3SetDraw();
-
-	Img.isEffect = false;
-}
-//---------------------------------------------------------------------------
 EWRAM_CODE void ImgExecWaitIco(void)
 {
 	if(Img.var[0]++ < 15)
@@ -885,6 +872,11 @@ EWRAM_CODE void ImgDrawIco(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawIcoClear(void)
 {
+	if(Img.pIco == NULL)
+	{
+		return;
+	}
+
 	Mode3VramCrop(0, SCREEN_CY - IMG_ICO_CY, IMG_ICO_CX, IMG_ICO_CY, 0, SCREEN_CY - IMG_ICO_CY);
 }
 //---------------------------------------------------------------------------
@@ -900,6 +892,11 @@ EWRAM_CODE void ImgDrawMin(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawMinClear(void)
 {
+	if(Img.pMin == NULL)
+	{
+		return;
+	}
+
 	Mode3VramCrop(0, 0, IMG_MIN_CX, IMG_MIN_CX, 0, 0);
 }
 //---------------------------------------------------------------------------

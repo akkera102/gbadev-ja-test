@@ -118,12 +118,12 @@ EWRAM_CODE void NvExecParseChr(void)
 	char* p = NvNextCurStr();
 //	TRACE("%s\n", p);
 
+	ImgDrawVramClear();
+
 	ImgClrIco();
 	ImgClrMin();
 	ImgSetChr1(p);
 	ImgClrChr2();
-
-	ImgDrawVramClear();
 	ImgSetEff(IMG_EFFECT_WIPE_UD);
 
 	Nv.isLoop = false;
@@ -135,10 +135,10 @@ EWRAM_CODE void NvExecParseBgl(void)
 	char* p = NvNextCurStr();
 //	TRACE("%s\n", p);
 
+	ImgDrawVramClear();
+
 	ImgClrAll();
 	ImgSetBgl(p);
-
-	ImgDrawVramClear();
 	ImgSetEff(IMG_EFFECT_WIPE_LR);
 
 	Nv.isLoop = false;
@@ -150,10 +150,10 @@ EWRAM_CODE void NvExecParseHsc(void)
 	char* p = NvNextCurStr();
 //	TRACE("%s\n", p);
 
+	ImgDrawVramClear();
+
 	ImgClrAll();
 	ImgSetBgc(p);
-
-	ImgDrawVramClear();
 	ImgSetEff(IMG_EFFECT_WIPE_UD);
 
 	Nv.isLoop = false;
@@ -180,10 +180,10 @@ EWRAM_CODE void NvExecParseEff(void)
 	s32 no = NvNextCurNum();
 //	TRACE("%d\n", no);
 
+	ImgDrawVramClear();
+
 	ImgClrIco();
 	ImgClrMin();
-
-	ImgDrawVramClear();
 	ImgSetEffTxt(no);
 
 	Nv.isLoop = false;
@@ -195,11 +195,11 @@ EWRAM_CODE void NvExecParsePty(void)
 	char* p = NvNextCurStr();
 //	TRACE("%s\n", p);
 
+	ImgDrawVramClear();
+
 	ImgClrIco();
 	ImgClrMin();
 	ImgSetPty(p);
-
-	ImgDrawVramClear();
 	ImgSetEff(IMG_EFFECT_NORMAL);
 
 	Nv.isPty = true;
@@ -335,8 +335,8 @@ EWRAM_CODE void NvExecParseScr(void)
 	s32 n = NvNextCurNum();
 //	TRACE("%s %d\n", s, n);
 
-	ImgClrAll();
 	ImgDrawVramClear();
+	ImgClrAll();
 
 	if(n == 1)
 	{

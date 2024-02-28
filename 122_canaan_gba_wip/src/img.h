@@ -56,8 +56,7 @@ enum {
 	IMG_EFFECT_IGNORE_NORMAL = 60,			// 60
 	IMG_EFFECT_IGNORE_LOAD_IN,				// 61
 	IMG_EFFECT_IGNORE_LOAD_OUT,				// 62
-	IMG_EFFECT_IGNORE_BG_CHR_SCR,			// 63
-	IMG_EFFECT_IGNORE_WAIT_ICO,				// 64
+	IMG_EFFECT_IGNORE_WAIT_ICO,				// 63
 
 	// エンディング追加エフェクト
 	IMG_EFFECT_ANIME_MOVE_LR = 90,			// 90 
@@ -139,7 +138,6 @@ EWRAM_CODE void ImgExecTxtIn(void);
 EWRAM_CODE void ImgExecTxtOut(void);
 EWRAM_CODE void ImgExecLoadIn(void);
 EWRAM_CODE void ImgExecLoadOut(void);
-EWRAM_CODE void ImgExecBgChrScr(void);
 EWRAM_CODE void ImgExecWaitIco(void);
 
 EWRAM_CODE void ImgExecMoveLr(void);
