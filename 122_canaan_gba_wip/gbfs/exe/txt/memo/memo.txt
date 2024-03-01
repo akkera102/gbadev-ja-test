@@ -1,4 +1,4 @@
-text size
+text box size
 
 GBA  17x10 = 170
 PC98 34x4  = 136
@@ -24,3 +24,10 @@ PC98 34x4  = 136
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+lib unpacker, pi image conveter, scenario decompile
+
+https://github.com/ValleyBell/PC98VNResearch/tree/master/four-nine_system98
+Source code is licensed under GNU General Public License v2.0 or later (GPL-2.0-or-later).
+Documents are licensed under Creative Commons Attribution Share Alike 4.0 International (CC-BY-SA-4.0).

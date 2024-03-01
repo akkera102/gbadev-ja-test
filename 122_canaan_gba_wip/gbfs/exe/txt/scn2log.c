@@ -1,4 +1,4 @@
-// スクリプトデコーダー PC-98 カナン 約束の地
+// PC-98 カナン 約束の地 スクリプトデコーダー
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
