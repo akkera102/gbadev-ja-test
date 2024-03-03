@@ -233,9 +233,9 @@ EWRAM_CODE void AnimeExecClear(void)
 	case 4: ImgClrPty();  break;
 	case 5: ImgClrIco();  break;
 	case 6: ImgClrMin();  break;
-	case 7: ImgClrAll();  break;
-	case 8: ImgClrIco(); ImgDrawIcoClear(); break;
-	case 9: ImgClrMin(); ImgDrawMinClear(); break;
+	case 7: ImgDrawVramClear(); ImgClrAll(); break;
+	case 8: ImgDrawIcoClear();  ImgClrIco(); break;
+	case 9: ImgDrawMinClear();  ImgClrMin(); break;
 
 	default:
 		SystemError("[Err] AnimeExecClear no=%x\n", no);
@@ -309,7 +309,7 @@ EWRAM_CODE void AnimeExecSsg(void)
 {
 	s32 no = LexGetNum();
 
-	SePlaySsg(no);
+	SePlaySsg(no, false);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecSkip(void)

@@ -278,9 +278,9 @@ EWRAM_CODE void NvExecParseClr(void)
 	case 4: ImgClrPty();  break;
 	case 5: ImgClrIco();  break;
 	case 6: ImgClrMin();  break;
-	case 7: ImgClrAll();  break;
-	case 8: ImgClrIco(); ImgDrawIcoClear(); break;
-	case 9: ImgClrMin(); ImgDrawMinClear(); break;
+	case 7: ImgDrawVramClear(); ImgClrAll(); break;
+	case 8: ImgDrawIcoClear();  ImgClrIco(); break;
+	case 9: ImgDrawMinClear();  ImgClrMin(); break;
 
 	default:
 		SystemError("[Err] NvExecParseClr no=%x\n", no);
@@ -294,7 +294,14 @@ EWRAM_CODE void NvExecParseSsg(void)
 	s32 no = NvNextCurNum();
 //	TRACE("%d\n", no);
 
-//	SePlaySsg(no, true);
+	if(Nv.isSkip == true)
+	{
+		return;
+	}
+
+	SePlaySsg(no, false);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 効果音FMX
@@ -303,7 +310,22 @@ EWRAM_CODE void NvExecParseFmx(void)
 	s32 no = NvNextCurNum();
 //	TRACE("%d\n", no);
 
-//	SePlayFmx(no, true);
+	if(Nv.isSkip == true)
+	{
+		return;
+	}
+
+	bool is = false;
+
+	// 落下音はウェイト
+	if(no == 2)
+	{
+		is = true;
+	}
+
+	SePlayFmx(no, is);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // パタパタアニメーション

@@ -1910,5 +1910,20 @@ copy img\stl13.img rom1 > nul
 rem ƒ^ƒCƒgƒ‹
 copy img\titlep.img rom1 > nul
 
+rem Œø‰Ê‰¹
+copy ..\exe\rom\ssg06.bin rom1 > nul
+copy ..\exe\rom\ssg11.bin rom1 > nul
+copy ..\exe\rom\ssg14.bin rom1 > nul
+copy ..\exe\rom\ssg15.bin rom1 > nul
+copy ..\exe\rom\ssg17.bin rom1 > nul
+copy ..\exe\rom\ssg21.bin rom1 > nul
+copy ..\exe\rom\ssg24.bin rom1 > nul
+copy ..\exe\rom\ssg40.bin rom1 > nul
+copy ..\exe\rom\ssg41.bin rom1 > nul
+copy ..\exe\rom\ssg99.bin rom1 > nul
+copy ..\exe\rom\fmx01.bin rom1 > nul
+copy ..\exe\rom\fmx02.bin rom1 > nul
+copy ..\exe\rom\fmx04.bin rom1 > nul
 
-..\exe\rom\gbfs test1.gbfs rom1\*.img rom1\*.msk rom1\*.snd rom1\*.txt ..\exe\rom\savid.bin
+
+..\exe\rom\gbfs test1.gbfs rom1\*.* ..\exe\rom\savid.bin

@@ -19,7 +19,6 @@ extern "C" {
 enum {
 	VGM_ACT_STOP,
 	VGM_ACT_PLAY,
-	VGM_ACT_PUASE,
 };
 
 typedef struct {
@@ -35,10 +34,10 @@ typedef struct {
 EWRAM_CODE void VgmInit(void);
 IWRAM_CODE void VgmPlay(u8* p);
 IWRAM_CODE void VgmStop(void);
-IWRAM_CODE void VgmIntrVblank(void);
+IWRAM_CODE void VgmIntrVCount(void);
 
 EWRAM_CODE bool VgmIsPlay(void);
-EWRAM_CODE bool VgmIsNext(void);
+EWRAM_CODE bool VgmIsPlayNext(void);
 
 #ifdef __cplusplus
 }

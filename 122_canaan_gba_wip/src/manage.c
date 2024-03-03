@@ -74,22 +74,25 @@ EWRAM_CODE void ManageExecInit(void)
 	NvInit();
 	AnimeInit();
 
-	Manage.act = MANAGE_ACT_NOVEL;
+	// MAIN
 	AnimeSetDat(ANIME_DAT_TITLE);
 
 	// DEBUG1
-	// NvSetTxt(0, 1);				// 落下エフェクト
+	// NvSetTxt(4, 7);				// 落下エフェクト
 	// NvSetTxt(9, 19);				// DUスクロールエフェクト
 	// NvSetTxt(23, 2);				// DUUDスクロールエフェクト
+	// NvSetTxt(8, 13);				// 連続効果音
 
 	// DEBUG2
 	// AnimeSetDat(ANIME_DAT_ENDING);
 	// AnimeSetDat(ANIME_DAT_OPENING);
+
+	Manage.act = MANAGE_ACT_NOVEL;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ManageExecNovel(void)
 {
-	if(SeIsPlay() == true)
+	if(SeIsWait() == true)
 	{
 		return;
 	}

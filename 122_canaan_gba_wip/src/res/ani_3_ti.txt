@@ -5,6 +5,7 @@ strCls
 bgmStop
 effect 36
 clear 7
+ssg 99
 effect 37
 
 

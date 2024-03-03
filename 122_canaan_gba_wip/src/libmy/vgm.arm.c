@@ -34,9 +34,8 @@ IWRAM_CODE void VgmStop(void)
 	Vgm.act = VGM_ACT_STOP;
 
 	// REG_SOUNDCNT
-//	*(u8*)(REG_BASE + 0x84) = 0x00;
-//	*(u8*)(REG_BASE + 0x80) = 0x77;
-//	*(u8*)(REG_BASE + 0x81) = 0xff;
+	*(u8*)(REG_BASE + 0x80) = 0x77;
+	*(u8*)(REG_BASE + 0x81) = 0xFF;
 //	*(u8*)(REG_BASE + 0x84) = 0x80;
 
 	// ch1
@@ -68,7 +67,7 @@ IWRAM_CODE void VgmStop(void)
 	*(u8*)(REG_BASE + 0x7d) = 0x00;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void VgmIntrVblank(void)
+IWRAM_CODE void VgmIntrVCount(void)
 {
 	if(Vgm.act == VGM_ACT_STOP)
 	{
@@ -117,7 +116,7 @@ EWRAM_CODE bool VgmIsPlay(void)
 	return (Vgm.act == VGM_ACT_STOP) ? false : true;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool VgmIsNext(void)
+EWRAM_CODE bool VgmIsPlayNext(void)
 {
 	return (Vgm.pNext == NULL) ? false : true;
 }

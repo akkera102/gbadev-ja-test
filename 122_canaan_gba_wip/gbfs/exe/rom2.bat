@@ -1389,5 +1389,24 @@ copy img\end_t.img rom2 > nul
 rem ƒ^ƒCƒgƒ‹
 copy img\titlep.img rom2 > nul
 
+rem Œø‰Ê‰¹
+copy ..\exe\rom\ssg06.bin rom2 > nul
+copy ..\exe\rom\ssg08.bin rom2 > nul
+copy ..\exe\rom\ssg09.bin rom2 > nul
+copy ..\exe\rom\ssg17.bin rom2 > nul
+copy ..\exe\rom\ssg18.bin rom2 > nul
+copy ..\exe\rom\ssg21.bin rom2 > nul
+copy ..\exe\rom\ssg24.bin rom2 > nul
+copy ..\exe\rom\ssg26.bin rom2 > nul
+copy ..\exe\rom\ssg30.bin rom2 > nul
+copy ..\exe\rom\ssg31.bin rom2 > nul
+copy ..\exe\rom\ssg35.bin rom2 > nul
+copy ..\exe\rom\ssg41.bin rom2 > nul
+copy ..\exe\rom\ssg42.bin rom2 > nul
+copy ..\exe\rom\ssg43.bin rom2 > nul
+copy ..\exe\rom\ssg44.bin rom2 > nul
+copy ..\exe\rom\ssg45.bin rom2 > nul
+copy ..\exe\rom\ssg99.bin rom2 > nul
 
-..\exe\rom\gbfs test2.gbfs rom2\*.img rom2\*.msk rom2\*.snd rom2\*.txt ..\exe\rom\savid.bin
+
+..\exe\rom\gbfs test2.gbfs rom2\*.* ..\exe\rom\savid.bin

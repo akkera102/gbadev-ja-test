@@ -387,8 +387,8 @@ EWRAM_CODE void ImgExecFall(void)
 		return;
 	}
 
-	// wait
-	if(Img.var[1] < 60)
+	// wait 効果音とタイミングを合わせる
+	if(Img.var[1] < 260)
 	{
 		Img.var[1]++;
 		return;
@@ -769,8 +769,8 @@ EWRAM_CODE void ImgDrawVramClear(void)
 	TRACE("[ImgDrawVramClear]\n");
 
 	// VBLANK無視
-	ImgDrawIcoClear();
 	ImgDrawMinClear();
+	ImgDrawIcoClear();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgDrawBg(void)
