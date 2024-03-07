@@ -7,6 +7,7 @@
 #include "file.h"
 #include "manage.h"
 #include "bgm.h"
+#include "se.h"
 
 //---------------------------------------------------------------------------
 ST_NV Nv;
@@ -77,6 +78,8 @@ EWRAM_CODE void  NvExecKeyTxt(void)
 		}
 	}
 
+	// DEBUG
+	// trg = KEY_A;
 
 	if(cnt & KEY_R || trg & KEY_A || trg & KEY_DOWN)
 	{
@@ -137,6 +140,8 @@ EWRAM_CODE void  NvExecKeyPty(void)
 		}
 	}
 
+	// DEBUG
+	// trg = KEY_A;
 
 	if(cnt & KEY_R || trg & KEY_A || trg & KEY_DOWN)
 	{
@@ -155,6 +160,7 @@ EWRAM_CODE void NvExecLoad(void)
 	switch(Nv.step)
 	{
 	case 0:
+		SeStop();
 		LogInit();
 		TxtHideMsg();
 		ImgSetEff(IMG_EFFECT_IGNORE_LOAD_IN);

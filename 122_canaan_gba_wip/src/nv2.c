@@ -299,7 +299,7 @@ EWRAM_CODE void NvExecParseSsg(void)
 		return;
 	}
 
-	SePlaySsg(no, false);
+	SePlaySsg(no);
 
 	Nv.isLoop = false;
 }
@@ -315,15 +315,7 @@ EWRAM_CODE void NvExecParseFmx(void)
 		return;
 	}
 
-	bool is = false;
-
-	// 落下音はウェイト
-	if(no == 2)
-	{
-		is = true;
-	}
-
-	SePlayFmx(no, is);
+	SePlayFmx(no);
 
 	Nv.isLoop = false;
 }

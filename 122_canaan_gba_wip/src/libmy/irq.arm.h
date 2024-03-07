@@ -8,8 +8,9 @@ extern "C" {
 #include "../libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define IRQ_MAX_VCOUNT_CNT				6
-
+#define IRQ_VCOUNT_START					37
+#define IRQ_VCOUNT_ADD						38
+#define IRQ_VCOUNT_END						(IRQ_VCOUNT_START + IRQ_VCOUNT_ADD * 5)
 
 //---------------------------------------------------------------------------
 

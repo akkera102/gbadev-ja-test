@@ -9,6 +9,7 @@
 #include "file.h"
 #include "anime.h"
 #include "bgm.h"
+#include "se.h"
 
 //---------------------------------------------------------------------------
 char MenuSelectStr[][20+1] = {
@@ -184,6 +185,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg)
 		SioriInit();
 		NvInit();
 		AnimeInit();
+		SeStop();
 
 		AnimeSetDat(ANIME_DAT_TITLE);
 		ManageSetNovel();

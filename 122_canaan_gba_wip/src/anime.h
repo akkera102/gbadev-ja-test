@@ -40,6 +40,7 @@ typedef struct {
 
 	bool  isLoop;
 	bool  isSkip;
+	bool  isSsg;
 	s32   wait;
 	u32   waitBgm;
 	s32   waitFontIn;
@@ -63,6 +64,7 @@ typedef struct {
 EWRAM_CODE void AnimeInit(void);
 EWRAM_CODE void AnimeSetDat(s32 num);
 EWRAM_CODE void AnimeSetArg(s32 num);
+EWRAM_CODE void AnimeSetSsg(bool is);
 
 EWRAM_CODE void AnimeExec(void);
 EWRAM_CODE void AnimeExecSub(void);

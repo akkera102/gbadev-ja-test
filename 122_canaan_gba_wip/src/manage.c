@@ -74,15 +74,14 @@ EWRAM_CODE void ManageExecInit(void)
 	NvInit();
 	AnimeInit();
 
-	// MAIN
 	AnimeSetDat(ANIME_DAT_TITLE);
+	AnimeSetSsg(true);
 
 	// DEBUG1
 	// NvSetTxt(4, 7);				// 落下エフェクト
 	// NvSetTxt(9, 19);				// DUスクロールエフェクト
 	// NvSetTxt(23, 2);				// DUUDスクロールエフェクト
 	// NvSetTxt(8, 13);				// 連続効果音
-
 	// DEBUG2
 	// AnimeSetDat(ANIME_DAT_ENDING);
 	// AnimeSetDat(ANIME_DAT_OPENING);

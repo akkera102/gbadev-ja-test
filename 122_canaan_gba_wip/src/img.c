@@ -388,7 +388,7 @@ EWRAM_CODE void ImgExecFall(void)
 	}
 
 	// wait 効果音とタイミングを合わせる
-	if(Img.var[1] < 260)
+	if(Img.var[1] < 300)
 	{
 		Img.var[1]++;
 		return;

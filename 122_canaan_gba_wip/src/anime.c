@@ -84,6 +84,11 @@ EWRAM_CODE void AnimeSetArg(s32 num)
 	Anime.arg = num;
 }
 //---------------------------------------------------------------------------
+EWRAM_CODE void AnimeSetSsg(bool is)
+{
+	Anime.isSsg = is;
+}
+//---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExec(void)
 {
 	if(Anime.isSkip == true && KeyGetCnt() & KEY_START)
@@ -309,7 +314,10 @@ EWRAM_CODE void AnimeExecSsg(void)
 {
 	s32 no = LexGetNum();
 
-	SePlaySsg(no, false);
+	if(Anime.isSsg == true)
+	{
+		SePlaySsg(no);
+	}
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void AnimeExecSkip(void)
