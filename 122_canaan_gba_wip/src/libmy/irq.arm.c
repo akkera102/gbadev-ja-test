@@ -34,19 +34,22 @@ IWRAM_CODE void IrqHandler(void)
 	{
 		VgmIntrVCount();
 
-		// vcount‚Ì1‚Â‚Í8ADƒ‹[ƒ`ƒ“‚ðŒÄ‚Ño‚µ‚Ü‚·
 		if(Irq.vCnt == IRQ_VCOUNT_START)
 		{
 			AdIntrVcount();
 		}
 
-		Irq.vCnt += IRQ_VCOUNT_ADD;
-		REG_DISPSTAT = (REG_DISPSTAT & STAT_MASK) | LCDC_VCNT | VCOUNT(Irq.vCnt);
 
-		if(Irq.vCnt >= IRQ_VCOUNT_END) 
+		if(Irq.vCnt >= IRQ_VCOUNT_END)
 		{
 			Irq.vCnt = IRQ_VCOUNT_START;
 		}
+		else
+		{
+			Irq.vCnt += IRQ_VCOUNT_ADD;
+		}
+
+		REG_DISPSTAT = (REG_DISPSTAT & STAT_MASK) | LCDC_VCNT | VCOUNT(Irq.vCnt);
 	}
 
 	if(flag & IRQ_VBLANK)

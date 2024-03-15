@@ -897,6 +897,8 @@ if(sys.argv[1] == "cs18_04.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nEFF 11\nLD
 if(sys.argv[1] == "cs18_05.log"): txt = re.sub('LDS', 'EFF 36\nEFF 11\nLDS', txt)
 # カイン消去　ラビィと会話終了
 if(sys.argv[1] == "cs18_07.log"): txt = re.sub('ねえー」\nKEY\n', 'ねえー」\nKEY\nCLR 2\nEFF 33\n', txt)
+# ルウリィ消去　ルウリィ立ち去る
+if(sys.argv[1] == "cs18_08.log"): txt = re.sub('またね」\nKEY\n', 'またね」\nKEY\nCLR 2\nEFF 33\n', txt)
 # 全角消去
 if(sys.argv[1] == "cs18_08.log"): txt = re.sub('　　　　　　　　　レポート', '　レポート', txt)
 # 全角消去
