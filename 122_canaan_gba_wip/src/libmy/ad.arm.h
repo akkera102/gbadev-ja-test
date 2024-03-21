@@ -28,8 +28,8 @@ typedef struct {
 	u8*  pTop;
 	u8*  pEnd;
 
-	s32  lastSamp;
 	s32  lastIdx;
+	s32  lastSamp;
 
 	s32  bufIdx;
 	s8   buf[2][AD_BUF_SIZE] ALIGN(4);
@@ -40,17 +40,12 @@ typedef struct {
 EWRAM_CODE void AdInit(void);
 
 IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop);
-IWRAM_CODE void AdReset(void);
 IWRAM_CODE void AdStop(void);
-EWRAM_CODE bool AdIsEnd(void);
-EWRAM_CODE u32  AdGetOffset(void);
 
-IWRAM_CODE void AdIntrVcount(void);
+IWRAM_CODE u32  AdGetOffset(void);
+IWRAM_CODE bool AdIsEnd(void);
+
 IWRAM_CODE void AdIntrVblank(void);
-IWRAM_CODE void AdIntrNextBuf(void);
-
-
-
 
 #ifdef __cplusplus
 }

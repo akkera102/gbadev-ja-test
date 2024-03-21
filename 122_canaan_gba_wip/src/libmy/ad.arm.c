@@ -59,164 +59,147 @@ EWRAM_CODE void AdInit(void)
 
 	REG_SOUNDCNT_X = SNDSTAT_ENABLE;
 	REG_SOUNDCNT_L = 0;
-	REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_RESET_FIFO;
+//	REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_RESET_FIFO;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
 {
 	AdStop();
-	AdInit();
 
-	Ad.isLoop   = isLoop;
-	Ad.pCur     = pDat;
-	Ad.pTop     = pDat;
-	Ad.pEnd     = pDat + size - AD_BUF_SIZE;		// 終端はバッファ１つ分前
-	Ad.lastSamp = 0;
-	Ad.lastIdx  = 0;
-	Ad.bufIdx   = 0;
+	_Memset(&Ad, 0x00, sizeof(ST_AD));
 
+	Ad.isLoop = isLoop;
+	Ad.pCur   = pDat;
+	Ad.pTop   = pDat;
+	Ad.pEnd   = pDat + size - AD_BUF_SIZE;		// 終端はバッファ１つ分前（バグ修正
+
+	REG_TM0CNT_H = 0;
 	REG_TM0CNT_L = 0x10000 - AD_SAMPLE_TIME;
 	REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
 
 	Ad.act = AD_ACT_READY;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void AdReset(void)
-{
-	Ad.pCur     = Ad.pTop;
-	Ad.lastSamp = 0;
-	Ad.lastIdx  = 0;
-}
-//---------------------------------------------------------------------------
 IWRAM_CODE void AdStop(void)
 {
+	Ad.act = AD_ACT_STOP;
+
 	REG_SOUNDCNT_H &= ~(SNDA_R_ENABLE | SNDA_L_ENABLE);
 	REG_DMA1CNT = 0;
 	REG_SOUNDCNT_H |=  (SNDA_RESET_FIFO);
-
-	Ad.act = AD_ACT_STOP;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE bool AdIsEnd(void)
-{
-	return (Ad.act == AD_ACT_STOP) ? true : false;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE u32 AdGetOffset(void)
+IWRAM_CODE u32 AdGetOffset(void)
 {
 	return Ad.pCur - Ad.pTop;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void AdIntrVcount(void)
+IWRAM_CODE bool AdIsEnd(void)
 {
-	if(Ad.act != AD_ACT_READY && Ad.act != AD_ACT_PLAY)
-	{
-		return;
-	}
-	Ad.act = AD_ACT_PLAY;
-
-	u8* pSrc = Ad.pCur;
-	s8* pDst = Ad.buf[Ad.bufIdx];
-	u32 len  = AD_BUF_SIZE;
-	u32 by   = 0;
-
-	s32 step;
-	s32 diff;
-	u32 code;
-
-	Ad.pCur += AD_BUF_SIZE >> 1;
-
-	while(len > 0)
-	{
-		if(Ad.lastIdx < 0)
-		{
-			Ad.lastIdx = 0;
-		}
-		if(Ad.lastIdx > 88)
-		{
-			Ad.lastIdx = 88;
-		}
-		step = AdStepTable[Ad.lastIdx];
-
-		if(len & 1)
-		{
-			code = by >> 4;
-		}
-		else
-		{
-			by = *pSrc++;
-			code = by & 0x0f;
-		}
-
-		/* 0,1,2,3,4,5,6,9 */
-		diff = step >> 3;
-		if(code & 1)
-		{
-			diff += step >> 2;
-		}
-		if(code & 2)
-		{
-			diff += step >> 1;
-		}
-		if(code & 4)
-		{
-			diff += step;
-		}
-		if((code & 7) == 7)
-		{
-			diff += step >> 1;
-		}
-		if(code & 8)
-		{
-			diff = -diff;
-		}
-
-		Ad.lastIdx  += AdIndiceTable[code & 0x07];
-		Ad.lastSamp += diff;
-
-		if(Ad.lastSamp < -32768)
-		{
-			Ad.lastSamp = -32768;
-		}
-		if(Ad.lastSamp > 32767)
-		{
-			Ad.lastSamp = 32767;
-		}
-		*pDst++ = Ad.lastSamp >> 8;
-
-		len--;
-	}
+	return (Ad.act == AD_ACT_STOP) ? true : false;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdIntrVblank(void)
 {
-	if(Ad.act != AD_ACT_PLAY)
+	if(Ad.act == AD_ACT_PLAY)
 	{
-		return;
+		REG_DMA1CNT = 0;
+		DMA1COPY(Ad.buf[Ad.bufIdx], &REG_FIFO_A, DMA_SPECIAL | DMA32 | DMA_REPEAT | DMA_SRC_INC | DMA_DST_FIXED);
+		REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_R_ENABLE | SNDA_L_ENABLE;
+
+		Ad.bufIdx ^= 0x01;
+
+		if(Ad.pCur >= Ad.pEnd)
+		{
+			if(Ad.isLoop != true)
+			{
+				AdStop();
+
+				return;
+			}
+
+			// loop
+			Ad.pCur = Ad.pTop;
+			Ad.lastIdx = 0;
+			Ad.lastSamp = 0;
+		}
 	}
 
-
-	AdIntrNextBuf();
-
-	if(Ad.pCur >= Ad.pEnd)
+	// decode
+	if(Ad.act == AD_ACT_READY || Ad.act == AD_ACT_PLAY)
 	{
-		if(Ad.isLoop == true)
+		Ad.act = AD_ACT_PLAY;
+
+		u8* pSrc = Ad.pCur;
+		s8* pDst = Ad.buf[Ad.bufIdx];
+		u32 len  = AD_BUF_SIZE;
+		u32 by   = 0;
+
+		s32 step;
+		s32 diff;
+		u32 code;
+
+		Ad.pCur += AD_BUF_SIZE >> 1;
+
+		while(len > 0)
 		{
-			AdReset();
-		}
-		else
-		{
-			AdStop();
+			if(Ad.lastIdx < 0)
+			{
+				Ad.lastIdx = 0;
+			}
+			if(Ad.lastIdx > 88)
+			{
+				Ad.lastIdx = 88;
+			}
+			step = AdStepTable[Ad.lastIdx];
+
+			if(len & 1)
+			{
+				code = by >> 4;
+			}
+			else
+			{
+				by = *pSrc++;
+				code = by & 0x0f;
+			}
+
+			/* 0,1,2,3,4,5,6,9 */
+			diff = step >> 3;
+			if(code & 1)
+			{
+				diff += step >> 2;
+			}
+			if(code & 2)
+			{
+				diff += step >> 1;
+			}
+			if(code & 4)
+			{
+				diff += step;
+			}
+			if((code & 7) == 7)
+			{
+				diff += step >> 1;
+			}
+			if(code & 8)
+			{
+				diff = -diff;
+			}
+
+			Ad.lastIdx  += AdIndiceTable[code & 0x07];
+			Ad.lastSamp += diff;
+
+			if(Ad.lastSamp < -32768)
+			{
+				Ad.lastSamp = -32768;
+			}
+			if(Ad.lastSamp > 32767)
+			{
+				Ad.lastSamp = 32767;
+			}
+			*pDst++ = Ad.lastSamp >> 8;
+
+			len--;
 		}
 	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void AdIntrNextBuf(void)
-{
-	REG_DMA1CNT  = 0;
-
-	DMA1COPY(Ad.buf[Ad.bufIdx], &REG_FIFO_A, DMA_SPECIAL | DMA32 | DMA_REPEAT | DMA_SRC_INC | DMA_DST_FIXED);
-	REG_SOUNDCNT_H |= (SNDA_R_ENABLE | SNDA_L_ENABLE);
-
-	Ad.bufIdx ^= 0x01;
 }

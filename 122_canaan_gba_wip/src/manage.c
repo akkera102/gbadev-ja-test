@@ -32,6 +32,8 @@ EWRAM_CODE void ManageExec(void)
 			VBlankIntrWait();
 		}
 
+		TRACE("%d\n", REG_VCOUNT);
+
 		LibMyExec();
 
 

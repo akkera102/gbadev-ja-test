@@ -1,4 +1,5 @@
 #include "vgm.arm.h"
+#include "irq.arm.h"
 
 //---------------------------------------------------------------------------
 ST_VGM Vgm;
@@ -10,14 +11,14 @@ EWRAM_CODE void VgmInit(void)
 	_Memset(&Vgm, 0x00, sizeof(ST_VGM));
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void VgmPlay(u8* p)
+IWRAM_CODE void VgmPlay(u8* pDat)
 {
 	_ASSERT(Vgm.pNext == NULL);
 
 	// ââëtíÜÇ»ÇÁéüÇÃâπÇó\ñÒÇµÇ‹Ç∑
 	if(Vgm.act == VGM_ACT_PLAY)
 	{
-		Vgm.pNext = p;
+		Vgm.pNext = pDat;
 
 		return;
 	}
@@ -25,8 +26,10 @@ IWRAM_CODE void VgmPlay(u8* p)
 	VgmStop();
 
 	Vgm.act  = VGM_ACT_PLAY;
-	Vgm.pCur = p;
-	Vgm.pTop = p;
+	Vgm.pCur = pDat;
+	Vgm.pTop = pDat;
+
+	IrqSetVblVcnt();
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmStop(void)
@@ -71,6 +74,13 @@ IWRAM_CODE void VgmStop(void)
 	*(u8*)(REG_BASE + 0x81) = 0xFF;
 }
 //---------------------------------------------------------------------------
+IWRAM_CODE void VgmStop2(void)
+{
+	VgmStop();
+	VgmInit();			// pNextè¡ãé
+	IrqSetVbl();		// äÑÇËçûÇ›ÉnÉìÉhÉâïœçX
+}
+//---------------------------------------------------------------------------
 IWRAM_CODE void VgmIntrVCount(void)
 {
 	if(Vgm.act == VGM_ACT_STOP)
@@ -111,6 +121,7 @@ IWRAM_CODE void VgmIntrVCount(void)
 			}
 
 			VgmStop();
+			IrqSetVbl();
 			return;
 		}
 

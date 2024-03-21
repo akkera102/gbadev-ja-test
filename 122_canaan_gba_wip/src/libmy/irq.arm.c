@@ -2,9 +2,8 @@
 #include "ad.arm.h"
 #include "vgm.arm.h"
 
-// 注意　VCOUNT値　直書き込みしています
-// 6回割り込み　37 75 113 151 189 227
-
+// 注意　VCOUNT6回割り込み　37 75 113 151 189 227
+// 効果音再生時はVblVcnt、音楽再生時
 
 //---------------------------------------------------------------------------
 ST_IRQ Irq;
@@ -14,18 +13,51 @@ ST_IRQ Irq;
 EWRAM_CODE void IrqInit(void)
 {
 	_Memset(&Irq, 0x00, sizeof(ST_IRQ));
-	Irq.vCnt = IRQ_VCOUNT_START;
 
+	IrqSetVbl();
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void IrqSetVbl(void)
+{
 	REG_IME = 0;
 
-	INT_VECTOR   = (void*)IrqHandler;
-	REG_IE       = IRQ_VBLANK | IRQ_VCOUNT;
-	REG_DISPSTAT = LCDC_VBL | LCDC_VCNT | VCOUNT(Irq.vCnt);
+	REG_IE       = IRQ_VBLANK;
+	REG_DISPSTAT = LCDC_VBL;
+	INT_VECTOR   = (void*)IrqHandlerVbl;
 
 	REG_IME = 1;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void IrqHandler(void)
+IWRAM_CODE void IrqSetVblVcnt(void)
+{
+	REG_IME = 0;
+
+	Irq.vCnt = IRQ_VCOUNT_START;
+
+	REG_IE       = IRQ_VBLANK | IRQ_VCOUNT;
+	REG_DISPSTAT = LCDC_VBL | LCDC_VCNT | VCOUNT(Irq.vCnt);
+	INT_VECTOR   = (void*)IrqHandlerVblVcnt;
+
+	REG_IME = 1;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void IrqHandlerVbl(void)
+{
+	REG_IME  = 0;
+	u16 flag = REG_IF;
+
+	if(flag & IRQ_VBLANK)
+	{
+		AdIntrVblank();
+
+		REG_IRQ_WAITFLAGS |= IRQ_VBLANK;
+	}
+
+	REG_IF  = flag;
+	REG_IME = 1;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void IrqHandlerVblVcnt(void)
 {
 	REG_IME  = 0;
 	u16 flag = REG_IF;
@@ -33,12 +65,6 @@ IWRAM_CODE void IrqHandler(void)
 	if(flag & IRQ_VCOUNT)
 	{
 		VgmIntrVCount();
-
-		if(Irq.vCnt == IRQ_VCOUNT_START)
-		{
-			AdIntrVcount();
-		}
-
 
 		if(Irq.vCnt >= IRQ_VCOUNT_END)
 		{

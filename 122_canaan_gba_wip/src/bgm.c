@@ -37,7 +37,7 @@ EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)
 	Bgm.no = no;
 }
 //---------------------------------------------------------------------------
-// セーブデータのロード時に使います
+// ロードデータ時に使います
 EWRAM_CODE void BgmPlayLoad(void)
 {
 	if(Bgm.isPlay == false)

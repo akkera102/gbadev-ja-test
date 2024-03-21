@@ -22,8 +22,12 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void IrqInit(void);
-IWRAM_CODE void IrqHandler(void);
 
+IWRAM_CODE void IrqSetVbl(void);
+IWRAM_CODE void IrqSetVblVcnt(void);
+
+IWRAM_CODE void IrqHandlerVbl(void);
+IWRAM_CODE void IrqHandlerVblVcnt(void);
 
 #ifdef __cplusplus
 }

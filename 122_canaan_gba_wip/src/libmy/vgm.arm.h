@@ -32,8 +32,9 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void VgmInit(void);
-IWRAM_CODE void VgmPlay(u8* p);
+IWRAM_CODE void VgmPlay(u8* pDat);
 IWRAM_CODE void VgmStop(void);
+IWRAM_CODE void VgmStop2(void);
 IWRAM_CODE void VgmIntrVCount(void);
 
 EWRAM_CODE bool VgmIsPlay(void);

@@ -32,8 +32,7 @@ EWRAM_CODE void SePlayFmx(s32 no)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SeStop(void)
 {
-	VgmStop();
-	VgmInit();
+	VgmStop2();
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SeIsWait(void)
