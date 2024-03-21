@@ -59,7 +59,7 @@ EWRAM_CODE void AdInit(void)
 
 	REG_SOUNDCNT_X = SNDSTAT_ENABLE;
 	REG_SOUNDCNT_L = 0;
-//	REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_RESET_FIFO;
+	REG_SOUNDCNT_H = DSOUNDCTRL_DMG50;		// sound1-4 Vol 50%(VGM効果音用)
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
@@ -73,7 +73,7 @@ IWRAM_CODE void AdPlay(u8* pDat, s32 size, bool isLoop)
 	Ad.pTop   = pDat;
 	Ad.pEnd   = pDat + size - AD_BUF_SIZE;		// 終端はバッファ１つ分前（バグ修正
 
-	REG_TM0CNT_H = 0;
+	REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_R_ENABLE | SNDA_L_ENABLE | DSOUNDCTRL_DMG50;
 	REG_TM0CNT_L = 0x10000 - AD_SAMPLE_TIME;
 	REG_TM0CNT_H = TIMER_FREQ_PER_1 | TIMER_START;
 
@@ -84,9 +84,11 @@ IWRAM_CODE void AdStop(void)
 {
 	Ad.act = AD_ACT_STOP;
 
-	REG_SOUNDCNT_H &= ~(SNDA_R_ENABLE | SNDA_L_ENABLE);
+	REG_TM0CNT_H = 0;
 	REG_DMA1CNT = 0;
-	REG_SOUNDCNT_H |=  (SNDA_RESET_FIFO);
+
+	REG_SOUNDCNT_H = SNDA_RESET_FIFO;
+	REG_SOUNDCNT_H = DSOUNDCTRL_DMG50;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE u32 AdGetOffset(void)
@@ -105,7 +107,6 @@ IWRAM_CODE void AdIntrVblank(void)
 	{
 		REG_DMA1CNT = 0;
 		DMA1COPY(Ad.buf[Ad.bufIdx], &REG_FIFO_A, DMA_SPECIAL | DMA32 | DMA_REPEAT | DMA_SRC_INC | DMA_DST_FIXED);
-		REG_SOUNDCNT_H = SNDA_VOL_100 | DSOUNDCTRL_ATIMER(0) | SNDA_R_ENABLE | SNDA_L_ENABLE;
 
 		Ad.bufIdx ^= 0x01;
 

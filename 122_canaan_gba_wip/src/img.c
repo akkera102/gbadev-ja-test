@@ -166,7 +166,7 @@ EWRAM_CODE void ImgExecNormal(void)
 	Img.isEffect = false;
 }
 //---------------------------------------------------------------------------
-// ２ライン飛ばし左右重ね合わせ
+// ４ライン飛ばし左右重ね合わせ
 EWRAM_CODE void ImgExecWipeLr(void)
 {
 	if(Img.var[0]++ == 0)
@@ -176,15 +176,15 @@ EWRAM_CODE void ImgExecWipeLr(void)
 		return;
 	}
 
-	s32 x1 = (Img.var[1] * 4) + 2;
-	s32 x2 = (240 - 4) - (Img.var[1] * 4);
+	s32 x1 = (Img.var[1] * 8) + 4;
+	s32 x2 = (240 - 8) - (Img.var[1] * 8);
 
-	Mode3VramCopy(x1, 0, x1+2, 160);
-	Mode3VramCopy(x2, 0, x2+2, 160);
+	Mode3VramCopy(x1, 0, x1+4, 160);
+	Mode3VramCopy(x2, 0, x2+4, 160);
 
 	Img.var[1]++;
 
-	if(Img.var[1] >= 60)
+	if(Img.var[1] >= 30)
 	{
 		Img.isEffect = false;
 	}
