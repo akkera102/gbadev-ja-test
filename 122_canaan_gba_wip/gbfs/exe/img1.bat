@@ -14,7 +14,7 @@ cd ..
 
 
 rem ---------------------------------
-rem piをpngに変換、pngフォルダに移動
+rem piをpngに変換、imgフォルダに移動
 
 ..\exe\img\decomp.exe tmp\*.pi -out=png
 move png\gfx\*.png img > nul
