@@ -29,6 +29,9 @@ IWRAM_CODE void VgmPlay(u8* pDat)
 	Vgm.pCur = pDat;
 	Vgm.pTop = pDat;
 
+	*(vu8*)(REG_BASE + 0x80) = 0x77;
+	*(vu8*)(REG_BASE + 0x81) = 0xFF;
+
 	IrqSetVblVcnt();
 }
 //---------------------------------------------------------------------------
@@ -36,42 +39,40 @@ IWRAM_CODE void VgmStop(void)
 {
 	Vgm.act = VGM_ACT_STOP;
 
-	// REG_SOUNDCNT
-//	*(u8*)(REG_BASE + 0x84) = 0x80;
-
 	// ch1
-	*(u8*)(REG_BASE + 0x60) = 0x00;
-	*(u8*)(REG_BASE + 0x62) = 0x00;
-	*(u8*)(REG_BASE + 0x63) = 0x00;
-	*(u8*)(REG_BASE + 0x64) = 0x00;
-	*(u8*)(REG_BASE + 0x65) = 0x00;
+	*(vu8*)(REG_BASE + 0x60) = 0x00;
+	*(vu8*)(REG_BASE + 0x62) = 0x00;
+	*(vu8*)(REG_BASE + 0x63) = 0x00;
+	*(vu8*)(REG_BASE + 0x64) = 0x00;
+	*(vu8*)(REG_BASE + 0x65) = 0x00;
 
 	// ch2
-	*(u8*)(REG_BASE + 0x68) = 0x00;
-	*(u8*)(REG_BASE + 0x69) = 0x00;
-	*(u8*)(REG_BASE + 0x6c) = 0x00;
-	*(u8*)(REG_BASE + 0x6d) = 0x00;
+	*(vu8*)(REG_BASE + 0x68) = 0x00;
+	*(vu8*)(REG_BASE + 0x69) = 0x00;
+	*(vu8*)(REG_BASE + 0x6c) = 0x00;
+	*(vu8*)(REG_BASE + 0x6d) = 0x00;
 
 	// ch3
 	for(u32 i=0; i<0x10; i++)
 	{
-		*(u8*)(REG_BASE + 0x90 + i) = 0x80;
+		*(vu8*)(REG_BASE + 0x90 + i) = 0x80;
 	}
-	*(u8*)(REG_BASE + 0x70) = 0x00;
-	*(u8*)(REG_BASE + 0x72) = 0x00;
-	*(u8*)(REG_BASE + 0x73) = 0x00;
-	*(u8*)(REG_BASE + 0x74) = 0x00;
-	*(u8*)(REG_BASE + 0x75) = 0x00;
+	*(vu8*)(REG_BASE + 0x70) = 0x00;
+	*(vu8*)(REG_BASE + 0x72) = 0x00;
+	*(vu8*)(REG_BASE + 0x73) = 0x00;
+	*(vu8*)(REG_BASE + 0x74) = 0x00;
+	*(vu8*)(REG_BASE + 0x75) = 0x00;
 
 	// ch4
-	*(u8*)(REG_BASE + 0x78) = 0x00;
-	*(u8*)(REG_BASE + 0x79) = 0x00;
-	*(u8*)(REG_BASE + 0x7c) = 0x00;
-	*(u8*)(REG_BASE + 0x7d) = 0x00;
+	*(vu8*)(REG_BASE + 0x78) = 0x00;
+	*(vu8*)(REG_BASE + 0x79) = 0x00;
+	*(vu8*)(REG_BASE + 0x7c) = 0x00;
+	*(vu8*)(REG_BASE + 0x7d) = 0x00;
 
 	// REG_SOUNDCNT
-	*(u8*)(REG_BASE + 0x80) = 0x77;
-	*(u8*)(REG_BASE + 0x81) = 0xFF;
+//	*(vu8*)(REG_BASE + 0x84) = 0x80;
+	*(vu8*)(REG_BASE + 0x80) = 0x00;
+	*(vu8*)(REG_BASE + 0x81) = 0x00;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmStop2(void)

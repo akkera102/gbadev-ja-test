@@ -49,10 +49,9 @@ IWRAM_CODE void IrqHandlerVbl(void)
 	if(flag & IRQ_VBLANK)
 	{
 		AdIntrVblank();
-
-		REG_IRQ_WAITFLAGS |= IRQ_VBLANK;
 	}
 
+	REG_IRQ_WAITFLAGS |= flag;
 	REG_IF  = flag;
 	REG_IME = 1;
 }
@@ -81,10 +80,9 @@ IWRAM_CODE void IrqHandlerVblVcnt(void)
 	if(flag & IRQ_VBLANK)
 	{
 		AdIntrVblank();
-
-		REG_IRQ_WAITFLAGS |= IRQ_VBLANK;
 	}
 
+	REG_IRQ_WAITFLAGS |= flag;
 	REG_IF  = flag;
 	REG_IME = 1;
 }
