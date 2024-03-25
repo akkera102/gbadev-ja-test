@@ -29,9 +29,6 @@ IWRAM_CODE void VgmPlay(u8* pDat)
 	Vgm.pCur = pDat;
 	Vgm.pTop = pDat;
 
-	*(vu8*)(REG_BASE + 0x80) = 0x77;
-	*(vu8*)(REG_BASE + 0x81) = 0xFF;
-
 	IrqSetVblVcnt();
 }
 //---------------------------------------------------------------------------
@@ -71,8 +68,8 @@ IWRAM_CODE void VgmStop(void)
 
 	// REG_SOUNDCNT
 //	*(vu8*)(REG_BASE + 0x84) = 0x80;
-	*(vu8*)(REG_BASE + 0x80) = 0x00;
-	*(vu8*)(REG_BASE + 0x81) = 0x00;
+	*(vu8*)(REG_BASE + 0x80) = 0x77;
+	*(vu8*)(REG_BASE + 0x81) = 0xFF;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmStop2(void)

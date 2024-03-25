@@ -69,7 +69,8 @@ txt = re.sub('IMG pat024', 'PAT 24 1', txt)		# Meet Again
 txt = re.sub('IMG pat025', 'PAT 25 2', txt)		# Forbidden Place
 txt = re.sub('IMG pat026', 'PAT 26 3', txt)		# Final Fight
 txt = re.sub('IMG pat027', 'PAT 27 3', txt)		# Relieve
-txt = re.sub('IMG pat028', 'PAT 28 1', txt)		# And...
+txt = re.sub('IMG pat028', 'PAT 28 3', txt)		# And... ウルフィ
+if(sys.argv[1] == "cs28_03.log"): txt = re.sub('PAT 28 3', 'PAT 28 1', txt)		# And... カイト
 
 
 # ---------------------------------------------------------------------------

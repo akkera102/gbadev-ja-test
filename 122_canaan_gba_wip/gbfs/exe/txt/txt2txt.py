@@ -80,7 +80,7 @@ while i < len(src):
 #			print("%04x: %2x%2x" % (i, c1, c2))
 #			print("%2x%2x" % (c1, c2))
 
-			# カナンフォントコード以外の謎コード。cs20_07内で使用
+			# カナンフォントコード以外のNEC 78JIS code。cs20_07内で使用
 			if(c1 == 0x86 and c2 == 0xa2):
 				# 「―」で代用
 				dst.append(0x81)
