@@ -115,7 +115,6 @@ def dat2gba(adr, dat):
     # RAM
     if adr == 0x90 or adr == 0x91 or adr == 0x92 or adr == 0x93 or adr == 0x94 or adr == 0x95 or adr == 0x96 or adr == 0x97 or adr == 0x98 or adr == 0x99 or adr == 0x9a or adr == 0x9b or adr == 0x9c or adr == 0x9d or adr == 0x9e or adr == 0x9f:
         multi = 0.75
-        # multi = 1
         center = 7
         clean = True #GBAはTrueのほうがよさそう
         upper = wavround(((int(hex4(dat)[0], 16)-center)*multi)+center, center, clean)
@@ -130,7 +129,7 @@ def dat2gba(adr, dat):
     return dat
 
 def statfix(txt):
-    targets = re.findall(";- TICK\n.*?_STAT \[.+?\]\n", txt, flags=re.DOTALL)
+    targets = re.findall(";- TICK\n.*?_STAT \\[.+?\\]\n", txt, flags=re.DOTALL)
     res = txt
     for target in targets:
         _tmp = target.split("\n")
