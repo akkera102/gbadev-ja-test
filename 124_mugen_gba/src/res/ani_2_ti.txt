@@ -1,0 +1,17 @@
+# タイトルのみ
+
+strCls
+bgmStop
+bgm 1 1
+
+# フェードイン＋タイトル画面＋フェードアウト
+effect 1
+set backtmp1 1
+effect 8
+effect 2
+
+# テキストイン
+effect 30
+
+# 選択肢へ
+end

@@ -1,0 +1,12 @@
+# タイトル呼び出し時、エンディング直前の背景とキャラクタを表示
+
+strCls
+
+effect 6
+set "011" 1
+effect 8
+set "43d" 2
+effect 9
+
+
+end

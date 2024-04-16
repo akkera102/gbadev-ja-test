@@ -1,0 +1,8 @@
+
+SuperSakura
+https://supersakura.net/
+
+Standalone commandline Decomp tool
+
+decomp.exe
+1 792 889 bytes, sha256 86ddb995fc93a72a1881d53de2b3406f976ff58327a85fe4f5ba22f159d3f929

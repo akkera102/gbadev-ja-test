@@ -1,0 +1,133 @@
+# エンディング　BGMは呼び出し側で再生済
+
+# 画面クリア
+clear 3
+effect 1
+effect 5
+
+
+# スキップ許可
+skip
+
+
+# 摩耶
+str 4 3 『夢幻夜想曲』
+str 4 4 　　製作スタッフ
+set "25f" 1
+effect 60
+strCls
+wait 30
+
+# 人魚姫
+str 6 3 シナリオ
+str 6 4 三峰奈緒
+set "79a" 1
+effect 60
+strCls
+wait 30
+
+
+# 美和子
+str 5 3 シナリオサポート
+str 6 4 西崎圭一
+str 6 5 たいらひとし
+set "64c" 1
+effect 60
+strCls
+wait 30
+
+
+# 深沙緒
+str 7 3 原画
+str 6 4 田無栄造
+str 6 5 弥生　緑
+set "7e2" 1
+effect 60
+strCls
+wait 30
+
+
+# 由羅
+str 5 3 グラフィック
+str 6 4 あけこ
+str 6 5 平野麻琴
+set "52b" 1
+effect 60
+strCls
+wait 30
+
+
+# 沙里
+str 5 3 グラフィック
+str 5 4 たいらひとし
+str 5 5 三峰奈緒
+set "58b" 1
+effect 60
+strCls
+wait 30
+
+
+# 雪菜
+str 4 3 システムプログラム
+str 5 4 さるたいずほ
+set "16a" 1
+effect 60
+strCls
+wait 30
+
+
+# 赤頭巾
+str 4 3 シナリオプログラム
+str 5 4 島根舞人
+str 5 5 たいらひとし
+set "84a" 1
+effect 60
+strCls
+wait 30
+
+
+# 亜璃沙
+str 6 3 サウンド
+str 6 4 萌木一路
+str 7 5 杏☆
+set "2a1" 1
+effect 60
+strCls
+wait 30
+
+
+# 女主人
+str 6 3 ヘルパー
+str 4 4 ハイパーＴＯＳＨＩ
+set "43d" 1
+effect 60
+strCls
+wait 30
+
+
+# 館
+str 6 3 夢幻夜想曲
+str 3 5 企画／製作　アプリコット
+set "001" 1
+effect 61
+wait 120
+
+str 13 9 ＦＩＮ
+wait 480
+strCls
+
+
+
+
+# フェードイン、画面クリア
+effect 1
+skipMark
+strCls
+effect 5
+effect 62
+bgmStop
+
+wait 120
+
+# タイトルへ
+end

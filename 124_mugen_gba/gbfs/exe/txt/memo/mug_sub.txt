@@ -1,0 +1,3703 @@
+	DESC	"Sub:"
+
+start_4100:					■エフェクト？
+	JP	loc_46A2
+
+loc_4104:	; unused		■エフェクト？
+	JP	loc_46D8
+
+loc_4108:	; unused		■背景　i544（指定）
+	JP	loc_471C
+
+loc_410C:	; unused		■エフェクト？
+	JP	loc_4C44
+
+loc_4110:	; unused		■エフェクト？　キャラ消去
+	JP	loc_4C5E
+
+loc_4114:	; unused		■エフェクト？
+	JP	loc_4C7C
+
+loc_4118:	; unused		■エフェクト？
+	JP	loc_4C90
+
+loc_411C:	; unused		■未使用
+	JP	loc_4CB0
+
+loc_4120:	; unused		■音楽　i1024（0:なし　1:26音源　2:86音源　3:midi）i544（選曲）
+	JP	loc_4CB2
+
+loc_4124:	; unused		■大量の変数クリア
+	JP	loc_4FE5
+
+loc_4128:	; unused		■メニュー画面を開く
+	JP	loc_4FF3
+
+loc_412C:	; unused		■未使用
+	JP	loc_5811
+
+loc_4130:	; unused		■TBOPEN	3
+	JP	loc_5813
+
+loc_4134:	; unused		■TBCLOSE	3
+	JP	loc_5823
+
+loc_4138:	; unused		■大量の変数クリア
+	JP	loc_5829
+
+loc_413C:	; unused		■振動エフェクト
+	JP	loc_5885
+
+loc_4140:	; unused		■セーブロードメッセージ表示？
+	JP	loc_58D5
+
+loc_4144:	; unused		■セーブロードメッセージ表示？
+	JP	loc_591F
+
+loc_4148:	; unused		■キャラクタ読み込み（i16で指定）
+	JP	loc_5969
+
+loc_414C:	; unused		■TBOPEN	11
+	JP	loc_66B1
+
+loc_4150:	; unused		■見取り図
+	JP	loc_66C1
+
+file_4154:
+	DB	1, "001.G", 0
+file_415B:
+	DB	1, "002.G", 0
+file_4162:
+	DB	1, "02N.G", 0
+file_4169:
+	DB	1, "003.G", 0
+file_4170:
+	DB	1, "03N.G", 0
+file_4177:
+	DB	1, "004.G", 0
+file_417E:
+	DB	1, "04N.G", 0
+file_4185:
+	DB	1, "005.G", 0
+file_418C:
+	DB	1, "05N.G", 0
+file_4193:
+	DB	1, "006.G", 0
+file_419A:
+	DB	1, "06N.G", 0
+file_41A1:
+	DB	1, "07A.G", 0
+file_41A8:
+	DB	1, "07B.G", 0
+file_41AF:
+	DB	1, "07N.G", 0
+file_41B6:
+	DB	1, "008.G", 0
+file_41BD:
+	DB	1, "08N.G", 0
+file_41C4:
+	DB	1, "009.G", 0
+file_41CB:
+	DB	1, "09N.G", 0
+file_41D2:
+	DB	1, "10A.G", 0
+file_41D9:
+	DB	1, "10B.G", 0
+file_41E0:
+	DB	1, "10N.G", 0
+file_41E7:
+	DB	1, "011.G", 0
+file_41EE:
+	DB	1, "11N.G", 0
+file_41F5:
+	DB	1, "012.G", 0
+file_41FC:
+	DB	1, "12B.G", 0
+file_4203:
+	DB	1, "12N.G", 0
+file_420A:
+	DB	1, "013.G", 0
+file_4211:
+	DB	1, "13N.G", 0
+file_4218:
+	DB	1, "014.G", 0
+file_421F:
+	DB	1, "14N.G", 0
+file_4226:
+	DB	1, "015.G", 0
+file_422D:
+	DB	1, "15N.G", 0
+file_4234:
+	DB	1, "16A.G", 0
+file_423B:
+	DB	1, "16B.G", 0
+file_4242:
+	DB	1, "16C.G", 0
+file_4249:
+	DB	1, "6C2.G", 0
+file_4250:
+	DB	1, "16D.G", 0
+file_4257:
+	DB	1, "6D2.G", 0
+file_425E:	; unused
+	DB	3, "17A.G", 0
+file_4265:	; unused
+	DB	3, "17B.G", 0
+file_426C:	; unused
+	DB	3, "17C.G", 0
+file_4273:
+	DB	4, "018.G", 0
+file_427A:
+	DB	4, "019.G", 0
+file_4281:
+	DB	4, "020.G", 0
+file_4288:
+	DB	4, "021.G", 0
+file_428F:	; unused
+	DB	4, "022.G", 0
+file_4296:	; unused
+	DB	4, "023.G", 0
+file_429D:	; unused
+	DB	4, "024.G", 0
+file_42A4:
+	DB	1, "25A.G", 0
+file_42AB:
+	DB	1, "25B.G", 0
+file_42B2:
+	DB	1, "25C.G", 0
+file_42B9:
+	DB	1, "25D.G", 0
+file_42C0:
+	DB	1, "25E.G", 0
+file_42C7:
+	DB	1, "25F.G", 0
+file_42CE:
+	DB	1, "25G.G", 0
+file_42D5:
+	DB	1, "25H.G", 0
+file_42DC:
+	DB	2, "026.G", 0
+file_42E3:	; unused
+	DB	2, "027.G", 0
+file_42EA:
+	DB	2, "028.G", 0
+file_42F1:
+	DB	2, "029.G", 0
+file_42F8:	; unused
+	DB	2, "30A.G", 0
+file_42FF:	; unused
+	DB	2, "30B.G", 0
+file_4306:	; unused
+	DB	2, "30C.G", 0
+file_430D:	; unused
+	DB	2, "30D.G", 0
+file_4314:	; unused
+	DB	2, "031.G", 0
+file_431B:	; unused
+	DB	2, "032.G", 0
+file_4322:
+	DB	2, "033.G", 0
+file_4329:	; unused
+	DB	2, "034.G", 0
+file_4330:	; unused
+	DB	2, "035.G", 0
+file_4337:	; unused
+	DB	2, "036.G", 0
+file_433E:
+	DB	1, "37A.G", 0
+file_4345:
+	DB	1, "7A2.G", 0
+file_434C:
+	DB	1, "37B.G", 0
+file_4353:
+	DB	1, "7B2.G", 0
+file_435A:
+	DB	1, "37C.G", 0
+file_4361:
+	DB	1, "7C2.G", 0
+file_4368:
+	DB	1, "038.G", 0
+file_436F:
+	DB	1, "039.G", 0
+file_4376:	; unused
+	DB	3, "040.G", 0
+file_437D:	; unused
+	DB	3, "041.G", 0
+file_4384:	; unused
+	DB	3, "042.G", 0
+file_438B:
+	DB	1, "43A.G", 0
+file_4392:
+	DB	1, "43B.G", 0
+file_4399:
+	DB	1, "43C.G", 0
+file_43A0:
+	DB	1, "43D.G", 0
+file_43A7:	; unused
+	DB	2, "044.G", 0
+file_43AE:	; unused
+	DB	2, "045.G", 0
+file_43B5:	; unused
+	DB	4, "046.G", 0
+file_43BC:	; unused
+	DB	4, "047.G", 0
+file_43C3:
+	DB	1, "048.G", 0
+file_43CA:
+	DB	1, "48N.G", 0
+file_43D1:
+	DB	1, "049.G", 0
+file_43D8:
+	DB	1, "49N.G", 0
+file_43DF:	; unused
+	DB	3, "050.G", 0
+file_43E6:	; unused
+	DB	3, "051.G", 0
+file_43ED:
+	DB	1, "52A.G", 0
+file_43F4:
+	DB	1, "52B.G", 0
+file_43FB:
+	DB	1, "52C.G", 0
+file_4402:
+	DB	1, "52D.G", 0
+file_4409:
+	DB	1, "52E.G", 0
+file_4410:
+	DB	3, "053.G", 0
+file_4417:
+	DB	3, "54A.G", 0
+file_441E:
+	DB	3, "54B.G", 0
+file_4425:	; unused
+	DB	3, "055.G", 0
+file_442C:	; unused
+	DB	3, "056.G", 0
+file_4433:	; unused
+	DB	3, "057.G", 0
+file_443A:
+	DB	1, "58A.G", 0
+file_4441:
+	DB	1, "58B.G", 0
+file_4448:
+	DB	1, "58C.G", 0
+file_444F:	; unused
+	DB	3, "059.G", 0
+file_4456:	; unused
+	DB	3, "60A.G", 0
+file_445D:	; unused
+	DB	3, "60B.G", 0
+file_4464:	; unused
+	DB	3, "60C.G", 0
+file_446B:	; unused
+	DB	3, "061.G", 0
+file_4472:	; unused
+	DB	3, "062.G", 0
+file_4479:	; unused
+	DB	3, "063.G", 0
+file_4480:
+	DB	1, "64A.G", 0
+file_4487:
+	DB	1, "64B.G", 0
+file_448E:
+	DB	1, "4BD.G", 0
+file_4495:
+	DB	1, "64C.G", 0
+file_449C:	; unused
+	DB	2, "065.G", 0
+file_44A3:	; unused
+	DB	2, "066.G", 0
+file_44AA:	; unused
+	DB	2, "67A.G", 0
+file_44B1:	; unused
+	DB	2, "67B.G", 0
+file_44B8:	; unused
+	DB	2, "67C.G", 0
+file_44BF:	; unused
+	DB	4, "068.G", 0
+file_44C6:	; unused
+	DB	2, "069.G", 0
+file_44CD:	; unused
+	DB	2, "070.G", 0
+file_44D4:	; unused
+	DB	2, "071.G", 0
+file_44DB:
+	DB	1, "2A1.G", 0
+file_44E2:
+	DB	1, "2A2.G", 0
+file_44E9:
+	DB	1, "2B1.G", 0
+file_44F0:
+	DB	1, "2B2.G", 0
+file_44F7:
+	DB	1, "2C1.G", 0
+file_44FE:
+	DB	1, "2C2.G", 0
+file_4505:
+	DB	1, "2D1.G", 0
+file_450C:
+	DB	1, "2D2.G", 0
+file_4513:	; unused
+	DB	4, "073.G", 0
+file_451A:	; unused
+	DB	4, "074.G", 0
+file_4521:	; unused
+	DB	4, "075.G", 0
+file_4528:	; unused
+	DB	4, "076.G", 0
+file_452F:	; unused
+	DB	4, "077.G", 0
+file_4536:
+	DB	4, "078.G", 0
+file_453D:
+	DB	2, "79A.G", 0
+file_4544:
+	DB	2, "79B.G", 0
+file_454B:
+	DB	2, "79C.G", 0
+file_4552:
+	DB	2, "79D.G", 0
+file_4559:	; unused
+	DB	2, "080.G", 0
+file_4560:	; unused
+	DB	2, "081.G", 0
+file_4567:	; unused
+	DB	2, "082.G", 0
+file_456E:
+	DB	1, "083.G", 0
+file_4575:
+	DB	1, "84A.G", 0
+file_457C:
+	DB	1, "84B.G", 0
+file_4583:
+	DB	1, "84C.G", 0
+file_458A:
+	DB	1, "84D.G", 0
+file_4591:	; unused
+	DB	3, "085.G", 0
+file_4598:	; unused
+	DB	3, "86A.G", 0
+file_459F:	; unused
+	DB	3, "86B.G", 0
+file_45A6:	; unused
+	DB	3, "86C.G", 0
+file_45AD:	; unused
+	DB	3, "86D.G", 0
+file_45B4:	; unused
+	DB	3, "087.G", 0
+file_45BB:	; unused
+	DB	3, "088.G", 0
+file_45C2:
+	DB	1, "089.G", 0
+file_45C9:
+	DB	1, "90A.G", 0
+file_45D0:
+	DB	1, "90B.G", 0
+file_45D7:
+	DB	1, "90C.G", 0
+file_45DE:
+	DB	1, "90D.G", 0
+file_45E5:
+	DB	1, "90E.G", 0
+file_45EC:	; unused
+	DB	4, "091.G", 0
+file_45F3:	; unused
+	DB	4, "092.G", 0
+file_45FA:	; unused
+	DB	4, "093.G", 0
+file_4601:	; unused
+	DB	4, "094.G", 0
+file_4608:	; unused
+	DB	4, "095.G", 0
+file_460F:	; unused
+	DB	4, "96A.G", 0
+file_4616:	; unused
+	DB	4, "96B.G", 0
+file_461D:	; unused
+	DB	4, "097.G", 0
+file_4624:	; unused
+	DB	4, "97C.G", 0
+file_462B:	; unused
+	DB	4, "098.G", 0
+file_4632:	; unused
+	DB	4, "099.G", 0
+file_4639:	; unused
+	DB	4, "100.G", 0
+file_4640:	; unused
+	DB	1, "TTL.G", 0
+file_4647:	; unused
+	DB	1, "WIN.G", 0
+file_464E:
+	DB	1, "BK0.G", 0
+file_4655:
+	DB	1, "01N.G", 0
+file_465C:	; unused
+	DB	4, "97B.G", 0
+
+loc_4663:	; unused
+	JEQ	0x0000
+	DOSEXIT
+
+unk_4669:	; unused
+	DB	0x00
+file_466A:
+	DB	1, "37D.G", 0
+file_4671:
+	DB	1, "7D2.G", 0
+file_4678:
+	DB	1, "37E.G", 0
+file_467F:
+	DB	1, "7E2.G", 0
+file_4686:
+	DB	3, "05B.G", 0
+file_468D:
+	DB	1, "101.G", 0
+file_4694:
+	DB	1, "43E.g", 0
+file_469B:
+	DB	1, "90Z.g", 0
+
+loc_46A2:
+	CALL	loc_6201
+	MOVI	i515, 1
+	MOVI	i524, 0
+	CMD2F	2, 0, 0, 60, 304, 1, 0, 0
+
+	DW	0x0095
+
+	DOSEXIT
+
+loc_46C8:	; unused
+	DOSEXIT
+
+loc_46CA:	; unused
+	TXCLR2	304, 14, 8, 1, 4
+	RET
+
+loc_46D8:
+	MOVI	i515, 0
+	MOVI	i303, 0
+	MOVI	i524, 0
+	CMD5E	1, 0, 0, 60, 304
+	CMD2F	1, 0, 0, 60, 304, 2, 0, 0
+
+	DW	0x0095
+
+	DOSEXIT
+
+loc_470C:	; unused
+	DOSEXIT
+
+loc_470E:	; unused
+	TXCLR2	304, 14, 8, 2, 5
+	RET
+
+loc_471C:
+	MOVR	i303, i544
+	JTBL	i544
+	DW	loc_479E	; 0
+	DW	loc_47B2	; 1
+	DW	loc_47C8	; 2
+	DW	loc_47DC	; 3
+	DW	loc_47F2	; 4
+	DW	loc_4806	; 5
+	DW	loc_481C	; 6
+	DW	loc_4830	; 7
+	DW	loc_4846	; 8
+	DW	loc_485A	; 9
+	DW	loc_4870	; 10
+	DW	loc_4884	; 11
+	DW	loc_489A	; 12
+	DW	loc_48AE	; 13
+	DW	loc_48C4	; 14
+	DW	loc_48DE	; 15
+	DW	loc_48F6	; 16
+	DW	loc_4904	; 17
+	DW	loc_491A	; 18
+	DW	loc_492E	; 19
+	DW	loc_4944	; 20
+	DW	loc_4958	; 21
+	DW	loc_496E	; 22
+	DW	loc_4988	; 23
+	DW	loc_49A2	; 24
+	DW	loc_49B0	; 25
+	DW	loc_49C6	; 26
+	DW	loc_49DA	; 27
+	DW	loc_49F0	; 28
+	DW	loc_4A0A	; 29
+	DW	loc_4A24	; 30
+	DW	loc_4A32	; 31
+	DW	loc_4A48	; 32
+	DW	loc_4A5C	; 33
+	DW	loc_4A72	; 34
+	DW	loc_4A86	; 35
+	DW	loc_4A9C	; 36
+	DW	loc_4AB0	; 37
+	DW	loc_4AC6	; 38
+	DW	loc_4ADA	; 39
+	DW	loc_4AF0	; 40
+	DW	loc_4B04	; 41
+	DW	loc_4B14	; 42
+	DW	loc_4B24	; 43
+	DW	loc_4B34	; 44
+	DW	loc_4B44	; 45
+	DW	loc_4B54	; 46
+	DW	loc_4B64	; 47
+	DW	loc_4B74	; 48
+	DW	loc_4B84	; 49
+	DW	loc_4B94	; 50
+	DW	loc_4BA4	; 51
+	DW	loc_4BB4	; 52
+	DW	loc_4BC4	; 53
+	DW	loc_4BD4	; 54
+	DW	loc_4BE4	; 55
+	DW	loc_4BF4	; 56
+	DW	loc_4C12	; 57
+	DW	loc_4C22	; 58
+	DW	loc_4C32	; 59
+
+loc_479E:
+	CMD2F	0, 14, 8, 60, 304, 2, 0, 0
+	RET
+
+loc_47B2:
+	CALL	loc_47B8
+	RET
+
+loc_47B8:
+	IMGLOAD	0, 0, 1, 2, file_4154, 0	; 001.G
+	RET
+
+loc_47C8:
+	CALL	loc_47B8
+	IMGLOAD	0, 0, 1, 2, file_4655, 1	; 01N.G
+	RET
+
+loc_47DC:
+	CALL	loc_47E2
+	RET
+
+loc_47E2:
+	IMGLOAD	0, 0, 1, 2, file_415B, 0	; 002.G
+	RET
+
+loc_47F2:
+	CALL	loc_47E2
+	IMGLOAD	0, 0, 1, 2, file_4162, 1	; 02N.G
+	RET
+
+loc_4806:
+	CALL	loc_480C
+	RET
+
+loc_480C:
+	IMGLOAD	0, 0, 1, 2, file_4169, 0	; 003.G
+	RET
+
+loc_481C:
+	CALL	loc_480C
+	IMGLOAD	0, 0, 1, 2, file_4170, 1	; 03N.G
+	RET
+
+loc_4830:
+	CALL	loc_4836
+	RET
+
+loc_4836:
+	IMGLOAD	0, 0, 1, 2, file_4177, 0	; 004.G
+	RET
+
+loc_4846:
+	CALL	loc_4836
+	IMGLOAD	0, 0, 1, 2, file_417E, 1	; 04N.G
+	RET
+
+loc_485A:
+	CALL	loc_4860
+	RET
+
+loc_4860:
+	IMGLOAD	0, 0, 1, 2, file_4185, 0	; 005.G
+	RET
+
+loc_4870:
+	CALL	loc_4860
+	IMGLOAD	0, 0, 1, 2, file_418C, 1	; 05N.G
+	RET
+
+loc_4884:
+	CALL	loc_488A
+	RET
+
+loc_488A:
+	IMGLOAD	0, 0, 1, 2, file_4193, 0	; 006.G
+	RET
+
+loc_489A:
+	CALL	loc_488A
+	IMGLOAD	0, 0, 1, 2, file_419A, 1	; 06N.G
+	RET
+
+loc_48AE:
+	CALL	loc_48B4
+	RET
+
+loc_48B4:
+	IMGLOAD	0, 0, 1, 2, file_41A1, 0	; 07A.G
+	RET
+
+loc_48C4:
+	CALL	loc_48B4
+	CALL	loc_48CE
+	RET
+
+loc_48CE:
+	IMGLOAD	0, 0, 1, 2, file_41A8, 1	; 07B.G
+	RET
+
+loc_48DE:
+	CALL	loc_48B4
+	CALL	loc_48E6
+loc_48E6:
+	IMGLOAD	0, 0, 1, 2, file_41AF, 1	; 07N.G
+	RET
+
+loc_48F6:
+	CALL	loc_48B4
+	CALL	loc_48CE
+	CALL	loc_48E6
+	RET
+
+loc_4904:
+	CALL	loc_490A
+	RET
+
+loc_490A:
+	IMGLOAD	0, 0, 1, 2, file_41B6, 0	; 008.G
+	RET
+
+loc_491A:
+	CALL	loc_490A
+	IMGLOAD	0, 0, 1, 2, file_41BD, 1	; 08N.G
+	RET
+
+loc_492E:
+	CALL	loc_4934
+	RET
+
+loc_4934:
+	IMGLOAD	0, 0, 1, 2, file_41C4, 0	; 009.G
+	RET
+
+loc_4944:
+	CALL	loc_4934
+	IMGLOAD	0, 0, 1, 2, file_41CB, 1	; 09N.G
+	RET
+
+loc_4958:
+	CALL	loc_495E
+	RET
+
+loc_495E:
+	IMGLOAD	0, 0, 1, 2, file_41D2, 0	; 10A.G
+	RET
+
+loc_496E:
+	CALL	loc_495E
+	CALL	loc_4978
+	RET
+
+loc_4978:
+	IMGLOAD	0, 0, 1, 2, file_41D9, 1	; 10B.G
+	RET
+
+loc_4988:
+	CALL	loc_495E
+	CALL	loc_4992
+	RET
+
+loc_4992:
+	IMGLOAD	0, 0, 1, 2, file_41E0, 1	; 10N.G
+	RET
+
+loc_49A2:
+	CALL	loc_495E
+	CALL	loc_4978
+	CALL	loc_4992
+	RET
+
+loc_49B0:
+	CALL	loc_49B6
+	RET
+
+loc_49B6:
+	IMGLOAD	0, 0, 1, 2, file_41E7, 0	; 011.G
+	RET
+
+loc_49C6:
+	CALL	loc_49B6
+	IMGLOAD	0, 0, 1, 2, file_41EE, 1	; 11N.G
+	RET
+
+loc_49DA:
+	CALL	loc_49E0
+	RET
+
+loc_49E0:
+	IMGLOAD	0, 0, 1, 2, file_41F5, 0	; 012.G
+	RET
+
+loc_49F0:
+	CALL	loc_49E0
+	CALL	loc_49FA
+	RET
+
+loc_49FA:
+	IMGLOAD	0, 0, 1, 2, file_41FC, 1	; 12B.G
+	RET
+
+loc_4A0A:
+	CALL	loc_49E0
+	CALL	loc_4A14
+	RET
+
+loc_4A14:
+	IMGLOAD	0, 0, 1, 2, file_4203, 1	; 12N.G
+	RET
+
+loc_4A24:
+	CALL	loc_49E0
+	CALL	loc_49FA
+	CALL	loc_4A14
+	RET
+
+loc_4A32:
+	CALL	loc_4A38
+	RET
+
+loc_4A38:
+	IMGLOAD	0, 0, 1, 2, file_420A, 0	; 013.G
+	RET
+
+loc_4A48:
+	CALL	loc_4A38
+	IMGLOAD	0, 0, 1, 2, file_4211, 1	; 13N.G
+	RET
+
+loc_4A5C:
+	CALL	loc_4A62
+	RET
+
+loc_4A62:
+	IMGLOAD	0, 0, 1, 2, file_4218, 0	; 014.G
+	RET
+
+loc_4A72:
+	CALL	loc_4A62
+	IMGLOAD	0, 0, 1, 2, file_421F, 1	; 14N.G
+	RET
+
+loc_4A86:
+	CALL	loc_4A8C
+	RET
+
+loc_4A8C:
+	IMGLOAD	0, 0, 1, 2, file_4226, 0	; 015.G
+	RET
+
+loc_4A9C:
+	CALL	loc_4A8C
+	IMGLOAD	0, 0, 1, 2, file_422D, 1	; 15N.G
+	RET
+
+loc_4AB0:
+	CALL	loc_4AB6
+	RET
+
+loc_4AB6:
+	IMGLOAD	0, 0, 1, 2, file_43C3, 0	; 048.G
+	RET
+
+loc_4AC6:
+	CALL	loc_4AB6
+	IMGLOAD	0, 0, 1, 2, file_43CA, 1	; 48N.G
+	RET
+
+loc_4ADA:
+	CALL	loc_4AE0
+	RET
+
+loc_4AE0:
+	IMGLOAD	0, 0, 1, 2, file_43D1, 0	; 049.G
+	RET
+
+loc_4AF0:
+	CALL	loc_4AE0
+	IMGLOAD	0, 0, 1, 2, file_43D8, 1	; 49N.G
+	RET
+
+loc_4B04:
+	IMGLOAD	0, 0, 1, 2, file_45C2, 0	; 089.G
+	RET
+
+loc_4B14:
+	IMGLOAD	0, 0, 1, 2, file_4273, 0	; 018.G
+	RET
+
+loc_4B24:
+	IMGLOAD	0, 0, 1, 2, file_427A, 0	; 019.G
+	RET
+
+loc_4B34:
+	IMGLOAD	0, 0, 1, 2, file_4281, 0	; 020.G
+	RET
+
+loc_4B44:
+	IMGLOAD	0, 0, 1, 2, file_4288, 0	; 021.G
+	RET
+
+loc_4B54:
+	IMGLOAD	0, 0, 1, 2, file_42DC, 0	; 026.G
+	RET
+
+loc_4B64:
+	IMGLOAD	0, 0, 1, 2, file_42EA, 0	; 028.G
+	RET
+
+loc_4B74:
+	IMGLOAD	0, 0, 1, 2, file_42F1, 0	; 029.G
+	RET
+
+loc_4B84:
+	IMGLOAD	0, 0, 1, 2, file_4322, 0	; 033.G
+	RET
+
+loc_4B94:
+	IMGLOAD	0, 0, 1, 2, file_4368, 0	; 038.G
+	RET
+
+loc_4BA4:
+	IMGLOAD	0, 0, 1, 2, file_436F, 0	; 039.G
+	RET
+
+loc_4BB4:
+	IMGLOAD	0, 0, 1, 2, file_4410, 0	; 053.G
+	RET
+
+loc_4BC4:
+	IMGLOAD	0, 0, 1, 2, file_4536, 0	; 078.G
+	RET
+
+loc_4BD4:
+	IMGLOAD	0, 0, 1, 2, file_456E, 0	; 083.G
+	RET
+
+loc_4BE4:
+	IMGLOAD	0, 0, 1, 2, file_4417, 0	; 54A.G
+	RET
+
+loc_4BF4:
+	IMGLOAD	0, 0, 1, 2, file_4417, 0	; 54A.G
+	IMGLOAD	0, 0, 1, 2, file_441E, 1	; 54B.G
+	RET
+
+loc_4C12:
+	IMGLOAD	0, 0, 1, 2, file_453D, 0	; 79A.G
+	RET
+
+loc_4C22:
+	IMGLOAD	0, 0, 1, 2, file_468D, 0	; 101.G
+	RET
+
+loc_4C32:
+	IMGLOAD	0, 0, 1, 2, file_4686, 0	; 05B.G
+	RET
+
+loc_4C42:	; unused
+	RET
+
+loc_4C44:
+	MOVI	i515, 1
+
+	DW	0x0095
+
+	DOSEXIT
+
+loc_4C4E:	; unused
+	DOSEXIT
+
+loc_4C50:	; unused
+	TXCLR2	304, 14, 8, 0, 6
+	RET
+
+loc_4C5E:
+	CMD2F	2, 0, 0, 60, 304, 1, 0, 0
+	CALL	loc_4C44
+	MOVI	i524, 0
+	RET
+
+loc_4C7C:
+	DW	0x0095
+
+	DOSEXIT
+
+loc_4C80:	; unused
+	DOSEXIT
+
+loc_4C82:	; unused
+	BGMSTAT	i400
+	DOSEXIT
+
+loc_4C88:	; unused
+	DOSEXIT
+
+unk_4C8A:	; unused
+	DB	0x02, 0x00, 0x04, 0x00, 0x55, 0x00
+
+loc_4C90:
+	CMD5E	1, 0, 0, 80, 400
+
+	DW	0x0095
+
+	DOSEXIT
+
+loc_4CA0:	; unused
+	DOSEXIT
+
+loc_4CA2:	; unused
+	BGMSTAT	i400
+	DOSEXIT
+
+loc_4CA8:	; unused
+	DOSEXIT
+
+unk_4CAA:	; unused
+	DB	0x01, 0x00, 0x04, 0x00, 0x55, 0x00
+
+loc_4CB0:
+	RET
+
+loc_4CB2:
+	CMPR	i512, i544
+	JEQ	loc_4EA8
+	BGMSTOP
+	MOVI	i512, 255
+	MOVR	i512, i544
+	WAIT	i1003
+	JTBL	i1024
+	DW	loc_4EA8	; 0
+	DW	loc_4CDA	; 1
+	DW	loc_4D74	; 2
+	DW	loc_4E0E	; 3
+
+loc_4CDA:
+	JTBL	i544
+	DW	loc_4CFC	; 0
+	DW	loc_4D04	; 1
+	DW	loc_4D0C	; 2
+	DW	loc_4D14	; 3
+	DW	loc_4D1C	; 4
+	DW	loc_4D24	; 5
+	DW	loc_4D2C	; 6
+	DW	loc_4D34	; 7
+	DW	loc_4D3C	; 8
+	DW	loc_4D44	; 9
+	DW	loc_4D4C	; 10
+	DW	loc_4D54	; 11
+	DW	loc_4D5C	; 12
+	DW	loc_4D64	; 13
+	DW	loc_4D6C	; 14
+
+loc_4CFC:
+	BGMSTOP
+	BGMPLAY	file_4EAA	; n00.m
+	RET
+
+loc_4D04:
+	BGMSTOP
+	BGMPLAY	file_4EB1	; n01.m
+	RET
+
+loc_4D0C:
+	BGMSTOP
+	BGMPLAY	file_4EB8	; n02.m
+	RET
+
+loc_4D14:
+	BGMSTOP
+	BGMPLAY	file_4EBF	; n03.m
+	RET
+
+loc_4D1C:
+	BGMSTOP
+	BGMPLAY	file_4EC6	; n04.m
+	RET
+
+loc_4D24:
+	BGMSTOP
+	BGMPLAY	file_4ECD	; n05.m
+	RET
+
+loc_4D2C:
+	BGMSTOP
+	BGMPLAY	file_4ED4	; n06.m
+	RET
+
+loc_4D34:
+	BGMSTOP
+	BGMPLAY	file_4EDB	; n07.m
+	RET
+
+loc_4D3C:
+	BGMSTOP
+	BGMPLAY	file_4EE2	; n08.m
+	RET
+
+loc_4D44:
+	BGMSTOP
+	BGMPLAY	file_4EE9	; n09.m
+	RET
+
+loc_4D4C:
+	BGMSTOP
+	BGMPLAY	file_4EF0	; n10.m
+	RET
+
+loc_4D54:
+	BGMSTOP
+	BGMPLAY	file_4EF7	; n11.m
+	RET
+
+loc_4D5C:
+	BGMSTOP
+	BGMPLAY	file_4EFE	; n12.m
+	RET
+
+loc_4D64:
+	BGMSTOP
+	BGMPLAY	file_4F05	; n13.m
+	RET
+
+loc_4D6C:
+	BGMSTOP
+	BGMPLAY	file_4F0C	; n14.m
+	RET
+
+loc_4D74:
+	JTBL	i544
+	DW	loc_4D96	; 0
+	DW	loc_4D9E	; 1
+	DW	loc_4DA6	; 2
+	DW	loc_4DAE	; 3
+	DW	loc_4DB6	; 4
+	DW	loc_4DBE	; 5
+	DW	loc_4DC6	; 6
+	DW	loc_4DCE	; 7
+	DW	loc_4DD6	; 8
+	DW	loc_4DDE	; 9
+	DW	loc_4DE6	; 10
+	DW	loc_4DEE	; 11
+	DW	loc_4DF6	; 12
+	DW	loc_4DFE	; 13
+	DW	loc_4E06	; 14
+
+loc_4D96:
+	BGMSTOP
+	BGMPLAY	file_4F13	; b00.m
+	RET
+
+loc_4D9E:
+	BGMSTOP
+	BGMPLAY	file_4F1A	; b01.m
+	RET
+
+loc_4DA6:
+	BGMSTOP
+	BGMPLAY	file_4F21	; b02.m
+	RET
+
+loc_4DAE:
+	BGMSTOP
+	BGMPLAY	file_4F28	; b03.m
+	RET
+
+loc_4DB6:
+	BGMSTOP
+	BGMPLAY	file_4F2F	; b04.m
+	RET
+
+loc_4DBE:
+	BGMSTOP
+	BGMPLAY	file_4F36	; b05.m
+	RET
+
+loc_4DC6:
+	BGMSTOP
+	BGMPLAY	file_4F3D	; b06.m
+	RET
+
+loc_4DCE:
+	BGMSTOP
+	BGMPLAY	file_4F44	; b07.m
+	RET
+
+loc_4DD6:
+	BGMSTOP
+	BGMPLAY	file_4F4B	; b08.m
+	RET
+
+loc_4DDE:
+	BGMSTOP
+	BGMPLAY	file_4F52	; b09.m
+	RET
+
+loc_4DE6:
+	BGMSTOP
+	BGMPLAY	file_4F59	; b10.m
+	RET
+
+loc_4DEE:
+	BGMSTOP
+	BGMPLAY	file_4F60	; b11.m
+	RET
+
+loc_4DF6:
+	BGMSTOP
+	BGMPLAY	file_4F67	; b12.m
+	RET
+
+loc_4DFE:
+	BGMSTOP
+	BGMPLAY	file_4F6E	; b13.m
+	RET
+
+loc_4E06:
+	BGMSTOP
+	BGMPLAY	file_4F75	; b14.m
+	RET
+
+loc_4E0E:
+	JTBL	i544
+	DW	loc_4E30	; 0
+	DW	loc_4E38	; 1
+	DW	loc_4E40	; 2
+	DW	loc_4E48	; 3
+	DW	loc_4E50	; 4
+	DW	loc_4E58	; 5
+	DW	loc_4E60	; 6
+	DW	loc_4E68	; 7
+	DW	loc_4E70	; 8
+	DW	loc_4E78	; 9
+	DW	loc_4E80	; 10
+	DW	loc_4E88	; 11
+	DW	loc_4E90	; 12
+	DW	loc_4E98	; 13
+	DW	loc_4EA0	; 14
+
+loc_4E30:
+	BGMSTOP
+	BGMPLAY	file_4F7C	; g00.m
+	RET
+
+loc_4E38:
+	BGMSTOP
+	BGMPLAY	file_4F83	; g01.m
+	RET
+
+loc_4E40:
+	BGMSTOP
+	BGMPLAY	file_4F8A	; g02.m
+	RET
+
+loc_4E48:
+	BGMSTOP
+	BGMPLAY	file_4F91	; g03.m
+	RET
+
+loc_4E50:
+	BGMSTOP
+	BGMPLAY	file_4F98	; g04.m
+	RET
+
+loc_4E58:
+	BGMSTOP
+	BGMPLAY	file_4F9F	; g05.m
+	RET
+
+loc_4E60:
+	BGMSTOP
+	BGMPLAY	file_4FA6	; g06.m
+	RET
+
+loc_4E68:
+	BGMSTOP
+	BGMPLAY	file_4FAD	; g07.m
+	RET
+
+loc_4E70:
+	BGMSTOP
+	BGMPLAY	file_4FB4	; g08.m
+	RET
+
+loc_4E78:
+	BGMSTOP
+	BGMPLAY	file_4FBB	; g09.m
+	RET
+
+loc_4E80:
+	BGMSTOP
+	BGMPLAY	file_4FC2	; g10.m
+	RET
+
+loc_4E88:
+	BGMSTOP
+	BGMPLAY	file_4FC9	; g11.m
+	RET
+
+loc_4E90:
+	BGMSTOP
+	BGMPLAY	file_4FD0	; g12.m
+	RET
+
+loc_4E98:
+	BGMSTOP
+	BGMPLAY	file_4FD7	; g13.m
+	RET
+
+loc_4EA0:
+	BGMSTOP
+	BGMPLAY	file_4FDE	; g14.m
+	RET
+
+loc_4EA8:
+	RET
+
+file_4EAA:
+	DB	1, "n00.m", 0
+file_4EB1:
+	DB	1, "n01.m", 0
+file_4EB8:
+	DB	1, "n02.m", 0
+file_4EBF:
+	DB	1, "n03.m", 0
+file_4EC6:
+	DB	1, "n04.m", 0
+file_4ECD:
+	DB	1, "n05.m", 0
+file_4ED4:
+	DB	1, "n06.m", 0
+file_4EDB:
+	DB	1, "n07.m", 0
+file_4EE2:
+	DB	1, "n08.m", 0
+file_4EE9:
+	DB	1, "n09.m", 0
+file_4EF0:
+	DB	1, "n10.m", 0
+file_4EF7:
+	DB	1, "n11.m", 0
+file_4EFE:
+	DB	1, "n12.m", 0
+file_4F05:
+	DB	1, "n13.m", 0
+file_4F0C:
+	DB	1, "n14.m", 0
+file_4F13:
+	DB	1, "b00.m", 0
+file_4F1A:
+	DB	1, "b01.m", 0
+file_4F21:
+	DB	1, "b02.m", 0
+file_4F28:
+	DB	1, "b03.m", 0
+file_4F2F:
+	DB	1, "b04.m", 0
+file_4F36:
+	DB	1, "b05.m", 0
+file_4F3D:
+	DB	1, "b06.m", 0
+file_4F44:
+	DB	1, "b07.m", 0
+file_4F4B:
+	DB	1, "b08.m", 0
+file_4F52:
+	DB	1, "b09.m", 0
+file_4F59:
+	DB	1, "b10.m", 0
+file_4F60:
+	DB	1, "b11.m", 0
+file_4F67:
+	DB	1, "b12.m", 0
+file_4F6E:
+	DB	1, "b13.m", 0
+file_4F75:
+	DB	1, "b14.m", 0
+file_4F7C:
+	DB	1, "g00.m", 0
+file_4F83:
+	DB	1, "g01.m", 0
+file_4F8A:
+	DB	1, "g02.m", 0
+file_4F91:
+	DB	1, "g03.m", 0
+file_4F98:
+	DB	1, "g04.m", 0
+file_4F9F:
+	DB	1, "g05.m", 0
+file_4FA6:
+	DB	1, "g06.m", 0
+file_4FAD:
+	DB	1, "g07.m", 0
+file_4FB4:
+	DB	1, "g08.m", 0
+file_4FBB:
+	DB	1, "g09.m", 0
+file_4FC2:
+	DB	1, "g10.m", 0
+file_4FC9:
+	DB	1, "g11.m", 0
+file_4FD0:
+	DB	1, "g12.m", 0
+file_4FD7:
+	DB	1, "g13.m", 0
+file_4FDE:
+	DB	1, "g14.m", 0
+
+loc_4FE5:
+	REGCLR	i16, i47
+	REGCLR	i544, i559
+	RET
+
+loc_4FF3:
+	SFXFM	3
+	CALL	loc_5813
+	PRINT	3, str_5963
+	CALL	loc_5823
+loc_5005:
+	TBOPEN	12, 0, 10, 9, 7, 1
+	CHRDLY	i1000
+	PRINT	12, str_5089
+	CHRDLY	i288
+	CMD6A	16, 176, 17, 255
+	CMD3F	i528, i536
+	MENUSEL	i16, i17, sel_50B8, loc_5049
+loc_503B:
+	CMD42	1
+	CMD43	i528, i536
+	JP	loc_503B
+
+loc_5049:
+	JTBL	i17
+	DW	loc_5077	; 0
+	DW	loc_5055	; 1
+	DW	loc_5077	; 2
+	DW	loc_5055	; 3
+
+loc_5055:
+	TBCLOSE	12
+	SFXFM	4
+	CMPI	i516, 0
+	JEQ	loc_5075
+	CALL	loc_5813
+	PRINT	3, str_595D
+	CALL	loc_5823
+loc_5075:
+	RET
+
+loc_5077:
+	SUBI	i16, 1
+	JTBL	i16
+	DW	loc_5275	; 0
+	DW	loc_53DD	; 1
+	DW	loc_557B	; 2
+	DW	loc_5609	; 3
+str_5089:
+	DS	"　　セーブ", 0x0D
+	DS	"　　ロード", 0x0D
+	DS	"　 ウェイト", 0x0D
+	DS	"　ゲーム終了", 0
+sel_50B8:
+	DW	1, 16, 176, 128, 196
+	DW	2, 16, 196, 128, 216
+	DW	3, 16, 216, 128, 236
+	DW	4, 16, 236, 128, 256
+	DW	0
+str_50E2:
+	DS	4, 1, 4, 2, 4, 3, 4, 4, 4, 5, 4, 6, 4, 7, 0
+sel_50F1:
+	DW	1, 48, 208, 240, 228
+	DW	2, 48, 228, 240, 248
+	DW	3, 48, 248, 240, 268
+	DW	4, 48, 268, 240, 288
+	DW	5, 48, 288, 240, 308
+	DW	6, 48, 308, 240, 328
+	DW	7, 48, 328, 240, 348
+	DW	0
+file_5139:
+	DB	1, 0x96, 0xB2, 0
+file_513D:
+	DB	1, 0x8C, 0xB6, 0
+file_5141:
+	DB	1, 0x96, 0xE9, 0
+file_5145:
+	DB	1, 0x91, "z", 0
+file_5149:
+	DB	1, 0x8B, 0xC8, 0
+file_514D:
+	DB	1, 0x8B, "L", 0
+file_5151:
+	DB	1, 0x98, "^", 0
+file_5155:
+	DB	1, 0x94, 0xE9, 0
+sel_5159:
+	DW	1, 48, 224, 240, 244
+	DW	2, 48, 244, 240, 264
+	DW	3, 48, 264, 240, 284
+	DW	4, 48, 284, 240, 304
+	DW	5, 48, 304, 240, 324
+	DW	6, 48, 324, 240, 344
+	DW	7, 48, 344, 240, 364
+	DW	0
+str_51A1:
+	DS	"　　小さい　　", 0x0D
+	DS	"　　大きい　　", 0
+sel_51BF:
+	DW	1, 48, 240, 160, 260
+	DW	2, 48, 260, 160, 280
+	DW	0
+str_51D5:	; unused
+	DS	"ウェイトを小さくしました", 1, 0
+str_51EF:	; unused
+	DS	"ウェイトを大きくしました", 1, 0
+str_5209:
+	DS	"　ゲーム終了　", 0x0D
+	DS	"トップメニュー", 0
+sel_5227:
+	DW	1, 48, 256, 160, 276
+	DW	2, 48, 276, 160, 296
+	DW	0
+file_523D:
+	DB	1, "open.s", 0
+file_5245:
+	DB	1, "ss.s", 0
+str_524B:
+	DS	"：１", 0x0D, 0
+str_5251:
+	DS	"：２", 0x0D, 0
+str_5257:
+	DS	"：３", 0x0D, 0
+str_525D:
+	DS	"：４", 0x0D, 0
+str_5263:
+	DS	"：５", 0x0D, 0
+str_5269:
+	DS	"：６", 0x0D, 0
+str_526F:
+	DS	"：７", 0x0D, 0
+
+loc_5275:
+	CMD3F	i529, i537
+	CMD6A	48, 208, 63, 347
+	TBOPEN	13, 2, 12, 14, 11, 1
+	CHRDLY	i1000
+	PRINT	13, str_50E2
+	CHRDLY	i288
+	MENUSEL	i16, i17, sel_50F1, loc_52B9
+loc_52AB:
+	CMD42	1
+	CMD43	i529, i537
+	JP	loc_52AB
+
+loc_52B9:
+	TBCLOSE	13
+	JTBL	i17
+	DW	loc_52D1	; 0
+	DW	loc_52C9	; 1
+	DW	loc_52D1	; 2
+	DW	loc_52C9	; 3
+
+loc_52C9:
+	TBCLOSE	12
+	JP	loc_5005
+
+loc_52D1:
+	SUBI	i16, 1
+	MOVR	i519, i16
+	MOVR	i304, i516
+	JTBL	i16
+	DW	loc_52F5	; 0
+	DW	loc_530D	; 1
+	DW	loc_5325	; 2
+	DW	loc_533D	; 3
+	DW	loc_5355	; 4
+	DW	loc_536D	; 5
+	DW	loc_5385	; 6
+
+loc_52F5:
+	REGFSAV	0, file_5139	; 夢
+	FILETM	i17, s1, file_5139	; 夢
+	STRCPYI	s1, str_524B
+	JP	loc_5399
+
+loc_530D:
+	REGFSAV	0, file_513D	; 幻
+	FILETM	i17, s2, file_513D	; 幻
+	STRCPYI	s2, str_5251
+	JP	loc_5399
+
+loc_5325:
+	REGFSAV	0, file_5141	; 夜
+	FILETM	i17, s3, file_5141	; 夜
+	STRCPYI	s3, str_5257
+	JP	loc_5399
+
+loc_533D:
+	REGFSAV	0, file_5145	; 想
+	FILETM	i17, s4, file_5145	; 想
+	STRCPYI	s4, str_525D
+	JP	loc_5399
+
+loc_5355:
+	REGFSAV	0, file_5149	; 曲
+	FILETM	i17, s5, file_5149	; 曲
+	STRCPYI	s5, str_5263
+	JP	loc_5399
+
+loc_536D:
+	REGFSAV	0, file_514D	; 記
+	FILETM	i17, s6, file_514D	; 記
+	STRCPYI	s6, str_5269
+	JP	loc_5399
+
+loc_5385:
+	REGFSAV	0, file_5151	; 録
+	FILETM	i17, s7, file_5151	; 録
+	STRCPYI	s7, str_526F
+loc_5399:
+	CMPI	i516, 1
+	JEQ	loc_53B5
+	CALL	loc_5813
+	PRINT	3, str_53CB
+	CALL	loc_5823
+	JP	loc_53C3
+
+loc_53B5:
+	CALL	loc_66B1
+	PRINT	11, str_53CB
+	TBCLOSE	11
+loc_53C3:
+	TBCLOSE	12
+	JP	loc_5005
+
+str_53CB:
+	DS	"セーブしました。", 1, 0
+
+loc_53DD:
+	CMD3F	i530, i538
+	CMD6A	48, 224, 63, 363
+	TBOPEN	13, 2, 13, 14, 11, 1
+	CHRDLY	i1000
+	PRINT	13, str_50E2
+	CHRDLY	i288
+	MENUSEL	i16, i17, sel_5159, loc_5421
+loc_5413:
+	CMD42	1
+	CMD43	i258, i538
+	JP	loc_5413
+
+loc_5421:
+	CHRDLY	i288
+	TBCLOSE	13
+	JTBL	i17
+	DW	loc_543D	; 0
+	DW	loc_5435	; 1
+	DW	loc_543D	; 2
+	DW	loc_5435	; 3
+
+loc_5435:
+	TBCLOSE	12
+	JP	loc_5005
+
+loc_543D:
+	SUBI	i16, 1
+	JTBL	i16
+	DW	loc_5455	; 0
+	DW	loc_547F	; 1
+	DW	loc_54A9	; 2
+	DW	loc_54D3	; 3
+	DW	loc_54FD	; 4
+	DW	loc_5527	; 5
+	DW	loc_5551	; 6
+
+loc_5455:
+	FILETM	i17, s0, file_5139	; 夢
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_5139	; 夢
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_547F:
+	FILETM	i17, s0, file_513D	; 幻
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_513D	; 幻
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_54A9:
+	FILETM	i17, s0, file_5141	; 夜
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_5141	; 夜
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_54D3:
+	FILETM	i17, s0, file_5145	; 想
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_5145	; 想
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_54FD:
+	FILETM	i17, s0, file_5149	; 曲
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_5149	; 曲
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_5527:
+	FILETM	i17, s0, file_514D	; 記
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_514D	; 記
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_5551:
+	FILETM	i17, s0, file_5151	; 録
+	CMPI	i17, 0
+	JEQ	loc_53DD
+	REGFLD	0, file_5155	; 秘
+	CALL	loc_5705
+	REGFLD	0, file_5151	; 録
+	CALL	loc_578B
+	JP	loc_568B
+
+loc_557B:
+	CMD3F	i531, i539
+	CMD6A	48, 240, 63, 271
+	TBOPEN	13, 2, 14, 9, 5, 1
+	CHRDLY	i1000
+	PRINT	13, str_51A1
+	CHRDLY	i288
+	MENUSEL	i16, i17, sel_51BF, loc_55BF
+loc_55B1:
+	CMD42	1
+	CMD43	i531, i539
+	JP	loc_55B1
+
+loc_55BF:
+	TBCLOSE	13
+	JTBL	i17
+	DW	loc_55D7	; 0
+	DW	loc_55CF	; 1
+	DW	loc_55D7	; 2
+	DW	loc_55CF	; 3
+
+loc_55CF:
+	TBCLOSE	12
+	JP	loc_5005
+
+loc_55D7:
+	SUBI	i16, 1
+	JTBL	i16
+	DW	loc_55E5	; 0
+	DW	loc_55F3	; 1
+
+loc_55E5:
+	MOVI	i288, 1
+	CHRDLY	i288
+	JP	loc_55FD
+
+loc_55F3:
+	MOVI	i288, 4
+	CHRDLY	i288
+loc_55FD:
+	SFXFM	3
+	TBCLOSE	12
+	JP	loc_5005
+
+loc_5609:
+	CMD3F	i532, i540
+	CMD6A	48, 256, 63, 287
+	TBOPEN	13, 2, 15, 9, 5, 1
+	CHRDLY	i1000
+	PRINT	13, str_5209
+	CHRDLY	i288
+	MENUSEL	i16, i17, sel_5227, loc_564D
+loc_563F:
+	CMD42	1
+	CMD43	i532, i540
+	JP	loc_563F
+
+loc_564D:
+	TBCLOSE	13
+	TBCLOSE	12
+	JTBL	i17
+	DW	loc_5665	; 0
+	DW	loc_5661	; 1
+	DW	loc_5665	; 2
+	DW	loc_5661	; 3
+
+loc_5661:
+	JP	loc_5005
+
+loc_5665:
+	SUBI	i16, 1
+	JTBL	i16
+	DW	loc_5673	; 0
+	DW	loc_5687	; 1
+
+loc_5673:
+	PALFADE	0, 3
+	CMD5E	0, 0, 0, 80, 400
+	DOSEXIT
+
+loc_5687:
+	LDSCENE	file_523D	; open.s
+
+loc_568B:
+	MOVI	i524, 0
+	TBCLOSE	12
+	MOVI	i520, 0
+	JTBL	i304
+	DW	loc_56A3	; 0
+	DW	loc_56AB	; 1
+
+loc_56A3:
+	CALL	loc_591F
+	JP	loc_56B5
+
+loc_56AB:
+	MOVI	i516, 0
+	CALL	loc_58D5
+loc_56B5:
+	SFXFM	0
+	BGMFADE
+	MOVI	i512, 255
+	CMPI	i515, 0
+	JEQ	loc_56DB
+	MOVR	i32, i303
+	CALL	loc_46D8
+	MOVR	i303, i32
+loc_56DB:
+	CMPI	i516, 0
+	JEQ	loc_56F9
+	CALL	loc_5813
+	PRINT	3, str_595D
+	CALL	loc_5823
+	MOVI	i516, 1
+loc_56F9:
+	MOVI	i520, 0
+
+	DW	0x0090
+
+	LDSCENE	file_5245	; ss.s
+
+loc_5705:
+	MOVR	i545, i209
+	MOVR	i546, i210
+	MOVR	i547, i211
+	MOVR	i548, i212
+	MOVR	i549, i213
+	MOVR	i550, i214
+	MOVR	i551, i215
+	MOVR	i552, i216
+	MOVR	i553, i217
+	MOVR	i554, i218
+	MOVR	i555, i219
+	MOVR	i556, i220
+	MOVR	i557, i221
+	MOVR	i558, i222
+	MOVR	i559, i223
+	MOVR	i560, i224
+	MOVR	i561, i225
+	MOVR	i562, i226
+	MOVR	i563, i227
+	MOVR	i564, i228
+	MOVR	i565, i229
+	MOVR	i566, i230
+	RET
+
+loc_578B:
+	MOVR	i209, i545
+	MOVR	i210, i546
+	MOVR	i211, i547
+	MOVR	i212, i548
+	MOVR	i213, i549
+	MOVR	i214, i550
+	MOVR	i215, i551
+	MOVR	i216, i552
+	MOVR	i217, i553
+	MOVR	i218, i554
+	MOVR	i219, i555
+	MOVR	i220, i556
+	MOVR	i221, i557
+	MOVR	i222, i558
+	MOVR	i223, i559
+	MOVR	i224, i560
+	MOVR	i225, i561
+	MOVR	i226, i562
+	MOVR	i227, i563
+	MOVR	i228, i564
+	MOVR	i229, i565
+	MOVR	i230, i566
+	RET
+
+loc_5811:
+	RET
+
+loc_5813:
+	TBOPEN	3, 3, 19, 34, 6, 0
+	RET
+
+loc_5823:
+	TBCLOSE	3
+	RET
+
+loc_5829:
+	MOVI	i256, 16
+	MOVI	i264, 176
+	MOVI	i257, 48
+	MOVI	i265, 208
+	MOVI	i258, 48
+	MOVI	i266, 208
+	MOVI	i259, 48
+	MOVI	i267, 208
+	MOVI	i260, 48
+	MOVI	i268, 208
+	MOVI	i261, 48
+	MOVI	i269, 208
+	MOVI	i262, 48
+	MOVI	i270, 208
+	REGCLR	i80, i142
+	RET
+
+loc_5885:
+	MOVI	i16, 0
+	MOVI	i17, 0
+	MOVI	i19, 2
+	MOVI	i20, 0
+loc_589D:
+	CMD62	i17, i16
+	WAIT	i19
+	ADDI	i17, 1
+	CMD62	i17, i16
+	WAIT	i19
+	SUBI	i17, 1
+	ADDI	i20, 1
+	CMPI	i20, 5
+	JNE	loc_589D
+	CMD62	i16, i16
+	RET
+
+loc_58D5:
+	CMPI	i516, 1
+	JEQ	loc_5909
+	PALFADE	0, 3
+	CMD5E	0, 0, 0, 80, 400
+	CMD5E	1, 0, 0, 80, 400
+	PALBW	0, 4
+	MOVI	i516, 1
+loc_5909:
+	MOVI	i515, 0
+	CALL	loc_5813
+	PRINT	3, str_595D
+	CALL	loc_5823
+	RET
+
+loc_591F:
+	CMPI	i516, 0
+	JEQ	loc_594D
+	CALL	loc_4C90
+	PALFADE	0, 1
+	IMGLOAD	0, 0, 0, 0, file_464E, 0	; BK0.G
+	PALBW	0, 3
+	MOVI	i516, 0
+loc_594D:
+	CALL	loc_5813
+	PRINT	3, str_5963
+	CALL	loc_5823
+	RET
+
+str_595D:
+	DS	0x0F, 2, 0x0F, 0, 6, 0
+str_5963:
+	DS	0x0F, 3, 0x0F, 0, 5, 0
+
+loc_5969:
+	CMPR	i524, i16
+	JNE	loc_5975
+	RET
+
+loc_5975:
+	MOVR	i524, i16
+	CMD2F	2, 0, 0, 60, 304, 1, 0, 0
+	MOVR	i293, i16
+	JTBL	i16
+	DW	loc_5A19	; 0
+	DW	loc_5A1D	; 1
+	DW	loc_5A35	; 2
+	DW	loc_5A4B	; 3
+	DW	loc_5A63	; 4
+	DW	loc_5A79	; 5
+	DW	loc_5A91	; 6
+	DW	loc_5AA7	; 7
+	DW	loc_5ABF	; 8
+	DW	loc_5AD5	; 9
+	DW	loc_5AEB	; 10
+	DW	loc_5AFD	; 11
+	DW	loc_5B13	; 12
+	DW	loc_5B25	; 13
+	DW	loc_5B3B	; 14
+	DW	loc_5B4D	; 15
+	DW	loc_5B65	; 16
+	DW	loc_5B7D	; 17
+	DW	loc_5B93	; 18
+	DW	loc_5BA9	; 19
+	DW	loc_5BBF	; 20
+	DW	loc_5BD5	; 21
+	DW	loc_5BE7	; 22
+	DW	loc_5BFF	; 23
+	DW	loc_5C15	; 24
+	DW	loc_5C2B	; 25
+	DW	loc_5C3D	; 26
+	DW	loc_5C55	; 27
+	DW	loc_5C6B	; 28
+	DW	loc_5C81	; 29
+	DW	loc_5C97	; 30
+	DW	loc_5CAD	; 31
+	DW	loc_5CC5	; 32
+	DW	loc_5CDB	; 33
+	DW	loc_5CED	; 34
+	DW	loc_5CFF	; 35
+	DW	loc_5D17	; 36
+	DW	loc_5D2D	; 37
+	DW	loc_5D3F	; 38
+	DW	loc_5D57	; 39
+	DW	loc_5D6F	; 40
+	DW	loc_5D81	; 41
+	DW	loc_5D93	; 42
+	DW	loc_5DA9	; 43
+	DW	loc_5DBF	; 44
+	DW	loc_5DD5	; 45
+	DW	loc_5DEB	; 46
+	DW	loc_5DFD	; 47
+	DW	loc_5E0F	; 48
+	DW	loc_5E21	; 49
+	DW	loc_5E33	; 50
+	DW	loc_5E4B	; 51
+	DW	loc_5E61	; 52
+	DW	loc_5E73	; 53
+	DW	loc_5E89	; 54
+	DW	loc_5E9F	; 55
+	DW	loc_5EB5	; 56
+	DW	loc_5ECB	; 57
+	DW	loc_5EE1	; 58
+	DW	loc_5EF3	; 59
+	DW	loc_5F05	; 60
+	DW	loc_5F17	; 61
+	DW	loc_5F29	; 62
+	DW	loc_5F3B	; 63
+	DW	loc_5F5B	; 64
+
+loc_5A19:
+	JP	loc_5F6B
+
+loc_5A1D:
+	CALL	loc_5A25
+	JP	loc_607F
+
+loc_5A25:
+	IMGLOAD	0, 0, 0, 1, file_4234, 1	; 16A.G
+	RET
+
+loc_5A35:
+	CALL	loc_5A25
+	IMGLOAD	0, 0, 0, 1, file_423B, 1	; 16B.G
+	JP	loc_607F
+
+loc_5A4B:
+	CALL	loc_5A53
+	JP	loc_607F
+
+loc_5A53:
+	IMGLOAD	0, 0, 0, 1, file_4242, 1	; 16C.G
+	RET
+
+loc_5A63:
+	CALL	loc_5A53
+	IMGLOAD	0, 0, 0, 1, file_4249, 1	; 6C2.G
+	JP	loc_607F
+
+loc_5A79:
+	CALL	loc_5A81
+	JP	loc_607F
+
+loc_5A81:
+	IMGLOAD	0, 0, 0, 1, file_4250, 1	; 16D.G
+	RET
+
+loc_5A91:
+	CALL	loc_5A81
+	IMGLOAD	0, 0, 0, 1, file_4257, 1	; 6D2.G
+	JP	loc_607F
+
+loc_5AA7:
+	CALL	loc_5AAF
+	JP	loc_60BF
+
+loc_5AAF:
+	IMGLOAD	0, 0, 0, 1, file_42A4, 1	; 25A.G
+	RET
+
+loc_5ABF:
+	CALL	loc_5AAF
+	IMGLOAD	0, 0, 0, 1, file_42AB, 1	; 25B.G
+	JP	loc_60BF
+
+loc_5AD5:
+	CALL	loc_5AAF
+	IMGLOAD	0, 0, 0, 1, file_42B2, 1	; 25C.G
+	JP	loc_60BF
+
+loc_5AEB:
+	IMGLOAD	0, 0, 0, 1, file_42B9, 1	; 25D.G
+	JP	loc_60BF
+
+loc_5AFD:
+	CALL	loc_5AAF
+	IMGLOAD	0, 0, 0, 1, file_42C0, 1	; 25E.G
+	JP	loc_60BF
+
+loc_5B13:
+	IMGLOAD	0, 0, 0, 1, file_42C7, 1	; 25F.G
+	JP	loc_60BF
+
+loc_5B25:
+	CALL	loc_5AAF
+	IMGLOAD	0, 0, 0, 1, file_42CE, 1	; 25G.G
+	JP	loc_60BF
+
+loc_5B3B:
+	IMGLOAD	0, 0, 0, 1, file_42D5, 1	; 25H.G
+	JP	loc_60BF
+
+loc_5B4D:
+	CALL	loc_5B55
+	JP	loc_60FF
+
+loc_5B55:
+	IMGLOAD	0, 0, 0, 1, file_433E, 1	; 37A.G
+	RET
+
+loc_5B65:
+	CALL	loc_5B6D
+	JP	loc_60FF
+
+loc_5B6D:
+	IMGLOAD	0, 0, 0, 1, file_4345, 1	; 7A2.G
+	RET
+
+loc_5B7D:
+	CALL	loc_5B55
+	IMGLOAD	0, 0, 0, 1, file_434C, 1	; 37B.G
+	JP	loc_60FF
+
+loc_5B93:
+	CALL	loc_5B6D
+	IMGLOAD	0, 0, 0, 1, file_4353, 1	; 7B2.G
+	JP	loc_60FF
+
+loc_5BA9:
+	CALL	loc_5B55
+	IMGLOAD	0, 0, 0, 1, file_435A, 1	; 37C.G
+	JP	loc_60FF
+
+loc_5BBF:
+	CALL	loc_5B6D
+	IMGLOAD	0, 0, 0, 1, file_4361, 1	; 7C2.G
+	JP	loc_60FF
+
+loc_5BD5:
+	IMGLOAD	0, 0, 0, 1, file_436F, 1	; 039.G
+	JP	loc_60FF
+
+loc_5BE7:
+	CALL	loc_5BEF
+	JP	loc_603F
+
+loc_5BEF:
+	IMGLOAD	0, 0, 0, 1, file_438B, 1	; 43A.G
+	RET
+
+loc_5BFF:
+	CALL	loc_5BEF
+	IMGLOAD	0, 0, 0, 1, file_4392, 1	; 43B.G
+	JP	loc_603F
+
+loc_5C15:
+	CALL	loc_5BEF
+	IMGLOAD	0, 0, 0, 1, file_4399, 1	; 43C.G
+	JP	loc_603F
+
+loc_5C2B:
+	IMGLOAD	0, 0, 0, 1, file_43A0, 1	; 43D.G
+	JP	loc_603F
+
+loc_5C3D:
+	CALL	loc_5C45
+	JP	loc_603B
+
+loc_5C45:
+	IMGLOAD	0, 0, 0, 1, file_43ED, 1	; 52A.G
+	RET
+
+loc_5C55:
+	CALL	loc_5C45
+	IMGLOAD	0, 0, 0, 1, file_43F4, 1	; 52B.G
+	JP	loc_603B
+
+loc_5C6B:
+	CALL	loc_5C45
+	IMGLOAD	0, 0, 0, 1, file_43FB, 1	; 52C.G
+	JP	loc_603B
+
+loc_5C81:
+	CALL	loc_5C45
+	IMGLOAD	0, 0, 0, 1, file_4402, 1	; 52D.G
+	JP	loc_603B
+
+loc_5C97:
+	CALL	loc_5C45
+	IMGLOAD	0, 0, 0, 1, file_4409, 1	; 52E.G
+	JP	loc_603B
+
+loc_5CAD:
+	CALL	loc_5CB5
+	JP	loc_613F
+
+loc_5CB5:
+	IMGLOAD	0, 0, 0, 1, file_443A, 1	; 58A.G
+	RET
+
+loc_5CC5:
+	CALL	loc_5CB5
+	IMGLOAD	0, 0, 0, 1, file_4441, 1	; 58B.G
+	JP	loc_613F
+
+loc_5CDB:
+	IMGLOAD	0, 0, 0, 1, file_4448, 1	; 58C.G
+	JP	loc_613F
+
+loc_5CED:
+	IMGLOAD	0, 0, 0, 1, file_4480, 1	; 64A.G
+	JP	loc_617F
+
+loc_5CFF:
+	CALL	loc_5D07
+	JP	loc_617F
+
+loc_5D07:
+	IMGLOAD	0, 0, 0, 1, file_4487, 1	; 64B.G
+	RET
+
+loc_5D17:
+	CALL	loc_5D07
+	IMGLOAD	0, 0, 0, 1, file_448E, 1	; 4BD.G
+	JP	loc_617F
+
+loc_5D2D:
+	IMGLOAD	0, 0, 0, 1, file_4495, 1	; 64C.G
+	JP	loc_617F
+
+loc_5D3F:
+	CALL	loc_5D47
+	JP	loc_61BF
+
+loc_5D47:
+	IMGLOAD	0, 0, 0, 1, file_44DB, 1	; 2A1.G
+	RET
+
+loc_5D57:
+	CALL	loc_5D5F
+	JP	loc_61BF
+
+loc_5D5F:
+	IMGLOAD	0, 0, 0, 1, file_44E2, 1	; 2A2.G
+	RET
+
+loc_5D6F:
+	IMGLOAD	0, 0, 0, 1, file_44E9, 1	; 2B1.G
+	JP	loc_61BF
+
+loc_5D81:
+	IMGLOAD	0, 0, 0, 1, file_44F0, 1	; 2B2.G
+	JP	loc_61BF
+
+loc_5D93:
+	CALL	loc_5D47
+	IMGLOAD	0, 0, 0, 1, file_44F7, 1	; 2C1.G
+	JP	loc_61BF
+
+loc_5DA9:
+	CALL	loc_5D5F
+	IMGLOAD	0, 0, 0, 1, file_44FE, 1	; 2C2.G
+	JP	loc_61BF
+
+loc_5DBF:
+	CALL	loc_5D47
+	IMGLOAD	0, 0, 0, 1, file_4505, 1	; 2D1.G
+	JP	loc_61BF
+
+loc_5DD5:
+	CALL	loc_5D5F
+	IMGLOAD	0, 0, 0, 1, file_450C, 1	; 2D2.G
+	JP	loc_61BF
+
+loc_5DEB:
+	IMGLOAD	0, 0, 0, 1, file_4544, 1	; 79B.G
+	JP	loc_5F6B
+
+loc_5DFD:
+	IMGLOAD	0, 0, 0, 1, file_454B, 1	; 79C.G
+	JP	loc_5F6B
+
+loc_5E0F:
+	IMGLOAD	0, 0, 0, 1, file_4552, 1	; 79D.G
+	JP	loc_5F6B
+
+loc_5E21:
+	IMGLOAD	0, 0, 0, 1, file_456E, 1	; 083.G
+	JP	loc_5F7B
+
+loc_5E33:
+	CALL	loc_5E3B
+	JP	loc_5FFB
+
+loc_5E3B:
+	IMGLOAD	0, 0, 0, 1, file_4575, 1	; 84A.G
+	RET
+
+loc_5E4B:
+	CALL	loc_5E3B
+	IMGLOAD	0, 0, 0, 1, file_457C, 1	; 84B.G
+	JP	loc_5FFB
+
+loc_5E61:
+	IMGLOAD	0, 0, 0, 1, file_4583, 1	; 84C.G
+	JP	loc_5FFB
+
+loc_5E73:
+	CALL	loc_5E3B
+	IMGLOAD	0, 0, 0, 1, file_458A, 1	; 84D.G
+	JP	loc_5FFB
+
+loc_5E89:
+	CALL	loc_5F5B
+	IMGLOAD	0, 0, 0, 1, file_45C9, 1	; 90A.G
+	JP	loc_5FBB
+
+loc_5E9F:
+	CALL	loc_5F5B
+	IMGLOAD	0, 0, 0, 1, file_45D0, 1	; 90B.G
+	JP	loc_5FBB
+
+loc_5EB5:
+	CALL	loc_5F5B
+	IMGLOAD	0, 0, 0, 1, file_45D7, 1	; 90C.G
+	JP	loc_5FBB
+
+loc_5ECB:
+	CALL	loc_5F5B
+	IMGLOAD	0, 0, 0, 1, file_45DE, 1	; 90D.G
+	JP	loc_5FBB
+
+loc_5EE1:
+	IMGLOAD	0, 0, 0, 1, file_45E5, 1	; 90E.G
+	JP	loc_5FBB
+
+loc_5EF3:
+	IMGLOAD	0, 0, 0, 1, file_466A, 1	; 37D.G
+	JP	loc_60FF
+
+loc_5F05:
+	IMGLOAD	0, 0, 0, 1, file_4671, 1	; 7D2.G
+	JP	loc_60FF
+
+loc_5F17:
+	IMGLOAD	0, 0, 0, 1, file_4678, 1	; 37E.G
+	JP	loc_60FF
+
+loc_5F29:
+	IMGLOAD	0, 0, 0, 1, file_467F, 1	; 7E2.G
+	JP	loc_60FF
+
+loc_5F3B:
+	IMGLOAD	0, 0, 0, 1, file_43A0, 1	; 43D.G
+	IMGLOAD	0, 0, 0, 1, file_4694, 1	; 43E.g
+	JP	loc_603F
+
+loc_5F5B:
+	IMGLOAD	0, 0, 0, 1, file_469B, 1	; 90Z.g
+	RET
+
+loc_5F6B:
+	MOVR	i520, i293
+	CALL	loc_6201
+	CALL	loc_4C44
+	RET
+
+loc_5F7B:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1014, i1003, i1003
+	PALCSET	i1009, i1015, i1008, i1008
+	PALCSET	i1010, i1006, i1002, i1000
+	PALCSET	i1011, i1015, i1011, i1005
+	JP	loc_5F6B
+
+loc_5FBB:
+	PALCSET	i1004, i1015, i1014, i1013
+	PALCSET	i1005, i1015, i1012, i1010
+	PALCSET	i1008, i1013, i1005, i1005
+	PALCSET	i1009, i1015, i1009, i1009
+	PALCSET	i1010, i1004, i1004, i1008
+	PALCSET	i1011, i1007, i1003, i1000
+	JP	loc_5F6B
+
+loc_5FFB:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1014, i1003, i1003
+	PALCSET	i1009, i1015, i1008, i1008
+	PALCSET	i1010, i1006, i1002, i1000
+	PALCSET	i1011, i1015, i1011, i1005
+	JP	loc_5F6B
+
+loc_603B:
+	JP	loc_5F6B
+
+loc_603F:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1013, i1005, i1005
+	PALCSET	i1009, i1015, i1009, i1009
+	PALCSET	i1010, i1008, i1005, i1011
+	PALCSET	i1011, i1002, i1002, i1006
+	JP	loc_5F6B
+
+loc_607F:
+	PALCSET	i1004, i1015, i1014, i1013
+	PALCSET	i1005, i1015, i1012, i1010
+	PALCSET	i1008, i1013, i1005, i1005
+	PALCSET	i1009, i1014, i1013, i1007
+	PALCSET	i1010, i1014, i1013, i1014
+	PALCSET	i1011, i1011, i1009, i1013
+	JP	loc_5F6B
+
+loc_60BF:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1014, i1003, i1003
+	PALCSET	i1009, i1015, i1008, i1008
+	PALCSET	i1010, i1002, i1003, i1007
+	PALCSET	i1011, i1013, i1006, i1002
+	JP	loc_5F6B
+
+loc_60FF:
+	PALCSET	i1004, i1015, i1014, i1013
+	PALCSET	i1005, i1015, i1012, i1010
+	PALCSET	i1008, i1014, i1003, i1003
+	PALCSET	i1009, i1015, i1009, i1009
+	PALCSET	i1010, i1010, i1001, i1001
+	PALCSET	i1011, i1012, i1014, i1015
+	JP	loc_5F6B
+
+loc_613F:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1013, i1005, i1005
+	PALCSET	i1009, i1014, i1006, i1006
+	PALCSET	i1010, i1007, i1008, i1009
+	PALCSET	i1011, i1012, i1012, i1012
+	JP	loc_5F6B
+
+loc_617F:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1013, i1005, i1005
+	PALCSET	i1009, i1014, i1006, i1006
+	PALCSET	i1010, i1002, i1003, i1007
+	PALCSET	i1011, i1012, i1012, i1012
+	JP	loc_5F6B
+
+loc_61BF:
+	PALCSET	i1004, i1015, i1013, i1012
+	PALCSET	i1005, i1015, i1011, i1009
+	PALCSET	i1008, i1013, i1005, i1005
+	PALCSET	i1009, i1015, i1009, i1009
+	PALCSET	i1010, i1014, i1014, i1006
+	PALCSET	i1011, i1010, i1010, i1002
+	JP	loc_5F6B
+
+loc_61FF:
+	RET
+
+loc_6201:
+	CMPI	i303, 58
+	JEQ	loc_6691
+	CMPI	i303, 41
+	JGT	loc_61FF
+	JTBL	i303
+	DW	loc_626D	; 0
+	DW	loc_626D	; 1
+	DW	loc_628D	; 2
+	DW	loc_62AD	; 3
+	DW	loc_62CD	; 4
+	DW	loc_62ED	; 5
+	DW	loc_630D	; 6
+	DW	loc_632D	; 7
+	DW	loc_634D	; 8
+	DW	loc_636D	; 9
+	DW	loc_638D	; 10
+	DW	loc_63AD	; 11
+	DW	loc_63CD	; 12
+	DW	loc_63ED	; 13
+	DW	loc_63ED	; 14
+	DW	loc_640D	; 15
+	DW	loc_640D	; 16
+	DW	loc_642D	; 17
+	DW	loc_644D	; 18
+	DW	loc_646D	; 19
+	DW	loc_648D	; 20
+	DW	loc_64AD	; 21
+	DW	loc_64AD	; 22
+	DW	loc_64CD	; 23
+	DW	loc_64CD	; 24
+	DW	loc_64ED	; 25
+	DW	loc_650D	; 26
+	DW	loc_652D	; 27
+	DW	loc_652D	; 28
+	DW	loc_654D	; 29
+	DW	loc_654D	; 30
+	DW	loc_656D	; 31
+	DW	loc_658D	; 32
+	DW	loc_65AD	; 33
+	DW	loc_65CD	; 34
+	DW	loc_65ED	; 35
+	DW	loc_660D	; 36
+	DW	loc_662D	; 37
+	DW	loc_662F	; 38
+	DW	loc_6631	; 39
+	DW	loc_6651	; 40
+	DW	loc_6671	; 41
+
+loc_626D:
+	PALCSET	i1012, i1005, i1004, i1005
+	PALCSET	i1013, i1009, i1008, i1009
+	PALCSET	i1014, i1009, i1008, i1009
+	RET
+
+loc_628D:
+	PALCSET	i1012, i1004, i1002, i1004
+	PALCSET	i1013, i1006, i1004, i1006
+	PALCSET	i1014, i1002, i1002, i1004
+	RET
+
+loc_62AD:
+	PALCSET	i1012, i1006, i1004, i1004
+	PALCSET	i1013, i1010, i1007, i1007
+	PALCSET	i1014, i1012, i1012, i1012
+	RET
+
+loc_62CD:
+	PALCSET	i1012, i1005, i1003, i1004
+	PALCSET	i1013, i1008, i1005, i1007
+	PALCSET	i1014, i1001, i1001, i1001
+	RET
+
+loc_62ED:
+	PALCSET	i1012, i1002, i1005, i1002
+	PALCSET	i1013, i1007, i1009, i1005
+	PALCSET	i1014, i1009, i1012, i1008
+	RET
+
+loc_630D:
+	PALCSET	i1012, i1003, i1003, i1004
+	PALCSET	i1013, i1004, i1004, i1005
+	PALCSET	i1014, i1005, i1005, i1006
+	RET
+
+loc_632D:
+	PALCSET	i1012, i1004, i1005, i1004
+	PALCSET	i1013, i1007, i1008, i1007
+	PALCSET	i1014, i1011, i1009, i1009
+	RET
+
+loc_634D:
+	PALCSET	i1012, i1003, i1003, i1003
+	PALCSET	i1013, i1005, i1006, i1006
+	PALCSET	i1014, i1003, i1003, i1003
+	RET
+
+loc_636D:
+	PALCSET	i1012, i1008, i1005, i1004
+	PALCSET	i1013, i1010, i1008, i1007
+	PALCSET	i1014, i1011, i1009, i1009
+	RET
+
+loc_638D:
+	PALCSET	i1012, i1004, i1003, i1003
+	PALCSET	i1013, i1006, i1007, i1007
+	PALCSET	i1014, i1003, i1003, i1003
+	RET
+
+loc_63AD:
+	PALCSET	i1012, i1007, i1005, i1004
+	PALCSET	i1013, i1010, i1008, i1007
+	PALCSET	i1014, i1013, i1011, i1010
+	RET
+
+loc_63CD:
+	PALCSET	i1012, i1002, i1003, i1005
+	PALCSET	i1013, i1003, i1005, i1007
+	PALCSET	i1014, i1006, i1005, i1005
+	RET
+
+loc_63ED:
+	PALCSET	i1012, i1004, i1004, i1005
+	PALCSET	i1013, i1005, i1008, i1007
+	PALCSET	i1014, i1008, i1011, i1010
+	RET
+
+loc_640D:
+	PALCSET	i1012, i1002, i1002, i1004
+	PALCSET	i1013, i1002, i1004, i1005
+	PALCSET	i1014, i1002, i1006, i1007
+	RET
+
+loc_642D:
+	PALCSET	i1012, i1003, i1003, i1004
+	PALCSET	i1013, i1006, i1006, i1007
+	PALCSET	i1014, i1010, i1009, i1009
+	RET
+
+loc_644D:
+	PALCSET	i1012, i1003, i1003, i1004
+	PALCSET	i1013, i1004, i1004, i1005
+	PALCSET	i1014, i1006, i1005, i1005
+	RET
+
+loc_646D:
+	PALCSET	i1012, i1005, i1003, i1003
+	PALCSET	i1013, i1009, i1005, i1005
+	PALCSET	i1014, i1013, i1009, i1009
+	RET
+
+loc_648D:
+	PALCSET	i1012, i1003, i1003, i1004
+	PALCSET	i1013, i1007, i1005, i1006
+	PALCSET	i1014, i1010, i1006, i1008
+	RET
+
+loc_64AD:
+	PALCSET	i1012, i1005, i1005, i1006
+	PALCSET	i1013, i1009, i1007, i1005
+	PALCSET	i1014, i1015, i1012, i1009
+	RET
+
+loc_64CD:
+	PALCSET	i1012, i1003, i1003, i1004
+	PALCSET	i1013, i1007, i1005, i1005
+	PALCSET	i1014, i1011, i1007, i1006
+	RET
+
+loc_64ED:
+	PALCSET	i1012, i1008, i1004, i1004
+	PALCSET	i1013, i1009, i1007, i1006
+	PALCSET	i1014, i1013, i1011, i1011
+	RET
+
+loc_650D:
+	PALCSET	i1012, i1005, i1004, i1004
+	PALCSET	i1013, i1006, i1006, i1006
+	PALCSET	i1014, i1010, i1011, i1011
+	RET
+
+loc_652D:
+	PALCSET	i1012, i1005, i1004, i1003
+	PALCSET	i1013, i1008, i1007, i1005
+	PALCSET	i1014, i1012, i1010, i1009
+	RET
+
+loc_654D:
+	PALCSET	i1012, i1003, i1004, i1004
+	PALCSET	i1013, i1006, i1005, i1006
+	PALCSET	i1014, i1010, i1008, i1010
+	RET
+
+loc_656D:
+	PALCSET	i1012, i1007, i1004, i1003
+	PALCSET	i1013, i1010, i1007, i1005
+	PALCSET	i1014, i1015, i1015, i1013
+	RET
+
+loc_658D:
+	PALCSET	i1012, i1004, i1002, i1005
+	PALCSET	i1013, i1006, i1004, i1007
+	PALCSET	i1014, i1010, i1009, i1014
+	RET
+
+loc_65AD:
+	PALCSET	i1012, i1010, i1003, i1000
+	PALCSET	i1013, i1013, i1006, i1003
+	PALCSET	i1014, i1015, i1012, i1008
+	RET
+
+loc_65CD:
+	PALCSET	i1012, i1007, i1003, i1005
+	PALCSET	i1013, i1009, i1005, i1006
+	PALCSET	i1014, i1011, i1008, i1009
+	RET
+
+loc_65ED:
+	PALCSET	i1012, i1009, i1003, i1003
+	PALCSET	i1013, i1012, i1005, i1005
+	PALCSET	i1014, i1015, i1008, i1008
+	RET
+
+loc_660D:
+	PALCSET	i1012, i1006, i1000, i1003
+	PALCSET	i1013, i1009, i1004, i1005
+	PALCSET	i1014, i1012, i1007, i1009
+	RET
+
+loc_662D:
+	RET
+
+loc_662F:
+	RET
+
+loc_6631:
+	PALCSET	i1012, i1007, i1002, i1006
+	PALCSET	i1013, i1010, i1005, i1009
+	PALCSET	i1014, i1013, i1009, i1012
+	RET
+
+loc_6651:
+	PALCSET	i1012, i1004, i1001, i1005
+	PALCSET	i1013, i1007, i1004, i1008
+	PALCSET	i1014, i1009, i1006, i1011
+	RET
+
+loc_6671:
+	PALCSET	i1012, i1005, i1004, i1004
+	PALCSET	i1013, i1008, i1006, i1006
+	PALCSET	i1014, i1012, i1011, i1006
+	RET
+
+loc_6691:
+	PALCSET	i1012, i1002, i1005, i1002
+	PALCSET	i1013, i1007, i1009, i1005
+	PALCSET	i1014, i1009, i1012, i1008
+	RET
+
+loc_66B1:
+	TBOPEN	11, 3, 18, 35, 7, 4
+	RET
+
+loc_66C1:
+	IMGLOAD	0, 0, 0, 1, file_772A, 0	; mitori.g
+	MOVR	i48, i297
+	MOVR	i49, i298
+	MOVR	i301, i295
+	MOVR	i302, i294
+	CMPI	i516, 1
+	JEQ	loc_6789
+	MOVI	i16, 79
+	MOVI	i18, 74
+	MOVI	i19, 8
+	MOVI	i20, 304
+	MOVI	i21, 0
+	LOOPSTI	0
+loc_6713:
+	ADDI	i21, 1
+loc_6719:
+	LOOPJPR	i21, loc_6719
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+	SUBI	i18, 1
+	CMPI	i18, 13
+	JEQ	loc_6785
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+	SUBI	i18, 1
+	CMPI	i18, 13
+	JEQ	loc_6785
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+	SUBI	i18, 1
+	CMPI	i18, 13
+	JNE	loc_6713
+loc_6785:
+	JP	loc_6847
+
+loc_6789:
+	CMD2F	1, 0, 0, 80, 400, 2, 0, 0
+	MOVI	i303, 0
+	MOVI	i16, 79
+	MOVI	i18, 79
+	MOVI	i19, 0
+	MOVI	i20, 400
+	MOVI	i21, 0
+	LOOPSTI	0
+loc_67C3:
+	ADDI	i21, 1
+loc_67C9:
+	LOOPJPR	i21, loc_67C9
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+	SUBI	i18, 1
+	CMPI	i18, 0
+	JEQ	loc_6835
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+	SUBI	i18, 1
+	CMPI	i18, 0
+	JEQ	loc_6835
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+	SUBI	i18, 1
+	CMPI	i18, 0
+	JNE	loc_67C3
+loc_6835:
+	GFX64	i1001, i16, i1000, i1001, i20, i1000, i18, i19
+loc_6847:
+	MOVI	i520, 0
+	MOVR	i21, i294
+	SUBI	i21, 1
+	TBOPEN	15, 8, 9, 10, 3, 1
+	TBOPEN	2, 4, 0, 17, 9, 0
+	CALL	loc_76CE
+	MOVR	i17, i297
+	MOVR	i34, i298
+loc_6885:
+	CMD6A	0, 0, 223, 127
+	CMD41	i17, i34, i0, loc_7205
+	CMD3F	i17, i34
+loc_689F:
+	CMD43	i17, i34
+	CMD43	i297, i298
+	JTBL	i295
+	DW	loc_68B5	; 0
+	DW	loc_6A85	; 1
+	DW	loc_6E09	; 2
+
+loc_68B5:
+	CMPI	i17, 152
+	JGT	loc_6905
+	CMPI	i34, 96
+	JLT	loc_68D3
+	MOVI	i294, 0
+	JP	loc_691F
+
+loc_68D3:
+	CMPI	i17, 56
+	JGT	loc_68E7
+	MOVI	i294, 1
+	JP	loc_691F
+
+loc_68E7:
+	CMPI	i34, 32
+	JGT	loc_68FB
+	MOVI	i294, 3
+	JP	loc_691F
+
+loc_68FB:
+	MOVI	i294, 2
+	JP	loc_691F
+
+loc_6905:
+	CMPI	i34, 64
+	JGT	loc_6919
+	MOVI	i294, 4
+	JP	loc_691F
+
+loc_6919:
+	MOVI	i294, 5
+loc_691F:
+	CMPR	i21, i294
+	JEQ	loc_689F
+	JTBL	i21
+	DW	loc_6939	; 0
+	DW	loc_694F	; 1
+	DW	loc_6965	; 2
+	DW	loc_697B	; 3
+	DW	loc_6991	; 4
+	DW	loc_69A7	; 5
+
+loc_6939:
+	CMD2F	1, 10, 360, 7, 32, 0, 18, 88
+	JP	loc_69B9
+
+loc_694F:
+	CMD2F	1, 2, 304, 5, 48, 0, 10, 32
+	JP	loc_69B9
+
+loc_6965:
+	CMD2F	1, 12, 344, 4, 16, 0, 20, 72
+	JP	loc_69B9
+
+loc_697B:
+	CMD2F	1, 9, 288, 9, 16, 0, 17, 16
+	JP	loc_69B9
+
+loc_6991:
+	CMD2F	1, 20, 288, 6, 32, 0, 28, 16
+	JP	loc_69B9
+
+loc_69A7:
+	CMD2F	1, 17, 344, 8, 48, 0, 25, 72
+loc_69B9:
+	STRCLR	s9
+	JTBL	i294
+	DW	loc_69CD	; 0
+	DW	loc_69E9	; 1
+	DW	loc_6A05	; 2
+	DW	loc_6A21	; 3
+	DW	loc_6A3D	; 4
+	DW	loc_6A59	; 5
+
+loc_69CD:
+	CMD2F	1, 37, 320, 7, 32, 0, 18, 88
+	STRCPYI	s9, str_7550
+	JP	loc_6A71
+
+loc_69E9:
+	CMD2F	1, 37, 256, 5, 48, 0, 10, 32
+	STRCPYI	s9, str_755A
+	JP	loc_6A71
+
+loc_6A05:
+	CMD2F	1, 37, 304, 4, 16, 0, 20, 72
+	STRCPYI	s9, str_7564
+	JP	loc_6A71
+
+loc_6A21:
+	CMD2F	1, 29, 384, 9, 16, 0, 17, 16
+	STRCPYI	s9, str_7570
+	JP	loc_6A71
+
+loc_6A3D:
+	CMD2F	1, 35, 352, 6, 32, 0, 28, 16
+	STRCPYI	s9, str_757C
+	JP	loc_6A71
+
+loc_6A59:
+	CMD2F	1, 37, 208, 8, 48, 0, 25, 72
+	STRCPYI	s9, str_7588
+loc_6A71:
+	TBCLEAR	15
+	PRINT	15, str_754D
+	MOVR	i21, i294
+	JP	loc_689F
+
+loc_6A85:
+	CMPI	i17, 72
+	JGT	loc_6ADF
+	CMPI	i34, 96
+	JLT	loc_6AA3
+	MOVI	i294, 0
+	JP	loc_6B35
+
+loc_6AA3:
+	CMPI	i34, 64
+	JLT	loc_6AB7
+	MOVI	i294, 1
+	JP	loc_6B35
+
+loc_6AB7:
+	CMPI	i34, 48
+	JGT	loc_6AD5
+	CMPI	i17, 48
+	JLT	loc_6AD5
+	MOVI	i294, 9
+	JP	loc_6B35
+
+loc_6AD5:
+	MOVI	i294, 2
+	JP	loc_6B35
+
+loc_6ADF:
+	CMPI	i17, 152
+	JGT	loc_6B07
+	CMPI	i34, 88
+	JLT	loc_6AFD
+	MOVI	i294, 6
+	JP	loc_6B35
+
+loc_6AFD:
+	MOVI	i294, 7
+	JP	loc_6B35
+
+loc_6B07:
+	CMPI	i34, 96
+	JLT	loc_6B1B
+	MOVI	i294, 3
+	JP	loc_6B35
+
+loc_6B1B:
+	CMPI	i34, 64
+	JLT	loc_6B2F
+	MOVI	i294, 4
+	JP	loc_6B35
+
+loc_6B2F:
+	MOVI	i294, 5
+loc_6B35:
+	CMPR	i21, i294
+	JEQ	loc_689F
+	JTBL	i21
+	DW	loc_6B57	; 0
+	DW	loc_6B6D	; 1
+	DW	loc_6B83	; 2
+	DW	loc_6B99	; 3
+	DW	loc_6BAF	; 4
+	DW	loc_6BC5	; 5
+	DW	loc_6BDB	; 6
+	DW	loc_6BF1	; 7
+	DW	loc_6BF1	; 8
+	DW	loc_6C19	; 9
+
+loc_6B57:
+	CMD2F	1, 2, 96, 8, 24, 0, 10, 96
+	JP	loc_6C2B
+
+loc_6B6D:
+	CMD2F	1, 2, 64, 8, 32, 0, 10, 64
+	JP	loc_6C2B
+
+loc_6B83:
+	CMD2F	1, 2, 16, 8, 48, 0, 10, 16
+	JP	loc_6C2B
+
+loc_6B99:
+	CMD2F	1, 18, 96, 8, 24, 0, 26, 96
+	JP	loc_6C2B
+
+loc_6BAF:
+	CMD2F	1, 18, 64, 8, 32, 0, 26, 64
+	JP	loc_6C2B
+
+loc_6BC5:
+	CMD2F	1, 18, 16, 11, 48, 0, 26, 16
+	JP	loc_6C2B
+
+loc_6BDB:
+	CMD2F	1, 11, 88, 6, 32, 0, 19, 88
+	JP	loc_6C2B
+
+loc_6BF1:
+	CMD2F	1, 11, 40, 6, 40, 0, 19, 40
+	CMD2F	1, 14, 16, 3, 24, 0, 22, 16
+	JP	loc_6C2B
+
+loc_6C19:
+	CMD2F	1, 9, 16, 1, 24, 0, 17, 16
+loc_6C2B:
+	STRCLR	s9
+	JTBL	i294
+	DW	loc_6C47	; 0
+	DW	loc_6C79	; 1
+	DW	loc_6CAB	; 2
+	DW	loc_6CDD	; 3
+	DW	loc_6D0F	; 4
+	DW	loc_6D41	; 5
+	DW	loc_6D73	; 6
+	DW	loc_6D8F	; 7
+	DW	loc_6D8F	; 8
+	DW	loc_6DD3	; 9
+
+loc_6C47:
+	CMD2F	1, 33, 80, 8, 24, 0, 10, 96
+	MOVI	i0, 1
+	ANDR	i0, i160
+	CMPI	i0, 1
+	JNE	loc_6DEF
+	STRCPYI	s9, str_7594
+	JP	loc_6DF5
+
+loc_6C79:
+	CMD2F	1, 33, 48, 8, 32, 0, 10, 64
+	MOVI	i0, 2
+	ANDR	i0, i160
+	CMPI	i0, 2
+	JNE	loc_6DEF
+	STRCPYI	s9, str_75A0
+	JP	loc_6DF5
+
+loc_6CAB:
+	CMD2F	1, 33, 0, 8, 48, 0, 10, 16
+	MOVI	i0, 4
+	ANDR	i0, i160
+	CMPI	i0, 4
+	JNE	loc_6DEF
+	STRCPYI	s9, str_75AF
+	JP	loc_6DF5
+
+loc_6CDD:
+	CMD2F	1, 37, 136, 8, 24, 0, 26, 96
+	MOVI	i0, 8
+	ANDR	i0, i160
+	CMPI	i0, 8
+	JNE	loc_6DEF
+	STRCPYI	s9, str_75BE
+	JP	loc_6DF5
+
+loc_6D0F:
+	CMD2F	1, 33, 104, 8, 32, 0, 26, 64
+	MOVI	i0, 16
+	ANDR	i0, i160
+	CMPI	i0, 16
+	JNE	loc_6DEF
+	STRCPYI	s9, str_75CC
+	JP	loc_6DF5
+
+loc_6D41:
+	CMD2F	1, 37, 160, 11, 48, 0, 26, 16
+	MOVI	i0, 32
+	ANDR	i0, i160
+	CMPI	i0, 32
+	JNE	loc_6DEF
+	STRCPYI	s9, str_75D8
+	JP	loc_6DF5
+
+loc_6D73:
+	CMD2F	1, 41, 40, 6, 32, 0, 19, 88
+	STRCPYI	s9, str_75E8
+	JP	loc_6DF5
+
+loc_6D8F:
+	CMD2F	1, 41, 0, 6, 40, 0, 19, 40
+	CMD2F	1, 41, 112, 3, 24, 0, 22, 16
+	MOVI	i0, 64
+	ANDR	i0, i160
+	CMPI	i0, 64
+	JNE	loc_6DEF
+	STRCPYI	s9, str_75F6
+	JP	loc_6DF5
+
+loc_6DD3:
+	CMD2F	1, 44, 112, 1, 24, 0, 17, 16
+	STRCPYI	s9, str_760E
+	JP	loc_6DF5
+
+loc_6DEF:
+	STRCPYI	s9, str_76AF
+loc_6DF5:
+	TBCLEAR	15
+	PRINT	15, str_754D
+	MOVR	i21, i294
+	JP	loc_689F
+
+loc_6E09:
+	CMPI	i17, 72
+	JGT	loc_6E59
+	CMPI	i34, 96
+	JLT	loc_6E27
+	MOVI	i294, 0
+	JP	loc_6ED7
+
+loc_6E27:
+	CMPI	i34, 64
+	JLT	loc_6E3B
+	MOVI	i294, 1
+	JP	loc_6ED7
+
+loc_6E3B:
+	CMPI	i34, 32
+	JLT	loc_6E4F
+	MOVI	i294, 2
+	JP	loc_6ED7
+
+loc_6E4F:
+	MOVI	i294, 3
+	JP	loc_6ED7
+
+loc_6E59:
+	CMPI	i17, 152
+	JGT	loc_6E95
+	CMPI	i34, 64
+	JLT	loc_6E77
+	MOVI	i294, 8
+	JP	loc_6ED7
+
+loc_6E77:
+	CMPI	i34, 32
+	JLT	loc_6E8B
+	MOVI	i294, 9
+	JP	loc_6ED7
+
+loc_6E8B:
+	MOVI	i294, 10
+	JP	loc_6ED7
+
+loc_6E95:
+	CMPI	i34, 96
+	JLT	loc_6EA9
+	MOVI	i294, 4
+	JP	loc_6ED7
+
+loc_6EA9:
+	CMPI	i34, 64
+	JLT	loc_6EBD
+	MOVI	i294, 5
+	JP	loc_6ED7
+
+loc_6EBD:
+	CMPI	i34, 32
+	JLT	loc_6ED1
+	MOVI	i294, 6
+	JP	loc_6ED7
+
+loc_6ED1:
+	MOVI	i294, 7
+loc_6ED7:
+	CMPR	i21, i294
+	JEQ	loc_689F
+	JTBL	i21
+	DW	loc_6EFB	; 0
+	DW	loc_6F11	; 1
+	DW	loc_6F27	; 2
+	DW	loc_6F3D	; 3
+	DW	loc_6F53	; 4
+	DW	loc_6F69	; 5
+	DW	loc_6F7F	; 6
+	DW	loc_6F95	; 7
+	DW	loc_6FAB	; 8
+	DW	loc_6FC1	; 9
+	DW	loc_6FD7	; 10
+
+loc_6EFB:
+	CMD2F	1, 2, 232, 8, 24, 0, 10, 96
+	JP	loc_6FE9
+
+loc_6F11:
+	CMD2F	1, 2, 200, 8, 32, 0, 10, 64
+	JP	loc_6FE9
+
+loc_6F27:
+	CMD2F	1, 2, 176, 8, 24, 0, 10, 40
+	JP	loc_6FE9
+
+loc_6F3D:
+	CMD2F	1, 2, 152, 8, 24, 0, 10, 16
+	JP	loc_6FE9
+
+loc_6F53:
+	CMD2F	1, 18, 232, 8, 24, 0, 26, 96
+	JP	loc_6FE9
+
+loc_6F69:
+	CMD2F	1, 18, 200, 8, 32, 0, 26, 64
+	JP	loc_6FE9
+
+loc_6F7F:
+	CMD2F	1, 18, 176, 8, 24, 0, 26, 40
+	JP	loc_6FE9
+
+loc_6F95:
+	CMD2F	1, 18, 152, 8, 24, 0, 26, 16
+	JP	loc_6FE9
+
+loc_6FAB:
+	CMD2F	1, 11, 232, 6, 24, 0, 19, 96
+	JP	loc_6FE9
+
+loc_6FC1:
+	CMD2F	1, 11, 176, 6, 40, 0, 19, 40
+	JP	loc_6FE9
+
+loc_6FD7:
+	CMD2F	1, 42, 288, 2, 32, 0, 16, 8
+loc_6FE9:
+	STRCLR	s9
+	JTBL	i294
+	DW	loc_7007	; 0
+	DW	loc_7039	; 1
+	DW	loc_706B	; 2
+	DW	loc_709D	; 3
+	DW	loc_70CF	; 4
+	DW	loc_70EB	; 5
+	DW	loc_711D	; 6
+	DW	loc_714F	; 7
+	DW	loc_7181	; 8
+	DW	loc_719D	; 9
+	DW	loc_71CF	; 10
+
+loc_7007:
+	CMD2F	1, 29, 216, 8, 24, 0, 10, 96
+	MOVI	i0, 256
+	ANDR	i0, i160
+	CMPI	i0, 256
+	JNE	loc_71EB
+	STRCPYI	s9, str_761A
+	JP	loc_71F1
+
+loc_7039:
+	CMD2F	1, 29, 184, 8, 32, 0, 10, 64
+	MOVI	i0, 512
+	ANDR	i0, i160
+	CMPI	i0, 512
+	JNE	loc_71EB
+	STRCPYI	s9, str_7629
+	JP	loc_71F1
+
+loc_706B:
+	CMD2F	1, 29, 160, 8, 24, 0, 10, 40
+	MOVI	i0, 1024
+	ANDR	i0, i160
+	CMPI	i0, 1024
+	JNE	loc_71EB
+	STRCPYI	s9, str_7635
+	JP	loc_71F1
+
+loc_709D:
+	CMD2F	1, 29, 136, 8, 24, 0, 10, 16
+	MOVI	i0, 2048
+	ANDR	i0, i160
+	CMPI	i0, 2048
+	JNE	loc_71EB
+	STRCPYI	s9, str_7641
+	JP	loc_71F1
+
+loc_70CF:
+	CMD2F	1, 29, 320, 8, 24, 0, 26, 96
+	STRCPYI	s9, str_764F
+	JP	loc_71F1
+
+loc_70EB:
+	CMD2F	1, 29, 288, 8, 32, 0, 26, 64
+	MOVI	i0, 4096
+	ANDR	i0, i160
+	CMPI	i0, 4096
+	JNE	loc_71EB
+	STRCPYI	s9, str_765D
+	JP	loc_71F1
+
+loc_711D:
+	CMD2F	1, 29, 264, 8, 24, 0, 26, 40
+	MOVI	i0, 8192
+	ANDR	i0, i160
+	CMPI	i0, 8192
+	JNE	loc_71EB
+	STRCPYI	s9, str_766B
+	JP	loc_71F1
+
+loc_714F:
+	CMD2F	1, 29, 240, 8, 24, 0, 26, 16
+	MOVI	i0, 16384
+	ANDR	i0, i160
+	CMPI	i0, 16384
+	JNE	loc_71EB
+	STRCPYI	s9, str_7677
+	JP	loc_71F1
+
+loc_7181:
+	CMD2F	1, 41, 72, 6, 24, 0, 19, 96
+	STRCPYI	s9, str_7687
+	JP	loc_71F1
+
+loc_719D:
+	CMD2F	1, 29, 344, 6, 40, 0, 19, 40
+	MOVI	i0, 32768
+	ANDR	i0, i160
+	CMPI	i0, 32768
+	JNE	loc_71EB
+	STRCPYI	s9, str_7696
+	JP	loc_71F1
+
+loc_71CF:
+	CMD2F	1, 42, 256, 2, 32, 0, 16, 8
+	STRCPYI	s9, str_76A2
+	JP	loc_71F1
+
+loc_71EB:
+	STRCPYI	s9, str_76AF
+loc_71F1:
+	TBCLEAR	15
+	PRINT	15, str_754D
+	MOVR	i21, i294
+	JP	loc_689F
+
+loc_7205:
+	JTBL	i0
+	DW	loc_7211	; 0
+	DW	loc_74CD	; 1
+	DW	loc_7211	; 2
+	DW	loc_74CD	; 3
+
+loc_7211:
+	JTBL	i295
+	DW	loc_721B	; 0
+	DW	loc_7285	; 1
+	DW	loc_7325	; 2
+
+loc_721B:
+	JTBL	i294
+	DW	loc_722B	; 0
+	DW	loc_723B	; 1
+	DW	loc_724B	; 2
+	DW	loc_7255	; 3
+	DW	loc_7265	; 4
+	DW	loc_7275	; 5
+
+loc_722B:
+	MOVI	i299, 8
+	MOVI	i292, 0
+	JP	loc_74A5
+
+loc_723B:
+	MOVI	i299, 8
+	MOVI	i292, 1
+	JP	loc_74A5
+
+loc_724B:
+	MOVI	i299, 8
+	JP	loc_7457
+
+loc_7255:
+	MOVI	i299, 8
+	MOVI	i292, 2
+	JP	loc_74A5
+
+loc_7265:
+	MOVI	i299, 8
+	MOVI	i292, 3
+	JP	loc_74A5
+
+loc_7275:
+	MOVI	i299, 8
+	MOVI	i292, 4
+	JP	loc_74A5
+
+loc_7285:
+	JTBL	i294
+	DW	loc_729D	; 0
+	DW	loc_72AD	; 1
+	DW	loc_72BD	; 2
+	DW	loc_72CD	; 3
+	DW	loc_72DD	; 4
+	DW	loc_72ED	; 5
+	DW	loc_72FD	; 6
+	DW	loc_7301	; 7
+	DW	loc_7311	; 8
+	DW	loc_7315	; 9
+
+loc_729D:
+	MOVI	i299, 4
+	MOVI	i292, 5
+	JP	loc_74A5
+
+loc_72AD:
+	MOVI	i299, 4
+	MOVI	i292, 6
+	JP	loc_74A5
+
+loc_72BD:
+	MOVI	i299, 4
+	MOVI	i292, 7
+	JP	loc_74A5
+
+loc_72CD:
+	MOVI	i299, 7
+	MOVI	i292, 8
+	JP	loc_74A5
+
+loc_72DD:
+	MOVI	i299, 7
+	MOVI	i292, 9
+	JP	loc_74A5
+
+loc_72ED:
+	MOVI	i299, 7
+	MOVI	i292, 10
+	JP	loc_74A5
+
+loc_72FD:
+	JP	loc_73E9
+
+loc_7301:
+	MOVI	i299, 6
+	MOVI	i292, 12
+	JP	loc_74A5
+
+loc_7311:
+	JP	loc_74A5
+
+loc_7315:
+	MOVI	i299, 5
+	MOVI	i292, 14
+	JP	loc_74A5
+
+loc_7325:
+	JTBL	i294
+	DW	loc_733F	; 0
+	DW	loc_734F	; 1
+	DW	loc_735F	; 2
+	DW	loc_736F	; 3
+	DW	loc_737F	; 4
+	DW	loc_738F	; 5
+	DW	loc_739F	; 6
+	DW	loc_73AF	; 7
+	DW	loc_73BF	; 8
+	DW	loc_73C9	; 9
+	DW	loc_73D9	; 10
+
+loc_733F:
+	MOVI	i299, 0
+	MOVI	i292, 15
+	JP	loc_74A5
+
+loc_734F:
+	MOVI	i299, 0
+	MOVI	i292, 16
+	JP	loc_74A5
+
+loc_735F:
+	MOVI	i299, 0
+	MOVI	i292, 17
+	JP	loc_74A5
+
+loc_736F:
+	MOVI	i299, 0
+	MOVI	i292, 18
+	JP	loc_74A5
+
+loc_737F:
+	MOVI	i299, 3
+	MOVI	i292, 19
+	JP	loc_74A5
+
+loc_738F:
+	MOVI	i299, 3
+	MOVI	i292, 20
+	JP	loc_74A5
+
+loc_739F:
+	MOVI	i299, 3
+	MOVI	i292, 21
+	JP	loc_74A5
+
+loc_73AF:
+	MOVI	i299, 3
+	MOVI	i292, 22
+	JP	loc_74A5
+
+loc_73BF:
+	MOVI	i299, 2
+	JP	loc_7457
+
+loc_73C9:
+	MOVI	i299, 1
+	MOVI	i292, 23
+	JP	loc_74A5
+
+loc_73D9:
+	MOVI	i299, 0
+	MOVI	i292, 13
+	JP	loc_74A5
+
+loc_73E9:
+	CMD6A	336, 64, 340, 123
+	TBOPEN	10, 20, 3, 8, 6, 1
+	PRINT	10, str_7505
+	MENUSEL	i17, i34, sel_752D, loc_7419
+loc_7411:
+	CMD42	1
+	JP	loc_7411
+
+loc_7419:
+	TBCLOSE	10
+	CMPI	i34, 1
+	JNE	loc_742B
+	JP	loc_6885
+
+loc_742B:
+	SUBI	i17, 1
+	JTBL	i17
+	DW	loc_743B	; 0
+	DW	loc_7473	; 1
+	DW	loc_7499	; 2
+
+loc_743B:
+	MOVI	i295, 2
+	MOVI	i294, 8
+	MOVI	i17, 80
+	MOVI	i34, 70
+	JP	loc_748B
+
+loc_7457:
+	MOVI	i295, 1
+	MOVI	i294, 6
+	MOVI	i17, 80
+	MOVI	i34, 90
+	JP	loc_748B
+
+loc_7473:
+	MOVI	i295, 0
+	MOVI	i294, 2
+	MOVI	i17, 60
+	MOVI	i34, 60
+loc_748B:
+	MOVI	i21, 1
+	CALL	loc_76BC
+	JP	loc_6885
+
+loc_7499:
+	MOVI	i299, 8
+	MOVI	i292, 11
+loc_74A5:
+	TBCLOSE	2
+	TBCLOSE	15
+	CMPR	i521, i292
+	JEQ	loc_74CD
+	CMPI	i516, 1
+	JEQ	loc_74C7
+	CALL	loc_46D8
+	RET
+
+loc_74C7:
+	CALL	loc_591F
+	RET
+
+loc_74CD:
+	TBCLOSE	2
+	TBCLOSE	15
+	MOVR	i297, i48
+	MOVR	i298, i49
+	MOVR	i295, i301
+	MOVR	i294, i302
+	MOVI	i142, 255
+	CMPI	i516, 1
+	JEQ	loc_7503
+	CALL	loc_46A2
+	RET
+
+loc_7503:
+	RET
+
+str_7505:
+	DS	"　 ２階へ　 ", 0x0D
+	DS	"　  外へ　　", 0x0D
+	DS	" 玄関ホール ", 0x0D, 0
+sel_752D:
+	DW	1, 336, 64, 432, 84
+	DW	2, 336, 84, 432, 104
+	DW	3, 336, 104, 432, 124
+	DW	0
+str_754D:
+	DS	4, 9, 0
+str_7550:
+	DS	" 　　　門", 0
+str_755A:
+	DS	" 　　　倉", 0
+str_7564:
+	DS	" 　　屋　敷", 0
+str_7570:
+	DS	" 　　裏　庭", 0
+str_757C:
+	DS	" 　　井　戸", 0
+str_7588:
+	DS	" 　　テラス", 0
+str_7594:
+	DS	" 　  客　間", 0
+str_75A0:
+	DS	"  美和子の部屋", 0
+str_75AF:
+	DS	"  女主人の部屋", 0
+str_75BE:
+	DS	"   摩耶の部屋", 0
+str_75CC:
+	DS	" 　  客　間", 0
+str_75D8:
+	DS	" １Ｆバスルーム", 0
+str_75E8:
+	DS	" 　玄関ホール", 0
+str_75F6:
+	DS	" 　  食　堂", 0
+str_7602:	; unused
+	DS	" 　  厨　房", 0
+str_760E:
+	DS	" 　　地下室", 0
+str_761A:
+	DS	"　深紗緒の部屋", 0
+str_7629:
+	DS	" 　  客　間", 0
+str_7635:
+	DS	" 　  客　間", 0
+str_7641:
+	DS	" 　草山の部屋", 0
+str_764F:
+	DS	"　 自分の部屋", 0
+str_765D:
+	DS	"　 雪菜の部屋", 0
+str_766B:
+	DS	" 　  客　間", 0
+str_7677:
+	DS	" ２Ｆバスルーム", 0
+str_7687:
+	DS	"　１階への階段", 0
+str_7696:
+	DS	" 　　書　斎", 0
+str_76A2:
+	DS	"　　昇り階段", 0
+str_76AF:
+	DS	"    ？ ？ ？", 0
+
+loc_76BC:
+	TBCLOSE	2
+	TBOPEN	2, 4, 0, 17, 9, 0
+loc_76CE:
+	JTBL	i295
+	DW	loc_76D8	; 0
+	DW	loc_7700	; 1
+	DW	loc_7716	; 2
+
+loc_76D8:
+	GFX63	1, 0, 272, 29, 128, 0, 8, 0
+	GFX63	1, 0, 264, 29, 8, 0, 8, 128
+	JP	loc_7728
+
+loc_7700:
+	GFX63	1, 0, 0, 33, 136, 0, 8, 0
+	JP	loc_7728
+
+loc_7716:
+	GFX63	1, 0, 136, 29, 136, 0, 8, 0
+loc_7728:
+	RET
+
+file_772A:
+	DB	1, "mitori.g", 0
