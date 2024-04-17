@@ -43,7 +43,7 @@ Valley Bell‚³‚ñ‚Ì‰ðÍƒc[ƒ‹‚ðŽg—p‚³‚¹‚Ä‚¢‚½‚¾‚«‚Ü‚µ‚½B–²Œ¶–é‘z‹È‚ÍƒTƒuƒ‹[ƒ`ƒ“ƒ
 
 Œø‰Ê‰¹iGB‰¹Œ¹j
 
-ƒJƒiƒ“GBA‚É‘±‚«[hoshi‚³‚ñ](https://twitter.com/hoshi903)‚É§ì‚µ‚Ä‚à‚ç‚¢‚Ü‚µ‚½B–¼Œ¾‚ÅŽg‚í‚ê‚Ä‚¢‚é‰¹‚ð–Ø‹Õ‚Á‚Û‚­‚Æ‚¨Šè‚¢‚µ‚Ü‚µ‚½‚¯‚ê‚ÇA–³’ƒ‚Ô‚èAƒŠƒeƒCƒN‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚·iŠ¾B‚¨‚©‚°‚Å“±“ü•”‚ÌŒ¶‘z“I‚È•µˆÍ‹C‚ªÛ—§‚¿‚Ü‚µ‚½B
+ƒJƒiƒ“GBA‚É‘±‚«[hoshi‚³‚ñ](https://twitter.com/hoshi903)‚É§ì‚ð‚¨Šè‚¢‚µ‚Ä‚¢‚Ü‚·BƒQ[ƒ€’†A–¼Œ¾‚ÅŽg‚í‚ê‚Ä‚¢‚é‰¹‚Í–Ø‹Õ‚Á‚Û‚­‚Æ‚¨Šè‚¢i–³’ƒ‚Ô‚èj‚µ‚Ü‚µ‚½B“±“ü•”‚ÌŒ¶‘z“I‚È•µˆÍ‹C‚ªÛ—§‚Á‚Ä‚¢‚Ü‚·‚Ì‚Å‚º‚Ð•·‚«Ž¨‚ð—§‚Ä‚Ä‚Ù‚µ‚¢‚ÆŽv‚Á‚Ä‚¢‚Ü‚·B
 
 
 ## Œ¾‚¢–óƒ^ƒCƒ€i‚Ü‚½‚µ‚Ä‚àEEEj
