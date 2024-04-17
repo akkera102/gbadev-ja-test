@@ -43,16 +43,17 @@ Valley Bell‚³‚ñ‚Ì‰ðÍƒc[ƒ‹‚ðŽg—p‚³‚¹‚Ä‚¢‚½‚¾‚«‚Ü‚µ‚½B–²Œ¶–é‘z‹È‚ÍƒTƒuƒ‹[ƒ`ƒ“ƒ
 
 Œø‰Ê‰¹iGB‰¹Œ¹j
 
-ƒJƒiƒ“GBA‚É‘±‚«[hoshi‚³‚ñ](https://twitter.com/hoshi903)‚É§ì‚ð‚¨Šè‚¢‚µ‚Ä‚¢‚Ü‚·BƒQ[ƒ€’†A–¼Œ¾‚ÅŽg‚í‚ê‚Ä‚¢‚é‰¹‚Í–Ø‹Õ‚Á‚Û‚­‚Æ‚¨Šè‚¢i–³’ƒ‚Ô‚èj‚µ‚Ü‚µ‚½B“±“ü•”‚ÌŒ¶‘z“I‚È•µˆÍ‹C‚ªÛ—§‚Á‚Ä‚¢‚Ü‚·‚Ì‚Å‚º‚Ð•·‚«Ž¨‚ð—§‚Ä‚Ä‚Ù‚µ‚¢‚ÆŽv‚Á‚Ä‚¢‚Ü‚·B
+ƒJƒiƒ“GBA‚É‘±‚«[hoshi‚³‚ñ](https://twitter.com/hoshi903)‚É§ì‚ð‚¨Šè‚¢‚µ‚Ä‚¢‚Ü‚·BƒQ[ƒ€’†A–¼Œ¾‚ÅŽg‚í‚ê‚Ä‚¢‚é‰¹‚Í–Ø‹Õ‚Á‚Û‚­‚Æ–³’ƒ‚Ô‚èi‚¨Šè‚¢j‚µ‚Ü‚µ‚½B“±“ü•”‚ÌŒ¶‘z“I‚È•µˆÍ‹C‚ªÛ—§‚Á‚Ä‚¢‚Ü‚·‚Ì‚Å‚º‚Ð•·‚«Ž¨‚ð—§‚Ä‚Ä‚Ù‚µ‚¢‚Å‚·B
 
 
 ## Œ¾‚¢–óƒ^ƒCƒ€i‚Ü‚½‚µ‚Ä‚àEEEj
 
 - GBA”Å‚Í‘I‘ðŽˆ‹@”\‚ðƒGƒ“ƒfƒBƒ“ƒO’¼‘O‚Ü‚ÅŽg—p‚µ‚È‚¢ì‚è‚É‚È‚Á‚Ä‚¢‚Ü‚·Bƒm[ƒXƒgƒŒƒX‚Å‚·B
-- ŠÙƒQ[ƒ€‚Ì•µˆÍ‹C‚ðo‚·‚½‚ß1Í‚¾‚¯–³ˆÓ–¡‚ÉˆÚ“®‚µ‚Ä‚¢‚Ü‚·B‰‚ß‚Ä‚Ì•û‚ÍŠÙ‚Ì‹K–ÍŠ´‚ðŒ©‚Ä‚à‚ç‚¦‚ê‚Î‚ÆŽv‚¢‚Ü‚·B
+- ŠÙƒQ[ƒ€‚Ì•µˆÍ‹C‚ðo‚·‚½‚ß1Í‚¾‚¯–³ˆÓ–¡‚ÉˆÚ“®‚µ‚Ä‚¢‚Ü‚·B‰‚ß‚Ä‚Ì•û‚ÍŠÙ‚Ì‹K–ÍŠ´‚ðŒ©‚Ä‚à‚ç‚¦‚ê‚ÎK‚¢‚Å‚·B
 - Œš•¨‚Í‚QŠKŒš‚Ä‚Å‚·B•~’n“à‚É‚àˆÚ“®ƒGƒŠƒA‚ª‚¢‚­‚Â‚©‚ ‚è‚Ü‚·B
 - ‰ï˜bƒtƒ‰ƒO‚Ì‚½‚ß‚Ì•¶Íd•¡‚É‚Â‚¢‚Ä‚ÍƒJƒbƒg‚µ‚Ü‚µ‚½BˆÚ“®ƒtƒ‰ƒO‚Ì‰ÁŽZ‚É‚Â‚¢‚Ä‚à“¯—l‚Å‚·B
 - ÍƒWƒƒƒ“ƒvi0-12j‚ÍƒfƒoƒbƒN—p‚Å‚·BƒGƒ“ƒfƒBƒ“ƒO‚ðŒ©‚Ä‚©‚çŽg—p‚µ‚Ä‚­‚¾‚³‚¢B
+- ŠeƒGƒ“ƒfƒBƒ“ƒO‚Íƒ[ƒh–ˆ‚ÉŠm”F‚·‚é‚Ì‚ª–Ê“|‚È‚Ì‚ÅƒXƒ^[ƒgƒƒjƒ…[‚É€–Ú‚ðo‚µ‚Ü‚µ‚½B
 - ƒvƒŒƒCŽžŠÔ‚Í6`8ŽžŠÔ’ö“x‚Å‚·B
 - ˆÚ“®‚Ì‡˜H‚Í[ƒŒƒgƒPC”ü­—ƒQ[ƒ€U—ª @ wiki](https://w.atwiki.jp/retropcgame/pages/566.html)—l‚ðŽQl‚É‚³‚¹‚Ä’¸‚«‚Ü‚µ‚½B
 - Šeƒo[ƒWƒ‡ƒ“‚ÌƒZ[ƒuƒf[ƒ^‚ÌŒÝŠ·«‚Í‚ ‚è‚Ü‚¹‚ñB
@@ -60,7 +61,7 @@ Valley Bell‚³‚ñ‚Ì‰ðÍƒc[ƒ‹‚ðŽg—p‚³‚¹‚Ä‚¢‚½‚¾‚«‚Ü‚µ‚½B–²Œ¶–é‘z‹È‚ÍƒTƒuƒ‹[ƒ`ƒ“ƒ
 
 ## –¢ŽÀ‘•
 
-- ƒGƒ“ƒfƒBƒ“ƒO‰æ‘œ‚Í‰ðÍ‚Å‚«‚È‚©‚Á‚½‚Ì‚ÅƒZƒsƒA’²‚É‚È‚è‚Ü‚¹‚ñB–{•Ò‰æ‘œ‚©‚çŽ—‚¹‚Äì‚è‚Ü‚µ‚½i‚®‚Ê‚ÊB
+- ƒGƒ“ƒfƒBƒ“ƒO‰æ‘œ‚Í’Šo‚Å‚«‚È‚©‚Á‚½‚Ì‚ÅƒZƒsƒA’²‚É‚È‚è‚Ü‚¹‚ñB–{•Ò‰æ‘œ‚©‚çŽ—‚¹‚Äì‚è‚Ü‚µ‚½i‚®‚Ê‚ÊB
 
 
 ## ƒ‰ƒCƒZƒ“ƒX
