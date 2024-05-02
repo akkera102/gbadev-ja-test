@@ -456,8 +456,6 @@ if(sys.argv[1] == "cs03_04.log"): txt = re.sub('EFF 4\n', 'EFF 36\nEFF 11\n', tx
 if(sys.argv[1] == "cs03_05.log"): txt = re.sub('EFF 4\nLDS', 'EFF 36\nLDS', txt)
 # アウト枠　ファーと合流２
 if(sys.argv[1] == "cs03_06.log"): txt = re.sub('BPL 4\nEFF 4\n', 'BPL 4\nEFF 11\n', txt)
-# インアウト枠　ファー歓迎会終了
-if(sys.argv[1] == "cs03_06.log"): txt = re.sub('BFA\nEFF 4\n', 'BFA\nEFF 36\nEFF 11\n', txt)
 # ニース消す　酔っぱいニース
 if(sys.argv[1] == "cs03_07.log"): txt = re.sub('MSG ニースは大', 'CLR 2\nEFF 33\nMSG ニースは大', txt)
 # UD黒　ニースとH

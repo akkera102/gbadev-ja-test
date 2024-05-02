@@ -46,8 +46,8 @@ def Palette(file):
   iw, ih = img.size
 
 
-  # 最大画像　エンディングのニース絵(s005)は例外
-  if iw == 640 and ih == 400 and file != "s005.png":
+  # 最大画像　エンディングのニース絵(s005)、タイトルは例外
+  if iw == 640 and ih == 400 and file != "s005.png" and file != "titlep.png":
     return
 
   # スクロール画像
@@ -70,6 +70,14 @@ def Palette(file):
     pal[0] = 0
     pal[1] = 0
     pal[2] = 0
+
+  # タイトルだけ例外
+  if file == "titlep.png":
+    for i in range(1, 10):
+      pal[i*3+0] = 102
+      pal[i*3+1] = 102
+      pal[i*3+2] = 102
+
 
   img.putpalette(pal)
   img.save(file)
