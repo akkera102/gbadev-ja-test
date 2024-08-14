@@ -27,6 +27,7 @@ EWRAM_CODE void ImgInitVar(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgExec(void)
 {
+	// エフェクト前にテキストを非表示にします
 	if(Img.isTxt == true && Img.effNo <= IMG_EFFECT_SCROLL_DU && Img.effNo != IMG_EFFECT_BLACK_IN)
 	{
 		ImgExecTxtOut();
@@ -118,7 +119,6 @@ EWRAM_CODE void ImgExecBlackOut(void)
 	Img.isEff = false;
 }
 //---------------------------------------------------------------------------
-// フェードを初期値にしてブラックイン
 EWRAM_CODE void ImgExecBlackIn(void)
 {
 	if(Img.var[0]++ == 0)
@@ -264,7 +264,6 @@ EWRAM_CODE void ImgExecScrollUd(void)
 
 
 	Mode3VramScrY(Img.bg.pDat, Img.var[1]);
-//	TRACE("Ud %d\n", Img.var[1]);
 	Img.var[1]++;
 
 	if(Img.var[1] <= Img.bg.cy - 140)
@@ -291,7 +290,6 @@ EWRAM_CODE void ImgExecScrollDu(void)
 
 
 	Mode3VramScrY(Img.bg.pDat, Img.var[2]);
-//	TRACE("Du %d\n", Img.var[2]);
 	Img.var[2]--;
 
 	if(Img.var[2] >= 0)
@@ -417,7 +415,7 @@ EWRAM_CODE void ImgDrawBg(void)
 		return;
 	}
 
-	// スクロール下表示
+	// スクロール下
 	if(Img.bg.type == IMG_TYPE_SCROLL_DOWN)
 	{
 		Mode3DrawScr(Img.bg.pDat + Img.bg.cx * Img.bg.cy - SCREEN_CX * 140);
@@ -425,7 +423,7 @@ EWRAM_CODE void ImgDrawBg(void)
 		return;
 	}
 
-	// スクロール上表示
+	// スクロール上
 	if(Img.bg.type == IMG_TYPE_SCROLL_UP)
 	{
 		Mode3DrawScr(Img.bg.pDat);
@@ -433,7 +431,7 @@ EWRAM_CODE void ImgDrawBg(void)
 		return;
 	}
 
-	// 通常背景
+	// 背景
 	Mode3DrawBg(Img.bg.cx, Img.bg.cy, Img.bg.pDat);
 }
 //---------------------------------------------------------------------------
@@ -475,11 +473,11 @@ EWRAM_CODE void ImgSetBg(char* p)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetScr(char* p, s32 type)
 {
-	ST_FILE_IMG_HEADER* i = (ST_FILE_IMG_HEADER*)FileGetImg(p);
+	ST_FILE_IMG_HEADER* h = (ST_FILE_IMG_HEADER*)FileGetImg(p);
 
-	Img.bg.cx   = i->cx;
-	Img.bg.cy   = i->cy;
-	Img.bg.pDat = (u16*)(i + 1);
+	Img.bg.cx   = h->cx;
+	Img.bg.cy   = h->cy;
+	Img.bg.pDat = (u16*)(h + 1);
 	Img.bg.type = type;
 
 	TRACE("[ImgSetScr %s %d %d %d]\n", p, Img.bg.cx, Img.bg.cy, type);
@@ -487,14 +485,14 @@ EWRAM_CODE void ImgSetScr(char* p, s32 type)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetChr1(char* p)
 {
-	ST_FILE_IMG_HEADER* i = (ST_FILE_IMG_HEADER*)FileGetImg(p);
+	ST_FILE_IMG_HEADER* h = (ST_FILE_IMG_HEADER*)FileGetImg(p);
 	ST_FILE_MSK_HEADER* m = (ST_FILE_MSK_HEADER*)FileGetMsk(p);
 
 	Img.chr1.sx   = m->sx;
 	Img.chr1.sy   = m->sy;
-	Img.chr1.cx   = i->cx;
-	Img.chr1.cy   = i->cy;
-	Img.chr1.pDat = (u16*)(i + 1);
+	Img.chr1.cx   = h->cx;
+	Img.chr1.cy   = h->cy;
+	Img.chr1.pDat = (u16*)(h + 1);
 	Img.chr1.pMsk =  (u8*)(m + 1);
 
 	TRACE("[ImgSetChr1 %s %d %d %d %d]\n", p, Img.chr1.sx, Img.chr1.sy, Img.chr1.cx, Img.chr1.cy);
@@ -502,14 +500,14 @@ EWRAM_CODE void ImgSetChr1(char* p)
 //---------------------------------------------------------------------------
 EWRAM_CODE void ImgSetChr2(char* p)
 {
-	ST_FILE_IMG_HEADER* i = (ST_FILE_IMG_HEADER*)FileGetImg(p);
+	ST_FILE_IMG_HEADER* h = (ST_FILE_IMG_HEADER*)FileGetImg(p);
 	ST_FILE_MSK_HEADER* m = (ST_FILE_MSK_HEADER*)FileGetMsk(p);
 
 	Img.chr2.sx   = m->sx;
 	Img.chr2.sy   = m->sy;
-	Img.chr2.cx   = i->cx;
-	Img.chr2.cy   = i->cy;
-	Img.chr2.pDat = (u16*)(i + 1);
+	Img.chr2.cx   = h->cx;
+	Img.chr2.cy   = h->cy;
+	Img.chr2.pDat = (u16*)(h + 1);
 	Img.chr2.pMsk =  (u8*)(m + 1);
 
 	TRACE("[ImgSetchr2 %s %d %d %d %d]\n", p, Img.chr2.sx, Img.chr2.sy, Img.chr2.cx, Img.chr2.cy);

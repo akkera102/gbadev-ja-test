@@ -6,7 +6,6 @@
 #include "nv.h"
 #include "log.h"
 #include "img.h"
-#include "file.h"
 #include "bgm.h"
 #include "se.h"
 
@@ -602,7 +601,7 @@ EWRAM_CODE char* MenuGetStrSelectOption(s32 sel)
 	if(sel == 3)
 	{
 
-		// SJIS「なし」
+		// SJIS「なし」0x82 0xC8 0x82 0xB5
 		if(Menu.isHowto == false)
 		{
 			Menu.buf[17] = 0xC8;
@@ -617,12 +616,10 @@ EWRAM_CODE char* MenuGetStrSelectOption(s32 sel)
 
 	if(sel == 0)
 	{
-		// 0
 		num = ImgGetTxtFade();
 	}
 	else if(sel == 1)
 	{
-		// 1
 		num = ImgGetTxtWait();
 	}
 	else

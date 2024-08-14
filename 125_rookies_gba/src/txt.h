@@ -13,18 +13,22 @@ extern "C" {
 #define TXT_CURSOR_WAIT_CNT				30
 #define TXT_SIORI_SIZE					(22+1)
 
+
 //---------------------------------------------------------------------------
+
 typedef struct {
 
 	bool isMsg;				// 表示有無
-	bool isChr;				// メッセージ描画有無
+	bool isChr;				// テキスト描画有無
 	s32  x;					// 文字表示位置
 	s32  y;
 
+	// カーソル
 	bool isCur;
 	bool isCurBlink;
 	s32  curWaitCnt;
 
+	// 正規表現済みテキスト
 	u16  msgBuf[TXT_SCREEN_CX * TXT_SCREEN_CY] ALIGN(4);
 	s32  msgCnt;
 

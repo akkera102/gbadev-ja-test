@@ -2,11 +2,9 @@
 #include "nv2.h"
 #include "img.h"
 #include "bgm.h"
-#include "siori.h"
 #include "txt.h"
 #include "manage.h"
 #include "se.h"
-#include "file.h"
 #include "menu.h"
 
 //---------------------------------------------------------------------------

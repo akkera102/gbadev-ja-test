@@ -22,7 +22,7 @@ enum {
 	IMG_EFFECT_SCROLL_UD,			//  9.スクロール上から下
 	IMG_EFFECT_SCROLL_DU,			// 10.スクロール下から上
 
-	// 以降はテキストフェード無効
+	// 以降はテキストフェードしない
 	IMG_EFFECT_TXT_IN,				// 11.テキストイン
 	IMG_EFFECT_TXT_OUT,				// 12.テキストアウト
 	IMG_EFFECT_LOAD_IN,				// 13.ロード時イン

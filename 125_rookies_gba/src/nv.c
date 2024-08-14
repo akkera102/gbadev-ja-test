@@ -242,12 +242,14 @@ EWRAM_CODE void NvSetAct(s32 act)
 	Nv.step = 0;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void NvSetScn(char* p)
+EWRAM_CODE void NvSetScn(char* pStr)
 {
-	Nv.pStr   = p;
-	Nv.pScn   = (char*)FileGetScn(p);
+	Nv.pStr   = pStr;
+	Nv.pScn   = (char*)FileGetScn(pStr);
+
 	Nv.pLbl   = (u32*)Nv.pScn;
 	Nv.lblMax = *Nv.pLbl;
+
 	Nv.pCur   = Nv.pScn + 4 + Nv.lblMax * 4;
 
 	TRACE("\n\n[NvSetScn %s]\n", p);

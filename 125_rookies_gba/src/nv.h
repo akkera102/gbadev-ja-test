@@ -60,7 +60,7 @@ EWRAM_CODE void  NvExecSel(void);
 EWRAM_CODE void  NvExecLoad(void);
 
 EWRAM_CODE void  NvSetAct(s32 act);
-EWRAM_CODE void  NvSetScn(char* p);
+EWRAM_CODE void  NvSetScn(char* pStr);
 EWRAM_CODE void  NvSetLbl(s32 no);
 EWRAM_CODE void  NvSetSkip(void);
 EWRAM_CODE void  NvSetVar(s32 no, s32 num);
