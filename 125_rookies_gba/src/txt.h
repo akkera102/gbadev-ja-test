@@ -58,7 +58,7 @@ EWRAM_CODE void TxtSetChr(void);
 EWRAM_CODE void TxtSetCur(bool is);
 IWRAM_CODE void TxtSetMsg(char* p);
 EWRAM_CODE void TxtSetSiori(char* p);
-EWRAM_CODE void TxtSetNum(s32 ans, s32 reg);
+EWRAM_CODE void TxtSetHowto(s32 ans, s32 reg);
 
 EWRAM_CODE void TxtWritePage(void);
 EWRAM_CODE void TxtWriteSel(char* p);
@@ -66,8 +66,8 @@ EWRAM_CODE void TxtClear(void);
 
 EWRAM_CODE void TxtShowMsg(void);
 EWRAM_CODE void TxtHideMsg(void);
-EWRAM_CODE void TxtShowNum(void);
-EWRAM_CODE void TxtHideNum(void);
+EWRAM_CODE void TxtShowHowto(void);
+EWRAM_CODE void TxtHideHowto(void);
 
 IWRAM_CODE bool TxtIsChrFront(u16 code);
 IWRAM_CODE bool TxtIsChrBack(u16 code);

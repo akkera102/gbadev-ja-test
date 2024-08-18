@@ -119,48 +119,7 @@ EWRAM_CODE void SprSetSelect(void)
 	Spr.mask = SPR_FONT_MASK_SELECT;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprShowCur(void)
-{
-	SprShow(10);
-	SprShow(11);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprHideCur(void)
-{
-	SprHide(10);
-	SprHide(11);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprShowMsg(void)
-{
-	s32 i;
-
-	for(i=0; i<10; i++)
-	{
-		SprShow(i);
-	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprHideMsg(void)
-{
-	s32 i;
-
-	for(i=0; i<10; i++)
-	{
-		SprHide(i);
-	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprMoveCur(s32 x, s32 y)
-{
-	s32 sx = 18 + x * (SPR_FONT_IMG_CX);
-	s32 sy = 22 + y * (SPR_FONT_IMG_CY + SPR_FONT_IMG_BLANK_CY);
-
-	SprMove(10, sx, sy);
-	SprMove(11, sx, sy+8);
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE void SprSetNum(s32 ans, s32 reg)
+EWRAM_CODE void SprSetHowto(s32 ans, s32 reg)
 {
 	s32 x = 0;
 	s32 i;
@@ -186,7 +145,23 @@ EWRAM_CODE void SprSetNum(s32 ans, s32 reg)
 	}
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprShowNum(void)
+EWRAM_CODE void SprShowMsg(void)
+{
+	s32 i;
+
+	for(i=0; i<10; i++)
+	{
+		SprShow(i);
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprShowCur(void)
+{
+	SprShow(10);
+	SprShow(11);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprShowHowto(void)
 {
 	SprShow(12);
 	SprShow(13);
@@ -194,10 +169,35 @@ EWRAM_CODE void SprShowNum(void)
 	SprShow(15);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SprHideNum(void)
+EWRAM_CODE void SprHideMsg(void)
+{
+	s32 i;
+
+	for(i=0; i<10; i++)
+	{
+		SprHide(i);
+	}
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprHideCur(void)
+{
+	SprHide(10);
+	SprHide(11);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprHideHowto(void)
 {
 	SprHide(12);
 	SprHide(13);
 	SprHide(14);
 	SprHide(15);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void SprMoveCur(s32 x, s32 y)
+{
+	s32 sx = 18 + x * (SPR_FONT_IMG_CX);
+	s32 sy = 22 + y * (SPR_FONT_IMG_CY + SPR_FONT_IMG_BLANK_CY);
+
+	SprMove(10, sx, sy);
+	SprMove(11, sx, sy+8);
 }

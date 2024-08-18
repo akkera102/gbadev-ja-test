@@ -129,15 +129,15 @@ EWRAM_CODE void  NvExecSel(void)
 		TxtSetCur(false);
 
 		// çUó™èÓïÒí«â¡
-		TxtSetNum(Nv.sel.ans, Nv.sel.reg);
+		TxtSetHowto(Nv.sel.ans, Nv.sel.reg);
 
 		if(MenuIsHowto() == true)
 		{
-			TxtShowNum();
+			TxtShowHowto();
 		}
 		else
 		{
-			TxtHideNum();
+			TxtHideHowto();
 		}
 
 		Nv.step++;
@@ -149,11 +149,13 @@ EWRAM_CODE void  NvExecSel(void)
 
 		if((trg & KEY_A) && Nv.sel.cnt != -1)
 		{
+			TxtHideHowto();
+
 			Nv.step++;
 		}
 		else if((trg & KEY_LEFT) && (LogIsEmpty() == false))
 		{
-			TxtHideNum();
+			TxtHideHowto();
 			LogSetInit(LOG_RET_NOVEL);
 			ManageSetLog();
 
@@ -161,7 +163,7 @@ EWRAM_CODE void  NvExecSel(void)
 		}
 		else if(trg & KEY_B)
 		{
-			TxtHideNum();
+			TxtHideHowto();
 			MenuSetSystem(MENU_SYSTEM_SEL_SAVE);
 			ManageSetMenu();
 
@@ -169,7 +171,7 @@ EWRAM_CODE void  NvExecSel(void)
 		}
 		else if(trg & KEY_L)
 		{
-			TxtHideNum();
+			TxtHideHowto();
 			TxtHideMsg();
 			ImgSetTxtFade2(0);
 
@@ -196,7 +198,6 @@ EWRAM_CODE void  NvExecSel(void)
 	case 2:
 		NvSetVar(Nv.sel.ret, Nv.sel.cnt);
 		TxtWriteSel(Nv.sel.p[Nv.sel.cnt]);
-		TxtHideNum();
 
 		NvSetAct(NV_ACT_PARSE);
 		break;

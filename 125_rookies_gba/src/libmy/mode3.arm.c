@@ -29,6 +29,10 @@ IWRAM_CODE void Mode3Exec(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawScr(u16* pImg)
 {
+	// è„â∫10ÉhÉbÉgÇÕçïë—
+	MemClear(Mode3.buf, SCREEN_CX * 10 * 2);
+	MemClear(Mode3.buf + SCREEN_CX * 150, SCREEN_CX * 10 * 2);
+
 	MemIncFast(pImg, Mode3.buf + SCREEN_CX * 10, MODE3_MAX_SCR_SIZE);
 }
 //---------------------------------------------------------------------------
@@ -60,7 +64,7 @@ IWRAM_CODE void Mode3DrawBg(s32 cx, s32 cy, u16* pImg)
 
 	MemClear(Mode3.buf, size1);
 	LZ77UnCompWram(pImg, (u8*)Mode3.buf + size1);
-	MemClear((u8*)Mode3.buf + size3, size1);
+	MemClear(Mode3.buf + size3 / 2, size1);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawChr(s32 sx, s32 sy, s32 cx, s32 cy, u16* pS, u8* pM)

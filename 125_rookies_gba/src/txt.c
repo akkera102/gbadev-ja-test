@@ -316,9 +316,9 @@ EWRAM_CODE void TxtSetSiori(char* p)
 	Txt.sioriBuf[i] = '\0';
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TxtSetNum(s32 ans, s32 reg)
+EWRAM_CODE void TxtSetHowto(s32 ans, s32 reg)
 {
-	SprSetNum(ans, reg);
+	SprSetHowto(ans, reg);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtWritePage(void)
@@ -392,14 +392,14 @@ EWRAM_CODE void TxtHideMsg(void)
 	Txt.isMsg = false;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TxtShowNum(void)
+EWRAM_CODE void TxtShowHowto(void)
 {
-	SprShowNum();
+	SprShowHowto();
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void TxtHideNum(void)
+EWRAM_CODE void TxtHideHowto(void)
 {
-	SprHideNum();
+	SprHideHowto();
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE bool TxtIsChrFront(u16 code)

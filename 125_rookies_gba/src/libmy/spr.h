@@ -52,19 +52,17 @@ IWRAM_CODE void SprDrawDatChr(s32 x, s32 y, u16 code);
 EWRAM_CODE void SprSetWhite(void);
 EWRAM_CODE void SprSetGray(void);
 EWRAM_CODE void SprSetSelect(void);
+EWRAM_CODE void SprSetHowto(s32 ans, s32 reg);
 
 EWRAM_CODE void SprShowMsg(void);
-EWRAM_CODE void SprHideMsg(void);
-
 EWRAM_CODE void SprShowCur(void);
+EWRAM_CODE void SprShowHowto(void);
+
+EWRAM_CODE void SprHideMsg(void);
 EWRAM_CODE void SprHideCur(void);
+EWRAM_CODE void SprHideHowto(void);
+
 EWRAM_CODE void SprMoveCur(s32 x, s32 y);
-
-
-EWRAM_CODE void SprSetNum(s32 ans, s32 reg);
-
-EWRAM_CODE void SprShowNum(void);
-EWRAM_CODE void SprHideNum(void);
 
 
 #ifdef __cplusplus
