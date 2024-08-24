@@ -516,12 +516,12 @@ EWRAM_CODE void  MenuExecDebug(u16 trg)
 //---------------------------------------------------------------------------
 EWRAM_CODE void MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, void* pFunc, bool isDraw)
 {
-	Menu.type   = type;
-	Menu.ret    = ret;
-	Menu.sel    = sel;
-	Menu.msg    = msg;
-	Menu.reg    = reg;
-	Menu.pFunc  = pFunc;
+	Menu.type  = type;
+	Menu.ret   = ret;
+	Menu.sel   = sel;
+	Menu.msg   = msg;
+	Menu.reg   = reg;
+	Menu.pFunc = pFunc;
 
 	if(isDraw == true && ImgIsTxt() == true)
 	{

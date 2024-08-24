@@ -6,6 +6,6 @@ copy /b ..\exe\test.gba+test.gbfs ..\..\rookies.gba
 
 
 rem ---------------------------------
-rmdir tmp /s /q 2> nul
+rem rmdir tmp /s /q 2> nul
 
 

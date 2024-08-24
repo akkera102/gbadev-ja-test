@@ -397,7 +397,15 @@ void func_0f(void)
 
 	// char
 	case 3:
+		cur_scp8();
+		fprintf(Scp.fp, "\n");			// フェードイン（再生）
+		break;
+
 	case 4:
+		cur_scp8();
+		fprintf(Scp.fp, "BGS\n");		// フェードアウト（停止）※GBA版はBGM STOPで対応
+		break;
+
 	case 6:
 		cur_scp8();
 		fprintf(Scp.fp, "\n");

@@ -201,21 +201,7 @@ def Regex(text, file):
 	text = re.sub('BGM 1 UMI', 'BGM 0 UMI', text)
 	text = re.sub('BGM 1 BGM M78_2', 'BGM 0 BGM M78_2', text)
 	text = re.sub('BGM 1 H1', 'BGM 0 H1', text)
-
-	# 音楽を効果音演奏に変更
-	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 64\n', text)
-	text = re.sub('BGM 1 GAAN\n', 'BGS\nFMX 65\n', text)
-	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 66\n', text)
-	text = re.sub('BGM 1 MAJAN\n', 'BGS\nFMX 67\n', text)
-	text = re.sub('BGM 1 MAJAN2\n', 'BGS\nFMX 68\n', text)
-	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 69\n', text)
-	text = re.sub('BGM 1 NOIZE\n', 'BGS\nFMX 70\n', text)
-	text = re.sub('BGM 1 SHEYA\n', 'BGS\nFMX 71\n', text)
-	text = re.sub('BGM 1 SUZUME\n', 'BGS\nFMX 72\n', text)
-	text = re.sub('BGM 1 TOKEI\n', 'BGS\nFMX 73\n', text)
-	text = re.sub('BGM 1 TOKEI2\n', 'BGS\nFMX 74\n', text)
-	text = re.sub('BGM 1 ZATTOU\n', 'BGS\nFMX 75\n', text)
-	text = re.sub('BGS\nBGS\n', 'BGS\n', text)
+	text = re.sub('BGM 1 GAAN\n', 'BGM 0 GAAN\n', text)
 
 	# 個別修正
 	if(file == 'IPL.txt'):
@@ -267,6 +253,15 @@ def Regex(text, file):
 	if(file == '5BAD_B.txt'):
 		# 消去　重複エフェクト
 		text = re.sub('BGL YBG_08\nEFF 7\n', 'EFF 2\nBGL YBG_08\nEFF 15\n', text)
+
+	# 音楽JIRIRIを効果音再生に変更
+	text = re.sub('BGM 1 JIRIRI\n', 'FMX 66\n', text)
+	if(file == '4DAY_C.txt'):
+		# 効果音停止コマンドの追加
+		text = re.sub('BGM 1 G1\n', 'FMS\nBGM 1 G1\n', text)
+	if(file == '5DAY_C.txt'):
+		# 効果音停止コマンドの追加
+		text = re.sub('MSG ・・・俺は校舎', 'FMS\nMSG ・・・俺は校舎', text)
 
 	# 攻略情報を付与
 	if(file == '1DAY_A.txt'): text = re.sub('SEL 10', 'SEL 1', text) # 2 10 開けてみよう そのままにしておこう
