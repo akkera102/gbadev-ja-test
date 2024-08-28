@@ -61,19 +61,23 @@ EWRAM_CODE bool SeIsLoopNo(s32 no)
 {
 	switch(no)
 	{
-		case 64:
-		case 65:
-		case 66:
-		case 67:
-		case 68:
-		case 69:
-		case 70:
-		case 71:
-		case 72:
-		case 73:
-		case 74:
-		case 75:
-		return true;
+		case 2:		// 電話コール1
+		case 13:	// 電話コール2
+		case 14:	// 踏切
+		case 26:	// 麻雀かき混ぜる
+		case 31:	// 警報音
+		case 42:	// 電話切った後
+		case 47:	// 地震
+		case 50:	// 宿直室燃える
+		case 55:	// 電話コール3
+		case 56:	// 電話コール4
+		case 57:	// ガチャ、電話切った後
+
+		// PMDファイルから効果音に変更
+		case 66:	// 雨
+		case 67:	// ジリリ
+		case 68:	// 水（水道）
+			return true;
 	}
 
 	return false;

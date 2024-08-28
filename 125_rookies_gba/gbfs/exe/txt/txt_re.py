@@ -227,41 +227,52 @@ def Regex(text, file):
 		text = re.sub('WAT 255\n', 'WAT 765\n', text)
 
 	if(file == '2DAY_A.txt'):
-		# 変更エフェクト
+		# 変更　エフェクト
 		text = re.sub('EFF 7\nEFF 1\n', 'EFF 16\nEFF 1\n', text)
 
-	if(file == '3DAY_A.txt'):
-		# 消去　音楽と効果音の重複
-		text = re.sub('FMS\nFMX 31\n', '', text)
+	if(file == '4BAD.txt'):
+		# 消去　重複エフェクト
+		text = re.sub('BGL BG_30\nEFF 5\n', 'BGL BG_30\nEFF 15\n', text)
 
 	if(file == '5DAY_B.txt'):
-		# 変更エフェクト　学校から撤収
+		# 変更　エフェクト　学校から撤収
 		text = re.sub('BGL WIN00\nEFF 7\n', 'EFF 16\n', text)
-		# 変更エフェクト　理沙
+		# 変更　エフェクト　理沙
 		text = re.sub('EFF 6\nBGL WIN00\n', '', text)
-		# 追加エフェクト　理沙回想
+		# 追加　エフェクト　理沙回想
 		text = re.sub('MSG ・・・俺は・・・\nKEY\nBGL BG_03\n', 'MSG ・・・俺は・・・\nKEY\nEFF 6\nBGL BG_03\n', text)
 
 	if(file == '5DAY_D.txt'):
 		# 消去　重複エフェクト　浅野と対決
 		text = re.sub('SCR 0 E_49C\nEFF 10\n', 'SCR 0 E_49C\n', text)
 
-	if(file == '4BAD.txt'):
-		# 消去　重複エフェクト
-		text = re.sub('BGL BG_30\nEFF 5\n', 'BGL BG_30\nEFF 15\n', text)
-
 	if(file == '5BAD_B.txt'):
 		# 消去　重複エフェクト
 		text = re.sub('BGL YBG_08\nEFF 7\n', 'EFF 2\nBGL YBG_08\nEFF 15\n', text)
 
-	# 音楽JIRIRIを効果音再生に変更
-	text = re.sub('BGM 1 JIRIRI\n', 'FMX 66\n', text)
+	# 一部音楽を効果音再生に変更、停止コマンドを追加
+	# AME    -> 66
+	# JIRIRI -> 67
+	# MIZU   -> 68
+
+	# AME
+	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 66\n', text)
+	if(file == '4DAY_D.txt'):
+		text = re.sub('EFF 6\nBGL BG_36\nCHR 1 RISA_00\n', 'EFF 6\nFMS\nBGL BG_36\nCHR 1 RISA_00\n', text)
+	if(file == '4DAY_D.txt'):
+		text = re.sub('EFF 2\nBGL H_35A\n', 'EFF 2\nFMS\nBGL H_35A\n', text)
+
+	# JIRIRI
+	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 67\n', text)
 	if(file == '4DAY_C.txt'):
-		# 効果音停止コマンドの追加
 		text = re.sub('BGM 1 G1\n', 'FMS\nBGM 1 G1\n', text)
 	if(file == '5DAY_C.txt'):
-		# 効果音停止コマンドの追加
 		text = re.sub('MSG ・・・俺は校舎', 'FMS\nMSG ・・・俺は校舎', text)
+
+	# MIZU
+	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 68\n', text)
+	if(file == '1DAY_A.txt'):
+		text = re.sub('BGS\nEFF 6\nBGM 1 SUZUME\n', 'FMS\nEFF 6\nBGM 1 SUZUME\n', text)
 
 	# 攻略情報を付与
 	if(file == '1DAY_A.txt'): text = re.sub('SEL 10', 'SEL 1', text) # 2 10 開けてみよう そのままにしておこう
@@ -293,7 +304,6 @@ def Regex(text, file):
 	if(file == '5DAY_C.txt'): text = re.sub('SEL 10', 'SEL 2', text) # 2 17 あきらめて理沙の待つ学園に向かう ひろ子に電話をかける
 	if(file == '5DAY_C.txt'): text = re.sub('SEL 11', 'SEL 2', text) # 2  0 悪い・・・人を待たせてるんだ・・・ 分かった・・・少しだけ側にいてやるよ
 	if(file == '5DAY_D.txt'): text = re.sub('SEL 10', 'SEL 1', text) # 3  0 上段だああ！！ 右だああ！！ 左だああ！！
-
 
 	return text
 # ---------------------------------------------------------------------------

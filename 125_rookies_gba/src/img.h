@@ -62,7 +62,7 @@ typedef struct {
 
 	bool isEff;
 	s32  effNo;
-	s32  effWait;			// エフェクトウェイト
+	s32  effWait;
 
 	bool isTxt;				// テキスト表示中の有無
 	s32  txtFade;			// テキストフェードの濃さ

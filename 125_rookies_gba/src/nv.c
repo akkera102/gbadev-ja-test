@@ -253,7 +253,7 @@ EWRAM_CODE void NvSetScn(char* pStr)
 
 	Nv.pCur   = Nv.pScn + 4 + Nv.lblMax * 4;
 
-	TRACE("\n\n[NvSetScn %s]\n", p);
+	TRACE("\n\n[NvSetScn %s]\n", pStr);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void NvSetLbl(s32 no)
