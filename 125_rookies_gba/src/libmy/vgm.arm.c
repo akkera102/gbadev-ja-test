@@ -41,7 +41,9 @@ IWRAM_CODE void VgmStop(void)
 	*(vu8*)(REG_BASE + 0x6d) = 0x00;
 
 	// ch3
-	for(u32 i=0; i<0x10; i++)
+	u32 i;
+
+	for(i=0; i<0x10; i++)
 	{
 		*(vu8*)(REG_BASE + 0x90 + i) = 0x80;
 	}
@@ -66,8 +68,7 @@ IWRAM_CODE void VgmStop(void)
 IWRAM_CODE void VgmStop2(void)
 {
 	VgmStop();
-	VgmInit();			// pNextÁ‹Ž
-	IrqSetVbl();		// Š„‚èž‚Ýƒnƒ“ƒhƒ‰•ÏX
+	IrqSetVbl();
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmIntrVCount(void)

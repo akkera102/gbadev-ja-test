@@ -11,7 +11,7 @@ for %%i in (*.SCP) do ..\..\exe\txt\scp2txt %%i
 del *.scp
 
 rem ---------------------------------
-rem ê≥ãKï\åªÇ…ïœçX
+rem ê≥ãKï\åª
 
 for %%i in (*.txt) do ..\..\exe\txt\txt_re.py %%i
 

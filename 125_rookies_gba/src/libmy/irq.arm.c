@@ -23,7 +23,7 @@ IWRAM_CODE void IrqSetVbl(void)
 
 	REG_IE       = IRQ_VBLANK;
 	REG_DISPSTAT = LCDC_VBL;
-	INT_VECTOR   = (void*)IrqHandlerVbl;
+	INT_VECTOR   = (void*)IrqHandler;
 
 	REG_IME = 1;
 }
@@ -36,27 +36,12 @@ IWRAM_CODE void IrqSetVblVcnt(void)
 
 	REG_IE       = IRQ_VBLANK | IRQ_VCOUNT;
 	REG_DISPSTAT = LCDC_VBL | LCDC_VCNT | VCOUNT(Irq.vCnt);
-	INT_VECTOR   = (void*)IrqHandlerVblVcnt;
+	INT_VECTOR   = (void*)IrqHandler;
 
 	REG_IME = 1;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void IrqHandlerVbl(void)
-{
-	REG_IME  = 0;
-	u16 flag = REG_IF;
-
-	if(flag & IRQ_VBLANK)
-	{
-		AdIntrVblank();
-	}
-
-	REG_IRQ_WAITFLAGS |= flag;
-	REG_IF  = flag;
-	REG_IME = 1;
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void IrqHandlerVblVcnt(void)
+IWRAM_CODE void IrqHandler(void)
 {
 	REG_IME  = 0;
 	u16 flag = REG_IF;
@@ -80,9 +65,10 @@ IWRAM_CODE void IrqHandlerVblVcnt(void)
 	if(flag & IRQ_VBLANK)
 	{
 		AdIntrVblank();
+
+		REG_IRQ_WAITFLAGS |= flag;
 	}
 
-	REG_IRQ_WAITFLAGS |= flag;
 	REG_IF  = flag;
 	REG_IME = 1;
 }

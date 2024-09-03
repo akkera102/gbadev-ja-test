@@ -203,6 +203,28 @@ def Regex(text, file):
 	text = re.sub('BGM 1 H1', 'BGM 0 H1', text)
 	text = re.sub('BGM 1 GAAN\n', 'BGM 0 GAAN\n', text)
 
+	# 効果音を消去
+	text = re.sub('FMX 46\n', '', text)
+	text = re.sub('FMX 238\n', '', text)
+
+	# AMEをFMX 66に変更
+	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 66\n', text)
+	if(file == '4DAY_D.txt'):
+		text = re.sub('EFF 6\nBGL BG_36\nCHR 1 RISA_00\n', 'EFF 6\nFMS\nBGL BG_36\nCHR 1 RISA_00\n', text)
+		text = re.sub('EFF 2\nBGL H_35A\n', 'EFF 2\nFMS\nBGL H_35A\n', text)
+
+	# JIRIRIをFMX 67に変更
+	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 67\n', text)
+	if(file == '4DAY_C.txt'):
+		text = re.sub('BGM 1 G1\n', 'FMS\nBGM 1 G1\n', text)
+	if(file == '5DAY_C.txt'):
+		text = re.sub('MSG ・・・俺は校舎', 'FMS\nMSG ・・・俺は校舎', text)
+
+	# MIZUをFMX 68に変更
+	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 68\n', text)
+	if(file == '1DAY_A.txt'):
+		text = re.sub('BGS\nEFF 6\nBGM 1 SUZUME\n', 'FMS\nEFF 6\nBGM 1 SUZUME\n', text)
+
 	# 個別修正
 	if(file == 'IPL.txt'):
 		text = re.sub('EFF 2\nBGL MENULOGO\n', 'WAT 225\nBGS\nLDS IPL2\n', text)
@@ -249,30 +271,6 @@ def Regex(text, file):
 	if(file == '5BAD_B.txt'):
 		# 消去　重複エフェクト
 		text = re.sub('BGL YBG_08\nEFF 7\n', 'EFF 2\nBGL YBG_08\nEFF 15\n', text)
-
-	# 一部音楽を効果音再生に変更、停止コマンドを追加
-	# AME    -> 66
-	# JIRIRI -> 67
-	# MIZU   -> 68
-
-	# AME
-	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 66\n', text)
-	if(file == '4DAY_D.txt'):
-		text = re.sub('EFF 6\nBGL BG_36\nCHR 1 RISA_00\n', 'EFF 6\nFMS\nBGL BG_36\nCHR 1 RISA_00\n', text)
-	if(file == '4DAY_D.txt'):
-		text = re.sub('EFF 2\nBGL H_35A\n', 'EFF 2\nFMS\nBGL H_35A\n', text)
-
-	# JIRIRI
-	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 67\n', text)
-	if(file == '4DAY_C.txt'):
-		text = re.sub('BGM 1 G1\n', 'FMS\nBGM 1 G1\n', text)
-	if(file == '5DAY_C.txt'):
-		text = re.sub('MSG ・・・俺は校舎', 'FMS\nMSG ・・・俺は校舎', text)
-
-	# MIZU
-	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 68\n', text)
-	if(file == '1DAY_A.txt'):
-		text = re.sub('BGS\nEFF 6\nBGM 1 SUZUME\n', 'FMS\nEFF 6\nBGM 1 SUZUME\n', text)
 
 	# 攻略情報を付与
 	if(file == '1DAY_A.txt'): text = re.sub('SEL 10', 'SEL 1', text) # 2 10 開けてみよう そのままにしておこう

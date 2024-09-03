@@ -885,8 +885,4 @@ for %%i in (*.img) do python ..\..\exe\img\img_para.py %%i
 del *.png
 
 
-rem ---------------------------------
-
 cd ..
-
-

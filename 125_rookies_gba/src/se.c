@@ -36,10 +36,7 @@ EWRAM_CODE void SePlayLoad(void)
 {
 	if(Se.isLoop == false)
 	{
-		if(VgmIsPlay() == true)
-		{
-			VgmStop2();
-		}
+		SeStop();
 
 		return;
 	}

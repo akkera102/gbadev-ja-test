@@ -25,9 +25,7 @@ EWRAM_CODE void IrqInit(void);
 
 IWRAM_CODE void IrqSetVbl(void);
 IWRAM_CODE void IrqSetVblVcnt(void);
-
-IWRAM_CODE void IrqHandlerVbl(void);
-IWRAM_CODE void IrqHandlerVblVcnt(void);
+IWRAM_CODE void IrqHandler(void);
 
 #ifdef __cplusplus
 }

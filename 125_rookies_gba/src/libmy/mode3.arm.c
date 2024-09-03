@@ -31,9 +31,8 @@ IWRAM_CODE void Mode3DrawScr(u16* pImg)
 {
 	// 上下10ドットは黒帯
 	MemClear(Mode3.buf, SCREEN_CX * 10 * 2);
-	MemClear(Mode3.buf + SCREEN_CX * 150, SCREEN_CX * 10 * 2);
-
 	MemIncFast(pImg, Mode3.buf + SCREEN_CX * 10, MODE3_MAX_SCR_SIZE);
+	MemClear(Mode3.buf + SCREEN_CX * 150, SCREEN_CX * 10 * 2);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawFill(u16 col)
@@ -62,6 +61,7 @@ IWRAM_CODE void Mode3DrawBg(s32 cx, s32 cy, u16* pImg)
 	_ASSERT(cx == 240 && (cy == 124  || cy == 140));
 	_ASSERT(size3 + size1 <= SCREEN_CX * SCREEN_CY * 2);
 
+	// 上下10ドットは黒帯
 	MemClear(Mode3.buf, size1);
 	LZ77UnCompWram(pImg, (u8*)Mode3.buf + size1);
 	MemClear(Mode3.buf + size3 / 2, size1);

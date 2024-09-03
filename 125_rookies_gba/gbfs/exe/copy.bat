@@ -384,7 +384,6 @@ rem PMDƒtƒ@ƒCƒ‹
 
 copy PC98\BGM\A1A.M tmp > nul
 copy PC98\BGM\A2.M tmp > nul
-copy PC98\BGM\AME.M tmp > nul
 copy PC98\BGM\B1A.M tmp > nul
 copy PC98\BGM\B2.M tmp > nul
 copy PC98\BGM\C1.M tmp > nul
@@ -401,7 +400,6 @@ copy PC98\BGM\H1.M tmp > nul
 copy PC98\BGM\H2.M tmp > nul
 copy PC98\BGM\I1.M tmp > nul
 copy PC98\BGM\I2A.M tmp > nul
-rem copy PC98\BGM\JIRIRI.M tmp > nul
 copy PC98\BGM\KUTI2.M tmp > nul
 copy PC98\BGM\KUTIBUE.M tmp > nul
 copy PC98\BGM\M0059.M tmp > nul
@@ -409,7 +407,6 @@ copy PC98\BGM\M78.M tmp > nul
 copy PC98\BGM\M78_2.M tmp > nul
 copy PC98\BGM\MAJAN.M tmp > nul
 copy PC98\BGM\MAJAN2.M tmp > nul
-copy PC98\BGM\MIZU.M tmp > nul
 copy PC98\BGM\NOIZE.M tmp > nul
 copy PC98\BGM\SHEYA.M tmp > nul
 copy PC98\BGM\SUZUME.M tmp > nul
