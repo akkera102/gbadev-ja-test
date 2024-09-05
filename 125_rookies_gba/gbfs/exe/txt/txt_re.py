@@ -204,26 +204,40 @@ def Regex(text, file):
 	text = re.sub('BGM 1 GAAN\n', 'BGM 0 GAAN\n', text)
 
 	# 効果音を消去
-	text = re.sub('FMX 46\n', '', text)
-	text = re.sub('FMX 238\n', '', text)
+	text = re.sub('FMX 0 46\n', '', text)
+	text = re.sub('FMX 0 238\n', '', text)
+
+	# 効果音をループ指定
+	text = re.sub('FMX 0 2\n', 'FMX 1 2\n', text)		# 電話コール1
+	text = re.sub('FMX 0 13\n', 'FMX 1 13\n', text)		# 電話コール2
+	text = re.sub('FMX 0 14\n', 'FMX 1 14\n', text)		# 踏切
+	text = re.sub('FMX 0 26\n', 'FMX 1 26\n', text)		# 麻雀かき混ぜる
+	text = re.sub('FMX 0 31\n', 'FMX 1 31\n', text)		# 警報音
+	text = re.sub('FMX 0 42\n', 'FMX 1 42\n', text)		# 電話切った後
+	text = re.sub('FMX 0 47\n', 'FMX 1 47\n', text)		# 地震
+	text = re.sub('FMX 0 50\n', 'FMX 1 50\n', text)		# 宿直室燃える
+	text = re.sub('FMX 0 55\n', 'FMX 1 55\n', text)		# 電話コール3
+	text = re.sub('FMX 0 56\n', 'FMX 1 56\n', text)		# 電話コール4
+	text = re.sub('FMX 0 57\n', 'FMX 1 57\n', text)		# ガチャ、電話切った後
 
 	# AMEをFMX 66に変更
-	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 66\n', text)
+	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 1 66\n', text)
 	if(file == '4DAY_D.txt'):
 		text = re.sub('EFF 6\nBGL BG_36\nCHR 1 RISA_00\n', 'EFF 6\nFMS\nBGL BG_36\nCHR 1 RISA_00\n', text)
 		text = re.sub('EFF 2\nBGL H_35A\n', 'EFF 2\nFMS\nBGL H_35A\n', text)
 
 	# JIRIRIをFMX 67に変更
-	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 67\n', text)
+	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 1 67\n', text)
 	if(file == '4DAY_C.txt'):
 		text = re.sub('BGM 1 G1\n', 'FMS\nBGM 1 G1\n', text)
 	if(file == '5DAY_C.txt'):
 		text = re.sub('MSG ・・・俺は校舎', 'FMS\nMSG ・・・俺は校舎', text)
 
 	# MIZUをFMX 68に変更
-	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 68\n', text)
+	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 1 68\n', text)
 	if(file == '1DAY_A.txt'):
 		text = re.sub('BGS\nEFF 6\nBGM 1 SUZUME\n', 'FMS\nEFF 6\nBGM 1 SUZUME\n', text)
+
 
 	# 個別修正
 	if(file == 'IPL.txt'):
@@ -252,6 +266,11 @@ def Regex(text, file):
 		# 変更　エフェクト
 		text = re.sub('EFF 7\nEFF 1\n', 'EFF 16\nEFF 1\n', text)
 
+	if(file == '4DAY_D.txt'):
+		# 変更　効果音にウェイト
+		text = re.sub('FMX 0 25\nFMX 0 23\nFMX 0 28\n', 'FMX 2 25\nFMX 2 23\nFMX 0 28\n', text)
+		text = re.sub('FMX 0 7\nFMX 0 41\n', 'FMX 2 7\nFMX 0 41\n', text)
+
 	if(file == '4BAD.txt'):
 		# 消去　重複エフェクト
 		text = re.sub('BGL BG_30\nEFF 5\n', 'BGL BG_30\nEFF 15\n', text)
@@ -264,9 +283,17 @@ def Regex(text, file):
 		# 追加　エフェクト　理沙回想
 		text = re.sub('MSG ・・・俺は・・・\nKEY\nBGL BG_03\n', 'MSG ・・・俺は・・・\nKEY\nEFF 6\nBGL BG_03\n', text)
 
+	if(file == '5DAY_C.txt'):
+		# 変更　効果音にウェイト
+		text = re.sub('FMX 0 23\nFMX 0 25\nFMX 0 22\nFMX 0 38\n', 'FMX 2 23\nFMX 2 25\nFMX 2 22\nFMX 0 38\n', text)
+
 	if(file == '5DAY_D.txt'):
 		# 消去　重複エフェクト　浅野と対決
 		text = re.sub('SCR 0 E_49C\nEFF 10\n', 'SCR 0 E_49C\n', text)
+
+	if(file == '5BAD_A.txt'):
+		# 変更　効果音にウェイト
+		text = re.sub('FMX 0 22\nFMX 0 23\nFMX 0 28\nFMX 0 25\n', 'FMX 2 22\nFMX 2 23\nFMX 2 28\nFMX 0 25\n', text)
 
 	if(file == '5BAD_B.txt'):
 		# 消去　重複エフェクト

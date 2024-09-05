@@ -412,7 +412,7 @@ void func_0f(void)
 		break;
 
 	case 5:
-		fprintf(Scp.fp, "FMX %d\n", cur_scp8());
+		fprintf(Scp.fp, "FMX 0 %d\n", cur_scp8());	// 0:ループなし、1:ループあり、2:ウェイトあり。一部txt_re.pyで変更
 		break;
 
 	default:

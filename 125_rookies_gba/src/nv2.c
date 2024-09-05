@@ -159,16 +159,20 @@ EWRAM_CODE void NvExecParseBgs(void)
 // 効果音スタート
 EWRAM_CODE void NvExecParseFmx(void)
 {
+	s32 op = NvNextCurNum();
 	s32 no = NvNextCurNum();
 
-//	TRACE("%d\n", no);
+//	TRACE("%d %d\n", op, no);
 
 	if(Nv.isSkip == true)
 	{
 		return;
 	}
 
-	SePlay2(no);
+	bool isLoop = (op == 1) ? true : false;
+	bool isWait = (op == 2) ? true : false;
+
+	SePlay2(no, isLoop, isWait);
 
 	Nv.isLoop = false;
 }
@@ -271,13 +275,12 @@ EWRAM_CODE void NvExecParseVar(void)
 	s32 x  = NvNextCurNum();
 	s32 op = NvNextCurNum();
 	s32 y  = NvNextCurNum();
-	s32 v  = NvGetVar(x);
 
 	// = のみ使用
 	switch(op)
 	{
 	case 1:
-		TRACE("var[%d](%d) = %d\n", x, v, y);
+		TRACE("var[%d] = %d\n", x, y);
 		NvSetVar(x, y);
 		break;
 
