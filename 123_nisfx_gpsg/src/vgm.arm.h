@@ -36,11 +36,13 @@ enum {
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void VgmInit(void);
-EWRAM_CODE void VgmPlay(u8* pFile, u32 isLoop, u32 bias);
+EWRAM_CODE void VgmPlay(u8* pFile, char* pName, u32 bias);
+IWRAM_CODE void VgmSetLoop(u32 loop);
 IWRAM_CODE void VgmStop(void);
 IWRAM_CODE void VgmTick(void);
 
 EWRAM_CODE u32  VgmGetOffsetPlay(void);
+EWRAM_CODE u32  VgmGetIsLoop(void);
 EWRAM_CODE u32  VgmGetLoopCnt(void);
 EWRAM_CODE u32  VgmGetWave(u32 i);
 EWRAM_CODE u32  VgmGetRegs(u32 i);

@@ -48,6 +48,70 @@ exportName = [
     "NIFMX2_slap",
     "NIFMX3_menu",
     "NIFMX4_textfx",
+    "SL02_c7_telprrrrr",
+    "SX03_c14_telpi",
+    "SX04_c3_doorgacha_low",
+    "SX05_c4_doorgacha",
+    "SX06_c1_kazakiri",
+    "SX07_c3_crash",
+    "SX08_c23_doki",
+    "SX09_c46_hirameki",
+    "SX10_c18_gimon",
+    "SX11_c6_tohoho",
+    "SX12_c9_footsteps",
+    "SL13_c2_telprrrrr2",
+    "SL14_c1_fumikiri",
+    "SX15_c10_schoolbell",
+    "SX16_c5_doorbatan",
+    "SX17_c2_knock3_x2",
+    "SX18_c7_kachin",
+    "SX19_c12_doorgara",
+    "SX20_c8_doorgara2",
+    "SX21_c1_shun",
+    "SX22_c19_bump1shinai",
+    "SX23_c17_bump2doka",
+    "SX24_c2_bump5kick",
+    "SX25_c12_bump3elbow",
+    "SL26_c1_mjpmaze",
+    "SX27_c5_mjp",
+    "SX28_c6_bump4bomb",
+    "SX29_c1_coolwater",
+    "SX30_c3_vdeckpi",
+    "SL31_c1_clockalarm",
+    "SX32_c4_knock_x3",
+    "SX33_c1_knock_x4",
+    "SX34_c1_knock2_x2",
+    "SX35_c1_kickcar",
+    "SX36_c3_footdoujo",
+    "SX37_c2_footdoujo_x2",
+    "SX38_c5_bump6spaan",
+    "SX39_c2_knock_kickfloor",
+    "SX40_c1_doorgara3",
+    "SX41_c2_crash",
+    "SL42_c2_teltututu",
+    "SX43_c2_telpick",
+    "SX44_c1_doorbatan_low",
+    "SX45_c2_doorgara4",
+    "SX46_c1_45mute",
+    "SL47_c1_quake",
+    "SX48_c1_quakefo",
+    "SX49_c1_kajicrash",
+    "SL50_c1_kaji",
+    "SX51_c1_kajifo",
+    "SX52_c2_slap",
+    "SX54_c1_doorkickthro",
+    "SL55_c3_telprrrrr_low",
+    "SL56_c1_telprrrrr3",
+    "SL57_c1_teltututu2",
+    "SX58_c1_bump7",
+    "SX59_c1_standup",
+    "SX60_c6_bump8",
+    "SX61_c3_bump8delay",
+    "SX62_c1_camflash",
+    "SX63_c1_bump7",
+    "SX64_sys_ok",
+    "SX65_sys_err",
+    "MLJIRIRI_c5_alert",
 ]
 
 def hex4(b):
@@ -154,27 +218,16 @@ def parse_argv(argv):
 def main(argv=None):
     args = parse_argv(argv or sys.argv)
 
-    # sfxid = int(args.songraw.split("_")[-2])
+    sfxid = args.songraw.split("_")[-2]
+    print(args.songraw)
     tick_cnt = 0
     datalist = []
 
     exportDebug = False
 
-    # filename  = f"lsdj_rec2_sfx_0_{sfxid}_all"
-    filename = args.songraw.split("_all")[0]
-    o_type = "none"
+    filename  = f"lsdj_rec2_sfx_0_{sfxid}_all"
 
-    p = r'\_l(.*\d)[\_\.]'  # _l???.
-    r = re.findall(p, args.songraw)
-    if(len(r) != 0):
-        if("p"==r[0][0]): # 何番目のphraseか
-            o_type = "phrase"
-        elif("w"==r[0][0]): # 十進でTick数指定
-            o_type = "write"
-        o_prm = int(r[0][1:])
-
-
-    with open(args.songraw, "r") as infp:
+    with open(filename+".songraw", "r") as infp:
         # 処理と改行が挟まった状態のTICK_STATを修正しつつ読込
         txt = statfix(infp.read())
         if exportDebug:
@@ -183,8 +236,7 @@ def main(argv=None):
 
         # LoopOffset
         isLoop = False
-        offset = 0
-        phr_cnt = 0
+        loopOffset = f"{0x0:08X}";
 
         for line in txt.split("\n"):
             if 0 == len(line):
@@ -213,9 +265,6 @@ def main(argv=None):
                     datalist.append(0x40.to_bytes(1,"big"))
                 continue
             elif line.startswith(";-- CH"):
-                if(o_type == "phrase" and o_prm == phr_cnt):
-                    offset = len(datalist)
-                phr_cnt = phr_cnt+1
                 continue
             elif line.startswith(";---- PHRASE"):
                 continue
@@ -227,11 +276,6 @@ def main(argv=None):
         # write end of mark
         datalist.append(0x66.to_bytes(1,"big"))
 
-        if("write" == o_type):
-            loopOffset = f"{o_prm:08X}";
-        else:
-            loopOffset = f"{offset:08X}";
-
         # write loop offset
         datalist.append(bytes.fromhex(loopOffset[6:8]))
         datalist.append(bytes.fromhex(loopOffset[4:6]))
@@ -242,11 +286,9 @@ def main(argv=None):
         for i in range((0x10-len(datalist))%0x10):
             datalist.append(0x00.to_bytes(1,"big"))
 
-        # print(f"ID: {sfxid:02d}  Tick: {tick_cnt:04d}  DataLength: {len(datalist):08X}");
-        print(f"ID: {filename}  Tick: {tick_cnt:04d}  Offset: {loopOffset}  DataLength: {len(datalist):08X}");
+        print(f"ID: {sfxid:02d}  Tick: {tick_cnt:04d}  DataLength: {len(datalist):08X}");
 
-    # with open(f"{sfxid:02d}-{exportName[sfxid]}.gpsg", "wb") as outfp:
-    with open(f"{filename}.gpsg", "wb") as outfp:
+    with open(f"{sfxid:02d}-{exportName[sfxid]}.gpsg", "wb") as outfp:
         for data in datalist:
             outfp.write(data)
 

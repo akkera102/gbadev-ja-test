@@ -1,0 +1,61 @@
+## 概要
+
+116_vgm2gba_vblank
+だけでなく
+
+118_toheart_bgm_test
+121_lsdj_bgm_test2
+も参考にLSDj→lsdpack→vgm→vgm2gbaが出来るように色々改造したもの
+
+テストROMでループ再生するときはSelectボタン
+
+C言語久しぶりなので変なミスがあるかも
+
+
+Q. ROMどこ？
+
+A. _binの中。116_vgm2gba_vblankのtest.gba(gbfs結合前)はtest.binに名前変更。実行可能なtest2.gbaがtest.gbaです
+
+
+Q. .gpsg(vgm2gbaの変換済binと同じ仕様)はどこ？
+
+A. tool\vgm2gbaの中にあります
+
+
+Q. .songrawを.gpsgに変換したい
+
+A. *.songrawがある場所で_make_gpsg.batを実行すると一括で変換 (要Python3)
+
+
+Q. gpsgをtest.gbfsにパックする処理が_make_gpsg.batにないけど？
+
+A. makeに組み込み済
+
+
+Q. test.gbfsどこ？
+
+A. resの中。makeでパックした時もここに配置される
+
+
+Q. quick.bat って？
+
+A. .gpsgの再変換とgbfsの再パックを強制して素早くROMを生成する
+
+
+Q. make quickもあるみたいだけど？
+
+A. なんかmake内でbatを実行するのが上手くいかなかったし眠かったから
+
+   .songrawを編集した時はquick.batを使えばいいんじゃねって感じで解決した
+
+   これを実行しても.gpsgの再変換はされないので注意
+
+
+Q. quick.bat はどういう時に使う？
+
+A. songrawを編集してすぐ音を確認したくなった時。
+
+   songraw→vgmc変換→gbfsパック→ROM生成→エミュでROM起動まで動く。エミュは入ってないので適当に書き換えて下さい
+
+   main.cを s32 sel = 2; と書き換えれば起動即SSG8が鳴る。こういう地味な作業の繰り返しこそDTMって感じ（
+

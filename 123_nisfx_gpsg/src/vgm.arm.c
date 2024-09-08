@@ -13,7 +13,7 @@ EWRAM_CODE void VgmInit(void)
 	Vgm.regs[0x84 - 0x60] = 0x80;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void VgmPlay(u8* pFile, u32 loop, u32 bias)
+EWRAM_CODE void VgmPlay(u8* pFile, char* pName, u32 bias)
 {
 	VgmInit();
 	VgmStop();
@@ -21,6 +21,28 @@ EWRAM_CODE void VgmPlay(u8* pFile, u32 loop, u32 bias)
 	Vgm.id     = VGM_ID_PLAY;
 	Vgm.pCur   = pFile;
 	Vgm.pFile  = pFile;
+
+	if('N' == pName[0] && 'I' == pName[1])
+	{
+		if('0' == pName[2] && '1' == pName[3])
+		{
+			Vgm.isLoop = true;
+		}
+	}
+
+	if('R' == pName[0] && 'K' == pName[1])
+	{
+		if('S' == pName[5] && 'L' == pName[6]){
+			Vgm.isLoop = true;
+		}
+		if('M' == pName[5] && 'L' == pName[6]){
+			Vgm.isLoop = true;
+		}
+	}
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void VgmSetLoop(u32 loop)
+{
 	Vgm.isLoop = (loop == 0) ? false : true;
 }
 //---------------------------------------------------------------------------
@@ -133,6 +155,11 @@ IWRAM_CODE void VgmTick(void)
 EWRAM_CODE u32 VgmGetOffsetPlay(void)
 {
 	return (u32)(Vgm.pCur - Vgm.pFile);
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE u32 VgmGetIsLoop(void)
+{
+	return Vgm.isLoop;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u32 VgmGetLoopCnt(void)
