@@ -16,11 +16,11 @@ EWRAM_CODE void SeInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SePlay(s32 no, bool isLoop)
 {
-//	u8* pDat = FileGetFmx(no);
+	u8* pDat = FileGetFmx(no);
 
 	TRACE("[SePlay no:%d loop:%d]\n", no, isLoop);
 
-//	VgmPlay(pDat, isLoop);
+	VgmPlay(pDat, isLoop);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SePlay2(s32 no, bool isLoop, bool isWait)
@@ -28,6 +28,7 @@ EWRAM_CODE void SePlay2(s32 no, bool isLoop, bool isWait)
 	Se.no = no;
 	Se.isLoop = isLoop;
 	Se.isWait = isWait;
+	Se.isPlay = true;
 
 	SePlay(Se.no, Se.isLoop);
 }
@@ -35,7 +36,7 @@ EWRAM_CODE void SePlay2(s32 no, bool isLoop, bool isWait)
 // セーブデータのロード時に使います（ループ再生の効果音のみ演奏）
 EWRAM_CODE void SePlayLoad(void)
 {
-	if(Se.isLoop == false)
+	if(Se.isPlay == false || Se.isLoop == false)
 	{
 		SeStop();
 
@@ -52,6 +53,7 @@ EWRAM_CODE void SeStop(void)
 		return;
 	}
 
+	Se.isPlay = false;
 	VgmStop2();
 }
 //---------------------------------------------------------------------------

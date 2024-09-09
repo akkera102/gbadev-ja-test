@@ -75,14 +75,15 @@ def Regex(text, file):
 
 	# IPL2に戻るときはブラックインエフェクトを使わない
 	text = re.sub('EFF 2\nLDS IPL2\n', 'LDS IPL2\n', text)
+	text = re.sub('EFF 2\nBGS\nLDS IPL2\n', 'BGS\nLDS IPL2\n', text)
 
 	# スクロール画像のコマンド変更（引数は上か下かの表示）
-	text = re.sub('BGL E_15A', 'SCR 0 E_15A', text)
-	text = re.sub('BGL E_15B', 'SCR 0 E_15B', text)
-	text = re.sub('BGL E_49C', 'SCR 0 E_49C', text)
-	text = re.sub('BGL OP_08A', 'SCR 0 OP_08A', text)
-	text = re.sub('BGL OP_01A', 'SCR 0 OP_01A', text)
-	text = re.sub('BGL OP_02A', 'SCR 0 OP_02A', text)
+	text = re.sub('BGL E_15A\n', 'SCR 0 E_15A\n', text)
+	text = re.sub('BGL E_15B\n', 'SCR 0 E_15B\n', text)
+	text = re.sub('BGL E_49C\n', 'SCR 0 E_49C\n', text)
+	text = re.sub('BGL OP_08A\n', 'SCR 0 OP_08A\n', text)
+	text = re.sub('BGL OP_01A\n', 'SCR 0 OP_01A\n', text)
+	text = re.sub('BGL OP_02A\n', 'SCR 0 OP_02A\n', text)
 
 	# 一部のキャラ表示を合成済みキャラ背景に変更
 	text = re.sub('BGL BG_12\nBGL ASA_07\n', 'BGL ASA_07\n', text)
@@ -98,69 +99,69 @@ def Regex(text, file):
 	text = re.sub('BGL BG_13\nBGL KYO_04\n', 'BGL KYO_04\n', text)
 
 	# キャラ表示はコマンドを変更
-	text = re.sub('BGL AIHA_00', 'CHR 1 AIHA_00', text)
-	text = re.sub('BGL AIHA_02', 'CHR 1 AIHA_02', text)
-	text = re.sub('BGL AIHA_03', 'CHR 1 AIHA_03', text)
-	text = re.sub('BGL ARI_00', 'CHR 1 ARI_00', text)
-	text = re.sub('BGL ASA_00', 'CHR 1 ASA_00', text)
-	text = re.sub('BGL ASA_02', 'CHR 1 ASA_02', text)
-	text = re.sub('BGL ASA_03', 'CHR 1 ASA_03', text)
-	text = re.sub('BGL ASA_04', 'CHR 1 ASA_04', text)
-	text = re.sub('BGL ASA_06', 'CHR 1 ASA_06', text)
-	text = re.sub('BGL CHUNE_00', 'CHR 1 CHUNE_00', text)
-	text = re.sub('BGL CHUNE_01', 'CHR 1 CHUNE_01', text)
-	text = re.sub('BGL CHUNE_02', 'CHR 1 CHUNE_02', text)
-	text = re.sub('BGL CHUNE_03', 'CHR 1 CHUNE_03', text)
-	text = re.sub('BGL HATA_00', 'CHR 1 HATA_00', text)
-	text = re.sub('BGL HAZU_00', 'CHR 1 HAZU_00', text)
-	text = re.sub('BGL HAZU_01', 'CHR 1 HAZU_01', text)
-	text = re.sub('BGL HAZU_06', 'CHR 1 HAZU_06', text)
-	text = re.sub('BGL HIRO_00', 'CHR 1 HIRO_00', text)
-	text = re.sub('BGL HIRO_01', 'CHR 1 HIRO_01', text)
-	text = re.sub('BGL HIRO_02', 'CHR 1 HIRO_02', text)
-	text = re.sub('BGL HIRO_03', 'CHR 1 HIRO_03', text)
-	text = re.sub('BGL HIRO_04', 'CHR 1 HIRO_04', text)
-	text = re.sub('BGL HIRO_05', 'CHR 1 HIRO_05', text)
-	text = re.sub('BGL HIRO_06', 'CHR 1 HIRO_06', text)
-	text = re.sub('BGL KYO_00', 'CHR 1 KYO_00', text)
-	text = re.sub('BGL KYO_01', 'CHR 1 KYO_01', text)
-	text = re.sub('BGL KYO_02', 'CHR 1 KYO_02', text)
-	text = re.sub('BGL OUME_00', 'CHR 1 OUME_00', text)
-	text = re.sub('BGL RISA_00', 'CHR 1 RISA_00', text)
-	text = re.sub('BGL RISA_01', 'CHR 1 RISA_01', text)
-	text = re.sub('BGL RISA_02', 'CHR 1 RISA_02', text)
-	text = re.sub('BGL RISA_03', 'CHR 1 RISA_03', text)
-	text = re.sub('BGL RISA_04', 'CHR 1 RISA_04', text)
-	text = re.sub('BGL RISA_05', 'CHR 1 RISA_05', text)
-	text = re.sub('BGL RISA_06', 'CHR 1 RISA_06', text)
-	text = re.sub('BGL RISA_07', 'CHR 1 RISA_07', text)
-	text = re.sub('BGL RISA_07A', 'CHR 1 RISA_07A', text)
-	text = re.sub('BGL RISA_08', 'CHR 1 RISA_08', text)
-	text = re.sub('BGL RISA_08A', 'CHR 1 RISA_08A', text)
-	text = re.sub('BGL RISA_08B', 'CHR 1 RISA_08B', text)
-	text = re.sub('BGL RISA_09', 'CHR 1 RISA_09', text)
-	text = re.sub('BGL RISA_10', 'CHR 1 RISA_10', text)
-	text = re.sub('BGL RISA_12', 'CHR 1 RISA_12', text)
-	text = re.sub('BGL RISA_13', 'CHR 1 RISA_13', text)
-	text = re.sub('BGL RISA_14', 'CHR 1 RISA_14', text)
-	text = re.sub('BGL SAKI_00', 'CHR 1 SAKI_00', text)
-	text = re.sub('BGL SAKI_01', 'CHR 1 SAKI_01', text)
-	text = re.sub('BGL SAKI_02', 'CHR 1 SAKI_02', text)
-	text = re.sub('BGL SAKI_03', 'CHR 1 SAKI_03', text)
-	text = re.sub('BGL SAKI_04', 'CHR 1 SAKI_04', text)
-	text = re.sub('BGL SATO_00', 'CHR 1 SATO_00', text)
-	text = re.sub('BGL SATO_02', 'CHR 1 SATO_02', text)
-	text = re.sub('BGL SATO_03', 'CHR 1 SATO_03', text)
-	text = re.sub('BGL SATO_04', 'CHR 1 SATO_04', text)
-	text = re.sub('BGL SEITO_00', 'CHR 1 SEITO_00', text)
-	text = re.sub('BGL SUYA_00', 'CHR 1 SUYA_00', text)
-	text = re.sub('BGL SUYA_01', 'CHR 1 SUYA_01', text)
-	text = re.sub('BGL TOMO_00', 'CHR 1 TOMO_00', text)
-	text = re.sub('BGL YUMI_00', 'CHR 1 YUMI_00', text)
-	text = re.sub('BGL YUMI_02', 'CHR 1 YUMI_02', text)
-	text = re.sub('BGL YUMI_04', 'CHR 1 YUMI_04', text)
-	text = re.sub('BGL YUMI_05', 'CHR 1 YUMI_05', text)
-	text = re.sub('BGL YUMI_06', 'CHR 1 YUMI_06', text)
+	text = re.sub('BGL AIHA_00\n', 'CHR 1 AIHA_00\n', text)
+	text = re.sub('BGL AIHA_02\n', 'CHR 1 AIHA_02\n', text)
+	text = re.sub('BGL AIHA_03\n', 'CHR 1 AIHA_03\n', text)
+	text = re.sub('BGL ARI_00\n', 'CHR 1 ARI_00\n', text)
+	text = re.sub('BGL ASA_00\n', 'CHR 1 ASA_00\n', text)
+	text = re.sub('BGL ASA_02\n', 'CHR 1 ASA_02\n', text)
+	text = re.sub('BGL ASA_03\n', 'CHR 1 ASA_03\n', text)
+	text = re.sub('BGL ASA_04\n', 'CHR 1 ASA_04\n', text)
+	text = re.sub('BGL ASA_06\n', 'CHR 1 ASA_06\n', text)
+	text = re.sub('BGL CHUNE_00\n', 'CHR 1 CHUNE_00\n', text)
+	text = re.sub('BGL CHUNE_01\n', 'CHR 1 CHUNE_01\n', text)
+	text = re.sub('BGL CHUNE_02\n', 'CHR 1 CHUNE_02\n', text)
+	text = re.sub('BGL CHUNE_03\n', 'CHR 1 CHUNE_03\n', text)
+	text = re.sub('BGL HATA_00\n', 'CHR 1 HATA_00\n', text)
+	text = re.sub('BGL HAZU_00\n', 'CHR 1 HAZU_00\n', text)
+	text = re.sub('BGL HAZU_01\n', 'CHR 1 HAZU_01\n', text)
+	text = re.sub('BGL HAZU_06\n', 'CHR 1 HAZU_06\n', text)
+	text = re.sub('BGL HIRO_00\n', 'CHR 1 HIRO_00\n', text)
+	text = re.sub('BGL HIRO_01\n', 'CHR 1 HIRO_01\n', text)
+	text = re.sub('BGL HIRO_02\n', 'CHR 1 HIRO_02\n', text)
+	text = re.sub('BGL HIRO_03\n', 'CHR 1 HIRO_03\n', text)
+	text = re.sub('BGL HIRO_04\n', 'CHR 1 HIRO_04\n', text)
+	text = re.sub('BGL HIRO_05\n', 'CHR 1 HIRO_05\n', text)
+	text = re.sub('BGL HIRO_06\n', 'CHR 1 HIRO_06\n', text)
+	text = re.sub('BGL KYO_00\n', 'CHR 1 KYO_00\n', text)
+	text = re.sub('BGL KYO_01\n', 'CHR 1 KYO_01\n', text)
+	text = re.sub('BGL KYO_02\n', 'CHR 1 KYO_02\n', text)
+	text = re.sub('BGL OUME_00\n', 'CHR 1 OUME_00\n', text)
+	text = re.sub('BGL RISA_00\n', 'CHR 1 RISA_00\n', text)
+	text = re.sub('BGL RISA_01\n', 'CHR 1 RISA_01\n', text)
+	text = re.sub('BGL RISA_02\n', 'CHR 1 RISA_02\n', text)
+	text = re.sub('BGL RISA_03\n', 'CHR 1 RISA_03\n', text)
+	text = re.sub('BGL RISA_04\n', 'CHR 1 RISA_04\n', text)
+	text = re.sub('BGL RISA_05\n', 'CHR 1 RISA_05\n', text)
+	text = re.sub('BGL RISA_06\n', 'CHR 1 RISA_06\n', text)
+	text = re.sub('BGL RISA_07\n', 'CHR 1 RISA_07\n', text)
+	text = re.sub('BGL RISA_07A\n', 'CHR 1 RISA_07A\n', text)
+	text = re.sub('BGL RISA_08\n', 'CHR 1 RISA_08\n', text)
+	text = re.sub('BGL RISA_08A\n', 'CHR 1 RISA_08A\n', text)
+	text = re.sub('BGL RISA_08B\n', 'CHR 1 RISA_08B\n', text)
+	text = re.sub('BGL RISA_09\n', 'CHR 1 RISA_09\n', text)
+	text = re.sub('BGL RISA_10\n', 'CHR 1 RISA_10\n', text)
+	text = re.sub('BGL RISA_12\n', 'CHR 1 RISA_12\n', text)
+	text = re.sub('BGL RISA_13\n', 'CHR 1 RISA_13\n', text)
+	text = re.sub('BGL RISA_14\n', 'CHR 1 RISA_14\n', text)
+	text = re.sub('BGL SAKI_00\n', 'CHR 1 SAKI_00\n', text)
+	text = re.sub('BGL SAKI_01\n', 'CHR 1 SAKI_01\n', text)
+	text = re.sub('BGL SAKI_02\n', 'CHR 1 SAKI_02\n', text)
+	text = re.sub('BGL SAKI_03\n', 'CHR 1 SAKI_03\n', text)
+	text = re.sub('BGL SAKI_04\n', 'CHR 1 SAKI_04\n', text)
+	text = re.sub('BGL SATO_00\n', 'CHR 1 SATO_00\n', text)
+	text = re.sub('BGL SATO_02\n', 'CHR 1 SATO_02\n', text)
+	text = re.sub('BGL SATO_03\n', 'CHR 1 SATO_03\n', text)
+	text = re.sub('BGL SATO_04\n', 'CHR 1 SATO_04\n', text)
+	text = re.sub('BGL SEITO_00\n', 'CHR 1 SEITO_00\n', text)
+	text = re.sub('BGL SUYA_00\n', 'CHR 1 SUYA_00\n', text)
+	text = re.sub('BGL SUYA_01\n', 'CHR 1 SUYA_01\n', text)
+	text = re.sub('BGL TOMO_00\n', 'CHR 1 TOMO_00\n', text)
+	text = re.sub('BGL YUMI_00\n', 'CHR 1 YUMI_00\n', text)
+	text = re.sub('BGL YUMI_02\n', 'CHR 1 YUMI_02\n', text)
+	text = re.sub('BGL YUMI_04\n', 'CHR 1 YUMI_04\n', text)
+	text = re.sub('BGL YUMI_05\n', 'CHR 1 YUMI_05\n', text)
+	text = re.sub('BGL YUMI_06\n', 'CHR 1 YUMI_06\n', text)
 
 	# キャラ表示の重複はレイヤーを変更
 	text = re.sub('CHR 1 CHUNE_03\nCHR 1 CHUNE_01', 'CHR 1 CHUNE_03\nCHR 2 CHUNE_01', text)
@@ -197,11 +198,11 @@ def Regex(text, file):
 	text = re.sub('CHR 1 RISA_12\nCHR 1 HIRO_03', 'CHR 1 RISA_12\nCHR 2 HIRO_03', text)
 
 	# 音楽の一部を１回再生へ変更
-	text = re.sub('BGM 1 F1A', 'BGM 0 F1A', text)
-	text = re.sub('BGM 1 UMI', 'BGM 0 UMI', text)
-	text = re.sub('BGM 1 BGM M78_2', 'BGM 0 BGM M78_2', text)
-	text = re.sub('BGM 1 H1', 'BGM 0 H1', text)
+	text = re.sub('BGM 1 F1A\n', 'BGM 0 F1A\n', text)
+	text = re.sub('BGM 1 UMI\n', 'BGM 0 UMI\n', text)
+	text = re.sub('BGM 1 M78_2\n', 'BGM 0 M78_2\n', text)
 	text = re.sub('BGM 1 GAAN\n', 'BGM 0 GAAN\n', text)
+	text = re.sub('BGM 1 MAJAN2\n', 'BGM 0 MAJAN2\n', text)
 
 	# 効果音を消去
 	text = re.sub('FMX 0 46\n', '', text)
@@ -213,31 +214,29 @@ def Regex(text, file):
 	text = re.sub('FMX 0 14\n', 'FMX 1 14\n', text)		# 踏切
 	text = re.sub('FMX 0 26\n', 'FMX 1 26\n', text)		# 麻雀かき混ぜる
 	text = re.sub('FMX 0 31\n', 'FMX 1 31\n', text)		# 警報音
-	text = re.sub('FMX 0 42\n', 'FMX 1 42\n', text)		# 電話切った後
+	text = re.sub('FMX 0 42\n', 'FMX 1 42\n', text)		# 電話切った後のツーツー
 	text = re.sub('FMX 0 47\n', 'FMX 1 47\n', text)		# 地震
 	text = re.sub('FMX 0 50\n', 'FMX 1 50\n', text)		# 宿直室燃える
 	text = re.sub('FMX 0 55\n', 'FMX 1 55\n', text)		# 電話コール3
 	text = re.sub('FMX 0 56\n', 'FMX 1 56\n', text)		# 電話コール4
-	text = re.sub('FMX 0 57\n', 'FMX 1 57\n', text)		# ガチャ、電話切った後
 
-	# AMEをFMX 66に変更
+	# AMEをFMX 66に変更、効果音停止コマンド追加
 	text = re.sub('BGM 1 AME\n', 'BGS\nFMX 1 66\n', text)
 	if(file == '4DAY_D.txt'):
 		text = re.sub('EFF 6\nBGL BG_36\nCHR 1 RISA_00\n', 'EFF 6\nFMS\nBGL BG_36\nCHR 1 RISA_00\n', text)
 		text = re.sub('EFF 2\nBGL H_35A\n', 'EFF 2\nFMS\nBGL H_35A\n', text)
 
-	# JIRIRIをFMX 67に変更
+	# JIRIRIをFMX 67に変更、効果音停止コマンド追加
 	text = re.sub('BGM 1 JIRIRI\n', 'BGS\nFMX 1 67\n', text)
 	if(file == '4DAY_C.txt'):
 		text = re.sub('BGM 1 G1\n', 'FMS\nBGM 1 G1\n', text)
 	if(file == '5DAY_C.txt'):
 		text = re.sub('MSG ・・・俺は校舎', 'FMS\nMSG ・・・俺は校舎', text)
 
-	# MIZUをFMX 68に変更
+	# MIZUをFMX 68に変更、効果音停止コマンド追加
 	text = re.sub('BGM 1 MIZU\n', 'BGS\nFMX 1 68\n', text)
 	if(file == '1DAY_A.txt'):
 		text = re.sub('BGS\nEFF 6\nBGM 1 SUZUME\n', 'FMS\nEFF 6\nBGM 1 SUZUME\n', text)
-
 
 	# 個別修正
 	if(file == 'IPL.txt'):
@@ -260,6 +259,7 @@ def Regex(text, file):
 
 	if(file == 'END.txt'):
 		text = re.sub('WAT 160\n', 'WAT 480\n', text)
+		text = re.sub('BGS\nBGL END\n', 'BGL END\n', text)
 		text = re.sub('WAT 255\n', 'WAT 765\n', text)
 
 	if(file == '2DAY_A.txt'):

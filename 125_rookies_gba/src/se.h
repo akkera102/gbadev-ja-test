@@ -13,9 +13,10 @@ extern "C" {
 //---------------------------------------------------------------------------
 
 typedef struct {
-	bool  isLoop;
-	bool  isWait;
-	s32   no;
+	bool isPlay;
+	bool isLoop;
+	bool isWait;
+	s32  no;
 
 } ST_SE;
 

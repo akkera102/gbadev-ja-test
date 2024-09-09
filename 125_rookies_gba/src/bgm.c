@@ -27,8 +27,8 @@ EWRAM_CODE void BgmPlay(char* p, bool isLoop)
 EWRAM_CODE void BgmPlay2(char* p, bool isLoop)
 {
 	Bgm.p = p;
-	Bgm.isPlay = true;
 	Bgm.isLoop = isLoop;
+	Bgm.isPlay = true;
 
 	BgmPlay(p, isLoop);
 }
@@ -36,7 +36,7 @@ EWRAM_CODE void BgmPlay2(char* p, bool isLoop)
 // セーブデータのロード時に使います
 EWRAM_CODE void BgmPlayLoad(void)
 {
-	if(Bgm.isPlay == false)
+	if(Bgm.isPlay == false ||  Bgm.isLoop == false)
 	{
 		AdStop();
 		return;
