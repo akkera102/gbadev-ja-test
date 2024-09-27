@@ -167,6 +167,15 @@ u8* expand_file(char* fname)
 	return pRet;
 }
 //---------------------------------------------------------------------------
+void fwrite8(FILE* fp, u8 n)
+{
+	u8 buf[1];
+
+	buf[0] = n;
+
+	fwrite(buf, 1, 1, fp);
+}
+//---------------------------------------------------------------------------
 void fwrite16(FILE* fp, u16 n)
 {
 	u8 buf[2];
@@ -219,7 +228,8 @@ void save_file(char* fname)
 
 
 	// BITMAPFILEHEADER
-	fwrite("BM", 2, 1, fp);
+	fwrite8(fp, 'B');
+	fwrite8(fp, 'M');
 	fwrite32(fp, 14 + 12 + 256 * 3 + Anim.cx * Anim.cy);
 	fwrite16(fp, 0);
 	fwrite16(fp, 0);
@@ -239,15 +249,15 @@ void save_file(char* fname)
 	{
 		if(i < 16)
 		{
-			fputc(Anim.b[i], fp);
-			fputc(Anim.g[i], fp);
-			fputc(Anim.r[i], fp);
+			fwrite8(fp, Anim.b[i]);
+			fwrite8(fp, Anim.g[i]);
+			fwrite8(fp, Anim.r[i]);
 		}
 		else
 		{
-			fputc(0x00, fp);
-			fputc(0x00, fp);
-			fputc(0x00, fp);
+			fwrite8(fp, 0x00);
+			fwrite8(fp, 0x00);
+			fwrite8(fp, 0x00);
 		}
 	}
 

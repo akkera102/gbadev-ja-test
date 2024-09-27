@@ -347,3 +347,4 @@ text = Regex(text, file)
 
 f = open(file, "w")
 f.write(text)
+f.close()

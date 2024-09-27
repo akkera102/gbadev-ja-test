@@ -86,9 +86,17 @@ GBA‚ÍPMDƒtƒ@ƒCƒ‹‚ðADPCM‚ÅÄ¶‚µAŒø‰Ê‰¹‚ÍGB‰¹Œ¹‚ðŽg‚Á‚Ä‚¢‚Ü‚·BƒJƒiƒ“‚â–²Œ¶–é‘z‹
 - windows10 pro 64bit
 - devkitPro(gcc v13.2.0 devkitARM r63)
 - Python3.12.3 + pillow10.3.0
+- VisualBoyAdvance 1.8.0-beta 3
 
 ## ŠÈ’P‚È—š—ð
 
-2024/09/09 v0.01 Š®¬‚µ‚Ü‚µ‚½B
+2024/09/27 v0.02
+
+- txt_re.py‚Ìƒtƒ@ƒCƒ‹close–Y‚ê‚ðC³
+- ˆê•”ƒR[ƒh‚Ì‘‚«•û‚ðC³Bˆ—‚É•ÏX‚Í‚ ‚è‚Ü‚¹‚ñ
+
+2024/09/09 v0.01
+
+- Š®¬‚µ‚Ü‚µ‚½
 
 

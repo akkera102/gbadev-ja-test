@@ -1,5 +1,5 @@
 # coding: Shift_JIS
-# 画像のカット
+# 画像のカットします
 
 import os
 import sys
