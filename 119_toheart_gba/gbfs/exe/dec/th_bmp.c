@@ -1,4 +1,6 @@
 // ToHeart LFG, LF2ファイルのBMP化ツール
+// gcc th_bmp.c -o th_bmp
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

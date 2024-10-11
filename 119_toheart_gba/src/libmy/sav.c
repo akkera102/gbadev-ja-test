@@ -31,7 +31,7 @@ EWRAM_CODE void SavWriteSram(u32 adr, u8 dat)
 
 	*p = dat;
 
-	__asm("NOP");
+	__asm volatile("NOP");
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void SavWriteFlash(u32 adr, u8 dat)
@@ -49,7 +49,7 @@ EWRAM_CODE void SavWriteFlash(u32 adr, u8 dat)
 	for(vu32 i=0; i<400; i++)
 	{
 		// 25us = 0.0625us * 400(1clk = 16Mhz)
-		__asm("NOP");
+		__asm volatile("NOP");
 	}
 }
 //---------------------------------------------------------------------------
@@ -59,10 +59,10 @@ EWRAM_CODE void SavWriteFlashCmd(u32 adr, u8 dat)
 
 	*p = dat;
 
-	__asm("NOP");
+	__asm volatile("NOP");
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void SavWriteFlashEraseSector(u32 sector)
+EWRAM_CODE void SavWriteFlashEraseSector(s32 sector)
 {
 	// Sector-Erase
 	SavWriteFlashCmd(0x5555, 0xAA);
@@ -72,7 +72,7 @@ EWRAM_CODE void SavWriteFlashEraseSector(u32 sector)
 	SavWriteFlashCmd(0x2AAA, 0x55);
 	SavWriteFlashCmd(sector * 0x1000, 0x30);
 
-	// wait 25ms
+	// wait 25ms ‘åŽG”c‚É
 	for(vu32 i=0; i<3; i++)
 	{
 		// 1T 16.743ms
@@ -83,19 +83,19 @@ EWRAM_CODE void SavWriteFlashEraseSector(u32 sector)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SavIsFlash(void)
 {
-	u8 t1 = SavReadSram(0x7FFF);
+	u8 t1 = SavReadSram(0);
 	u8 t2 = ~t1;
 
-	SavWriteSram(0x7FFF, t2);
+	SavWriteSram(0, t2);
 
-	if(SavReadSram(0x7FFF) != t2)
+	if(SavReadSram(0) == t2)
 	{
-		SavWriteSram(0x7FFF, t1);
-
-		return true;
+		// SRAM
+		SavWriteSram(0, t1);
+		return false;
 	}
 
-	return false;
+	return true;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE u8* SavGetPointer(u32 adr)

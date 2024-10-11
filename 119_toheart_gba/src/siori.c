@@ -1,20 +1,25 @@
 #include "siori.h"
 #include "libmy/sav.h"
-
 #include "nv.h"
 #include "txt.h"
 #include "img.h"
 #include "bgm.h"
-
 #include "se.h"
-#include "log.h"
 
-
+// SRAM
 // ヘッダ　　　0x0000 - 0x0004
-// データ１　　0x0010 - 0x1FFF
-// データ２　　0x1010 - 0x2FFF
+// データ１　　0x0010 - 0x0FFF
+// データ２　　0x1010 - 0x1FFF
 // （中略）
 // データ８　　0x7010 - 0x7FFF
+
+
+// FLASH (CUBIC STYLE製のみ対応)
+// ヘッダ　　　0x0000 - 0x0004
+// データ１　　0x1010 - 0x1FFF		+0x1000
+// データ２　　0x2010 - 0x2FFF
+// （中略）
+// データ８　　0x8010 - 0x8FFF
 
 
 //---------------------------------------------------------------------------
@@ -23,6 +28,7 @@ extern ST_NV  Nv;
 extern ST_TXT Txt;
 extern ST_IMG Img;
 extern ST_BGM Bgm;
+extern ST_SE  Se;
 
 
 //---------------------------------------------------------------------------
@@ -34,7 +40,7 @@ EWRAM_CODE void SioriInit(void)
 {
 	_Memset(&Siori, 0x00, sizeof(ST_SIORI));
 
-	Siori.size = 2 + sizeof(ST_NV) + sizeof(ST_TXT) + sizeof(ST_IMG) + sizeof(ST_BGM);
+	Siori.size = 2 + sizeof(ST_NV) + sizeof(ST_TXT) + sizeof(ST_IMG) + sizeof(ST_BGM) + sizeof(ST_SE);
 
 	TRACE("[SioriSize:%x]\n", Siori.size);
 	_ASSERT(Siori.size < SIORI_MAX_SIZE);
@@ -113,6 +119,9 @@ EWRAM_CODE void SioriSaveFlashHeader(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriSaveFlashData(u32 no)
 {
+	// FLASHはSRAMと違い+0x1000します
+	no++;
+
 	u32 adr = 0x1000 * no + 0x10;
 	u32 i;
 	u8* p;
@@ -120,15 +129,6 @@ EWRAM_CODE void SioriSaveFlashData(u32 no)
 	SavWriteFlashEraseSector(no);
 
 	// データ
-	if(no == 0)
-	{
-		SavWriteFlash(0, 'T');
-		SavWriteFlash(1, 'H');
-		SavWriteFlash(2, SIORI_TYPE_FLASH);
-		SavWriteFlash(3, 0x00);
-		SavWriteFlash(4, 0x00);
-	}
-
 	SavWriteFlash(adr++, 'S');
 	SavWriteFlash(adr++, 'I');
 
@@ -152,6 +152,12 @@ EWRAM_CODE void SioriSaveFlashData(u32 no)
 
 	p = (u8*)&Bgm;
 	for(i=0; i<sizeof(ST_BGM); i++)
+	{
+		SavWriteFlash(adr++, *p++);
+	}
+
+	p = (u8*)&Se;
+	for(i=0; i<sizeof(ST_SE); i++)
 	{
 		SavWriteFlash(adr++, *p++);
 	}
@@ -200,8 +206,15 @@ EWRAM_CODE void SioriSaveSramData(u32 no)
 	{
 		SavWriteSram(adr++, *p++);
 	}
+
+	p = (u8*)&Se;
+	for(i=0; i<sizeof(ST_SE); i++)
+	{
+		SavWriteSram(adr++, *p++);
+	}
 }
 //---------------------------------------------------------------------------
+// SRAM FLASH共通
 EWRAM_CODE bool SioriLoad(u32 no)
 {
 	TRACE("[SioriLoad:%x]\n", no);
@@ -210,6 +223,11 @@ EWRAM_CODE bool SioriLoad(u32 no)
 	{
 		TRACE("[Failure]\n");
 		return false;
+	}
+
+	if(SavReadSram(2) == SIORI_TYPE_FLASH)
+	{
+		no++;
 	}
 
 	u32 i;
@@ -242,6 +260,12 @@ EWRAM_CODE bool SioriLoad(u32 no)
 		*p++ = SavReadSram(adr++);
 	}
 
+	p = (u8*)&Se;
+	for(i=0; i<sizeof(ST_SE); i++)
+	{
+		*p++ = SavReadSram(adr++);
+	}
+
 	// フラグ
 	SioriLoadFlag();
 
@@ -263,6 +287,11 @@ EWRAM_CODE char* SioriGetStr(u32 no)
 		return "－－－－－－－－－－－";
 	}
 
+	if(SavReadSram(2) == SIORI_TYPE_FLASH)
+	{
+		no++;
+	}
+
 	return (char*)SavGetPointer(0x1000 * no + 0x10 + 2 + sizeof(ST_NV) + sizeof(ST_TXT) - TXT_SIORI_SIZE);
 }
 //---------------------------------------------------------------------------
@@ -276,6 +305,11 @@ EWRAM_CODE bool SioriIsInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE bool SioriIsItem(u32 no)
 {
+	if(SavReadSram(2) == SIORI_TYPE_FLASH)
+	{
+		no++;
+	}
+
 	if(SavReadSram(0x1000 * no + 0x10 + 0) != 'S') return false;
 	if(SavReadSram(0x1000 * no + 0x10 + 1) != 'I') return false;
 

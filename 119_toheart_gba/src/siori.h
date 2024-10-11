@@ -12,7 +12,7 @@ extern "C" {
 #define SIORI_MAX_SIZE				(0x1000 - 0x16)
 
 enum {
-	SIORI_TYPE_SRAM,
+	SIORI_TYPE_SRAM = 1,
 	SIORI_TYPE_FLASH,
 };
 

@@ -1,4 +1,6 @@
 // ToHeart アーカイブ展開ツール（LVNS3DAT.PAK, LVNS3SCN.PAK）
+// gcc th_pak.c -o th_pak
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

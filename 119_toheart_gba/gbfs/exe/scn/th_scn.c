@@ -1,4 +1,6 @@
 // ToHeart スクリプトデコーダー
+// gcc th_scn.c -o th_scn
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

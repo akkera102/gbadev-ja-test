@@ -1,4 +1,6 @@
 // ToHeart 効果音ファイル（P16）のwav化ツール
+// gcc th_p16.c -o th_p16
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
