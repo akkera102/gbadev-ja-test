@@ -119,7 +119,7 @@ EWRAM_CODE void SioriSaveFlashHeader(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriSaveFlashData(u32 no)
 {
-	// FLASH‚ÍSRAM‚Æˆá‚¢+0x1000‚µ‚Ü‚·
+	// FLASH‚ÍSRAM‚Æˆá‚¢ƒAƒhƒŒƒX‚ð+0x1000‚µ‚Ü‚·
 	no++;
 
 	u32 adr = 0x1000 * no + 0x10;
