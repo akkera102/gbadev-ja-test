@@ -112,7 +112,7 @@ GBという少ない容量にテキスト、グラフィック、音楽を詰め込んだ作品です。職人芸とい
 
 - 私の書いたGBAソースコード（CC0）
 - To Heartコンバータ関連のpythonコード、Cコード（BSD）
-- Tiny Mersenne Twister(BSD)
+- Tiny Mersenne Twister(3-clause BSD)
 - libgba(LGPL2.0 dynamic link)
 - crt0.s(MPL2.0)
 - k12x10 font(Public domain)
