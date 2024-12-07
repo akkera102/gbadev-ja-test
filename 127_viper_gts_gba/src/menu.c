@@ -347,22 +347,22 @@ EWRAM_CODE char* MenuGetStr(s32 sel)
 		// メルセデスHフラグを表示
 		if(NvGetVar(201) == 1)
 		{
-			_Strcat(Menu.buf, "　　　　　　　　　　　　　　　　　Ｍ１");
+			_Strcat(Menu.buf, "　Ｍ１");
 		}
 		else
 		{
-			_Strcat(Menu.buf, "　　　　　　　　　　　　　　　　　Ｍ０");
+			_Strcat(Menu.buf, "　Ｍ０");
 		}
 
 		// もっとカルラHフラグを表示
 		if(NvGetVar(200) == 2)
 		{
 			// 表示はプレイヤーの混乱を避ける為１
-			_Strcat(Menu.buf, "Ｋ１");
+			_Strcat(Menu.buf, "Ｃ１");
 		}
 		else
 		{
-			_Strcat(Menu.buf, "Ｋ０");
+			_Strcat(Menu.buf, "Ｃ０");
 		}
 
 		return Menu.buf;

@@ -79,13 +79,21 @@ EWRAM_CODE s32 InfoGetVarPrev(s32 var)
 	{
 		var--;
 	}
+	else if(var == 1)
+	{
+		var = 0;
+	}
 
 	return var;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE s32 InfoGetVarPrev2(s32 var)
 {
-	if(var >= 1 && var <= 7)
+	if(var == 1)
+	{
+		var = 0;
+	}
+	else if(var >= 2 && var <= 7)
 	{
 		var = 1;
 	}
@@ -111,7 +119,11 @@ EWRAM_CODE s32 InfoGetVarPrev2(s32 var)
 //---------------------------------------------------------------------------
 EWRAM_CODE s32 InfoGetVarNext(s32 var)
 {
-	if(var >= 1 && var <= 38)
+	if(var == 0)
+	{
+		var = 1;
+	}
+	else if(var >= 1 && var <= 38)
 	{
 		var++;
 	}
@@ -169,7 +181,11 @@ EWRAM_CODE s32 InfoGetVarNext(s32 var)
 //---------------------------------------------------------------------------
 EWRAM_CODE s32 InfoGetVarNext2(s32 var)
 {
-	if(var >= 1 && var <= 6)
+	if(var == 0)
+	{
+		var = 1;
+	}
+	else if(var >= 1 && var <= 6)
 	{
 		var = 7;
 	}

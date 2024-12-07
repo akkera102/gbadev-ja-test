@@ -202,7 +202,7 @@ def Regex(text, file):
 
 	# ゲームタイトルとメニュー表示、GTS0への遷移追加
 	if(file == 'MAIN.txt'):
-		text = re.sub('^', 'EFF 1 255\nANM GTS_TIT\nPAL\nBUF 0 0 1 3 1\nWAB 0\nEFF 2 2\nWAI\nTXC\nEFF 1 2\nEFF 5 0\nSLP 50\nWIN GTS0\n', text)
+		text = re.sub('^', 'VRW 200 0\nVRW 201 0\nEFF 1 255\nANM GTS_TIT\nPAL\nBUF 0 0 1 3 1\nWAB 0\nEFF 2 2\nWAI\nTXC\nEFF 1 2\nEFF 5 0\nSLP 50\nWIN GTS0\n', text)
 
 	# ロゴ表示後はメニュー画面表示
 	if(file == 'START.txt'):

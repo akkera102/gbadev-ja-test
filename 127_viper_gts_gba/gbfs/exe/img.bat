@@ -1456,9 +1456,6 @@ rem 240x160âÊëúÇLz77à≥èk(mode4)
 ..\..\exe\img\grit G100_01.bmp -g -gb -ftb -gzl -p! -fh!
 ..\..\exe\img\grit G100_02.bmp -g -gb -ftb -gzl -p! -fh!
 ..\..\exe\img\grit G100_03.bmp -g -gb -ftb -gzl -p! -fh!
-..\..\exe\img\grit G100_04.bmp -g -gb -ftb -gzl -p! -fh!
-..\..\exe\img\grit G100_05.bmp -g -gb -ftb -gzl -p! -fh!
-..\..\exe\img\grit G100_06.bmp -g -gb -ftb -gzl -p! -fh!
 ..\..\exe\img\grit G101_04.bmp -g -gb -ftb -gzl -p! -fh!
 ..\..\exe\img\grit G102_01.bmp -g -gb -ftb -gzl -p! -fh!
 ..\..\exe\img\grit G102_02.bmp -g -gb -ftb -gzl -p! -fh!
