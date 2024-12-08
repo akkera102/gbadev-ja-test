@@ -12,11 +12,18 @@ extern "C" {
 
 //---------------------------------------------------------------------------
 
+typedef struct {
+	bool  isPlay;
+	bool  isLoop;
+	s32   no;
+
+} ST_BGM;
 
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmInit(void);
 
 EWRAM_CODE void BgmPlay(s32 no, bool isLoop);
+EWRAM_CODE void BgmPlay2(s32 no, bool isLoop);
 EWRAM_CODE void BgmStop(void);
 EWRAM_CODE bool BgmIsPlay(void);
 

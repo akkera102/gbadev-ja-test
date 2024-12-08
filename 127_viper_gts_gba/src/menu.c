@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "libmy/key.h"
+#include "libmy/vgm.arm.h"
 #include "ags.arm.h"
 #include "txt.h"
 #include "siori.h"
@@ -96,9 +97,31 @@ EWRAM_CODE void MenuExecSystem(u16 trg, u16 rep)
 
 	if(trg & KEY_SELECT)
 	{
-		u8 v = NvGetVar(201);
-		NvSetVar(201, v ^= 1);
+		u8 v0 = NvGetVar(200);		// 0 or 2
+		u8 v1 = NvGetVar(201);		// 0 or 1
 
+		if(v0 == 0 && v1 == 0)
+		{
+			v1 = 1;
+		}
+		else if(v0 == 0 && v1 == 1)
+		{
+			v0 = 2;
+			v1 = 0;
+		}
+		else if(v0 == 2 && v1 == 0)
+		{
+			v1 = 1;
+		}
+		else
+		{
+			// v0 == 2 && v1 == 1
+			v0 = 0;
+			v1 = 0;
+		}
+
+		NvSetVar(200, v0);
+		NvSetVar(201, v1);
 		TxtSetMsg();
 
 		return;
@@ -106,9 +129,7 @@ EWRAM_CODE void MenuExecSystem(u16 trg, u16 rep)
 
 	if(trg & KEY_START)
 	{
-		u8 v = NvGetVar(200);
-		NvSetVar(200, (v == 2) ? 0 : 2);
-
+		VgmSetHeadset();
 		TxtSetMsg();
 
 		return;
@@ -344,25 +365,34 @@ EWRAM_CODE char* MenuGetStr(s32 sel)
 		Menu.buf[13] += DivMod(Div(Menu.jmpCur, 10), 10);
 		Menu.buf[15] += DivMod(Menu.jmpCur, 10);
 
-		// ƒƒ‹ƒZƒfƒXHƒtƒ‰ƒO‚ğ•\¦
-		if(NvGetVar(201) == 1)
-		{
-			_Strcat(Menu.buf, "@‚l‚P");
-		}
-		else
-		{
-			_Strcat(Menu.buf, "@‚l‚O");
-		}
-
 		// ‚à‚Á‚ÆƒJƒ‹ƒ‰Hƒtƒ‰ƒO‚ğ•\¦
 		if(NvGetVar(200) == 2)
 		{
 			// •\¦‚ÍƒvƒŒƒCƒ„[‚Ì¬—‚ğ”ğ‚¯‚éˆ×‚P
-			_Strcat(Menu.buf, "‚b‚P");
+			_Strcat(Menu.buf, "@‚b‚P");
 		}
 		else
 		{
-			_Strcat(Menu.buf, "‚b‚O");
+			_Strcat(Menu.buf, "@‚b‚O");
+		}
+
+		// ƒƒ‹ƒZƒfƒXHƒtƒ‰ƒO‚ğ•\¦
+		if(NvGetVar(201) == 1)
+		{
+			_Strcat(Menu.buf, "‚l‚P");
+		}
+		else
+		{
+			_Strcat(Menu.buf, "‚l‚O");
+		}
+
+		if(VgmIsHeadset() == true)
+		{
+			_Strcat(Menu.buf, "@‚g‚…‚‚„‚“‚…‚”");
+		}
+		else
+		{
+			_Strcat(Menu.buf, "@‚r‚‚…‚‚‹‚…‚’");
 		}
 
 		return Menu.buf;

@@ -1,4 +1,4 @@
-// Sogna ANM2BMP (Windows Viper GTS JP)
+// Sogna ANM2BMP (Windows Viper GTS)
 // Copyright (C) 2024 Notequalsoft. Arranged by akkera102. GPL2 License.
 
 // gcc anm2bmp.c -o anm2bmp

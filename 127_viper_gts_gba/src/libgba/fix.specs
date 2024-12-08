@@ -5,4 +5,3 @@
 
 *startfile:
 gba_crt0%O%s crti%O%s crtbegin%O%s
-

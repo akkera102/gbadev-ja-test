@@ -1,4 +1,4 @@
-// Sogna WIN2TXT (Windows Viper GTS JP)
+// Sogna WIN2TXT (Windows Viper GTS)
 // Copyright (C) 2024 Notequalsoft. Arranged by akkera102. GPL2 License.
 
 // gcc win2txt_debug.c -o win2txt_debug

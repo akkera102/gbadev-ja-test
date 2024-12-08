@@ -220,7 +220,6 @@ EWRAM_CODE void NvExecLoad(void)
 		break;
 
 	case 1:
-		BgmStop();
 		PcmStop();
 		ImgSetEff(IMG_EFFECT_BLACK_OUT, 0);
 

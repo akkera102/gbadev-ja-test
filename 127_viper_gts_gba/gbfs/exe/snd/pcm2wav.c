@@ -1,4 +1,4 @@
-// Sogna PCM2WAV (Windows Viper GTS JP)
+// Sogna PCM2WAV (Windows Viper GTS)
 // Copyright (C) 2024 Notequalsoft. Arranged by akkera102. GPL2 License.
 
 // gcc pcm2wav.c -o pcm2wav

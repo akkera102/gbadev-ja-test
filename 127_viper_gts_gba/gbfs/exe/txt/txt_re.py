@@ -202,15 +202,13 @@ def Regex(text, file):
 
 	# ゲームタイトルとメニュー表示、GTS0への遷移追加
 	if(file == 'MAIN.txt'):
-		text = re.sub('^', 'VRW 200 0\nVRW 201 0\nEFF 1 255\nANM GTS_TIT\nPAL\nBUF 0 0 1 3 1\nWAB 0\nEFF 2 2\nWAI\nTXC\nEFF 1 2\nEFF 5 0\nSLP 50\nWIN GTS0\n', text)
+		text = re.sub('^', 'VRW 200 0\nVRW 201 0\nBGS\nEFF 1 255\nANM GTS_TIT\nPAL\nBUF 0 0 1 3 1\nWAB 0\nEFF 2 2\nWAI\nTXC\nEFF 1 2\nEFF 5 0\nSLP 50\nWIN GTS0\n', text)
 
 	# ロゴ表示後はメニュー画面表示
 	if(file == 'START.txt'):
 		text = re.sub('00C3: WIN GTS0\n', '0E3E: WIN MAIN\n', text)
 
 	# キー入力後のウェイトを調整
-	if(file == 'GTS0.txt'):
-		text = re.sub('0E4B: SLP 50', '0E4B: SLP 25', text)
 	if(file == 'GTS1.txt'):
 		text = re.sub('3A38: SLP 30', '3A38: SLP 5', text)
 	if(file == 'GTS2.txt'):

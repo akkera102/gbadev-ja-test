@@ -349,7 +349,7 @@ EWRAM_CODE void NvExecParseBgm(void)
 	s32 no = NvNextCurNum();
 	s32 loop = NvNextCurNum();
 
-	BgmPlay(no, (loop == 1) ? true : false);
+	BgmPlay2(no, (loop == 1) ? true : false);
 }
 //---------------------------------------------------------------------------
 // STOP_MIDI

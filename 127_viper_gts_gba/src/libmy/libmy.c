@@ -30,8 +30,8 @@ EWRAM_CODE void LibMyInit(void)
 	Mode4Init();
 	FadeInit();
 
-	VgmInit();
 	SndInit();
+	VgmInit();
 	IrqInit();
 }
 //---------------------------------------------------------------------------
