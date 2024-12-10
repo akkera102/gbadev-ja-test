@@ -9,9 +9,9 @@ extern "C" {
 
 //---------------------------------------------------------------------------
 #define ANM_BUF_MAX_CNT				3
-#define ANM_BUF_DAT_MAX_CNT			70			// 最大数65
+#define ANM_BUF_DAT_MAX_CNT			70			// 最大数65（調査済）
 #define ANM_SCR_MAX_CNT				3
-#define ANM_COL_DAT_MAX_CNT			40			// 最大数38
+#define ANM_COL_DAT_MAX_CNT			40			// 最大数38（調査済）
 
 
 enum {

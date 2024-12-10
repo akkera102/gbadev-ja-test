@@ -164,6 +164,10 @@ EWRAM_CODE void TxtDrawBuf(void)
 	{
 		TxtDrawChr(Txt.buf[i], false);
 	}
+
+	// テキスト描画位置の復旧
+	Txt.x = Txt.x2;
+	Txt.y = Txt.y2;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtSetStr(char* p)
@@ -216,6 +220,12 @@ EWRAM_CODE void TxtSetCurPcm(void)
 	Txt.wait  = 0;
 	Txt.blink = 60;
 	Txt.isCur = true;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE void TxtSetXy2(void)
+{
+	Txt.x2 = Txt.x;
+	Txt.y2 = Txt.y;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void TxtClr(void)

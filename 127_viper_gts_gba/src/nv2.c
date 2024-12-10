@@ -266,6 +266,7 @@ EWRAM_CODE void NvExecParseWai(void)
 		TxtSetCurKey();
 	}
 
+	TxtSetXy2();
 	NvSetAct(NV_ACT_KEY);
 
 	Nv.isLoop = false;
@@ -388,6 +389,7 @@ EWRAM_CODE void NvExecParsePcn(void)
 		return;
 	}
 
+	TxtSetXy2();
 	TxtSetCurPcm();
 	NvSetAct(NV_ACT_KEY);
 

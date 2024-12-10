@@ -43,16 +43,15 @@ typedef struct {
 IWRAM_CODE void VgmInit(void);
 IWRAM_CODE void VgmInit2(void);
 IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
-IWRAM_CODE void VgmPlayNext(u8* pFile, bool isLoop);
 IWRAM_CODE void VgmPlayFade(void);
 IWRAM_CODE void VgmStop(void);
 
 EWRAM_CODE void VgmSetHeadset(void);
+EWRAM_CODE bool VgmIsHeadset(void);
+EWRAM_CODE bool VgmIsPlay(void);
 
 IWRAM_CODE void VgmIntrVblank(void);
 
-EWRAM_CODE bool VgmIsHeadset(void);
-EWRAM_CODE bool VgmIsPlay(void);
 
 #ifdef __cplusplus
 }

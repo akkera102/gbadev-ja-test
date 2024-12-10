@@ -20,6 +20,8 @@ typedef struct {
 	char* p;
 	s32   x;
 	s32   y;
+	s32   x2;
+	s32   y2;
 
 	bool  isBuf;		// テキスト復帰トリガー
 	u16   buf[TXT_SCREEN_SIZE];
@@ -52,6 +54,7 @@ EWRAM_CODE void TxtSetCur(void);
 EWRAM_CODE void TxtSetCurKey(void);
 EWRAM_CODE void TxtSetCurScr(void);
 EWRAM_CODE void TxtSetCurPcm(void);
+EWRAM_CODE void TxtSetXy2(void);
 
 EWRAM_CODE void TxtClr(void);
 EWRAM_CODE void TxtClrMsg(void);

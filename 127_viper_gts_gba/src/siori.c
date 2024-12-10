@@ -18,7 +18,7 @@ extern ST_NV Nv;
 //---------------------------------------------------------------------------
 EWRAM_CODE void SioriInit(void)
 {
-	s32 size = 3*2;					// u16 Nv.var”z—ñ‚Ì17, 200, 201‚ð•Û‘¶
+	s32 size = 3 * sizeof(u16);					// u16 Nv.var”z—ñ‚Ì17, 200, 201‚ð•Û‘¶
 
 	TRACE("[SioriSize:%x]\n", size);
 	_ASSERT(size < SIORI_MAX_SIZE);

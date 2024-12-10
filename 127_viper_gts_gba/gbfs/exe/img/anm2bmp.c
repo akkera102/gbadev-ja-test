@@ -434,7 +434,7 @@ void AnmDec(u8* p, s32 no)
 			for(i=0; i<4; i++)
 			{
 				p[wCnt++] = curQuad[i];
-				prvQuad[i]   = curQuad[i];
+				prvQuad[i] = curQuad[i];
 			}
 
 			// advance to next line

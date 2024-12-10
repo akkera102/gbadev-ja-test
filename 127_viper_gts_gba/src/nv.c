@@ -197,7 +197,7 @@ EWRAM_CODE void NvExecSel(void)
 		}
 		break;
 
-	// 選択終了。履歴に選択肢を保存
+	// 選択終了
 	case 2:
 		TxtClrMsg();
 

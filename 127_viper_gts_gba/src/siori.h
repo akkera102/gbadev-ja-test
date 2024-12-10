@@ -8,7 +8,7 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define SIORI_MAX_CNT				8
+#define SIORI_MAX_CNT				3
 #define SIORI_MAX_SIZE				(0x1000 - 16 - 2)
 
 enum {

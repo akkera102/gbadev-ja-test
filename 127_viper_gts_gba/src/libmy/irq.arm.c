@@ -31,8 +31,8 @@ IWRAM_CODE void IrqHandler(void)
 
 	if(flag & IRQ_VBLANK)
 	{
-		VgmIntrVblank();
 		SndIntrVblank();
+		VgmIntrVblank();
 		AgsIntrVblank();
 
 		REG_IRQ_WAITFLAGS |= flag;

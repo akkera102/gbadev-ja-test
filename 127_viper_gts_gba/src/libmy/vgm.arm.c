@@ -17,17 +17,13 @@ IWRAM_CODE void VgmInit(void)
 	// REG_SOUNDCNT_X
 	*(vu8*)(REG_BASE + 0x84) = 0x80;
 
-	// REG_SOUNDCNT_H　DirectSoundと共用
+	// REG_SOUNDCNT_H（DMG+DirectSound設定）
 	*(vu8*)(REG_BASE + 0x82) = 0x05;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmInit2(void)
 {
 	_Memset(&Vgm, 0x00, sizeof(ST_VGM));
-
-	// REG_SOUNDCNT_L
-	*(vu8*)(REG_BASE + 0x80) = 0x77;
-	*(vu8*)(REG_BASE + 0x81) = 0xFF;
 
 	// ch1
 	*(vu8*)(REG_BASE + 0x60) = 0x00;
@@ -58,13 +54,37 @@ IWRAM_CODE void VgmInit2(void)
 	*(vu8*)(REG_BASE + 0x79) = 0x00;
 	*(vu8*)(REG_BASE + 0x7c) = 0x00;
 	*(vu8*)(REG_BASE + 0x7d) = 0x00;
+
+	// REG_SOUNDCNT_L
+	*(vu8*)(REG_BASE + 0x80) = 0x77;
+	*(vu8*)(REG_BASE + 0x81) = 0xFF;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 {
 	if(Vgm.act == VGM_ACT_PLAY)
 	{
-		VgmPlayNext(pFile, isLoop);
+		Vgm.pFile2  = pFile;
+		Vgm.isLoop2 = isLoop;
+		Vgm.fade    = VGM_MAX_FADE_CNT;
+		Vgm.act     = VGM_ACT_PLAY_NEXT;
+
+		return;
+	}
+
+	if(Vgm.act == VGM_ACT_PLAY_NEXT)
+	{
+		Vgm.pFile2  = pFile;
+		Vgm.isLoop2 = isLoop;
+
+		return;
+	}
+
+	if(Vgm.act == VGM_ACT_PLAY_FADE)
+	{
+		Vgm.pFile2  = pFile;
+		Vgm.isLoop2 = isLoop;
+		Vgm.act     = VGM_ACT_PLAY_NEXT;
 
 		return;
 	}
@@ -77,21 +97,8 @@ IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 	Vgm.act    = VGM_ACT_PLAY;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void VgmPlayNext(u8* pFile, bool isLoop)
-{
-	Vgm.pFile2  = pFile;
-	Vgm.isLoop2 = isLoop;
-	Vgm.fade    = VGM_MAX_FADE_CNT;
-	Vgm.act     = VGM_ACT_PLAY_NEXT;
-}
-//---------------------------------------------------------------------------
 IWRAM_CODE void VgmPlayFade(void)
 {
-	if(Vgm.act != VGM_ACT_PLAY)
-	{
-		return;
-	}
-
 	Vgm.fade = VGM_MAX_FADE_CNT;
 	Vgm.act  = VGM_ACT_PLAY_FADE;
 }
@@ -103,41 +110,21 @@ IWRAM_CODE void VgmStop(void)
 	// REG_SOUNDCNT_L
 	*(vu8*)(REG_BASE + 0x80) = 0x00;
 	*(vu8*)(REG_BASE + 0x81) = 0x00;
-
-	// ch1
-	*(vu8*)(REG_BASE + 0x60) = 0x00;
-	*(vu8*)(REG_BASE + 0x62) = 0x00;
-	*(vu8*)(REG_BASE + 0x63) = 0x00;
-	*(vu8*)(REG_BASE + 0x64) = 0x00;
-	*(vu8*)(REG_BASE + 0x65) = 0x00;
-
-	// ch2
-	*(vu8*)(REG_BASE + 0x68) = 0x00;
-	*(vu8*)(REG_BASE + 0x69) = 0x00;
-	*(vu8*)(REG_BASE + 0x6c) = 0x00;
-	*(vu8*)(REG_BASE + 0x6d) = 0x00;
-
-	// ch3
-	for(u32 i=0; i<0x10; i++)
-	{
-		*(vu8*)(REG_BASE + 0x90 + i) = 0x00;
-	}
-	*(vu8*)(REG_BASE + 0x70) = 0x00;
-	*(vu8*)(REG_BASE + 0x72) = 0x00;
-	*(vu8*)(REG_BASE + 0x73) = 0x00;
-	*(vu8*)(REG_BASE + 0x74) = 0x00;
-	*(vu8*)(REG_BASE + 0x75) = 0x00;
-
-	// ch4
-	*(vu8*)(REG_BASE + 0x78) = 0x00;
-	*(vu8*)(REG_BASE + 0x79) = 0x00;
-	*(vu8*)(REG_BASE + 0x7c) = 0x00;
-	*(vu8*)(REG_BASE + 0x7d) = 0x00;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void VgmSetHeadset(void)
 {
 	Vgm.isHeadset = (Vgm.isHeadset == true) ? false : true;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE bool VgmIsHeadset(void)
+{
+	return Vgm.isHeadset;
+}
+//---------------------------------------------------------------------------
+EWRAM_CODE bool VgmIsPlay(void)
+{
+	return (Vgm.act == VGM_ACT_STOP) ? false : true;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmIntrVblank(void)
@@ -176,12 +163,15 @@ IWRAM_CODE void VgmIntrVblank(void)
 
 				return;
 			}
-			else
+
+			if(Vgm.act == VGM_ACT_PLAY_FADE)
 			{
 				VgmStop();
 
 				return;
 			}
+
+			SystemError("VgmIntrVblank Fade act=%x", Vgm.act);
 		}
 	}
 
@@ -247,14 +237,4 @@ IWRAM_CODE void VgmIntrVblank(void)
 
 		SystemError("VgmIntrVblank Tick adr=%x", Vgm.pCur - Vgm.pFile);
 	}
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE bool VgmIsHeadset(void)
-{
-	return Vgm.isHeadset;
-}
-//---------------------------------------------------------------------------
-EWRAM_CODE bool VgmIsPlay(void)
-{
-	return (Vgm.act == VGM_ACT_STOP) ? false : true;
 }
