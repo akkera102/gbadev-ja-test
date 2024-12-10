@@ -1,5 +1,6 @@
 #include "vgm.arm.h"
 #include "irq.arm.h"
+#include "gbfs.h"
 
 //---------------------------------------------------------------------------
 ST_VGM Vgm;
@@ -19,6 +20,9 @@ IWRAM_CODE void VgmInit(void)
 
 	// REG_SOUNDCNT_H（DMG+DirectSound設定）
 	*(vu8*)(REG_BASE + 0x82) = 0x05;
+
+	// 音量0で演奏開始（実機の演奏開始バグ回避の為）
+	VgmPlayInit();
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmInit2(void)
@@ -97,6 +101,19 @@ IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 	Vgm.act    = VGM_ACT_PLAY;
 }
 //---------------------------------------------------------------------------
+// GBA起動時の初期処理（バグ回避）
+IWRAM_CODE void VgmPlayInit(void)
+{
+	VgmStop();
+
+	u8* pFile = GbfsGetSafePointer("bgm02.bin");
+
+	Vgm.pFile  = pFile;
+	Vgm.pCur   = pFile;
+	Vgm.isLoop = true;
+	Vgm.act    = VGM_ACT_PLAY;
+}
+//---------------------------------------------------------------------------
 IWRAM_CODE void VgmPlayFade(void)
 {
 	Vgm.fade = VGM_MAX_FADE_CNT;
@@ -106,6 +123,36 @@ IWRAM_CODE void VgmPlayFade(void)
 IWRAM_CODE void VgmStop(void)
 {
 	Vgm.act = VGM_ACT_STOP;
+
+	// ch1
+	*(vu8*)(REG_BASE + 0x60) = 0x00;
+	*(vu8*)(REG_BASE + 0x62) = 0x00;
+	*(vu8*)(REG_BASE + 0x63) = 0x00;
+	*(vu8*)(REG_BASE + 0x64) = 0x00;
+	*(vu8*)(REG_BASE + 0x65) = 0x00;
+
+	// ch2
+	*(vu8*)(REG_BASE + 0x68) = 0x00;
+	*(vu8*)(REG_BASE + 0x69) = 0x00;
+	*(vu8*)(REG_BASE + 0x6c) = 0x00;
+	*(vu8*)(REG_BASE + 0x6d) = 0x00;
+
+	// ch3
+	for(u32 i=0; i<0x10; i++)
+	{
+		*(vu8*)(REG_BASE + 0x90 + i) = 0x00;
+	}
+	*(vu8*)(REG_BASE + 0x70) = 0x00;
+	*(vu8*)(REG_BASE + 0x72) = 0x00;
+	*(vu8*)(REG_BASE + 0x73) = 0x00;
+	*(vu8*)(REG_BASE + 0x74) = 0x00;
+	*(vu8*)(REG_BASE + 0x75) = 0x00;
+
+	// ch4
+	*(vu8*)(REG_BASE + 0x78) = 0x00;
+	*(vu8*)(REG_BASE + 0x79) = 0x00;
+	*(vu8*)(REG_BASE + 0x7c) = 0x00;
+	*(vu8*)(REG_BASE + 0x7d) = 0x00;
 
 	// REG_SOUNDCNT_L
 	*(vu8*)(REG_BASE + 0x80) = 0x00;
