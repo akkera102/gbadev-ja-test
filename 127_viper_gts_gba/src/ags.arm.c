@@ -47,7 +47,7 @@ EWRAM_CODE void AgsInit(void)
 */
 //	NvSetVar(201, 1);			//   メルセデスH 0 or 1
 //	NvSetVar(200, 2);			// もっとカルラH 0 or 2
-//	NvSetScn3(70);
+//	NvSetScn3(7);
 
 
 	NvSetScn("START");

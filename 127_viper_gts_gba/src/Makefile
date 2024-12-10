@@ -19,20 +19,22 @@ NMFILE     = $(NAME).nm
 TARGET_ELF = $(NAME).elf
 TARGET_BIN = $(NAME).gba
 
-INCDIR	= . ./libmy ./libgba
+INCDIR	= .  ./libbios ./libgba ./libmy
 
 SFILES	= \
 	$(wildcard res/*.s) \
 	$(wildcard snd/*.s) \
-	$(wildcard libmy/*.s) \
+	$(wildcard libbios/*.s) \
 	$(wildcard libgba/*.s) \
+	$(wildcard libmy/*.s) \
 	$(wildcard *.s) \
 
 CFILES	= \
 	$(wildcard res/*.c) \
 	$(wildcard snd/*.c) \
-	$(wildcard libmy/*.c) \
+	$(wildcard libbios/*.c) \
 	$(wildcard libgba/*.c) \
+	$(wildcard libmy/*.c) \
 	$(wildcard *.c) \
 
 VPATH = $(dir $(CFILES) $(SFILES))

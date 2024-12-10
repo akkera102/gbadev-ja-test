@@ -1,4 +1,5 @@
 #include "mode4.arm.h"
+#include "../libbios/bios.h"
 #include "mem.h"
 #include "../res.h"
 
@@ -86,7 +87,8 @@ IWRAM_CODE void Mode4DrawScroll(s32 y, u16* pImg)
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode4DrawScreen(u16* pImg)
 {
-	LZ77UnCompVram(pImg, Mode4.pBack);
+//	LZ77UnCompVram(pImg, Mode4.pBack);
+	swi_LZ77UnCompWrite16bit(pImg, Mode4.pBack);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode4SetPal(u16* pPal)

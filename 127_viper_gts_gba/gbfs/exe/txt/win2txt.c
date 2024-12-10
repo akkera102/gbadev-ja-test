@@ -774,7 +774,7 @@ void Dec0A(void)
 
 		// パーツ画像 or 圧縮画像（数字は決め打ち）
 		d_fr[d_cnt] = s_fr[i];
-		d_wa[d_cnt] = (isHit == true) ? (u8)(s_wa[i] * 2.5) : (u8)(s_wa[i] * 1.5);
+		d_wa[d_cnt] = (isHit == true) ? (u8)(s_wa[i] * 2.5) : (u8)(s_wa[i] * 2.2);
 		d_cnt++;
 
 		i = j;
