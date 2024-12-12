@@ -8,28 +8,17 @@ import struct
 from PIL import Image
 
 # ---------------------------------------------------------------------------
-# fromパレット番号をtoパレット番号に変更
-def Col(img, f, t):
-	iw, ih = img.size
-
-	for y in range(0, ih):
-		for x in range(0, iw):
-
-			if(img.getpixel((x, y)) == f):
-				img.putpixel((x, y), t)
-
-# ---------------------------------------------------------------------------
-# img1 -> img2
+# img2 -> img1
 def Copy(img1, img2):
-	iw, ih = img1.size
+	iw2, ih2 = img2.size
 
-	for y in range(0, ih):
-		for x in range(0, iw):
+	for y in range(0, ih2):
+		for x in range(0, iw2):
 
-			pal = img1.getpixel((x, y))
+			pal = img2.getpixel((x, y))
 
-			if(pal != 25):
-				img2.putpixel((x, y), pal)
+			if(pal != 40):
+				img1.putpixel((x, 16 + y), pal)
 
 # ---------------------------------------------------------------------------
 img1 = Image.open("G069_01.bmp")	# 天使
@@ -38,16 +27,13 @@ img2 = Image.open("G069_02.bmp")	# カルラ
 print("img_g069...")
 
 
-# 緑背景を黄に変更
-Col(img2, 40, 25)
-
-# 天使をコピーします
 Copy(img1, img2)
 
 
-sav = img2.copy()
+sav = img1.copy()
 img1.close()
 img2.close()
 
 # sav.show()
+# sav.save("xxx.bmp")
 sav.save("G069_02.bmp")

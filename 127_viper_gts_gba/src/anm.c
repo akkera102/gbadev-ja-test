@@ -156,7 +156,7 @@ EWRAM_CODE void AnmExecFrm(s32 no)
 	if(b->wait != 0)
 	{
 
-		// ƒXƒNƒŠ[ƒ“•`‰æŒã‚Í•”•i‚ð‹­§•`‰æ
+		// ƒXƒNƒ[ƒ‹•`‰æŒã‚Í•”•i‚ð‹­§•`‰æ
 		if(Anm.isDrawScr == true && b->cnt < b->max && d->cx < 240 && d->cy < 160)
 		{
 			TRACE("Parts %d\n", no);
