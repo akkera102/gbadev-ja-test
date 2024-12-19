@@ -71,6 +71,13 @@ void convertReg(ST_VGM* pVgm)
 	// end of mark
 	while(*p != 0x66)
 	{
+		// ignore 0x00
+		if (*p == 0x00)
+		{
+			p++;
+			continue;
+		}
+
 		// wait: 0x61 nn nn
 		if(*p == 0x61)
 		{
@@ -228,6 +235,13 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 			loopBin = fputcCnt;
 			isLoop = true;
+		}
+
+		// ignore 0x00
+		if (*p == 0x00)
+		{
+			p++;
+			continue;
 		}
 
 		// wait: 0x61 nn nn
