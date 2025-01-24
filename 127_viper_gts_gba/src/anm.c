@@ -28,7 +28,7 @@ EWRAM_CODE void AnmExec(void)
 	{
 		if(Anm.b[i].isWork == true)
 		{
-			AnmExecFrm(i);
+			AnmExecBuf(i);
 		}
 	}
 }
@@ -145,7 +145,7 @@ End:
 	TRACE("[AnmExecScr END no:%d sy:%d my:%d]\n", no, s->sy, s->my);
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE void AnmExecFrm(s32 no)
+EWRAM_CODE void AnmExecBuf(s32 no)
 {
 	ST_ANM_BUF* b = (ST_ANM_BUF*)&Anm.b[no];
 	ST_ANM_SCR* s = (ST_ANM_SCR*)&Anm.s[no];

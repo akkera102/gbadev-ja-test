@@ -1,4 +1,4 @@
-// Sogna SGSPAK (Windows SGS.DAT unpacker)
+// Sogna SGSPAK (Windows Viper GTS)
 // Copyright (C) 2024 Notequalsoft. Arranged by akkera102. GPL2 License.
 
 // gcc sgspak.c -o sgspak

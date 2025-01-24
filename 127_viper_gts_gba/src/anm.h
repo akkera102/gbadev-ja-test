@@ -99,7 +99,7 @@ EWRAM_CODE void AnmExec(void);
 
 IWRAM_CODE void AnmExecCol(void);
 EWRAM_CODE void AnmExecScr(s32 no);
-EWRAM_CODE void AnmExecFrm(s32 no);
+EWRAM_CODE void AnmExecBuf(s32 no);
 
 EWRAM_CODE void AnmSetDat(char* pStr);
 EWRAM_CODE void AnmSetBuf1(s32 bNo, bool isLoop, s32 max);
