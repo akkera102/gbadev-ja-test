@@ -1,8 +1,3 @@
-/*
-2024/11/12 __sp_irq size 0x0a0 -> 0x3a0
-*/
-
-
 /* Linker Script Original v1.3 by Jeff Frohwein     */
 /*  v1.0 - Original release                         */
 /*  v1.1 - Added proper .data section support       */
@@ -66,7 +61,7 @@ __eheap_end	=	ORIGIN(ewram) + LENGTH(ewram);
 __iwram_start	=	ORIGIN(iwram);
 __iwram_top	=	ORIGIN(iwram) + LENGTH(iwram);;
 __sp_irq	=	__iwram_top - 0x060;
-__sp_usr	=	__sp_irq - 0x3a0;
+__sp_usr	=	__sp_irq - 0x0a0;
 __irq_flags	=	0x03007ff8;
 
 SECTIONS
