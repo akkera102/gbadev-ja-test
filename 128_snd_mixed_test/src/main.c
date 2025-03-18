@@ -25,7 +25,7 @@ int main(void)
 	SndInit();
 	IrqInit();
 
-	BgDrawPrintf(1, 1, "13379Hz Sound Mixing Test");
+	BgDrawPrintf(1, 1, "13379Hz Sound Mixed Test");
 
 	for(;;)
 	{
@@ -39,7 +39,7 @@ int main(void)
 		*(vu16*)0x5000000 = RGB5(0,  0, 0);
 
 
-		BgDrawPrintf(1, 3, "VCNT:%03d", REG_VCOUNT, SndGetReg());
+		BgDrawPrintf(1, 3, "VCNT:%03d", REG_VCOUNT);
 		BgDrawPrintf(1, 4, " REG:%3d", SndGetReg());
 
 		s32 i;

@@ -2,11 +2,11 @@
 
 ![test2](test2.png)
 
-This project was created with reference to Deku's Game Boy Advance sound mixer tutorial.
+This project was created with reference to Deku's Game Boy Advance sound tutorial.
 
 Thank you to everyone who has been involved in preserving it to this day!
 
-- [Deku's Game Boy Advance sound mixer tutorial](https://deku.gbadev.org/program/sound1.html)
+- [Deku's Game Boy Advance sound tutorial](https://deku.gbadev.org/program/sound1.html)
 - [github](https://github.com/stuij/deku-sound-tutorial)
 
 ## lisence
