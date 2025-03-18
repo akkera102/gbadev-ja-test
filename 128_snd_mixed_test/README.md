@@ -1,6 +1,6 @@
 # 129_snd_mixed_test
 
-![test](test.png)
+![test2](test2.png)
 
 This project was created with reference to Deku's Game Boy Advance sound mixer tutorial.
 
