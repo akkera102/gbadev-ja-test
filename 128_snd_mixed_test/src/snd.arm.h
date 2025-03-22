@@ -30,7 +30,7 @@ typedef struct {
 	s8* pSrc;
 	s8* pCur;
 	s8* pEnd;
-	u16 vol;		// fixed point 10.6
+	s32 vol;		// fixed point 26.6
 
 } ST_SND_CH;
 

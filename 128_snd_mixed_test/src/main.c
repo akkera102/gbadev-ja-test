@@ -11,7 +11,7 @@ void play(s32 no)
 	s8* p = GbfsGetSafePointer2(no);
 	u32 size = GbfsGetFileSize();
 
-	SndPlay(p, size, 64);
+	SndPlay(p, size, (1 << 6));
 }
 //---------------------------------------------------------------------------
 int main(void)

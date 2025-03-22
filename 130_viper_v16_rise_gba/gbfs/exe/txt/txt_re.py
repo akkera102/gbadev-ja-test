@@ -267,6 +267,8 @@ def Regex(text, file):
 		text = re.sub('9F53: BUF 1 3 1 1 2', '9F53: BUF 1 3 3 1 1 32 1 33 1', text)
 		text = re.sub('9F79: BUF 1 3 1 1 2', '9F79: BUF 1 3 3 1 1 32 1 33 1', text)
 		text = re.sub('9F9F: BUF 1 3 1 1 2', '9F9F: BUF 1 3 3 1 1 32 1 33 1', text)
+		# サブルーチン戦闘　メッセージウィンドウ残る為、テキストイン追加
+		text = re.sub('9CD4: JMP 173\n', '9CD4: EFF 31 0\nJMP 173\n', text)
 		# サブルーチン戦闘　ＢＯＳＳサイクロン、ハリケーン　アニメ修正委
 		text = re.sub('A198:.*\n', '', text)
 		text = re.sub('A1D3:.*\n', '', text)
@@ -391,7 +393,7 @@ def Regex(text, file):
 		text = re.sub('95D0: VRW 16 172',  '95D0: VRW 16 52', text)
 		text = re.sub('9856: VRW 16 173',  '9856: VRW 16 53', text)
 
-		# デバッグ用に変数番号を固有値に変更、合わせて条件式も変更（牢屋の選択肢）
+		# デバッグ用に変数番号を固有値に変更（牢屋の選択肢）
 		text = re.sub('1C4D: VRW 100',  '1C4D: VRW 21', text)
 		text = re.sub('1E59: VRW 100',  '1E59: VRW 21', text)
 		text = re.sub('253B: VRR 100',  '253B: VRR 21', text)

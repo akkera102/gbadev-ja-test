@@ -248,12 +248,6 @@ EWRAM_CODE void NvExecSel(void)
 	case 2:
 		TxtClrMsg();
 
-		// パンチ、キック、チョップ
-		if(Nv.sel.reg == 3 && Nv.sel.cnt != 65535)
-		{
-			ImgSetEff(IMG_EFFECT_TXT_IN, 0);
-		}
-
 		NvSetVar(Nv.sel.ret, Nv.sel.cnt);
 		NvSetAct(NV_ACT_PARSE);
 		AgsSetNovel();

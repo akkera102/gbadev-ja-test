@@ -58,8 +58,39 @@ IWRAM_CODE void SndMix(void)
 		tmp += *p[7]++ * Snd.ch[7].vol;
 
 		// >>6 to divide off the volume
+		tmp >>= 6;
+		// adjust volume
+		tmp >>= 1;
+
+		// clipping
+		if(tmp > 127)
+		{
+			tmp = 127;
+		}
+		else if(tmp < -127)
+		{
+			tmp = -127;
+		}
+
+		Snd.pBuf[i] = tmp;
+
+/*
+		s32 tmp;
+
+		tmp = 0;
+		tmp += *p[0]++ * Snd.ch[0].vol;
+		tmp += *p[1]++ * Snd.ch[1].vol;
+		tmp += *p[2]++ * Snd.ch[2].vol;
+		tmp += *p[3]++ * Snd.ch[3].vol;
+		tmp += *p[4]++ * Snd.ch[4].vol;
+		tmp += *p[5]++ * Snd.ch[5].vol;
+		tmp += *p[6]++ * Snd.ch[6].vol;
+		tmp += *p[7]++ * Snd.ch[7].vol;
+
+		// >>6 to divide off the volume
 		// >>3 to divide by 8 channels
 		Snd.pBuf[i] = tmp >> 9;
+*/
 	}
 }
 //---------------------------------------------------------------------------

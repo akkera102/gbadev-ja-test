@@ -20,8 +20,6 @@ EWRAM_CODE void AnmExec(void)
 		AnmExecCol();
 	}
 
-//	Anm.isDraw0 = AnmIsDraw(0);
-
 	s32 i;
 
 	for(i=0; i<ANM_BUF_MAX_CNT; i++)
