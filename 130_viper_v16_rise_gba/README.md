@@ -1,4 +1,4 @@
-# Viper V16 RISE for GBA（現在開発中、WIP）
+# Viper V16 RISE for GBA（開発中、WIP）
 
 ## ご案内
 
@@ -53,9 +53,9 @@ CRC32: AD9053C0
 
 ## 言い訳タイム（前回比）
 
-作りはGTSのものを流用しました。見た目そのままです。
+作りはGTSのものを流用しています。見た目そのままです。
 
-- 画質は256色 mode4 リサイズ1/2を採用しています。いつものガビガビです
+- 画質は256色 mode4 リサイズ1/2を採用しています。ガビガビです
 - 縦スクロール操作中アニメーションするように修正しました
 - 容量に余裕があったので、音声を10512Hzから16384Hzに変更しました
 - バトルをスキップできる勝ち負け機能を付けました
@@ -184,8 +184,9 @@ CRC32: AD9053C0
 
 - windows10 pro 64bit
 - devkitPro(gcc v14.2.0 devkitARM r65)
-- Python3.13.1 + pillow11.0.0
 - VisualBoyAdvance 1.8.0-beta 3
+- Python3.13.1 + pillow11.0.0
+- MSYS2(gcc version 13.2.0)
 
 ## 簡単な履歴
 

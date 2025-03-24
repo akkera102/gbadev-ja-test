@@ -269,7 +269,7 @@ def Regex(text, file):
 		text = re.sub('9F9F: BUF 1 3 1 1 2', '9F9F: BUF 1 3 3 1 1 32 1 33 1', text)
 		# サブルーチン戦闘　メッセージウィンドウ残る為、テキストイン追加
 		text = re.sub('9CD4: JMP 173\n', '9CD4: EFF 31 0\nJMP 173\n', text)
-		# サブルーチン戦闘　ＢＯＳＳサイクロン、ハリケーン　アニメ修正委
+		# サブルーチン戦闘　ＢＯＳＳサイクロン、ハリケーン　アニメ修正
 		text = re.sub('A198:.*\n', '', text)
 		text = re.sub('A1D3:.*\n', '', text)
 		text = re.sub('A1E4: BUF 1 3 2 255 2 1 4', 'A1E4: BUF 1 3 3 30 1 32 1 33 1', text)
