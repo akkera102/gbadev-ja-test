@@ -52,7 +52,7 @@ EWRAM_CODE void SndClear(void);
 
 EWRAM_CODE s32 SndGetMax(void);
 EWRAM_CODE s32 SndGetReg(void);
-EWRAM_CODE s32 SndGetCur(s32 no);
+EWRAM_CODE s32 SndGetEndSize(s32 no);
 
 IWRAM_CODE void SndMix(void);
 IWRAM_CODE void SndVSync(void);

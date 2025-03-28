@@ -145,7 +145,7 @@ EWRAM_CODE s32 SndGetReg(void)
 	return c;
 }
 //---------------------------------------------------------------------------
-EWRAM_CODE s32 SndGetCur(s32 no)
+EWRAM_CODE s32 SndGetEndSize(s32 no)
 {
 	if(Snd.ch[no].pCur == Snd.nulBuf)
 	{

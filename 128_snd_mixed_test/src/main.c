@@ -46,7 +46,7 @@ int main(void)
 
 		for(i=0; i<SndGetMax(); i++)
 		{
-			BgDrawPrintf(2, 6+i, "%d. %4X", i, SndGetCur(i));
+			BgDrawPrintf(2, 6+i, "%d. %4X", i, SndGetEndSize(i));
 		}
 
 		BgDrawPrintf(1, 16, " START: chancel");
