@@ -43,7 +43,6 @@ typedef struct {
 IWRAM_CODE void VgmInit(void);
 IWRAM_CODE void VgmInit2(void);
 IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
-IWRAM_CODE void VgmPlayInit(void);
 IWRAM_CODE void VgmPlayFade(void);
 IWRAM_CODE void VgmStop(void);
 

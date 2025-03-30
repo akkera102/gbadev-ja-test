@@ -43,7 +43,7 @@ u8   BitGet8(void);
 u16  BitGet16(void);
 u32  BitGet32(void);
 
-void SgsWriteDir(void);
+void SgsWriteDir(char* fname);
 void SgsWriteFile(s32 fcnt);
 void SgsDec(u8* pD, s32 cmpSize, s32 orgSize);
 void SgsCut(u8* pD, s32 cmpSize, s32 orgSize);
@@ -148,27 +148,53 @@ u32 BitGet32(void)
 	return b4 | b3 | b2 | b1;
 }
 //---------------------------------------------------------------------------
-void SgsWriteDir(void)
+void SgsWriteDir(char* fname)
 {
-	char* dir[2] = { "ANM", "PCM" };
-	struct stat st;
 	s32 i;
 
-	for(i=0; i<2; i++)
+	// ファイル名にディレクトリ名が含まれるかチェック
+	for(i=0; fname[i] != '\\'; i++)
 	{
-		stat(dir[i], &st);
-
-		if(S_ISDIR(st.st_mode))
+		if(fname[i] == '\0')
 		{
-			continue;
+			return;
 		}
+	}
 
-		if(mkdir(dir[i]) == -1)
-		{
-			fprintf(stderr, "can't make directory %s\n", dir[i]);
+	if(i >= 8)
+	{
+		fprintf(stderr, "too long directory name %s\n", fname);
 
-			exit(1);
-		}
+		exit(1);
+	}
+
+	// ディレクトリ名をコピー
+	char dname[16];
+	s32 j;
+
+	for(j=0; j<i; j++)
+	{
+		dname[j] = fname[j];
+	}
+	dname[j] = '\0';
+
+
+	struct stat st;
+
+	stat(dname, &st);
+
+	// ディレクトリが存在するか確認
+	if(S_ISDIR(st.st_mode))
+	{
+		return;
+	}
+
+	// ディレクトリ作成
+	if(mkdir(dname) == -1)
+	{
+		fprintf(stderr, "can't make directory %s\n", dname);
+
+		exit(1);
 	}
 }
 //---------------------------------------------------------------------------
@@ -177,17 +203,20 @@ void SgsWriteFile(s32 fcnt)
 	BitSeek(0x10 + 0x20 * fcnt);
 
 	// ファイル名を取得（フォルダパスが含まれる場合あり）
-	char fname[16+1];
+	char fname[19+1];
 	s32  i;
 
-	for(i=0; i<16; i++)
+	for(i=0; i<19; i++)
 	{
 		fname[i] = BitGet8();
 	}
 	fname[i] = '\0';
 
+	// ディレクトリ名を含むなら作成
+	SgsWriteDir(fname);
+
 	// ファイル情報を取得
-	bool isLz    = ((BitGet32() >> 24) == 0x01) ? true : false;
+	bool isLz    = (BitGet8() == 0x01) ? true : false;
 	s32  cmpSize = BitGet32();
 	s32  orgSize = BitGet32();
 	s32  pos     = BitGet32();
@@ -287,7 +316,6 @@ void SgsDec(u8* pD, s32 cmpSize, s32 orgSize)
 	assert(out == orgSize);
 }
 //---------------------------------------------------------------------------
-//	TODO 検証データがないので合っているか不明
 void SgsCut(u8* pD, s32 cmpSize, s32 orgSize)
 {
 	assert(cmpSize == orgSize);
@@ -329,10 +357,6 @@ int main(int argc, char** argv)
 
 		exit(1);
 	}
-
-	// ANM, PCMディレクトリを作成
-	SgsWriteDir();
-
 
 	// ファイル個数を取得
 	s32 fcnt = BitGet32();
