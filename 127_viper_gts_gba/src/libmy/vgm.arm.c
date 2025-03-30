@@ -9,7 +9,8 @@ ST_VGM Vgm;
 //---------------------------------------------------------------------------
 IWRAM_CODE void VgmInit(void)
 {
-	VgmInit2();
+	_Memset(&Vgm, 0x00, sizeof(ST_VGM));
+	VgmStop();
 
 	// REG_SOUNDBIAS
 	*(vu8*)(REG_BASE + 0x88) = 0x80;
@@ -22,9 +23,53 @@ IWRAM_CODE void VgmInit(void)
 	*(vu8*)(REG_BASE + 0x82) = 0x05;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void VgmInit2(void)
+IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 {
+	if(Vgm.act == VGM_ACT_PLAY)
+	{
+		Vgm.pFile2  = pFile;
+		Vgm.isLoop2 = isLoop;
+		Vgm.fade    = VGM_MAX_FADE_CNT;
+		Vgm.act     = VGM_ACT_PLAY_NEXT;
+
+		return;
+	}
+
+	if(Vgm.act == VGM_ACT_PLAY_NEXT)
+	{
+		Vgm.pFile2  = pFile;
+		Vgm.isLoop2 = isLoop;
+
+		return;
+	}
+
+	if(Vgm.act == VGM_ACT_PLAY_FADE)
+	{
+		Vgm.pFile2  = pFile;
+		Vgm.isLoop2 = isLoop;
+		Vgm.act     = VGM_ACT_PLAY_NEXT;
+
+		return;
+	}
+
 	_Memset(&Vgm, 0x00, sizeof(ST_VGM));
+	VgmStop();
+
+	Vgm.pFile  = pFile;
+	Vgm.pCur   = pFile;
+	Vgm.isLoop = isLoop;
+	Vgm.act    = VGM_ACT_PLAY;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void VgmPlayFade(void)
+{
+	Vgm.fade = VGM_MAX_FADE_CNT;
+	Vgm.act  = VGM_ACT_PLAY_FADE;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void VgmStop(void)
+{
+	Vgm.act = VGM_ACT_STOP;
 
 	// ch1
 	*(vu8*)(REG_BASE + 0x60) = 0x00;
@@ -59,88 +104,6 @@ IWRAM_CODE void VgmInit2(void)
 	// REG_SOUNDCNT_L
 	*(vu8*)(REG_BASE + 0x80) = 0x77;		// NR50
 	*(vu8*)(REG_BASE + 0x81) = 0xFF;
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
-{
-	if(Vgm.act == VGM_ACT_PLAY)
-	{
-		Vgm.pFile2  = pFile;
-		Vgm.isLoop2 = isLoop;
-		Vgm.fade    = VGM_MAX_FADE_CNT;
-		Vgm.act     = VGM_ACT_PLAY_NEXT;
-
-		return;
-	}
-
-	if(Vgm.act == VGM_ACT_PLAY_NEXT)
-	{
-		Vgm.pFile2  = pFile;
-		Vgm.isLoop2 = isLoop;
-
-		return;
-	}
-
-	if(Vgm.act == VGM_ACT_PLAY_FADE)
-	{
-		Vgm.pFile2  = pFile;
-		Vgm.isLoop2 = isLoop;
-		Vgm.act     = VGM_ACT_PLAY_NEXT;
-
-		return;
-	}
-
-	VgmInit2();
-
-	Vgm.pFile  = pFile;
-	Vgm.pCur   = pFile;
-	Vgm.isLoop = isLoop;
-	Vgm.act    = VGM_ACT_PLAY;
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void VgmPlayFade(void)
-{
-	Vgm.fade = VGM_MAX_FADE_CNT;
-	Vgm.act  = VGM_ACT_PLAY_FADE;
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void VgmStop(void)
-{
-	Vgm.act = VGM_ACT_STOP;
-
-	// ch1
-	*(vu8*)(REG_BASE + 0x60) = 0x00;
-	*(vu8*)(REG_BASE + 0x62) = 0x00;
-	*(vu8*)(REG_BASE + 0x63) = 0x00;
-	*(vu8*)(REG_BASE + 0x64) = 0x00;
-	*(vu8*)(REG_BASE + 0x65) = 0x00;
-
-	// ch2
-	*(vu8*)(REG_BASE + 0x68) = 0x00;
-	*(vu8*)(REG_BASE + 0x69) = 0x00;
-	*(vu8*)(REG_BASE + 0x6c) = 0x00;
-	*(vu8*)(REG_BASE + 0x6d) = 0x00;
-
-	// ch3
-	for(u32 i=0; i<0x10; i++)
-	{
-		*(vu8*)(REG_BASE + 0x90 + i) = 0x00;
-	}
-	*(vu8*)(REG_BASE + 0x70) = 0x00;
-	*(vu8*)(REG_BASE + 0x72) = 0x00;
-	*(vu8*)(REG_BASE + 0x73) = 0x00;
-	*(vu8*)(REG_BASE + 0x74) = 0x00;
-	*(vu8*)(REG_BASE + 0x75) = 0x00;
-
-	// ch4
-	*(vu8*)(REG_BASE + 0x78) = 0x00;
-	*(vu8*)(REG_BASE + 0x79) = 0x00;
-	*(vu8*)(REG_BASE + 0x7c) = 0x00;
-	*(vu8*)(REG_BASE + 0x7d) = 0x00;
-
-	// REG_SOUNDCNT_L
-	*(vu8*)(REG_BASE + 0x80) = 0x00;
-	*(vu8*)(REG_BASE + 0x81) = 0x00;
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void VgmSetHeadset(void)
