@@ -55,7 +55,7 @@ int main(void)
 	// BgDrawPrintf(1, 18, "v0.02 changed timer->vblank");
 	// BgDrawPrintf(1, 19, "v0.01 added loop function");
 
-	s32 sel = 35;
+	s32 sel = 0;
 	s32 opt_loop = 0;
 	// s32 opt_bias = 0;
 
@@ -68,7 +68,7 @@ int main(void)
 	char* pF = GbfsGetFileName();
 
 	VgmStop();
-	VgmPlay(pS, pF, 0);
+	// VgmPlay(pS, pF, 0);
 
 	for(;;)
 	{

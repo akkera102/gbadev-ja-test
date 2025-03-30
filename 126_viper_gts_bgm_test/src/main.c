@@ -63,7 +63,7 @@ int main(void)
 	u8*   pS = GbfsGetSafePointer2(sel);
 	char* pF = GbfsGetFileName();
 
-	VgmPlay(pS);
+	// VgmPlay(pS);
 
 	for(;;)
 	{

@@ -56,15 +56,15 @@ IWRAM_CODE void VgmStop(void)
 	// ch1
 	*(u8*)(REG_BASE + 0x60) = 0x00;
 	*(u8*)(REG_BASE + 0x62) = 0x00;
-	*(u8*)(REG_BASE + 0x63) = 0x00;
+	*(u8*)(REG_BASE + 0x63) = 0x08; // NR12
 	*(u8*)(REG_BASE + 0x64) = 0x00;
-	*(u8*)(REG_BASE + 0x65) = 0x00;
+	*(u8*)(REG_BASE + 0x65) = 0x80; // NR14
 
 	// ch2
 	*(u8*)(REG_BASE + 0x68) = 0x00;
-	*(u8*)(REG_BASE + 0x69) = 0x00;
+	*(u8*)(REG_BASE + 0x69) = 0x08; // NR22
 	*(u8*)(REG_BASE + 0x6c) = 0x00;
-	*(u8*)(REG_BASE + 0x6d) = 0x00;
+	*(u8*)(REG_BASE + 0x6d) = 0x80; // NR24
 
 	// ch3
 	for(u32 i=0; i<0x10; i++)
@@ -79,9 +79,9 @@ IWRAM_CODE void VgmStop(void)
 
 	// ch4
 	*(u8*)(REG_BASE + 0x78) = 0x00;
-	*(u8*)(REG_BASE + 0x79) = 0x00;
+	*(u8*)(REG_BASE + 0x79) = 0x08; // NR42
 	*(u8*)(REG_BASE + 0x7c) = 0x00;
-	*(u8*)(REG_BASE + 0x7d) = 0x00;
+	*(u8*)(REG_BASE + 0x7d) = 0x80; // NR44
 
 	// REG_SOUNDCNT
 	*(u8*)(REG_BASE + 0x80) = 0x77;
