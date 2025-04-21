@@ -1,5 +1,5 @@
 @echo off
-set PATH=C:\devkitPro\devkitARM\bin;C:\devkitPro\tools\bin;%PATH%
+set PATH=c:\devkitPro\msys2\usr\bin;C:\devkitPro\devkitARM\bin;C:\devkitPro\tools\bin;%PATH%
 
 :loop
 del test.gba
