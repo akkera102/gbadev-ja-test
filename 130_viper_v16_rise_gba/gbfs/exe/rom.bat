@@ -2,7 +2,7 @@
 
 rem ---------------------------------
 ..\exe\rom\gbfs test.gbfs tmp\*.* ..\exe\rom\*.bin
-copy /b ..\exe\test.gba+test.gbfs ..\..\viper_v16_rise.gba
+copy /b ..\exe\rom\test.gba+test.gbfs ..\..\viper_v16_rise.gba
 
 
 rem ---------------------------------

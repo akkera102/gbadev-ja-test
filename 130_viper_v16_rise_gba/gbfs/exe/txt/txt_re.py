@@ -51,7 +51,7 @@ def Regex(text, file):
 		# ÉEÉFÉCÉgí≤êÆ
 		text = re.sub('0064: SLP 100', '0064: SLP 200', text)
 		# É^ÉCÉgÉãâÊñ å„ÅAÉLÅ[ÉEÉFÉCÉgÇ∆äJénÉXÉ^Å[Égí«â¡
-		text = re.sub('00B9: ANE\n', '00B9: EFF 2 2\nWAI\nTXC\nJMP 19\n', text)
+		text = re.sub('00B9: ANE\n', '00B9: EFF 2 2\nWAI\nTXC\nVRW 0 0\nJMP 19\n', text)
 
 	if(file == 'RI00.txt'):
 		# èâä˙èàóùÅ@ògçÌèú
@@ -283,6 +283,23 @@ def Regex(text, file):
 		text = re.sub('9E33: SLP 25\n', '9E33: HP0 0\nSLP 25\n', text)
 		text = re.sub('9EB5: SLP 25\n', '9EB5: HP0 0\nSLP 25\n', text)
 
+		# èÍñ ÇPÇUÇRÅ`ÇPÇUÇWÅ@ã»î‘çÜïœçX
+		text = re.sub('02ED: BGM 14 1', '02ED: BGM 7 1', text)
+		text = re.sub('02FB: BGM 14 1', '02FB: BGM 7 1', text)
+		text = re.sub('0309: BGM 14 1', '0309: BGM 7 1', text)
+		text = re.sub('0317: BGM 14 1', '0317: BGM 7 1', text)
+		text = re.sub('0325: BGM 14 1', '0325: BGM 7 1', text)
+		text = re.sub('0333: BGM 14 1', '0333: BGM 7 1', text)
+
+		# èÍñ ÇPÅAÇQÅAÇPÇTÅAÇPÇSÇPÅAÇPÇOÇOÇQÅAÇPÇSÇSÅAÇPÇSÇTÅAÇPÇSÇUÅ@âπäyí‚é~ÉRÉ}ÉìÉhí«â¡
+		text = re.sub('0107: JMP 56\n', '0107: BGS\nJMP 56\n', text)
+		text = re.sub('0112: JMP 57\n', '0112: BGS\nJMP 57\n', text)
+		text = re.sub('0173: JMP 79\n', '0173: BGS\nJMP 79\n', text)
+		text = re.sub('0249: JMP 113\n', '0249: BGS\nJMP 113\n', text)
+		text = re.sub('011D: JMP 119\n', '011D: BGS\nJMP 119\n', text)
+		text = re.sub('0270: JMP 120\n', '0270: BGS\nJMP 120\n', text)
+		text = re.sub('027B: JMP 121\n', '027B: BGS\nJMP 121\n', text)
+		text = re.sub('0286: JMP 124\n', '0286: BGS\nJMP 124\n', text)
 
 		# èÍñ ÇÃî‘çÜêUÇËÇ»Ç®Çµ
 #		text = re.sub('0102: IFL 1',    '0102: IFL 1',  text)

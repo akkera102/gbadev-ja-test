@@ -23,7 +23,7 @@ char MenuSelectStr[][16+1] = {
 	// 5
 	"‚e‚k‚f‚P@",
 	"‚e‚k‚f‚Q@",
-	"‚l‚n‚c‚d@",
+	"‚u‚n‚k‚l@",
 
 	// 8
 	"‚v‚h‚m",
@@ -284,7 +284,24 @@ EWRAM_CODE void  MenuExecDebug(u16 trg, u16 rep)
 		}
 		else
 		{
-			VgmSetHeadset();
+			s32 v = VgmGetVol();
+			s32 m = VgmGetMaxVol();
+
+			if(v <= 0)
+			{
+				v = 4;
+			}
+			else
+			{
+				v++;
+			}
+
+			if(v > m)
+			{
+				v = m;
+			}
+
+			VgmSetVol(v);
 		}
 
 		TxtSetMsg();
@@ -317,11 +334,33 @@ EWRAM_CODE void  MenuExecDebug(u16 trg, u16 rep)
 		}
 		else
 		{
-			VgmSetHeadset();
+			s32 v = VgmGetVol();
+
+			if(v <= 4)
+			{
+				v = 0;
+			}
+			else
+			{
+				v--;
+			}
+
+			VgmSetVol(v);
 		}
 
 		TxtSetMsg();
 		return;
+	}
+
+	if(trg & KEY_L || trg & KEY_R)
+	{
+		if(Menu.cnt == 2)
+		{
+			VgmSetHeadset();
+
+			TxtSetMsg();
+			return;
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -484,14 +523,23 @@ EWRAM_CODE char* MenuGetStr(s32 sel)
 		}
 		else
 		{
+			_Strcat(Menu.buf, "‚O@");
+
+			s32 v = VgmGetVol() - 3;
+
+			if(v > 0)
+			{
+				Menu.buf[11] += v;
+			}
+
 			if(VgmIsHeadset() == true)
 			{
-				_Strcat(Menu.buf, "ƒwƒbƒhƒZƒbƒg");
+				_Strcat(Menu.buf, "ƒwƒbƒhƒZƒbƒgƒ‚[ƒh");
 
 			}
 			else
 			{
-				_Strcat(Menu.buf, "ƒXƒs[ƒJ[");
+				_Strcat(Menu.buf, "ƒXƒs[ƒJ[ƒ‚[ƒh");
 			}
 		}
 

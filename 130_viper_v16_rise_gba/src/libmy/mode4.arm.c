@@ -90,7 +90,6 @@ IWRAM_CODE void Mode4DrawScrollY(s32 y, u16* pImg)
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode4DrawScreen(u16* pImg)
 {
-//	LZ77UnCompVram(pImg, Mode4.pBack);
 	SwiLZ77UnCompWrite16bit(pImg, Mode4.pBack);
 }
 //---------------------------------------------------------------------------

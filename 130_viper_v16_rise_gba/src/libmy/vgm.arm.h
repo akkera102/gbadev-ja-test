@@ -11,7 +11,8 @@ extern "C" {
 #define VGM_CMD_WAIT		0x61			// wait vblank
 #define VGM_CMD_EOM			0x66			// end of mark
 #define VGM_CMD_WREG		0xb3			// write register
-#define VGM_MAX_FADE_CNT	35				// frames
+#define VGM_VOL_MAX_CNT		12
+#define VGM_VOL_DEF_CNT		7
 
 
 //---------------------------------------------------------------------------
@@ -27,6 +28,7 @@ enum {
 typedef struct {
 
 	s32  act;
+	s32  vol;
 	s32  fade;
 	bool isHeadset;
 
@@ -43,11 +45,15 @@ typedef struct {
 IWRAM_CODE void VgmInit(void);
 IWRAM_CODE void VgmInit2(void);
 IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
-IWRAM_CODE void VgmPlayInit(void);
 IWRAM_CODE void VgmPlayFade(void);
 IWRAM_CODE void VgmStop(void);
 
 EWRAM_CODE void VgmSetHeadset(void);
+EWRAM_CODE void VgmSetVolReg(s32 vol);
+EWRAM_CODE void VgmSetVol(s32 vol);
+EWRAM_CODE s32  VgmGetVol(void);
+EWRAM_CODE s32  VgmGetMaxVol(void);
+
 EWRAM_CODE bool VgmIsHeadset(void);
 EWRAM_CODE bool VgmIsPlay(void);
 

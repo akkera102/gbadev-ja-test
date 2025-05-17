@@ -698,9 +698,10 @@ void Dec0A(void)
 //			assert(0);
 		}
 
-		// 画像パーツリストにあるかチェックをします
+		// パーツ画像 or 圧縮画像
 		u8 t_wa = (u8)(s_wa[i] * 2.0);
 
+		// 画像パーツリストにあるかチェックをします
 		if(Dec.pAnm != NULL)
 		{
 			for(k=0; k<sizeof waitList / sizeof waitList[0]; k++)
@@ -713,7 +714,6 @@ void Dec0A(void)
 			}
 		}
 
-		// パーツ画像 or 圧縮画像（数字は決め打ち）
 		d_fr[d_cnt] = s_fr[i];
 		d_wa[d_cnt] = t_wa;
 		d_cnt++;

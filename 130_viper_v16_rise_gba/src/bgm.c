@@ -16,11 +16,11 @@ EWRAM_CODE void BgmInit(void)
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmPlay(s32 no, bool isLoop)
 {
-//	u8* pDat = FileGetBgm(no);
+	u8* pDat = FileGetBgm(no);
 
 	TRACE("[BgmPlay no:%d loop:%d]\n", no, isLoop);
 
-//	VgmPlay(pDat, isLoop);
+	VgmPlay(pDat, isLoop);
 }
 //---------------------------------------------------------------------------
 EWRAM_CODE void BgmPlay2(s32 no, bool isLoop)

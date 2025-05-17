@@ -428,29 +428,6 @@ EWRAM_CODE void NvExecParseJmp(void)
 // JUMP_IF_LAST_READ_NOT_EQUAL
 EWRAM_CODE void NvExecParseIfl(void)
 {
-	// 場面ジャンプで発生した不具合を修正
-	if(NvGetVar(16) == 22 && NvGetVar(20) == 1)
-	{
-		TRACE("patch 22 1");
-
-		NvSetVar(20, 0);
-	}
-
-	if(NvGetVar(16) == 29 && NvGetVar(20) == 2)
-	{
-		TRACE("patch 29 2");
-
-		NvSetVar(20, 0);
-	}
-
-	if(NvGetVar(16) == 31 && NvGetVar(20) == 2)
-	{
-		TRACE("patch 31 2");
-
-		NvSetVar(20, 0);
-	}
-
-
 	s32 var = NvNextCurNum();
 	s32 lbl = NvNextCurNum();
 
@@ -541,6 +518,29 @@ EWRAM_CODE void NvExecParseWin(void)
 // READ
 EWRAM_CODE void NvExecParseVrr(void)
 {
+	// 場面ジャンプで発生した不具合を修正
+	if(NvGetVar(16) == 22 && NvGetVar(20) == 1)
+	{
+		TRACE("patch 22 1");
+
+		NvSetVar(20, 0);
+	}
+
+	if(NvGetVar(16) == 29 && NvGetVar(20) == 2)
+	{
+		TRACE("patch 29 2");
+
+		NvSetVar(20, 0);
+	}
+
+	if(NvGetVar(16) == 31 && NvGetVar(20) == 2)
+	{
+		TRACE("patch 31 2");
+
+		NvSetVar(20, 0);
+	}
+
+
 	s32 a = NvNextCurNum();
 
 	TRACE("%d\n", a);
