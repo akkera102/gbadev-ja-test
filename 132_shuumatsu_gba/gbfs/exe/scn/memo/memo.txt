@@ -1,0 +1,227 @@
+■変数と値範囲
+
+[] 2  0-1  ラジオ放送（謎）
+[] 6  0-1  オープニング
+[] 7  0-1  月・教室～知裕と香織
+[] 8  0-1  月・屋上～「―おかえり」 受け止める
+[] 9  0-1  月・屋上～「―おかえり」 大回避行動
+
+[] 10 0-1  火・教室～淡霧な時間 教室にいる
+[] 11 0-1  火・教室～淡霧な時間 教室から出る
+[] 12 0-1  火・教室～淡霧な時間 屋上に出る
+[] 13 0-1  火・保健室～キャッチボール 図書室
+
+[] 14 0-1  水・教室～間延びした空間 教室にいる
+[] 15 0-1  水・教室～間延びした空間 教室を出る
+[] 16 0-7  香織　好感度
+[] 17 0-1  水・廊下～呼吸 図書室
+[] 18 0-1  水・廊下～呼吸 保健室
+[] 19 0-1  水・廊下～呼吸 屋上
+
+[] 20 0-7  歌奈　好感度
+[] 21 0-7  緑　好感度
+[] 22 0-8  いろは　好感度
+
+[] 23 0-1  木・教室～『逃げ』　このままいる
+[] 24 0-1  木・教室～『逃げ』　教室から出る
+[] 25 0-1  木・教室～『真面目』というラベル　教室を出る
+[] 26 0-1  木・グラウンド～重久と千絵子　それは違うと励ます
+[] 27 0-1  木・児童公園～多弘の悩み　はげます
+
+[] 28 0-1  歌奈H
+[] 29 0-1  緑H
+[] 30 0-1  いろはH
+[] 31 0-1  歌奈H
+
+[] 32 0-1  土・グラウンド～いつもの木の下で　重久千絵子
+[] 33 0-1  土・保健室～告白　多弘留希
+
+
+■img
+00 logo1
+01 logo2
+02 black
+03 titlex
+04 eds
+05 eds1
+06 mon
+07 back8
+08 back1
+09 jugyochi
+10 jugyokao
+11 sora
+12 okuiro
+13 okukana
+14 grochie
+15 groshige
+16 hokeruki
+17 midohon
+18 topfont
+19 kaori00
+20 kaori01
+21 kaori03
+22 midori00
+23 midori02
+24 chihir02
+25 midori03
+26 chihir01
+27 chihir00
+28 back7
+29 back4
+30 ruki00
+31 tahiro00
+32 tahiro02
+33 ruki01
+34 ruki02
+35 tahiro01
+36 back3
+37 back5
+38 midori04
+39 back9
+40 shige00
+41 chieko04
+42 shige01
+43 chieko01
+44 chieko00
+45 chieko05
+46 back2
+47 back6
+48 furiiro
+49 iroha00
+50 iroha01
+51 iroha03
+52 kana01
+53 kana03
+54 kokeruki
+55 tue
+56 cbbefore
+57 kaori04
+58 seitoh1
+59 cbafter
+60 midori01
+61 kanairo
+62 musatwo
+63 chieko03
+64 shige03
+65 shige04
+66 wed
+67 chiemogu
+68 madokao
+69 domkana
+70 tahiro04
+71 tahiro03
+72 ruki03
+73 ruki04
+74 rukigyu
+75 yubiiro
+76 rukih1
+77 rukih2
+78 rukih3
+79 rukih4
+80 thu
+81 terekao
+82 madomi2
+83 madomi1
+84 irhhossa
+85 kmiorosi
+86 kana00
+87 seitoh2
+88 shige02
+89 kouen
+90 chieh1
+91 chieh2
+92 chieh3
+93 chieh4
+94 chiekiss
+95 fri
+96 chieko02
+97 midomega
+98 kagiiro
+99 sckaiwa
+100 onbuchie
+101 kaoh1
+102 kaoh2
+103 kaoh3
+104 kaoh4
+105 kaoh4b
+106 kaokiss
+107 hizakao
+108 midokiss
+109 midoh1
+110 midoh2
+111 midoh3
+112 midoh4
+113 iroh1
+114 iroh2
+115 iroh3
+116 iroh4
+117 irokiss
+118 kanah1
+119 kanah2
+120 kanah3
+121 kanah4
+122 kanakiss
+123 sat
+124 rkheiwa
+125 chiekako
+126 scchie
+127 furikor
+128 midomio
+129 midori05
+130 kana04
+131 kana05
+132 rocketkn
+133 msmode
+134 ksmode
+135 end
+136 midohon		※17とダブり
+137 kurakor
+138 badirh
+139 kurakana
+140 groshige	※15とダブり
+141 rukikiss
+142 kurarkth
+143 happykor
+144 happymdr
+145 happyirh
+146 kcyozora
+
+
+■bgm
+00 01_OP03
+01 SILENCE
+02 15_OP23
+03 RADIO
+04 12_OP20_
+05 02_OP06
+06 08_OP16
+07 10_OP18
+08 04_OP11
+09 09_OP17
+10 03_OP08
+11 RADIONZ
+12 06_OP13
+13 07_OP14
+14 05_OP12
+15 16_OP28
+16 13_OP21
+17 14_OP22
+18 17_OP29
+19 11_OP20
+20 18_OP30
+
+
+■fmx
+00 TIMEBELL
+01 OD_M
+02 OD_P
+03 PAPER
+04 SD_M
+05 SD_P
+06 IDO
+07 DOM
+08 OD_WO
+09 OD_WC
+10 PAPERBAG
+11 OD_MO
+
