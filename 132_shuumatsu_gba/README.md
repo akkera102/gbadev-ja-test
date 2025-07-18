@@ -14,8 +14,8 @@
 ・DLSite（ファイル容量　510.55MBと記載。将来変更の可能性あり）
 
 ※ 未対応：CD版、DVD-PG版
-
-
+```
+```
 DOM.adp
 
 GRAPHIC.DSK
