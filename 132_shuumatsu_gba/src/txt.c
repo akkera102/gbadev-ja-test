@@ -15,16 +15,13 @@ ST_TXT Txt;
 void TxtInit(void)
 {
 	_Memset(&Txt, 0x00, sizeof(ST_TXT));
-
-	TxtClearBuf();
 }
 //---------------------------------------------------------------------------
 void TxtExecNv(void)
 {
 	Txt.isBuf = true;
 
-	// 既読チェック
-	if(NvIsRead2() == false)
+	if(NvIsReadValid() == false)
 	{
 		SprSetWhite();
 	}
@@ -40,23 +37,23 @@ void TxtExecNv(void)
 
 	for(i=0; i<Txt.reg; i++)
 	{
-		s32 cmd = Txt.tbl[i].c;
+		s32 c = Txt.tbl[i].c;
 
-		if(cmd == TXT_CMD_MSG)
+		if(c == TXT_CMD_MSG)
 		{
 			TxtDrawStr(Txt.tbl[i].p);
 
 			continue;
 		}
 
-		if(cmd == TXT_CMD_CLS)
+		if(c == TXT_CMD_CLS)
 		{
-			TxtClearBuf();
+			TxtClear();
 
 			continue;
 		}
 
-		if(cmd == TXT_CMD_LF)
+		if(c == TXT_CMD_LF)
 		{
 			Txt.x = 0;
 			Txt.y++;
@@ -64,7 +61,7 @@ void TxtExecNv(void)
 			continue;
 		}
 
-		SystemError("[Err] TxtExecNv %x %x\n", i, cmd);
+		SystemError("[Err] TxtExecNv %x %x\n", i, c);
 	}
 
 	Txt.reg = 0;
@@ -110,8 +107,7 @@ void TxtExecSel(void)
 //---------------------------------------------------------------------------
 void TxtExecRes(void)
 {
-	// 既読チェック
-	if(NvIsRead2() == false)
+	if(NvIsReadValid() == false)
 	{
 		SprSetWhite();
 	}
@@ -121,7 +117,6 @@ void TxtExecRes(void)
 	}
 
 	SprShowMsg();
-
 
 	s32 x, y, c = 0;
 
@@ -161,7 +156,6 @@ void TxtExecMenu(void)
 	Txt.isBuf = false;
 
 	SprClearDat();
-	SprSetWhite();
 	SprShowMsg();
 
 	s32 type = MenuGetType();
@@ -194,6 +188,7 @@ void TxtExecMenu(void)
 		y = 0;
 	}
 
+	SprSetWhite();
 	TxtDrawStrXy(x, y, p);
 
 	// 選択肢
@@ -360,25 +355,15 @@ void TxtWriteSel(char* p)
 	LogAddBuf(Txt.buf);
 }
 //---------------------------------------------------------------------------
-void TxtClearBuf(void)
+void TxtClear(void)
 {
-//	TRACE("[TxtClearBuf]\n");
+//	TRACE("[TxtClear]\n");
 
 	Txt.x = 0;
 	Txt.y = 4;
 
 	SprClearDat();
 	MemClear(Txt.buf, sizeof(Txt.buf));
-}
-//---------------------------------------------------------------------------
-void TxtClearSel(void)
-{
-//	TRACE("[TxtClearSel]\n");
-
-	Txt.x = 0;
-	Txt.y = 4;
-
-	SprClearDat();
 }
 //---------------------------------------------------------------------------
 void TxtShow(void)

@@ -212,6 +212,11 @@ IWRAM_CODE void Mode3VramCpyStep1(void)
 	}
 }
 //---------------------------------------------------------------------------
+IWRAM_CODE void Mode3VramCpyStep2(void)
+{
+	MemIncFast(Mode3.cpy, (u16*)VRAM, 240*160*2);
+}
+//---------------------------------------------------------------------------
 // direct pixel access
 IWRAM_CODE void Mode3VramDpx(u16* pImg)
 {
@@ -230,11 +235,6 @@ IWRAM_CODE void Mode3VramDpx(u16* pImg)
 IWRAM_CODE void Mode3ScrollX(s32 cnt)
 {
 	REG_BG2X = (-212 + cnt) << 8;
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void Mode3VramCpyStep2(void)
-{
-	MemIncFast(Mode3.cpy, (u16*)VRAM, 240*160*2);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3FlipBuf(void)

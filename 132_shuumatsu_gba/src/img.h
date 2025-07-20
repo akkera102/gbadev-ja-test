@@ -13,7 +13,7 @@ extern "C" {
 
 enum {
 	IMG_EFFECT_CLS00 = 0,		// αフェード（200に変更）
-	IMG_EFFECT_CLS01,			// タイトルロゴ
+	IMG_EFFECT_CLS01,			// カーテン
 	IMG_EFFECT_CLS02,			// 中央じわじわ
 	IMG_EFFECT_CLS03,			// 集中線
 	IMG_EFFECT_CLS10 = 10,		// 通常コピー（201に変更）
@@ -31,15 +31,20 @@ enum {
 	// GBA専用
 	IMG_EFFECT_FADE = 200,		// αフェード（高速化）
 	IMG_EFFECT_COPY,			// 通常コピー（高速化）
-	IMG_EFFECT_TITL,			// タイトルアニメーション
+	IMG_EFFECT_TITL,			// タイトルアニメ
+	IMG_EFFECT_FADE_OUT,		// フェードアウト（黒→色背景）
+	IMG_EFFECT_FADE_IN,			// フェードイン　（色背景→黒）
 };
 
 //---------------------------------------------------------------------------
 
 typedef struct {
+	s32  no;
 	s32  cx;
 	s32  cy;
 	u16* pDat;
+
+	s32  pv;
 } ST_IMG_BG;
 
 typedef struct {
@@ -79,6 +84,8 @@ void ImgExecCls(void);
 void ImgExecFade(void);
 void ImgExecCopy(void);
 void ImgExecTitl(void);
+void ImgExecFadeOut(void);
+void ImgExecFadeIn(void);
 
 void ImgDrawBg(void);
 void ImgDrawChr(void);

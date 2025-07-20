@@ -17,6 +17,7 @@ def Regex(text, file):
 	text = re.sub('‚g‚…‚™‚i‚`‚l', '‚g‚…‚™@‚i‚`‚l', text)
 	text = re.sub('‚‹‚…‚…‚‚‚‚“‚‚‰‚Œ‚…', '‚‹‚…‚…‚@‚‚@‚“‚‚‰‚Œ‚…', text)
 	text = re.sub('‚‹‚…‚…‚‚j‚`‚v‚k', '‚‹‚…‚…‚@‚j‚`‚v‚k', text)
+	text = re.sub('‚m‚…‚˜‚”‚v‚…‚…‚‹', '‚m‚…‚˜‚”@‚v‚…‚…‚‹', text)
 
 	# •ÏX@‰æ‘œ”Ô†‚Ìƒ_ƒu‚èw’è
 	text = re.sub('!g 136', '!g 17', text)

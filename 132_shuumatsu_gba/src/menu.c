@@ -148,7 +148,8 @@ void MenuExecSystem(u16 trg)
 
 	// 文字送り
 	case 2:
-		if(ManageIsPrv(MANAGE_ACT_NV) == true)
+		// 戻り先：ノベル or 選択肢
+		if(NvIsAct(NV_ACT_KEY) == true)
 		{
 			NvSetSkip();
 			ManageSetAct(MANAGE_ACT_RES);
@@ -187,7 +188,7 @@ void MenuExecSystem(u16 trg)
 	// ゲーム終了
 	case 7:
 		LogInit();
-		TxtClearBuf();
+		TxtClear();
 
 		SeStop();
 		BgmStop();
@@ -522,10 +523,10 @@ void MenuExecTitle(u16 trg)
 	{
 	// 最初から始める
 	case 0:
-		ImgSetFade(IMG_DEF_FADE_CNT);
+		ImgLoadFade();
 
 		LogInit();
-		TxtClearBuf();
+		TxtClear();
 
 		NvInitVar();
 		NvSetScn(3);
@@ -580,16 +581,12 @@ void MenuSetOption(s32 sel)
 //---------------------------------------------------------------------------
 void MenuSetSave(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_SAVE, ret, 0, 17, 8, MenuExecSave, true);
-
-	Menu.sel = Menu.siori;
+	MenuSetInit(MENU_TYPE_SAVE, ret, Menu.siori, 17, 8, MenuExecSave, true);
 }
 //---------------------------------------------------------------------------
 void MenuSetLoad(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 18, 8, MenuExecLoad, true);
-
-	Menu.sel = Menu.siori;
+	MenuSetInit(MENU_TYPE_LOAD, ret, Menu.siori, 18, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
 void MenuSetNone(s32 ret)

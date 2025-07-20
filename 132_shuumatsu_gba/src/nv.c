@@ -197,7 +197,7 @@ void NvExecSel(void)
 	case 2:
 		// ÉçÉOÇ…ëIëéàÇï€ë∂
 		TxtWriteSel(Nv.sel.p[Nv.sel.cnt]);
-		TxtClearBuf();
+		TxtClear();
 
 		Nv.pCur = Nv.pScn + Nv.sel.ofs[Nv.sel.cnt];
 
@@ -263,6 +263,8 @@ void NvSetScn(s32 no)
 	Nv.sel.reg    = NvCurNum();
 	Nv.expr.cnt   = 0;
 	Nv.call.isUse = false;
+	Nv.idx        = 0;
+	Nv.bit        = 0;
 
 	if(Nv.sel.reg == 0)
 	{
@@ -276,6 +278,13 @@ void NvSetScn(s32 no)
 		Nv.sel.p[i] = NvCurStr();
 		Nv.sel.ofs[i] = NvCurHex();
 	}
+}
+//---------------------------------------------------------------------------
+void NvSetScn2(s32 no)
+{
+	NvSetRead(Nv.idx, Nv.bit);
+
+	NvSetScn(no);
 }
 //---------------------------------------------------------------------------
 void NvSetSkip(void)
@@ -411,7 +420,7 @@ bool NvIsRead(s32 i, s32 b)
 	return (Nv.read[i] & 1 << b) ? true : false;
 }
 //---------------------------------------------------------------------------
-bool NvIsRead2(void)
+bool NvIsReadValid(void)
 {
 	return NvIsRead(Nv.idx, Nv.bit);
 }

@@ -19,12 +19,11 @@ enum {
 	TXT_CMD_MSG,
 	TXT_CMD_CLS,
 	TXT_CMD_LF,
-
 };
 
 typedef struct {
-	s32   c;			// cmd
-	char* p;			// msg
+	s32   c;		// cmd
+	char* p;
 
 } ST_TXT_CMD_TBL;
 
@@ -70,8 +69,7 @@ s32  TxtGetY(void);
 void TxtWriteBuf(void);
 void TxtWriteSel(char* p);
 
-void TxtClearBuf(void);
-void TxtClearSel(void);
+void TxtClear(void);
 
 void TxtShow(void);
 void TxtHide(void);

@@ -11,24 +11,24 @@
 
 //---------------------------------------------------------------------------
 ST_NV_PARSE_TBL NvParseTbl[NV_MAX_PARSE_CNT] = {
-	{ "!g", 1, (void*)NvExecParse1G  },	// 背景
-	{ "!b", 1, (void*)NvExecParse1B  },	// 音楽
-	{ "!e", 1, (void*)NvExecParse1E  },	// 効果音
-	{ "!x", 2, (void*)NvExecParse1X  },	// 立ち絵
-	{ "!j", 1, (void*)NvExecParse1J  },	// スクリプトジャンプ
-	{ "!t", 1, (void*)NvExecParse1T  },	// タイトル
-	{ "!s", 2, (void*)NvExecParse1S  },	// 既読
-	{ "#g", 1, (void*)NvExecParse2G  },	// CALL
-	{ "#r", 0, (void*)NvExecParse2R  },	// RET
-	{ "#l", 0, (void*)NvExecParse2L  },	// ELSE
-	{ "#n", 0, (void*)NvExecParse2N  },	// ENDIF
-	{ "#i", 3, (void*)NvExecParse2I  },	// IF
-	{ "#W", 1, (void*)NvExecParse2W  },	// エフェクト
-	{ "#t", 1, (void*)NvExecParse2T  },	// ウェイト
-	{ "_r", 1, (void*)NvExecParse3R  },	// キー入力＋改ページ（紙アイコン）
-	{ "_t", 1, (void*)NvExecParse3T  },	// キー入力＋改行（指アイコン）
-	{ "_m", 1, (void*)NvExecParse3M  },	// テキスト表示
-	{ "_n", 1, (void*)NvExecParse3N  },	// 改行
+	{ "_r", 1, (void*)NvExecParse1R  },	// キー入力＋改ページ（紙アイコン）
+	{ "_t", 1, (void*)NvExecParse1T  },	// キー入力＋改行（指アイコン）
+	{ "_m", 1, (void*)NvExecParse1M  },	// テキスト表示
+	{ "_n", 1, (void*)NvExecParse1N  },	// 改行
+	{ "!g", 1, (void*)NvExecParse2G  },	// 背景
+	{ "!b", 1, (void*)NvExecParse2B  },	// 音楽
+	{ "!e", 1, (void*)NvExecParse2E  },	// 効果音
+	{ "!x", 2, (void*)NvExecParse2X  },	// 立ち絵
+	{ "!j", 1, (void*)NvExecParse2J  },	// スクリプトジャンプ
+	{ "!t", 1, (void*)NvExecParse2T  },	// タイトル
+	{ "!s", 2, (void*)NvExecParse2S  },	// 既読
+	{ "#g", 1, (void*)NvExecParse3G  },	// CALL
+	{ "#r", 0, (void*)NvExecParse3R  },	// RET
+	{ "#l", 0, (void*)NvExecParse3L  },	// ELSE
+	{ "#n", 0, (void*)NvExecParse3N  },	// ENDIF
+	{ "#i", 3, (void*)NvExecParse3I  },	// IF
+	{ "#W", 1, (void*)NvExecParse3W  },	// エフェクト
+	{ "#t", 1, (void*)NvExecParse3T  },	// ウェイト
 	{ ";;", 0, (void*)NvExecParseSel },	// 選択肢
 	{ "[]", 3, (void*)NvExecParseCal },	// 計算式
 };
@@ -93,8 +93,64 @@ void NvExecParseSub(void)
 	}
 }
 //---------------------------------------------------------------------------
+// キー入力＋改ページ（紙アイコン）
+void NvExecParse1R(void)
+{
+	char* s = NvCurStr();
+
+	TRACE("%s\n", s);
+
+	TxtSetMsg(s);
+	TxtSetExec();
+	CurSetPage();
+	CurSetExec();
+
+	Nv.isPage = true;
+	Nv.isLoop = false;
+	NvSetAct(NV_ACT_KEY);
+}
+//---------------------------------------------------------------------------
+// キー入力＋改行（指アイコン）
+void NvExecParse1T(void)
+{
+	char* s = NvCurStr();
+
+	TRACE("%s\n", s);
+
+	TxtSetMsg(s);
+	TxtSetExec();
+	CurSetLf();
+	CurSetExec();
+
+	Nv.isPage = false;
+	Nv.isLoop = false;
+	NvSetAct(NV_ACT_KEY);
+}
+//---------------------------------------------------------------------------
+// テキスト表示
+void NvExecParse1M(void)
+{
+	char* s = NvCurStr();
+
+	TRACE("%s\n", s);
+
+	TxtSetMsg(s);
+	TxtSetExec();
+}
+//---------------------------------------------------------------------------
+// 改行
+void NvExecParse1N(void)
+{
+	char* s = NvCurStr();
+
+	TRACE("%s\n", s);
+
+	TxtSetMsg(s);
+	TxtSetLf();
+}
+//---------------------------------------------------------------------------
 // 背景
-void NvExecParse1G(void)
+void NvExecParse2G(void)
 {
 	s32 no = NvCurNum();
 
@@ -107,7 +163,7 @@ void NvExecParse1G(void)
 }
 //---------------------------------------------------------------------------
 // 音楽
-void NvExecParse1B(void)
+void NvExecParse2B(void)
 {
 	s32 no = NvCurNum();
 
@@ -117,13 +173,13 @@ void NvExecParse1B(void)
 }
 //---------------------------------------------------------------------------
 // 効果音
-void NvExecParse1E(void)
+void NvExecParse2E(void)
 {
 	s32 no = NvCurNum();
 
 //	TRACE("%d\n", no);
 
-	// ベルの無効化
+	// 学校のベル無効
 	if(Nv.isSkip == true && no == 0)
 	{
 		return;
@@ -133,7 +189,7 @@ void NvExecParse1E(void)
 }
 //---------------------------------------------------------------------------
 // 立ち絵
-void NvExecParse1X(void)
+void NvExecParse2X(void)
 {
 	s32 no = NvCurNum();
 	s32 is = NvCurNum();
@@ -153,7 +209,7 @@ void NvExecParse1X(void)
 }
 //---------------------------------------------------------------------------
 // スクリプトジャンプ
-void NvExecParse1J(void)
+void NvExecParse2J(void)
 {
 	s32 no = NvCurNum();
 
@@ -163,22 +219,24 @@ void NvExecParse1J(void)
 
 	if(no != 1)
 	{
-		NvSetScn(no);
+		NvSetScn2(no);
 
 		return;
 	}
 
 	// オープニング処理
+	NvSetRead(Nv.idx, Nv.bit);
+	Nv.isSkip = false;
+
 	ImgSetEff(IMG_EFFECT_TITL);
 	Nv.isEffect = true;
-	Nv.isSkip = false;
 
 	MenuSetTitle(MENU_TITLE_SEL_LOAD);
 	ManageSetAct(MANAGE_ACT_MENU);
 }
 //---------------------------------------------------------------------------
 // タイトル
-void NvExecParse1T(void)
+void NvExecParse2T(void)
 {
 	char* s = NvCurStr();
 
@@ -188,7 +246,7 @@ void NvExecParse1T(void)
 }
 //---------------------------------------------------------------------------
 // 既読
-void NvExecParse1S(void)
+void NvExecParse2S(void)
 {
 	s32 i = NvCurNum();
 	s32 b = NvCurNum();
@@ -200,7 +258,6 @@ void NvExecParse1S(void)
 
 	Nv.idx = i;
 	Nv.bit = b;
-
 
 	if(NvIsRead(i, b) == false && Nv.isOmit == false)
 	{
@@ -214,7 +271,7 @@ void NvExecParse1S(void)
 }
 //---------------------------------------------------------------------------
 // CALL
-void NvExecParse2G(void)
+void NvExecParse3G(void)
 {
 	s32 no = NvCurNum();
 
@@ -226,7 +283,7 @@ void NvExecParse2G(void)
 	s32   tmp  = Nv.no;
 	char* pTmp = Nv.pCur;
 
-	NvSetScn(no);
+	NvSetScn2(no);
 
 	Nv.call.no    = tmp;
 	Nv.call.pCur  = pTmp;
@@ -234,30 +291,29 @@ void NvExecParse2G(void)
 }
 //---------------------------------------------------------------------------
 // RET
-void NvExecParse2R(void)
+void NvExecParse3R(void)
 {
 	_ASSERT(Nv.call.isUse == true);
 
-
-	NvSetScn(Nv.call.no);
+	NvSetScn2(Nv.call.no);
 
 	Nv.pCur = Nv.call.pCur;
 }
 //---------------------------------------------------------------------------
 // ELSE
-void NvExecParse2L(void)
+void NvExecParse3L(void)
 {
 	NvExprFlip();
 }
 //---------------------------------------------------------------------------
 // ENDIF
-void NvExecParse2N(void)
+void NvExecParse3N(void)
 {
 	NvExprPop();
 }
 //---------------------------------------------------------------------------
 // IF
-void NvExecParse2I(void)
+void NvExecParse3I(void)
 {
 	s32 v  = NvCurNum();
 	s32 op = NvCurChr();
@@ -285,7 +341,7 @@ void NvExecParse2I(void)
 }
 //---------------------------------------------------------------------------
 // エフェクト
-void NvExecParse2W(void)
+void NvExecParse3W(void)
 {
 	s32 no = NvCurNum();
 
@@ -302,13 +358,13 @@ void NvExecParse2W(void)
 }
 //---------------------------------------------------------------------------
 // ウェイト
-void NvExecParse2T(void)
+void NvExecParse3T(void)
 {
 	s32 w = NvCurNum();
 
 	TRACE("%d\n", w);
 
-	// ゲーム終了の「良い終末を」のタイミング
+	// ゲーム終了「良い終末を」のタイミング
 	if(w == 50 && Nv.no == 84)
 	{
 		Nv.isSkip = false;
@@ -321,62 +377,6 @@ void NvExecParse2T(void)
 
 	Nv.wait = w * 2;
 	Nv.isLoop = false;
-}
-//---------------------------------------------------------------------------
-// キー入力＋改ページ（紙アイコン）
-void NvExecParse3R(void)
-{
-	char* s = NvCurStr();
-
-	TRACE("%s\n", s);
-
-	TxtSetMsg(s);
-	TxtSetExec();
-	CurSetPage();
-	CurSetExec();
-
-	Nv.isPage = true;
-	Nv.isLoop = false;
-	NvSetAct(NV_ACT_KEY);
-}
-//---------------------------------------------------------------------------
-// キー入力＋改行（指アイコン）
-void NvExecParse3T(void)
-{
-	char* s = NvCurStr();
-
-	TRACE("%s\n", s);
-
-	TxtSetMsg(s);
-	TxtSetExec();
-	CurSetLf();
-	CurSetExec();
-
-	Nv.isPage = false;
-	Nv.isLoop = false;
-	NvSetAct(NV_ACT_KEY);
-}
-//---------------------------------------------------------------------------
-// テキスト表示
-void NvExecParse3M(void)
-{
-	char* s = NvCurStr();
-
-	TRACE("%s\n", s);
-
-	TxtSetMsg(s);
-	TxtSetExec();
-}
-//---------------------------------------------------------------------------
-// 改行
-void NvExecParse3N(void)
-{
-	char* s = NvCurStr();
-
-	TRACE("%s\n", s);
-
-	TxtSetMsg(s);
-	TxtSetLf();
 }
 //---------------------------------------------------------------------------
 // 選択肢
@@ -424,7 +424,7 @@ bool NvIsExecParseCmd(char* p)
 		return true;
 	}
 
-	// # 以外は実行
+	// # 以外は実行しない
 	if(p[0] != '#')
 	{
 		return false;

@@ -1,6 +1,7 @@
 #include "cur.h"
 #include "libmy/spr.h"
 #include "txt.h"
+#include "nv.h"
 
 //---------------------------------------------------------------------------
 ST_CUR Cur;
@@ -59,9 +60,16 @@ void CurShow(void)
 {
 	s32 x = TxtGetX();
 	s32 y = TxtGetY();
+	s32 i = 0;
+
+	// Šù“Ç
+	if(NvIsReadValid() == true)
+	{
+		i = 1;
+	}
 
 	SprMoveCur(x, y);
-	SprShowCur(Cur.spr + Cur.cnt * 4);
+	SprShowCur(Cur.spr + Cur.cnt * 4, i);
 }
 //---------------------------------------------------------------------------
 void CurHide(void)

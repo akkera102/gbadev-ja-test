@@ -11,6 +11,8 @@ ST_IMG Img;
 void ImgInit(void)
 {
 	_Memset(&Img, 0x00, sizeof(ST_IMG));
+
+	Img.fade = IMG_DEF_FADE_CNT;
 }
 //---------------------------------------------------------------------------
 void ImgExec(void)
@@ -31,6 +33,14 @@ void ImgExec(void)
 
 	case IMG_EFFECT_TITL:
 		ImgExecTitl();
+		break;
+
+	case IMG_EFFECT_FADE_OUT:
+		ImgExecFadeOut();
+		break;
+
+	case IMG_EFFECT_FADE_IN:
+		ImgExecFadeIn();
 		break;
 	}
 }
@@ -232,6 +242,87 @@ void ImgExecTitl(void)
 	Img.isExec = false;
 }
 //---------------------------------------------------------------------------
+// 黒→色背景
+void ImgExecFadeOut(void)
+{
+	if(Img.step == 0)
+	{
+		ImgDrawBg();
+		ImgDrawChr();
+
+		Mode3VramCpyStep1();
+
+		Img.step++;
+		return;
+	}
+
+	if(Img.step == 1)
+	{
+		Img.step2 = 16;
+		FadeSetBlack(Img.step2);
+
+		Mode3VramCpyStep2();
+
+		Img.step++;
+		return;
+	}
+
+	if(Img.step == 2)
+	{
+		Img.step2--;
+		FadeSetBlack(Img.step2);
+
+		if(Img.step2 <= Img.fade)
+		{
+			Img.step++;
+		}
+		return;
+	}
+
+	Mode3FlipBuf();
+	Img.isExec = false;
+}
+//---------------------------------------------------------------------------
+// 色背景→黒
+void ImgExecFadeIn(void)
+{
+	if(Img.step == 0)
+	{
+		ImgDrawBg();
+		ImgDrawChr();
+
+		Mode3VramCpyStep1();
+
+		Img.step2 = Img.fade;
+		Img.step++;
+		return;
+	}
+
+	if(Img.step == 1)
+	{
+		Img.step2++;
+		FadeSetBlack(Img.step2);
+
+		if(Img.step2 >= 16)
+		{
+			Img.step++;
+		}
+		return;
+	}
+
+	if(Img.step == 2)
+	{
+		Mode3VramCpyStep2();
+		FadeSetBlack(Img.fade);
+
+		Img.step++;
+		return;
+	}
+
+	Mode3FlipBuf();
+	Img.isExec = false;
+}
+//---------------------------------------------------------------------------
 void ImgDrawBg(void)
 {
 	_ASSERT(Img.bg.pDat != NULL);
@@ -273,7 +364,7 @@ void ImgClrChr(s32 no)
 		}
 	}
 
-	// オプションの画像操作で影響するため無効化（ゲーム内の不具合は正規表現で修正済
+	// オプションの画像操作に影響するため無効化（ゲーム内の不具合は正規表現で修正済
 	// SystemError("[Err] ImgClrChr %d\n", no);
 }
 //---------------------------------------------------------------------------
@@ -291,6 +382,7 @@ void ImgSetBg(s32 no)
 {
 	ST_FILE_IMG_HEADER* h = (ST_FILE_IMG_HEADER*)FileGetImg(no);
 
+	Img.bg.no   = no;
 	Img.bg.cx   = h->cx;
 	Img.bg.cy   = h->cy;
 	Img.bg.pDat = (u16*)(h + 1);
@@ -352,6 +444,28 @@ void ImgSetExec(void)
 	Img.step   = 0;
 	Img.step2  = 0;
 	Img.isExec = true;
+
+	// 前回専用フェードだった場合、元に戻す
+	if(Img.eff == IMG_EFFECT_FADE_IN || Img.eff == IMG_EFFECT_FADE_OUT)
+	{
+		Img.eff = IMG_EFFECT_FADE;
+	}
+
+	// フェードで黒→色背景、色背景→黒だった場合、専用エフェクトに変更
+	if(Img.eff == IMG_EFFECT_FADE)
+	{
+		if(Img.bg.no == 2)
+		{
+			Img.eff = IMG_EFFECT_FADE_IN;
+		}
+
+		if(Img.bg.pv == 2)
+		{
+			Img.eff = IMG_EFFECT_FADE_OUT;
+		}
+	}
+
+	Img.bg.pv = Img.bg.no;
 }
 //---------------------------------------------------------------------------
 void ImgSetFade(s32 num)

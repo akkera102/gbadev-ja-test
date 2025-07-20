@@ -82,6 +82,7 @@ void  NvExecLoad(void);
 
 void  NvSetAct(s32 act);
 void  NvSetScn(s32 no);
+void  NvSetScn2(s32 no);
 void  NvSetSkip(void);
 void  NvSetOmit(bool is);
 void  NvSetRead(s32 i, s32 b);
@@ -101,7 +102,7 @@ void  NvCurSkip(s32 cnt);
 bool  NvIsSkip(void);
 bool  NvIsOmit(void);
 bool  NvIsRead(s32 i, s32 b);
-bool  NvIsRead2(void);
+bool  NvIsReadValid(void);
 bool  NvIsAct(s32 act);
 
 

@@ -23,24 +23,24 @@ typedef struct {
 void NvExecParse(void);
 void NvExecParseSub(void);
 
-void NvExecParse1G(void);
-void NvExecParse1B(void);
-void NvExecParse1E(void);
-void NvExecParse1X(void);
-void NvExecParse1J(void);
+void NvExecParse1R(void);
 void NvExecParse1T(void);
-void NvExecParse1S(void);
+void NvExecParse1M(void);
+void NvExecParse1N(void);
 void NvExecParse2G(void);
-void NvExecParse2R(void);
-void NvExecParse2L(void);
-void NvExecParse2N(void);
-void NvExecParse2I(void);
-void NvExecParse2W(void);
+void NvExecParse2B(void);
+void NvExecParse2E(void);
+void NvExecParse2X(void);
+void NvExecParse2J(void);
 void NvExecParse2T(void);
+void NvExecParse2S(void);
+void NvExecParse3G(void);
 void NvExecParse3R(void);
-void NvExecParse3T(void);
-void NvExecParse3M(void);
+void NvExecParse3L(void);
 void NvExecParse3N(void);
+void NvExecParse3I(void);
+void NvExecParse3W(void);
+void NvExecParse3T(void);
 void NvExecParseSel(void);
 void NvExecParseCal(void);
 
