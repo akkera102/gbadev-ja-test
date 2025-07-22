@@ -19,6 +19,20 @@ del *.bmp
 
 
 rem ---------------------------------
+rem 重複、何もしないフレームは消去
+
+del CLS91_30.e01
+del CLS93_09.e01
+del CLS96_08.e01
+
+del CLS01_00.e01
+del CLS10_00.e01
+del CLS93_00.e01
+del CLS97_00.e01
+del CLS99_00.e01
+
+
+rem ---------------------------------
 rem バイナリを再結合
 
 python ..\..\exe\eff\eff_cat.py CLS01

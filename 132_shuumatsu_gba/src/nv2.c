@@ -83,13 +83,13 @@ void NvExecParseSub(void)
 	_ASSERT(i < NV_MAX_PARSE_CNT);
 
 
-	if(NvIsExecParseCmd(pC) == false)
+	if(NvIsExecParseCmd(pC) == true)
 	{
-		NvCurSkip(NvParseTbl[i].argv);
+		NvParseTbl[i].pFunc();
 	}
 	else
 	{
-		NvParseTbl[i].pFunc();
+		NvCurSkip(NvParseTbl[i].argv);
 	}
 }
 //---------------------------------------------------------------------------

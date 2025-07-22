@@ -441,17 +441,13 @@ void ImgSetExec(void)
 {
 	TRACE("[ImgSetExec %d]\n", Img.eff);
 
-	Img.step   = 0;
-	Img.step2  = 0;
-	Img.isExec = true;
-
-	// 前回専用フェードだった場合、元に戻す
+	// 前回専用フェードの場合、元に戻す
 	if(Img.eff == IMG_EFFECT_FADE_IN || Img.eff == IMG_EFFECT_FADE_OUT)
 	{
 		Img.eff = IMG_EFFECT_FADE;
 	}
 
-	// フェードで黒→色背景、色背景→黒だった場合、専用エフェクトに変更
+	// フェードで黒→色背景、色背景→黒の場合、専用エフェクトに変更
 	if(Img.eff == IMG_EFFECT_FADE)
 	{
 		if(Img.bg.no == 2)
@@ -466,6 +462,10 @@ void ImgSetExec(void)
 	}
 
 	Img.bg.pv = Img.bg.no;
+
+	Img.step   = 0;
+	Img.step2  = 0;
+	Img.isExec = true;
 }
 //---------------------------------------------------------------------------
 void ImgSetFade(s32 num)
