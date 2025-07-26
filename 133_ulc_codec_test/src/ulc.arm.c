@@ -30,7 +30,10 @@ EWRAM_CODE void UlcInit(void)
 //---------------------------------------------------------------------------
 void UlcPlay(u8* pSrc, bool isLoop, s32 adjust)
 {
-	ulc_StartPlayer((struct ulc_FileHeader_t*)pSrc);
+	struct ulc_FileHeader_t* p = (struct ulc_FileHeader_t*)pSrc;
+
+	ulc_StartPlayer(p);
+	ulc_State.nBlkRem = p->nBlocks - 1 - adjust;		// patch
 
 
 	_Memset(&Ulc, 0x00, sizeof(ST_ULC));
