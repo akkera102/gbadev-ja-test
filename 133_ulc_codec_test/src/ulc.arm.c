@@ -30,15 +30,8 @@ EWRAM_CODE void UlcInit(void)
 //---------------------------------------------------------------------------
 void UlcPlay(u8* pSrc, bool isLoop, s32 adjust)
 {
-	_Memset(&ulc_State, 0x00, sizeof(ulc_State));
-	_Memset(&ulc_OutputBuffer, 0x00, (0x01 * ULC_MAX_BLOCK_SIZE*(2-ULC_SINGLE_BUFFER)) * (1+ULC_STEREO_SUPPORT));
-	_Memset(&ulc_LappingBuffer, 0x00, (0x04 * (ULC_MAX_BLOCK_SIZE/2)));
+	ulc_StartPlayer((struct ulc_FileHeader_t*)pSrc);
 
-	struct ulc_FileHeader_t* p = (struct ulc_FileHeader_t*)pSrc;
-
-	ulc_State.SoundFile = p;
-	ulc_State.nBlkRem   = p->nBlocks - 1 - adjust;
-	ulc_State.NextData  = pSrc + p->StreamOffs;
 
 	_Memset(&Ulc, 0x00, sizeof(ST_ULC));
 

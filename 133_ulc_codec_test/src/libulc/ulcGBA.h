@@ -37,9 +37,8 @@ struct ulc_State_t {
 
 
 
-// fixed, added 2025/07/26 by akkera102
+// fixed 2025/07/26 by akkera102
 extern struct ulc_State_t ulc_State;
-extern int32_t ulc_LappingBuffer[];
 
 
 
