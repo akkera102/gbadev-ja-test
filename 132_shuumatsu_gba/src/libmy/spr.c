@@ -140,9 +140,9 @@ IWRAM_CODE void SprShowMsg(void)
 	Spr.isMsg = true;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprShowCur(s32 no, s32 idx)
+IWRAM_CODE void SprShowCur(s32 no)
 {
-	SprSetTile(10, 936 + no + 28 * idx);
+	SprSetTile(10, 936 + no);
 	SprShow(10);
 
 	Spr.isCur = true;

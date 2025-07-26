@@ -217,8 +217,7 @@ IWRAM_CODE void Mode3VramCpyStep2(void)
 	MemIncFast(Mode3.cpy, (u16*)VRAM, 240*160*2);
 }
 //---------------------------------------------------------------------------
-// direct pixel access
-IWRAM_CODE void Mode3VramDpx(u16* pImg)
+IWRAM_CODE void Mode3VramImg(u16* pImg)
 {
 	u16* pVrm = ((u16*)VRAM) + ((240 - 212) / 2);
 	s32  y;

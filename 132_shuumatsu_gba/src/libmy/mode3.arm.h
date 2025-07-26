@@ -32,7 +32,7 @@ IWRAM_CODE void Mode3VramEffCls(s32 cnt, u8* pEff);
 IWRAM_CODE void Mode3VramEffAlpha(s32 cnt);
 IWRAM_CODE void Mode3VramCpyStep1(void);
 IWRAM_CODE void Mode3VramCpyStep2(void);
-IWRAM_CODE void Mode3VramDpx(u16* pImg);
+IWRAM_CODE void Mode3VramImg(u16* pImg);
 
 IWRAM_CODE void Mode3ScrollX(s32 cnt);
 

@@ -735,6 +735,10 @@ char* MenuGetStrSelDbg(s32 sel)
 		v1 = NvGetVar(27);
 		v2 = NvGetVar(33);
 		break;
+
+	default:
+		SystemError("[Err] MenuGetStrSelDbg sel=%x\n", sel);
+		break;
 	}
 
 	// SJISÅuÇOÅv0x82 0x4f

@@ -167,7 +167,7 @@ void ImgExecTitl(void)
 	if(Img.step == 4)
 	{
 		ST_FILE_IMG_HEADER* h = (ST_FILE_IMG_HEADER*)FileGetImg(Img.step2);
-		Mode3VramDpx((u16*)(h + 1));
+		Mode3VramImg((u16*)(h + 1));
 
 		Img.step2++;
 

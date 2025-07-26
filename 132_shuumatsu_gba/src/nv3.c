@@ -31,11 +31,6 @@ void NvExprFlip(void)
 //---------------------------------------------------------------------------
 bool NvIsExpr(void)
 {
-	if(Nv.expr.cnt == 0)
-	{
-		return true;
-	}
-
 	s32 i;
 
 	for(i=0; i<Nv.expr.cnt; i++)

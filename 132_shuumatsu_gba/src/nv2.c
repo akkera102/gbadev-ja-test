@@ -85,7 +85,7 @@ void NvExecParseSub(void)
 
 	if(NvIsExecParseCmd(pC) == true)
 	{
-		NvParseTbl[i].pFunc();
+		NvParseTbl[i].pExec();
 	}
 	else
 	{
@@ -179,7 +179,7 @@ void NvExecParse2E(void)
 
 //	TRACE("%d\n", no);
 
-	// 学校のベル無効
+	// スキップ中、学校のベルは騒音なので無効
 	if(Nv.isSkip == true && no == 0)
 	{
 		return;

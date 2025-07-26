@@ -65,11 +65,11 @@ void CurShow(void)
 	// Šù“Ç
 	if(NvIsReadValid() == true)
 	{
-		i = 1;
+		i = 28;
 	}
 
 	SprMoveCur(x, y);
-	SprShowCur(Cur.spr + Cur.cnt * 4, i);
+	SprShowCur(Cur.spr + Cur.cnt * 4 + i);
 }
 //---------------------------------------------------------------------------
 void CurHide(void)

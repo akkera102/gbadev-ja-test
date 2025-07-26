@@ -15,7 +15,7 @@ extern "C" {
 typedef struct {
 	char* cmd;
 	s32   argv;
-	void  (*pFunc)(void);
+	void  (*pExec)(void);
 
 } ST_NV_PARSE_TBL;
 

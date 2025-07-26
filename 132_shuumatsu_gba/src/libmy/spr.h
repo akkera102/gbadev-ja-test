@@ -63,7 +63,7 @@ IWRAM_CODE void SprSetSelect(void);
 IWRAM_CODE void SprSetSelectCol(u16 col);
 
 IWRAM_CODE void SprShowMsg(void);
-IWRAM_CODE void SprShowCur(s32 no, s32 idx);
+IWRAM_CODE void SprShowCur(s32 no);
 IWRAM_CODE void SprHideMsg(void);
 IWRAM_CODE void SprHideCur(void);
 
