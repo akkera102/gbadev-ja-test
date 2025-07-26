@@ -76,7 +76,7 @@ int main(void)
 		if(trg & KEY_A)
 		{
 			u8* p = GbfsGetSafePointer2(i);
-			UlcPlay(p, false);
+			UlcPlay(p, true, 0);
 		}
 
 		if(trg & KEY_B)

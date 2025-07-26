@@ -5,6 +5,7 @@
 
 //---------------------------------------------------------------------------
 #define ULC_BUF_SIZE				224
+#define ULC_BLK_SIZE				256
 #define ULC_SAMPLE_TIME				(280896 / ULC_BUF_SIZE)
 
 
@@ -22,6 +23,7 @@ typedef struct {
 
 	u8*  pSrc;
 	s32  remaining;
+	s32  adjust;
 
 	s32  idx;
 	s8*  pBuf;
@@ -31,7 +33,7 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 void UlcInit(void);
-void UlcPlay(u8* pSrc, bool isLoop);
+void UlcPlay(u8* pSrc, bool isLoop, s32 adjust);
 void UlcStop(void);
 
 s32  UlcGetBlkRem(void);
