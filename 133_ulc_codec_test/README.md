@@ -6,7 +6,7 @@
 
 - [ulc-codec](https://github.com/Aikku93/ulc-codec)
 - [ulcplayer-gba](https://github.com/Aikku93/ulcplayer-gba)
-- [ulc control code](https://github.com/neparij/katawa-shoujo-agb/blob/main/src/sound/player_ulc.iwram.c)
+- [ulc control neparij's code](https://github.com/neparij/katawa-shoujo-agb/blob/main/src/sound/player_ulc.iwram.c)
 
 ## lisence
 
