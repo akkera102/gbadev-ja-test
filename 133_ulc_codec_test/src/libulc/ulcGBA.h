@@ -37,8 +37,9 @@ struct ulc_State_t {
 
 
 
-// fixed 2025/07/26 by akkera102
+// fixed, added 2025/07/26 by akkera102
 extern struct ulc_State_t ulc_State;
+extern int32_t ulc_LappingBuffer[];
 
 
 
@@ -130,15 +131,6 @@ inline void ulc_SetBlockTimer(const struct ulc_FileHeader_t *SoundFile) {
 void ulc_Sync(void);
 void ulc_Sync1ch(void);
 void ulc_Sync2ch(void);
-
-
-
-
-// added 2025/07/26 by akkera102
-extern int32_t ulc_LappingBuffer[];
-
-
-
 
 /**************************************/
 #ifdef __cplusplus
