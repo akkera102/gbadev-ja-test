@@ -30,10 +30,10 @@ EWRAM_CODE void UlcInit(void)
 //---------------------------------------------------------------------------
 void UlcPlay(u8* pSrc, bool isLoop, s32 adjust)
 {
-	struct ulc_FileHeader_t* p = (struct ulc_FileHeader_t*)pSrc;
+	struct ulc_FileHeader_t* pUlc = (struct ulc_FileHeader_t*)pSrc;
 
-	ulc_StartPlayer(p);
-	ulc_State.nBlkRem = p->nBlocks - 1 - adjust;		// patch
+	ulc_StartPlayer(pUlc);
+	ulc_State.nBlkRem -= adjust;		// not usually used...
 
 
 	_Memset(&Ulc, 0x00, sizeof(ST_ULC));
@@ -79,6 +79,9 @@ IWRAM_CODE void UlcMix(void)
 		s32 src = ULC_BLK_SIZE - Ulc.remaining;
 		s32 dst = ULC_BUF_SIZE - bufSize;
 		s32 cnt = _Min(Ulc.remaining, bufSize);
+
+//		_ASSERT(((u32)&ulc_OutputBuffer[src] & 0x3) == 0);
+//		_ASSERT(((u32)&Ulc.pBuf[dst]         & 0x3) == 0);
 
 		MemInc(&ulc_OutputBuffer[src], &Ulc.pBuf[dst], cnt);
 

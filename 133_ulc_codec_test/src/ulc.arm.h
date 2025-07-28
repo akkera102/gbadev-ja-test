@@ -19,11 +19,11 @@ enum {
 
 typedef struct {
 	s32  act;
-	bool isLoop;
 
+	bool isLoop;
 	u8*  pSrc;
-	s32  remaining;
 	s32  adjust;
+	s32  remaining;
 
 	s32  idx;
 	s8*  pBuf;

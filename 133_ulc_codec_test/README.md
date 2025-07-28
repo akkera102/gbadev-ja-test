@@ -18,8 +18,10 @@ ulc control code(Unlicense)
 
 CULT-GBA and fixed Lorenzooone ver(MIT)
 
+gbfs(MIT)
+
 libgba(LGPL2.0 dynamic link)
 
 crt0.s(MPL2.0)
 
-I got permission to use neparij's source code under "Unlicense". Thank you!
+I got permission to use neparij's source code under "Unlicense". Thank you.

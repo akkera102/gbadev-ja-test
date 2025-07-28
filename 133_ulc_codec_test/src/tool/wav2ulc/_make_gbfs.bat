@@ -8,12 +8,11 @@ for %%i in (wav\*.wav) do (
 )
 
 gbfs ..\..\test.gbfs *.ulc
-del *.ulc
+
 
 pause
 
 
 rem 8ad 13379Hz
-
 rem 2_23_AM.8ad 1281KB
 rem Morning.8ad 1080KB
