@@ -266,11 +266,6 @@ void NvSetScn(s32 no)
 	Nv.idx        = 0;
 	Nv.bit        = 0;
 
-	if(Nv.sel.reg == 0)
-	{
-		return;
-	}
-
 	s32 i;
 
 	for(i=0; i<Nv.sel.reg; i++)

@@ -28,8 +28,8 @@ typedef struct {
 } ST_NV_EXPR;
 
 typedef struct {
-	bool isUse;
-	s32  no;
+	bool  isUse;
+	s32   no;
 	char* pCur;
 } ST_NV_CALL;
 
@@ -43,7 +43,7 @@ typedef struct {
 
 typedef struct {
 	s32   act;
-	s32   prev;			// ‚Ğ‚Æ‚Â‘O‚Ìact‚Ìó‘Ô
+	s32   prev;			// ‘O‚Ìactó‘Ô
 	s32   step;
 	s32   wait;
 
