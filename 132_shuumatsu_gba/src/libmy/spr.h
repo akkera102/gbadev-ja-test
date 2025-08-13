@@ -57,10 +57,10 @@ IWRAM_CODE void SprMove(s32 no, s32 x, s32 y);
 IWRAM_CODE void SprClearDat(void);
 IWRAM_CODE void SprDrawDatChr(s32 x, s32 y, u16 code);
 
-IWRAM_CODE void SprSetWhite(void);
-IWRAM_CODE void SprSetGray(void);
-IWRAM_CODE void SprSetSelect(void);
-IWRAM_CODE void SprSetSelectCol(u16 col);
+void SprSetWhite(void);
+void SprSetGray(void);
+void SprSetSelect(void);
+void SprSetSelectCol(u16 col);
 
 IWRAM_CODE void SprShowMsg(void);
 IWRAM_CODE void SprShowCur(s32 no);

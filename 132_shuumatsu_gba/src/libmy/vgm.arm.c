@@ -17,7 +17,7 @@ void VgmInit(void)
 	VgmStop();
 }
 //---------------------------------------------------------------------------
-void VgmPlay(u8* pFile, bool isLoop)
+IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop)
 {
 	if(Vgm.act == VGM_ACT_PLAY)
 	{
@@ -54,13 +54,13 @@ void VgmPlay(u8* pFile, bool isLoop)
 	VgmSetVolReg(Vgm.vol);
 }
 //---------------------------------------------------------------------------
-void VgmPlayFade(void)
+IWRAM_CODE void VgmPlayFade(void)
 {
 	Vgm.fade = Vgm.vol;
 	Vgm.act  = VGM_ACT_PLAY_FADE;
 }
 //---------------------------------------------------------------------------
-void VgmStop(void)
+IWRAM_CODE void VgmStop(void)
 {
 	Vgm.act = VGM_ACT_STOP;
 
@@ -97,7 +97,7 @@ void VgmStop(void)
 	VgmSetVolReg(0);
 }
 //---------------------------------------------------------------------------
-void VgmSetVolReg(s32 vol)
+IWRAM_CODE void VgmSetVolReg(s32 vol)
 {
 	switch(vol)
 	{

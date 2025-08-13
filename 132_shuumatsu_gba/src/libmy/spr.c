@@ -101,22 +101,22 @@ IWRAM_CODE void SprDrawDatChr(s32 x, s32 y, u16 code)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprSetWhite(void)
+void SprSetWhite(void)
 {
 	Spr.msk = SPR_FONT_MASK_WHITE;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprSetGray(void)
+void SprSetGray(void)
 {
 	Spr.msk = SPR_FONT_MASK_GRAY;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprSetSelect(void)
+void SprSetSelect(void)
 {
 	Spr.msk = SPR_FONT_MASK_SELECT;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprSetSelectCol(u16 col)
+void SprSetSelectCol(u16 col)
 {
 	if(col == 0) SPRITE_PALETTE[3] = RGB5( 0,31,31);	// êÖêF
 	if(col == 1) SPRITE_PALETTE[3] = RGB5(31,31, 0);	// â©

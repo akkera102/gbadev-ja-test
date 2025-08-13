@@ -44,11 +44,11 @@ typedef struct {
 void VgmInit(void);
 void VgmInit2(void);
 
-void VgmPlay(u8* pFile, bool isLoop);
-void VgmPlayFade(void);
-void VgmStop(void);
+IWRAM_CODE void VgmPlay(u8* pFile, bool isLoop);
+IWRAM_CODE void VgmPlayFade(void);
+IWRAM_CODE void VgmStop(void);
 
-void VgmSetVolReg(s32 vol);
+IWRAM_CODE void VgmSetVolReg(s32 vol);
 void VgmSetVol(s32 vol);
 
 s32  VgmGetVol(void);

@@ -51,7 +51,7 @@ INCDIR2 = $(foreach dir,$(DEVKITPRO)/libgba,-I$(dir)/include)
 #=============================================================================
 
 ASFLAGS = 
-LDFLAGS = -Map $(MAPFILE) -Wall -specs=libgba/fix.specs -nostartfiles  -nostdlib $(LIBS) $(LIBPATHS)
+LDFLAGS = -Map $(MAPFILE) -Wall -specs=gba.specs -nostartfiles -nostdlib $(LIBS) $(LIBPATHS)
 CFLAGS  = -g -O3 -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -Wall -W -Wshadow -Wno-unused-parameter -Wno-strict-aliasing $(INCDIR1) $(INCDIR2)
 OFILES  = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(basename $(notdir $(SFILES) $(CFILES)))))
 DFILES  = $(addprefix $(OBJDIR)/, $(addsuffix .d, $(basename $(notdir $(SFILES) $(CFILES)))))
