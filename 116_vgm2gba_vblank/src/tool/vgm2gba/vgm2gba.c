@@ -71,10 +71,24 @@ void convertReg(ST_VGM* pVgm)
 	// end of mark
 	while(*p != 0x66)
 	{
+		// ignore 0x00
+		if (*p == 0x00)
+		{
+			p++;
+			continue;
+		}
+
 		// wait: 0x61 nn nn
 		if(*p == 0x61)
 		{
 			p += 3;
+			continue;
+		}
+
+		// wait: 0x62 or 0x63 (alias of 0x61)
+		if (*p == 0x62 || *p == 0x63)
+		{
+			p++;
 			continue;
 		}
 
@@ -221,6 +235,13 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			isLoop = true;
 		}
 
+		// ignore 0x00
+		if (*p == 0x00)
+		{
+			p++;
+			continue;
+		}
+
 		// wait: 0x61 nn nn
 		if(*p == 0x61)
 		{
@@ -231,6 +252,16 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			// ignore param
 			p++;
 			p++;
+
+			continue;
+		}
+
+		// wait: 0x62 or 0x63 (alias of 0x61)
+		if (*p == 0x62 || *p == 0x63)
+		{
+			fputc(0x61, fp);
+			p++;
+			fputcCnt++;
 
 			continue;
 		}
@@ -262,6 +293,9 @@ void saveFile(ST_VGM* pVgm, char* filename)
 
 			continue;
 		}
+
+		printf("Error: Conv-commands. offset %x = %x\n", p - pVgm->pBuf, *p);
+		exit(EXIT_FAILURE);
 	}
 
 	if(isLoop == false)
