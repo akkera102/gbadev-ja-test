@@ -115,7 +115,7 @@ GB音源(LSDj)版BGM制作・[テストROM(サウンドドライバ)](https://github.com/akkera10
 
 2025/08/01 beta
 
-- バグ修正、機能追加
+- バグ修正
 
 2025/07/18 beta
 
