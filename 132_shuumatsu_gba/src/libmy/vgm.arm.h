@@ -12,7 +12,7 @@ extern "C" {
 #define VGM_CMD_EOM			0x66			// end of mark
 #define VGM_CMD_WREG		0xb3			// write register
 #define VGM_VOL_MAX_CNT		9
-#define VGM_VOL_DEF_CNT		6				// 0-9
+#define VGM_VOL_DEF_CNT		5				// 0-9
 
 
 //---------------------------------------------------------------------------

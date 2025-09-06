@@ -57,7 +57,7 @@ int main(void)
 	u32 offset_play = 0;
 	u32 offset_jump = 0;
 	u32 sel = 0;
-	u32 volume = 9;
+	u32 volume = 5;
 	u8 stat = PLAYER_STAT_STOP;
 	s32 opt_loop = 0;
 	s32 opt_waveedit = 0;
