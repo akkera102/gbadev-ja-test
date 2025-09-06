@@ -1,6 +1,6 @@
 # 131_shuumatsu_bgm_test
 
-This is ROM of the sound music used in I––‚Ì‰ß‚²‚µ•û for GBA.
+This is ROM of the sound music used in Shuumatsu no Sugoshikata for GBA.
 
 Created by Hoshi.
 
