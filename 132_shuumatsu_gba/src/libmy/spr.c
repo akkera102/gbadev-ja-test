@@ -1,5 +1,5 @@
 #include "spr.h"
-#include "mem.h"
+#include "mem.arm.h"
 #include "sjis.h"
 #include "../res.h"
 

@@ -20,13 +20,13 @@ typedef struct {
 //---------------------------------------------------------------------------
 void MemInit(void);
 
-void MemInc(void* src, void* dst, u32 size);
-void MemFix(void* src, void* dst, u32 size);
-void MemClear(void* dst, u32 size);
+IWRAM_CODE void MemInc(void* src, void* dst, u32 size);
+IWRAM_CODE void MemFix(void* src, void* dst, u32 size);
+IWRAM_CODE void MemClear(void* dst, u32 size);
 
-void MemIncFast(void* src, void* dst, u32 size);
-void MemFixFast(void* src, void* dst, u32 size);
-void MemClearFast(void* dst, u32 size);
+IWRAM_CODE void MemIncFast(void* src, void* dst, u32 size);
+IWRAM_CODE void MemFixFast(void* src, void* dst, u32 size);
+IWRAM_CODE void MemClearFast(void* dst, u32 size);
 
 
 #ifdef __cplusplus

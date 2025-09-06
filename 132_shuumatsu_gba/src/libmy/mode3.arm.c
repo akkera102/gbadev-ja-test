@@ -1,6 +1,6 @@
 #include "mode3.arm.h"
 #include "../libbios/swi.h"
-#include "mem.h"
+#include "mem.arm.h"
 
 // 例外処理　VRAMに直接書いています（チラつき注意
 

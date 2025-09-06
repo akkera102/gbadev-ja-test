@@ -1,6 +1,6 @@
 #include "txt.h"
 #include "libmy/spr.h"
-#include "libmy/mem.h"
+#include "libmy/mem.arm.h"
 #include "img.h"
 #include "log.h"
 #include "menu.h"

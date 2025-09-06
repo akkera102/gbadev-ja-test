@@ -104,6 +104,7 @@ ROM_DATA s32 InfoImg[] = {
 //	991,	// TITLE3
 };
 
+// 昇順（アーカイブ順でなく）
 ROM_DATA s32 InfoBgm[] = {
 	1,		// SILENCE
 	0,		// 01_OP03
@@ -123,8 +124,8 @@ ROM_DATA s32 InfoBgm[] = {
 	15,		// 16_OP28
 	18,		// 17_OP29
 	20,		// 18_OP30
-	3,		// RADIO
-	11,		// RADIONZ
+//	3,		// RADIO
+//	11,		// RADIONZ
 };
 
 ROM_DATA s32 InfoFmx[] = {

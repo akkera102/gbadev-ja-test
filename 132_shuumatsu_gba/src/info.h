@@ -9,7 +9,7 @@ extern "C" {
 
 //---------------------------------------------------------------------------
 #define INFO_MAX_IMG_CNT			(100-13)
-#define INFO_MAX_BGM_CNT			20
+#define INFO_MAX_BGM_CNT			18
 #define INFO_MAX_FMX_CNT			12
 
 

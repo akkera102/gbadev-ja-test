@@ -217,6 +217,12 @@ void NvExecParse2J(void)
 
 	Nv.isLoop = false;
 
+
+	if(SeIsPlay() == true)
+	{
+		SeStop();
+	}
+
 	if(no != 1)
 	{
 		NvSetScn2(no);
@@ -230,6 +236,8 @@ void NvExecParse2J(void)
 
 	ImgSetEff(IMG_EFFECT_TITL);
 	Nv.isEffect = true;
+
+	BgmPlay(0);
 
 	MenuSetTitle(MENU_TITLE_SEL_LOAD);
 	ManageSetAct(MANAGE_ACT_MENU);
@@ -335,7 +343,7 @@ void NvExecParse3I(void)
 		break;
 
 	default:
-		SystemError("[Err] NvExecParse2I %c\n", op);
+		SystemError("[Err] NvExecParse3I %c\n", op);
 		break;
 	}
 }

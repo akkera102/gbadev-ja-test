@@ -48,9 +48,9 @@ void BgmPlayVgm(s32 no)
 {
 	TRACE("[BgmPlayVgm %d]\n", no);
 
-//	u8* p = FileGetBgm(no);
+	u8* p = FileGetBgm(no);
 
-//	VgmPlay(p, true);
+	VgmPlay(p, true);
 }
 //---------------------------------------------------------------------------
 void BgmLoadPlay(void)
@@ -64,8 +64,7 @@ void BgmStop(void)
 
 	if(VgmIsPlay() == true)
 	{
-//		VgmStop();
-		VgmPlayFade();
+		VgmStop();
 	}
 
 	if(SndIsPlay(SND_ID_BGM) == true)

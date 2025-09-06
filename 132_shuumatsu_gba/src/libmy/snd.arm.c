@@ -14,7 +14,7 @@ void SndInit(void)
 	_Memset(&Snd, 0x00, sizeof(ST_SND));
 
 	REG_SOUNDCNT_X = SNDSTAT_ENABLE;
-	REG_SOUNDCNT_H = SNDA_L_ENABLE | SNDA_R_ENABLE | SNDA_RESET_FIFO | SNDB_RESET_FIFO | SNDA_VOL_100 | SNDB_VOL_100 | 0x2;
+	REG_SOUNDCNT_H = SNDA_L_ENABLE | SNDA_R_ENABLE | SNDB_L_ENABLE | SNDB_R_ENABLE | SNDA_RESET_FIFO | SNDB_RESET_FIFO | DSOUNDCTRL_BTIMER(1) | SNDA_VOL_100 | SNDB_VOL_100 | 0x2;
 //	REG_SOUNDCNT_L = 0;
 
 	REG_FIFO_A  = 0;
@@ -39,7 +39,7 @@ void SndInit(void)
 	SndStop(1);
 }
 //---------------------------------------------------------------------------
-void SndPlay(s32 no, u8* pSnd, s32 size, s32 adjust, bool isLoop)
+IWRAM_CODE void SndPlay(s32 no, u8* pSnd, s32 size, s32 adjust, bool isLoop)
 {
 	Snd[no].pSnd   = pSnd;
 	Snd[no].isLoop = isLoop;
@@ -47,12 +47,12 @@ void SndPlay(s32 no, u8* pSnd, s32 size, s32 adjust, bool isLoop)
 	Snd[no].act    = SND_ACT_START;
 }
 //---------------------------------------------------------------------------
-void SndStop(s32 no)
+IWRAM_CODE void SndStop(s32 no)
 {
 	Snd[no].act = SND_ACT_STOP;
 }
 //---------------------------------------------------------------------------
-bool SndIsPlay(s32 no)
+IWRAM_CODE bool SndIsPlay(s32 no)
 {
 	return (Snd[no].act != SND_ACT_DONOTHING) ? true : false;
 }
@@ -92,7 +92,7 @@ Start1:
 Stop1:
 		*(vu8*)(REG_BASE + 0x83) &= 0xF0;
 		REG_DMA1CNT = 0;
-		*(vu8*)(REG_BASE + 0x83) |= 0xFB;
+		*(vu8*)(REG_BASE + 0x83) |= 0x0B;
 		REG_FIFO_A = 0;
 
 		Snd[0].act = SND_ACT_DONOTHING;
@@ -135,7 +135,7 @@ Start2:
 Stop2:
 		*(vu8*)(REG_BASE + 0x83) &= 0x0F;
 		REG_DMA2CNT = 0;
-		*(vu8*)(REG_BASE + 0x83) |= 0xBF;
+		*(vu8*)(REG_BASE + 0x83) |= 0xF0;
 		REG_FIFO_B = 0;
 
 		Snd[1].act = SND_ACT_DONOTHING;

@@ -27,7 +27,7 @@ ROM_DATA char MenuSelectStr[][26+1] = {
 	"　　ゲーム終了",
 
 	// 9
-	"オプション",
+	"　オプション",
 	"　背景輝度　　００",
 	"　音楽音量　　００",
 	"　画像　　　　００",
@@ -191,7 +191,7 @@ void MenuExecSystem(u16 trg)
 		TxtClear();
 
 		SeStop();
-		BgmStop();
+		BgmPlay(0);
 
 		MenuSetTitle(MENU_TITLE_SEL_LOAD);
 
@@ -224,7 +224,7 @@ void MenuExecOption(u16 trg)
 			TxtSetExec();
 		}
 
-		if(trg & KEY_RIGHT && fade < 10)
+		if(trg & KEY_RIGHT && fade < 9)
 		{
 			fade++;
 
@@ -258,14 +258,24 @@ void MenuExecOption(u16 trg)
 	case 2:
 		if(trg & KEY_L)
 		{
-			Menu.img = 0;
+			Menu.img -= 10;
+
+			if(Menu.img < 0)
+			{
+				Menu.img = 0;
+			}
 
 			TxtSetExec();
 		}
 
 		if(trg & KEY_R)
 		{
-			Menu.img = INFO_MAX_IMG_CNT-1;
+			Menu.img += 10;
+
+			if(Menu.img > INFO_MAX_IMG_CNT-1)
+			{
+				Menu.img = INFO_MAX_IMG_CNT-1;
+			}
 
 			TxtSetExec();
 		}
@@ -299,14 +309,24 @@ void MenuExecOption(u16 trg)
 	case 3:
 		if(trg & KEY_L)
 		{
-			Menu.bgm = 0;
+			Menu.bgm -= 10;
+
+			if(Menu.bgm < 0)
+			{
+				Menu.bgm = 0;
+			}
 
 			TxtSetExec();
 		}
 
 		if(trg & KEY_R)
 		{
-			Menu.bgm = INFO_MAX_BGM_CNT-1;
+			Menu.bgm += 10;
+
+			if(Menu.bgm > INFO_MAX_BGM_CNT-1)
+			{
+				Menu.bgm = INFO_MAX_BGM_CNT-1;
+			}
 
 			TxtSetExec();
 		}
@@ -337,14 +357,24 @@ void MenuExecOption(u16 trg)
 	case 4:
 		if(trg & KEY_L)
 		{
-			Menu.fmx = 0;
+			Menu.fmx -= 10;
+
+			if(Menu.fmx < 0)
+			{
+				Menu.fmx = 0;
+			}
 
 			TxtSetExec();
 		}
 
 		if(trg & KEY_R)
 		{
-			Menu.fmx = INFO_MAX_FMX_CNT-1;
+			Menu.fmx += 10;
+
+			if(Menu.fmx > INFO_MAX_FMX_CNT-1)
+			{
+				Menu.fmx = INFO_MAX_FMX_CNT-1;
+			}
 
 			TxtSetExec();
 		}

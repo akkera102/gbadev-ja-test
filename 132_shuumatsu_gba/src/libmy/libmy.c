@@ -1,5 +1,5 @@
 #include "libmy.h"
-#include "mem.h"
+#include "mem.arm.h"
 #include "gbfs.h"
 #include "key.h"
 #include "sav.h"

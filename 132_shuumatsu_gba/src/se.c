@@ -33,3 +33,8 @@ void SeStop(void)
 
 	SndStop(SND_ID_FMX);
 }
+//---------------------------------------------------------------------------
+bool SeIsPlay(void)
+{
+	return SndIsPlay(SND_ID_FMX);
+}

@@ -1,6 +1,6 @@
 #include "log.h"
 #include "libmy/key.h"
-#include "libmy/mem.h"
+#include "libmy/mem.arm.h"
 #include "manage.h"
 #include "menu.h"
 #include "txt.h"

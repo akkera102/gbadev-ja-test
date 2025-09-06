@@ -23,6 +23,8 @@ void SeInit(void);
 void SePlay(s32 no);
 void SeStop(void);
 
+bool SeIsPlay(void);
+
 
 #ifdef __cplusplus
 }

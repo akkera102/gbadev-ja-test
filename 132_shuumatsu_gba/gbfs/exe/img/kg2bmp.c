@@ -17,14 +17,10 @@ typedef short					s16;
 typedef unsigned int			u32;
 typedef int						s32;
 
-enum {
-	KG_FORMAT_BGRA32,
-	KG_FORMAT_BGR24,
-	KG_FORMAT_PAL256,
-};
 
 typedef struct {
 	u32 alpha;
+	s32 bppType;
 	s32 bpp;
 	u32 width;
 	u32 height;
@@ -36,7 +32,6 @@ typedef struct {
 	s32 pixelSize;
 	s32 stride;
 	s32 length;
-	s32 format;
 
 	u8  r[256];
 	u8  g[256];
@@ -78,6 +73,7 @@ u16   BitGet16(void);
 u32   BitGet32(void);
 
 void  KgUnpack(void);
+void  KgUnpack256a(void);
 void  KgUnpackCh(s32 dst);
 u8    KgGetPixel(s32 dst);
 s32   KgGetCnt(void);
@@ -288,6 +284,7 @@ void KgUnpack(void)
 	}
 
 	BitSeek(Kg.datOffset);
+
 	KgInitDict();
 	KgUnpackCh(0);
 
@@ -304,6 +301,58 @@ void KgUnpack(void)
 		KgInitDict();
 		KgUnpackCh(3);
 	}
+}
+//---------------------------------------------------------------------------
+// 256色＋アルファブレンド画像はRGBAに変換
+void KgUnpack256a(void)
+{
+	BitSeek(Kg.palOffset);
+
+	s32 i;
+
+	for(i=0; i<256; i++)
+	{
+		Kg.b[i] = BitGet8();
+		Kg.g[i] = BitGet8();
+		Kg.r[i] = BitGet8();
+		Kg.a[i] = BitGet8() ^ 0xff;
+	}
+
+	BitSeek(Kg.datOffset);
+
+	KgInitDict();
+	KgUnpackCh(0);
+
+
+	Kg.bpp       = 32;
+	Kg.pixelSize = Kg.bpp / 8;
+	Kg.stride    = Kg.pixelSize * Kg.width;
+	Kg.length    = Kg.stride * Kg.height;
+
+	u8* tmp = (u8*)calloc(Kg.length, sizeof(u8));
+
+	if(tmp == NULL)
+	{
+		fprintf(stderr, "calloc tmp error\n");
+
+		exit(1);
+	}
+
+	for(i=0; i<Kg.width * Kg.height; i++)
+	{
+		tmp[i*4+0] = Kg.b[Kg.out[i]];
+		tmp[i*4+1] = Kg.g[Kg.out[i]];
+		tmp[i*4+2] = Kg.r[Kg.out[i]];
+	}
+
+	free(Kg.out);
+	Kg.out = tmp;
+
+
+	BitSeek(Kg.alphaOffset);
+
+	KgInitDict();
+	KgUnpackCh(3);
 }
 //---------------------------------------------------------------------------
 void KgUnpackCh(s32 dst)
@@ -492,10 +541,10 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	Kg.alpha = BitGet8();
-	Kg.bpp = (BitGet8() == 2) ? 24 : 8;
-	Kg.width = BitGet16();
-	Kg.height= BitGet16();
+	Kg.alpha   = BitGet8();
+	Kg.bppType = BitGet8();
+	Kg.width   = BitGet16();
+	Kg.height  = BitGet16();
 
 	BitSeek(0x0c);
 	Kg.palOffset = BitGet32();
@@ -511,24 +560,22 @@ int main(int argc, char** argv)
 		Kg.alphaOffset = 0;
 	}
 
-	if(Kg.alphaOffset != 0)
+	if(Kg.alphaOffset != 0 && Kg.palOffset == 0)
 	{
-		Kg.format = KG_FORMAT_BGRA32;
-		Kg.pixelSize = 4;
+		Kg.bpp = 32;
 	}
-	else if(Kg.bpp == 24)
+	else if(Kg.bppType == 2)
 	{
-		Kg.format = KG_FORMAT_BGR24;
-		Kg.pixelSize = Kg.bpp / 8;
+		Kg.bpp = 24;
 	}
 	else
 	{
-		Kg.format = KG_FORMAT_PAL256;
-		Kg.pixelSize = Kg.bpp / 8;
+		Kg.bpp = 8;
 	}
 
-	Kg.stride = Kg.pixelSize * Kg.width;
-	Kg.length = Kg.stride * Kg.height;
+	Kg.pixelSize = Kg.bpp / 8;
+	Kg.stride    = Kg.pixelSize * Kg.width;
+	Kg.length    = Kg.stride * Kg.height;
 
 	Kg.out = (u8*)calloc(Kg.length, sizeof(u8));
 
@@ -540,10 +587,11 @@ int main(int argc, char** argv)
 	}
 
 /*
+	printf("alpha     %d\n", Kg.alpha);
+	printf("bppType   %d\n", Kg.bppType);
 	printf("bpp       %d\n", Kg.bpp);
 	printf("width     %d\n", Kg.width);
 	printf("height    %d\n", Kg.height);
-	printf("format    %d\n", Kg.format);
 	printf("pixelSize %d\n", Kg.pixelSize);
 	printf("stride    %d\n", Kg.stride);
 	printf("length    %d\n", Kg.length);
@@ -553,8 +601,19 @@ int main(int argc, char** argv)
 */
 
 	BitSetMsb(true);
-	KgUnpack();
+
+	if(Kg.bpp == 8 && Kg.alphaOffset != 0 && Kg.palOffset != 0)
+	{
+		// 256色＋アルファブレンドは別処理
+		KgUnpack256a();
+	}
+	else
+	{
+		KgUnpack();
+	}
+
 	BitSetMsb(false);
+
 
 	char fname[30];
 	s32 i;
@@ -597,26 +656,7 @@ int main(int argc, char** argv)
 	BmpWrite32(fp, Kg.width);
 	BmpWrite32(fp, Kg.height);
 	BmpWrite16(fp, 1);
-
-	switch(Kg.format)
-	{
-	case KG_FORMAT_BGRA32:
-		BmpWrite16(fp, 32);
-		break;
-
-	case KG_FORMAT_BGR24:
-		BmpWrite16(fp, 24);
-		break;
-
-	case KG_FORMAT_PAL256:
-		BmpWrite16(fp, 8);
-		break;
-
-	default:
-		fprintf(stderr, "write error bmp format %d\n", Kg.format);
-		exit(1);
-	}
-
+	BmpWrite16(fp, Kg.bpp);
 	BmpWrite32(fp, 0);
 	BmpWrite32(fp, 0);
 	BmpWrite32(fp, 0x1274);

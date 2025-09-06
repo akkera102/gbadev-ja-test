@@ -38,9 +38,9 @@ typedef struct {
 //---------------------------------------------------------------------------
 void SndInit(void);
 
-void SndPlay(s32 no, u8* pSnd, s32 size, s32 adjust, bool isLoop);
-void SndStop(s32 no);
-bool SndIsPlay(s32 no);
+IWRAM_CODE void SndPlay(s32 no, u8* pSnd, s32 size, s32 adjust, bool isLoop);
+IWRAM_CODE void SndStop(s32 no);
+IWRAM_CODE bool SndIsPlay(s32 no);
 
 IWRAM_CODE void SndIntrVblank(void);
 
