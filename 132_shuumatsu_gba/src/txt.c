@@ -15,6 +15,8 @@ ST_TXT Txt;
 void TxtInit(void)
 {
 	_Memset(&Txt, 0x00, sizeof(ST_TXT));
+
+	Txt.read = 1;
 }
 //---------------------------------------------------------------------------
 void TxtExecNv(void)
@@ -23,11 +25,11 @@ void TxtExecNv(void)
 
 	if(NvIsReadValid() == false)
 	{
-		SprSetWhite();
+		SprSetBase();
 	}
 	else
 	{
-		SprSetSelect();
+		SprSetRead();
 	}
 
 	SprShowMsg();
@@ -86,7 +88,7 @@ void TxtExecSel(void)
 	{
 		if(i == cnt)
 		{
-			SprSetWhite();
+			SprSetBase();
 		}
 		else
 		{
@@ -109,11 +111,11 @@ void TxtExecRes(void)
 {
 	if(NvIsReadValid() == false)
 	{
-		SprSetWhite();
+		SprSetBase();
 	}
 	else
 	{
-		SprSetSelect();
+		SprSetRead();
 	}
 
 	SprShowMsg();
@@ -188,7 +190,7 @@ void TxtExecMenu(void)
 		y = 0;
 	}
 
-	SprSetWhite();
+	SprSetBase();
 	TxtDrawStrXy(x, y, p);
 
 	// 選択肢
@@ -212,7 +214,7 @@ void TxtExecMenu(void)
 	{
 		if(i == sel)
 		{
-			SprSetWhite();
+			SprSetBase();
 		}
 		else
 		{
@@ -308,9 +310,27 @@ void TxtSetTitle(char* p)
 	Txt.title[TXT_MAX_TITLE_LEN-1] = '\0';
 }
 //---------------------------------------------------------------------------
+void TxtSetBase(s32 no)
+{
+	SprSetBaseCol(no);
+	Txt.base = no;
+}
+//---------------------------------------------------------------------------
+void TxtSetRead(s32 no)
+{
+	SprSetReadCol(no);
+	Txt.read = no;
+}
+//---------------------------------------------------------------------------
 void TxtSetExec(void)
 {
 	Txt.isExec = true;
+}
+//---------------------------------------------------------------------------
+void TxtLoadCol(void)
+{
+	SprSetBaseCol(Txt.base);
+	SprSetReadCol(Txt.read);
 }
 //---------------------------------------------------------------------------
 s32 TxtGetX(void)
@@ -321,6 +341,16 @@ s32 TxtGetX(void)
 s32 TxtGetY(void)
 {
 	return Txt.y;
+}
+//---------------------------------------------------------------------------
+s32 TxtGetBase(void)
+{
+	return Txt.base;
+}
+//---------------------------------------------------------------------------
+s32 TxtGetRead(void)
+{
+	return Txt.read;
 }
 //---------------------------------------------------------------------------
 // テキストバッファをログに追加

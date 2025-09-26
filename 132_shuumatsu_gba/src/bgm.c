@@ -11,6 +11,8 @@ ST_BGM Bgm;
 void BgmInit(void)
 {
 	_Memset(&Bgm, 0x00, sizeof(ST_BGM));
+
+	Bgm.vol = VgmGetVol();
 }
 //---------------------------------------------------------------------------
 void BgmPlay(s32 no)
@@ -53,9 +55,35 @@ void BgmPlayVgm(s32 no)
 	VgmPlay(p, true);
 }
 //---------------------------------------------------------------------------
+void BgmSetVol(s32 vol)
+{
+	if(Bgm.vol == vol)
+	{
+		return;
+	}
+
+	VgmSetVol(vol);
+	Bgm.vol = vol;
+}
+//---------------------------------------------------------------------------
+s32 BgmGetVol(void)
+{
+	return Bgm.vol;
+}
+//---------------------------------------------------------------------------
 void BgmLoadPlay(void)
 {
-	BgmPlay(Bgm.no);
+	s32 tmp = Bgm.no;
+
+	BgmStop();
+
+
+	if(Bgm.vol != VgmGetVol())
+	{
+		VgmSetVol(Bgm.vol);
+	}
+
+	BgmPlay(tmp);
 }
 //---------------------------------------------------------------------------
 void BgmStop(void)

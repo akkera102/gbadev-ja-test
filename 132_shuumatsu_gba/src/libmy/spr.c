@@ -38,7 +38,7 @@ void SprInit(void)
 	// cursor
 	SprSetChr(10, 240, 160, 936, ATTR0_SQUARE, ATTR1_SIZE_16);
 
-	SprSetWhite();
+	SprSetBase();
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprSetChr(s32 no, s32 x, s32 y, u16 tile, u16 shape, u16 size)
@@ -101,9 +101,9 @@ IWRAM_CODE void SprDrawDatChr(s32 x, s32 y, u16 code)
 	}
 }
 //---------------------------------------------------------------------------
-void SprSetWhite(void)
+void SprSetBase(void)
 {
-	Spr.msk = SPR_FONT_MASK_WHITE;
+	Spr.msk = SPR_FONT_MASK_BASE;
 }
 //---------------------------------------------------------------------------
 void SprSetGray(void)
@@ -111,16 +111,25 @@ void SprSetGray(void)
 	Spr.msk = SPR_FONT_MASK_GRAY;
 }
 //---------------------------------------------------------------------------
-void SprSetSelect(void)
+void SprSetRead(void)
 {
-	Spr.msk = SPR_FONT_MASK_SELECT;
+	Spr.msk = SPR_FONT_MASK_READ;
 }
 //---------------------------------------------------------------------------
-void SprSetSelectCol(u16 col)
+void SprSetBaseCol(u16 no)
 {
-	if(col == 0) SPRITE_PALETTE[3] = RGB5( 0,31,31);	// êÖêF
-	if(col == 1) SPRITE_PALETTE[3] = RGB5(31,31, 0);	// â©
-	if(col == 2) SPRITE_PALETTE[3] = RGB5(31,31,31);	// îí
+	if(no == 0) SPRITE_PALETTE[7] = RGB5(31,31,31);	// îí
+	if(no == 1) SPRITE_PALETTE[7] = RGB5( 0,31,31);	// êÖ
+	if(no == 2) SPRITE_PALETTE[7] = RGB5(31,31, 0);	// â©
+	if(no == 3) SPRITE_PALETTE[7] = RGB5(31, 0,31);	// éá
+}
+//---------------------------------------------------------------------------
+void SprSetReadCol(u16 no)
+{
+	if(no == 0) SPRITE_PALETTE[3] = RGB5(31,31,31);	// îí
+	if(no == 1) SPRITE_PALETTE[3] = RGB5( 0,31,31);	// êÖ
+	if(no == 2) SPRITE_PALETTE[3] = RGB5(31,31, 0);	// â©
+	if(no == 3) SPRITE_PALETTE[3] = RGB5(31, 0,31);	// éá
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprShowMsg(void)

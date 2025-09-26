@@ -441,21 +441,14 @@ void ImgSetExec(void)
 {
 	TRACE("[ImgSetExec %d]\n", Img.eff);
 
-	// 前回専用フェードの場合、元に戻す
-	if(Img.eff == IMG_EFFECT_FADE_IN || Img.eff == IMG_EFFECT_FADE_OUT)
-	{
-		Img.eff = IMG_EFFECT_FADE;
-	}
-
-	// フェードで黒→色背景、色背景→黒の場合、専用エフェクトに変更
+	// フェードで黒→色背景、色背景→黒の場合、GBA専用エフェクトに変更
 	if(Img.eff == IMG_EFFECT_FADE)
 	{
 		if(Img.bg.no == 2)
 		{
 			Img.eff = IMG_EFFECT_FADE_IN;
 		}
-
-		if(Img.bg.pv == 2)
+		else if(Img.bg.pv == 2)
 		{
 			Img.eff = IMG_EFFECT_FADE_OUT;
 		}
@@ -480,6 +473,11 @@ void ImgSetFade2(s32 num)
 	FadeSetBlack(num);
 }
 //---------------------------------------------------------------------------
+void ImgSetBgPv(s32 pv)
+{
+	Img.bg.pv = pv;
+}
+//---------------------------------------------------------------------------
 void ImgLoadFade(void)
 {
 	FadeSetBlack(Img.fade);
@@ -488,6 +486,11 @@ void ImgLoadFade(void)
 s32 ImgGetFade(void)
 {
 	return Img.fade;
+}
+//---------------------------------------------------------------------------
+s32 ImgGetBgNo(void)
+{
+	return Img.bg.no;
 }
 //---------------------------------------------------------------------------
 bool ImgIsExec(void)

@@ -32,6 +32,8 @@ typedef struct {
 	bool  isExec;
 	s32   x;
 	s32   y;
+	s32   base;			// ’Êí•¶š‚ÌF”Ô†
+	s32   read;			// Šù“Ç•¶š‚ÌF”Ô†
 
 	char  title[TXT_MAX_TITLE_LEN];
 
@@ -61,10 +63,16 @@ void TxtSetMsg(char* p);
 void TxtSetCls(void);
 void TxtSetLf(void);
 void TxtSetTitle(char* p);
+void TxtSetBase(s32 no);
+void TxtSetRead(s32 no);
 void TxtSetExec(void);
+
+void TxtLoadCol(void);
 
 s32  TxtGetX(void);
 s32  TxtGetY(void);
+s32  TxtGetBase(void);
+s32  TxtGetRead(void);
 
 void TxtWriteBuf(void);
 void TxtWriteSel(char* p);

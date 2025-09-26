@@ -14,6 +14,7 @@ extern "C" {
 
 typedef struct {
 	s32  no;
+	s32  vol;
 
 } ST_BGM;
 
@@ -24,6 +25,9 @@ void BgmInit(void);
 void BgmPlay(s32 no);
 void BgmPlayRaw(s32 no);
 void BgmPlayVgm(s32 no);
+
+void BgmSetVol(s32 vol);
+s32  BgmGetVol(void);
 
 void BgmLoadPlay(void);
 

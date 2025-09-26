@@ -19,9 +19,9 @@ extern "C" {
 #define SPR_FONT_IMG_CY				10
 #define SPR_FONT_IMG_BLANK_CY		2
 
-#define SPR_FONT_MASK_WHITE			0x7777
+#define SPR_FONT_MASK_BASE			0x7777
 #define SPR_FONT_MASK_GRAY			0x5555
-#define SPR_FONT_MASK_SELECT		0x3333
+#define SPR_FONT_MASK_READ			0x3333
 
 
 //---------------------------------------------------------------------------
@@ -57,10 +57,11 @@ IWRAM_CODE void SprMove(s32 no, s32 x, s32 y);
 IWRAM_CODE void SprClearDat(void);
 IWRAM_CODE void SprDrawDatChr(s32 x, s32 y, u16 code);
 
-void SprSetWhite(void);
+void SprSetBase(void);
 void SprSetGray(void);
-void SprSetSelect(void);
-void SprSetSelectCol(u16 col);
+void SprSetRead(void);
+void SprSetBaseCol(u16 no);
+void SprSetReadCol(u16 no);
 
 IWRAM_CODE void SprShowMsg(void);
 IWRAM_CODE void SprShowCur(s32 no);

@@ -51,7 +51,9 @@ typedef struct {
 	bool  isSkip;		// メッセージスキップ
 	bool  isOmit;		// メッセージスキップ無効フラグ
 	bool  isPage;		// 改ページ
-	bool  isEffect;		// エフェクト発行
+
+	bool  isEffect;		// エフェクト実行フラグ
+	s32   eff;
 
 	s32   no;
 	char* pScn;

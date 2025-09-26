@@ -50,7 +50,8 @@ enum {
 	MENU_OPTION_SEL_IMG,
 	MENU_OPTION_SEL_BGM,
 	MENU_OPTION_SEL_FMX,
-	MENU_OPTION_SEL_COL,
+	MENU_OPTION_SEL_BASE_COL,
+	MENU_OPTION_SEL_READ_COL,
 	MENU_OPTION_SEL_OMIT,
 };
 
@@ -80,7 +81,6 @@ typedef struct {
 	s32  img;
 	s32  bgm;
 	s32  fmx;
-	s32  col;
 
 } ST_MENU;
 
@@ -106,8 +106,6 @@ void  MenuSetNone(s32 ret);
 void  MenuSetTitle(s32 sel);
 void  MenuSetDebug(s32 sel);
 
-void  MenuLoadSelCol(void);
-
 char* MenuGetStrTitle(void);
 char* MenuGetStrSel(s32 sel);
 char* MenuGetStrSelOpt(s32 sel);
@@ -115,7 +113,6 @@ char* MenuGetStrSelDbg(s32 sel);
 s32   MenuGetSel(void);
 s32   MenuGetReg(void);
 s32   MenuGetType(void);
-s32   MenuGetCol(void);
 
 
 #ifdef __cplusplus

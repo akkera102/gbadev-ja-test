@@ -33,24 +33,25 @@ ROM_DATA char MenuSelectStr[][26+1] = {
 	"　画像　　　　００",
 	"　音楽　　　　００",
 	"　効果音　　　００",
+	"　通常文字　　",
 	"　既読文字　　",
 	"　既読無視　　",
 
-	// 17
+	// 18
 	"　　　セーブ",
 
-	// 18
+	// 19
 	"　　　ロード",
 
-	// 19
+	// 20
 	"",
 
-	// 20
+	// 21
 	"",
 	"最初から始める",
 	"　ロードする",
 
-	// 23
+	// 24
 	"好感度、告白フラグ",
 	"香織　　１６：０　２８：０",
 	"緑　　　２１：０　２９：０",
@@ -60,6 +61,15 @@ ROM_DATA char MenuSelectStr[][26+1] = {
 	"留希　　２７：０　３３：０",
 };
 
+ROM_DATA char MenuColStr[][4+1] = {
+	"白色",
+	"水色",
+	"黄色",
+	"紫色",
+	"赤色",
+	"青色",
+	"緑色",
+};
 
 //---------------------------------------------------------------------------
 ST_MENU Menu;
@@ -191,6 +201,7 @@ void MenuExecSystem(u16 trg)
 		TxtClear();
 
 		SeStop();
+		BgmStop();
 		BgmPlay(0);
 
 		MenuSetTitle(MENU_TITLE_SEL_LOAD);
@@ -235,13 +246,13 @@ void MenuExecOption(u16 trg)
 
 	// 音楽音量
 	case 1:
-		s32 vol = VgmGetVol();
+		s32 vol = BgmGetVol();
 
 		if(trg & KEY_LEFT && vol > 0)
 		{
 			vol--;
 
-			VgmSetVol(vol);
+			BgmSetVol(vol);
 			TxtSetExec();
 		}
 
@@ -249,7 +260,7 @@ void MenuExecOption(u16 trg)
 		{
 			vol++;
 
-			VgmSetVol(vol);
+			BgmSetVol(vol);
 			TxtSetExec();
 		}
 		break;
@@ -401,41 +412,50 @@ void MenuExecOption(u16 trg)
 		}
 		break;
 
-	// 既読文字
+	// 通常文字
 	case 5:
-		if(trg & KEY_L)
+		s32 b = TxtGetBase();
+
+		if(trg & KEY_LEFT && b > 0)
 		{
-			Menu.col = 0;
+			b--;
+			TxtSetBase(b);
 
 			TxtSetExec();
 		}
 
-		if(trg & KEY_R)
+		if(trg & KEY_RIGHT && b < 4-1)
 		{
-			Menu.col = 3-1;
+			b++;
+			TxtSetBase(b);
+
+			TxtSetExec();
+		}
+		break;
+
+	// 既読文字
+	case 6:
+		s32 r = TxtGetRead();
+
+		if(trg & KEY_LEFT && r > 0)
+		{
+			r--;
+			TxtSetRead(r);
 
 			TxtSetExec();
 		}
 
-		if(trg & KEY_LEFT && Menu.col > 0)
+		if(trg & KEY_RIGHT && r < 4-1)
 		{
-			Menu.col--;
-			SprSetSelectCol(Menu.col);
-
-			TxtSetExec();
-		}
-
-		if(trg & KEY_RIGHT && Menu.col < 3-1)
-		{
-			Menu.col++;
-			SprSetSelectCol(Menu.col);
+			r++;
+			TxtSetRead(r);
 
 			TxtSetExec();
 		}
 		break;
 
 	// 既読無視
-	case 6:
+	case 7:
 		if(trg & KEY_LEFT || trg & KEY_RIGHT)
 		{
 			if(NvIsOmit() == true)
@@ -509,8 +529,13 @@ void MenuExecLoad(u16 trg)
 
 	Menu.siori = Menu.sel;
 
+
+	s32 no = ImgGetBgNo();
+
 	SioriLoad(Menu.sel);
 	SioriLoadNvRead();
+
+	ImgSetBgPv(no);
 
 	NvSetAct(NV_ACT_LOAD);
 	ManageSetAct(MANAGE_ACT_NV);
@@ -606,22 +631,22 @@ void MenuSetSystem(s32 sel)
 //---------------------------------------------------------------------------
 void MenuSetOption(s32 sel)
 {
-	MenuSetInit(MENU_TYPE_OPTION, MENU_RET_SYSTEM, sel, 9, 7, MenuExecOption, true);
+	MenuSetInit(MENU_TYPE_OPTION, MENU_RET_SYSTEM, sel, 9, 8, MenuExecOption, true);
 }
 //---------------------------------------------------------------------------
 void MenuSetSave(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_SAVE, ret, Menu.siori, 17, 8, MenuExecSave, true);
+	MenuSetInit(MENU_TYPE_SAVE, ret, Menu.siori, 18, 8, MenuExecSave, true);
 }
 //---------------------------------------------------------------------------
 void MenuSetLoad(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, Menu.siori, 18, 8, MenuExecLoad, true);
+	MenuSetInit(MENU_TYPE_LOAD, ret, Menu.siori, 19, 8, MenuExecLoad, true);
 }
 //---------------------------------------------------------------------------
 void MenuSetNone(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 19, 0, MenuExecNone, false);
+	MenuSetInit(MENU_TYPE_LOAD, ret, 0, 20, 0, MenuExecNone, false);
 
 	TxtHide();
 	ImgSetFade2(0);
@@ -629,17 +654,12 @@ void MenuSetNone(s32 ret)
 //---------------------------------------------------------------------------
 void MenuSetTitle(s32 sel)
 {
-	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 20, 2, MenuExecTitle, true);
+	MenuSetInit(MENU_TYPE_TITLE, MENU_RET_NONE, sel, 21, 2, MenuExecTitle, true);
 }
 //---------------------------------------------------------------------------
 void MenuSetDebug(s32 ret)
 {
-	MenuSetInit(MENU_TYPE_DEBUG, MENU_RET_SYSTEM, ret, 23, 6, MenuExecDebug, true);
-}
-//---------------------------------------------------------------------------
-void MenuLoadSelCol(void)
-{
-	SprSetSelectCol(Menu.col);
+	MenuSetInit(MENU_TYPE_DEBUG, MENU_RET_SYSTEM, ret, 24, 6, MenuExecDebug, true);
 }
 //---------------------------------------------------------------------------
 char* MenuGetStrTitle(void)
@@ -678,7 +698,7 @@ char* MenuGetStrSelOpt(s32 sel)
 		break;
 
 	case 1:
-		num = VgmGetVol();
+		num = BgmGetVol();
 		break;
 
 	case 2:
@@ -694,18 +714,15 @@ char* MenuGetStrSelOpt(s32 sel)
 		break;
 
 	case 5:
-		if(Menu.col == 0)
-		{
-			_Strcat(Menu.buf, "水色");
-		}
-		else if(Menu.col == 1)
-		{
-			_Strcat(Menu.buf, "黄色");
-		}
-		else
-		{
-			_Strcat(Menu.buf, "白色");
-		}
+		s32 b = TxtGetBase();
+
+		_Strcat(Menu.buf, MenuColStr[b]);
+		return Menu.buf;
+
+	case 6:
+		s32 r = TxtGetRead();
+
+		_Strcat(Menu.buf, MenuColStr[r]);
 		return Menu.buf;
 
 	default:
@@ -791,9 +808,4 @@ s32 MenuGetReg(void)
 s32 MenuGetType(void)
 {
 	return Menu.type;
-}
-//---------------------------------------------------------------------------
-s32 MenuGetCol(void)
-{
-	return Menu.col;
 }

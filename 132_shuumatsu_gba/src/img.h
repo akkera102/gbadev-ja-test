@@ -100,10 +100,13 @@ void ImgSetEff(s32 no);
 void ImgSetExec(void);
 void ImgSetFade(s32 num);
 void ImgSetFade2(s32 num);
+void ImgSetBgPv(s32 pv);
 
+void ImgLoadExec(void);
 void ImgLoadFade(void);
 
 s32  ImgGetFade(void);
+s32  ImgGetBgNo(void);
 
 bool ImgIsExec(void);
 

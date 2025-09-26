@@ -154,7 +154,7 @@ void NvExecSel(void)
 	case 1: ;
 		u16 trg = KeyGetTrg();
 
-		if((trg & KEY_A) && Nv.sel.cnt != -1)
+		if(((trg & KEY_A) || (trg & KEY_RIGHT)) && Nv.sel.cnt != -1)
 		{
 			Nv.step++;
 		}
@@ -222,7 +222,7 @@ void NvExecLoad(void)
 		SeStop();
 
 		BgmLoadPlay();
-		MenuLoadSelCol();
+		TxtLoadCol();
 		ImgLoadFade();
 
 		ImgSetExec();

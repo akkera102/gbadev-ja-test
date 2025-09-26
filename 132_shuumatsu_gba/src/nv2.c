@@ -52,7 +52,17 @@ void NvExecParse(void)
 
 	if(Nv.isEffect == true)
 	{
+		if(Nv.isSkip == true)
+		{
+			ImgSetEff(IMG_EFFECT_COPY);
+		}
+		else
+		{
+			ImgSetEff(Nv.eff);
+		}
+
 		ImgSetExec();
+
 
 		if(Nv.isPage == true)
 		{
@@ -234,7 +244,7 @@ void NvExecParse2J(void)
 	NvSetRead(Nv.idx, Nv.bit);
 	Nv.isSkip = false;
 
-	ImgSetEff(IMG_EFFECT_TITL);
+	Nv.eff = IMG_EFFECT_TITL;
 	Nv.isEffect = true;
 
 	BgmPlay(0);
@@ -355,14 +365,7 @@ void NvExecParse3W(void)
 
 //	TRACE("%d\n", no);
 
-	if(Nv.isSkip == true)
-	{
-		ImgSetEff(IMG_EFFECT_COPY);
-	}
-	else
-	{
-		ImgSetEff(no);
-	}
+	Nv.eff = no;
 }
 //---------------------------------------------------------------------------
 // ウェイト
