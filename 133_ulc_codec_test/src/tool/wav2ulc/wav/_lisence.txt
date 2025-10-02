@@ -12,4 +12,4 @@ Morning.mp3
 https://dova-s.jp/bgm/play2452.html
 
 
-mp3 -> foobar2000 convert wav 13379Hz mono 16bit
+mp3 -> wav 13379Hz mono 16bit
