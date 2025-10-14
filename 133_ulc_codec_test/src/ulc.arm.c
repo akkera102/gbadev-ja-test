@@ -8,7 +8,7 @@ ST_ULC Ulc;
 
 
 //---------------------------------------------------------------------------
-EWRAM_CODE void UlcInit(void)
+void UlcInit(void)
 {
 	_Memset(&Ulc, 0x00, sizeof(ST_ULC));
 
