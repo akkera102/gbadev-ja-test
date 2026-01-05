@@ -17,7 +17,7 @@ IWRAM_CODE void EffInitCam(void)
 	Eff.cam.x = 128 << 8;
 	Eff.cam.y =  80 << 8;
 	Eff.cam.z = 128 << 8;
-	Eff.rot   = 0;
+	Eff.rot   =   0;
 	Eff.dis   = 280;
 }
 //---------------------------------------------------------------------------
