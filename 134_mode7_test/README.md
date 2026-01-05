@@ -6,7 +6,6 @@ Based on Shinichiro Oba by swift GBA, Tonc by J Vijn.
 
 ## Link
 
-CC-BY-NC-SA
 - [swift-gba-sandbox](https://github.com/bricklife/swift-gba-sandbox/tree/main)
 - [tonc(gbadev)](https://gbadev.net/tonc/)
 - [tonc(old)](https://www.coranac.com/tonc/text/mode7.htm)
