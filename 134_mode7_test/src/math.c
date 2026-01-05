@@ -1,7 +1,7 @@
 #include "math.h"
 
 //---------------------------------------------------------------------------
-// https://github.com/devkitPro/libtonc/blob/master/asm/div_lut.s
+// https://github.com/devkitPro/libtonc/blob/master/asm/
 
 // sin_lut: a 514 long LUT of 16bit values in 4.12 format
 // sin(x*pi/256)
