@@ -3,6 +3,8 @@
 //---------------------------------------------------------------------------
 // https://github.com/devkitPro/libtonc/blob/master/asm/div_lut.s
 
+// sin_lut: a 514 long LUT of 16bit values in 4.12 format
+// sin(x*pi/256)
 u16 sin_lut[] = {
 	0x0000,0x0032,0x0064,0x0096,0x00C8,0x00FB,0x012D,0x015F,
 	0x0191,0x01C3,0x01F5,0x0227,0x0259,0x028A,0x02BC,0x02ED,
@@ -78,6 +80,8 @@ u16 sin_lut[] = {
 	0x0000,0x0032
 };
 
+// div_lut: a 257 long LUT of 32bit values in 16.16 format
+// ceil(1/x)
 u32 div_lut[] = {
 	0x7FFFFFFF,0x00010000,0x00008000,0x00005556,0x00004000,0x00003334,0x00002AAB,0x00002493,
 	0x00002000,0x00001C72,0x0000199A,0x00001746,0x00001556,0x000013B2,0x0000124A,0x00001112,

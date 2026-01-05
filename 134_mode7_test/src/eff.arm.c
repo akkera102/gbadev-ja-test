@@ -34,20 +34,20 @@ IWRAM_CODE void EffAddCamZ(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void EffIntrHblank(u32 y)
 {
-	s32 d_val = MathDiv(y);
+	Fix d_val = MathDiv(y);								// 16.16
 
-	s32 lam   = (Eff.cam.y * d_val) >> 12;
-	s32 lcf   = (lam * (MathCos(Eff.rot) >> 4)) >> 8;
-	s32 lsf   = (lam * (MathSin(Eff.rot) >> 4)) >> 8;
+	Fix lam   = (Eff.cam.y * d_val) >> 12;				//  .8 * .16 >> 12 = 20.12
+	Fix lcf   = (lam * (MathCos(Eff.rot) >> 4)) >> 8;	// .12 *  .8 >>  8 = 20.12
+	Fix lsf   = (lam * (MathSin(Eff.rot) >> 4)) >> 8;	// .12 *  .8 >>  8 = 20.12
 	REG_BG2PA = (s16)(lcf >> 4);
 	REG_BG2PC = (s16)(lsf >> 4);
 
-	s32 lxr  = 120 * (lcf >> 4);
-	s32 lyr  = (Eff.dis * lsf) >> 4;
+	Fix lxr  = 120 * (lcf >> 4);
+	Fix lyr  = (Eff.dis * lsf) >> 4;
 	REG_BG2X = Eff.cam.x - lxr + lyr;
 
-	s32 lxr2 = 120 * (lsf >> 4);
-	s32 lyr2 = (Eff.dis * lcf) >> 4;
+	Fix lxr2 = 120 * (lsf >> 4);
+	Fix lyr2 = (Eff.dis * lcf) >> 4;
 	REG_BG2Y = Eff.cam.z - lxr2 - lyr2;
 
 	// 文字カラーフェード（暗く）
