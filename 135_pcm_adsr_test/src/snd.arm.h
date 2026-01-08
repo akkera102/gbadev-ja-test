@@ -46,9 +46,9 @@ typedef struct {
 	s32 state;
 	s32 atkStep;
 	s32 decStep;
+	s32 susLvl;
 	s32 susStep;
 	s32 relStep;
-	s32 susLvl;
 
 } ST_SND_CH;
 
