@@ -8,7 +8,7 @@
 
 ![test2](README.png)
 
-GBA PCM Driver This oneÅfs a bit bulky. Each sample is a full second (13,359 bytes), making instrument data pretty heavy. Also, ADSR is called per data point instead of per frame.
+GBA PCM Driver This one's a bit bulky. Each sample is a full second (13,359 bytes), making instrument data pretty heavy. Also, ADSR is called per data point instead of per frame.
 
 ## lisence
 
