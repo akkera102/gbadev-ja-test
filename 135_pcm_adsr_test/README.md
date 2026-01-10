@@ -2,7 +2,7 @@
 
 2026/01/10: I made a new one. Look here.
 
-[121_lsdj_bgm_test2](https://github.com/akkera102/gbadev-ja-test/tree/main/136_pcm_adsr_test2)
+[136_pcm_adsr_test2](https://github.com/akkera102/gbadev-ja-test/tree/main/136_pcm_adsr_test2)
 
 ----
 
