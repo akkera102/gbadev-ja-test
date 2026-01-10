@@ -1,9 +1,10 @@
 # 136_pcm_adsr_test2
 
 ![test2](README.png)
-![test2](README2.png)
 
 I used an ADSR envelope and 256-byte sine-based tones to play guitar, organ, and more at a 13,359Hz sampling rate.
+
+<img src="README2.png" width="50%">
 
 ## lisence
 
