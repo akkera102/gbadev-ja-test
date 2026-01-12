@@ -1,4 +1,4 @@
-# Gemini260110
+# Gemini 260110
 import numpy as np
 import matplotlib.pyplot as plt
 

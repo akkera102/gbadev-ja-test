@@ -79,7 +79,7 @@ int main(void)
 		*(vu16*)0x5000000 = RGB5(0,  0, 0);
 
 		BgDrawPrintf(0, 14, "VCNT: %03d", REG_VCOUNT);
-		BgDrawPrintf(0, 15, " ACT: %03d 13359Hz", SndGetActCnt());
+		BgDrawPrintf(0, 15, " ACT: %03d 13379Hz", SndGetActCnt());
 
 		if(SndIsAdsr() == true)
 		{

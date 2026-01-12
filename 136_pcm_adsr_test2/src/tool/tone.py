@@ -2,7 +2,7 @@
 import math
 
 # 設定値
-SAMPLING_RATE = 13359  # GBAサンプリングレート (Hz)
+SAMPLING_RATE = 13379  # GBAサンプリングレート (Hz)
 TABLE_SIZE = 256        # 波形テーブルのサイズ (byte)
 BASE_A4 = 440.0         # 基準音 A4 (Hz)
 

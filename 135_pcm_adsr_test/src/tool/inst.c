@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define SAMPLING_RATE 13359      // サンプリング周波数 (Hz)
+#define SAMPLING_RATE 13379      // サンプリング周波数 (Hz)
 #define DURATION 1               // 再生時間 (秒)
 #define FREQ_C4 261.63           // ド (C4) の周波数 (Hz)
 #define PI 3.1415926535

@@ -292,10 +292,10 @@ Restart:
 	u32  i = 0;
 	u32  n = 0;
 	u32  s = 0;
-	u32  w = 2;		// mGBA puti noise wait...
+	u32  w = 2;					// mGBA puti noise wait...?
 	u32* d = (u32*)&CanonData;
 
-	BgDrawPrintf(0, 10, "13359Hz/256-sample resolution");
+	BgDrawPrintf(0, 10, "13379Hz/256-sample resolution");
 
 	for(;;)
 	{

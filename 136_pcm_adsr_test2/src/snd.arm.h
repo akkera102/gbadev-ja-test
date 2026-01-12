@@ -7,7 +7,6 @@
 #define SND_MAX_CHANNEL				8
 
 #define SND_BUF_SIZE				224
-#define SND_WAVE_SIZE				13359
 #define SND_SAMPLE_TIME				(280896 / SND_BUF_SIZE)
 
 enum {

@@ -8,7 +8,7 @@
 
 #define SND_BUF_SIZE				224
 #define SND_SAMPLE_TIME				(280896 / SND_BUF_SIZE)
-#define SND_WAVE_SIZE				13359
+#define SND_WAVE_SIZE				13379
 #define SND_FP_SHIFT				10
 
 #define SND_NOTE_C4					1000
