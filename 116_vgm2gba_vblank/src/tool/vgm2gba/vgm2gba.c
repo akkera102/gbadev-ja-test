@@ -242,11 +242,6 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			uint8_t d2 = *p++;
 			uint8_t d3 = *p++;
 
-			fputc(d1, fp);
-			fputc(d2, fp);
-			fputc(d3, fp);
-			fputcCnt += 3;
-
 			// GBA patch
 
 			// wave adr?
@@ -259,6 +254,11 @@ void saveFile(ST_VGM* pVgm, char* filename)
 				fputc(0x40, fp);
 				fputcCnt += 3;
 			}
+
+			fputc(d1, fp);
+			fputc(d2, fp);
+			fputc(d3, fp);
+			fputcCnt += 3;
 
 			continue;
 		}
