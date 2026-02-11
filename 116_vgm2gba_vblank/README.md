@@ -1,5 +1,14 @@
 # 116_vgm2gba_vblank
 
+2026/02/11: 
+
+copyrat90 has developed a new VGM driver. Please use this one.
+
+[copyrat90/advgm](https://github.com/copyrat90/advgm)
+
+----
+
+
 File is valid only hUGETracker 1.01.
 
 ## attention

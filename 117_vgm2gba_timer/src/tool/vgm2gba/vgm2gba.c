@@ -299,11 +299,6 @@ void saveFile(ST_VGM* pVgm, char* filename)
 			uint8_t d2 = *p++;
 			uint8_t d3 = *p++;
 
-			fputc(d1, fp);
-			fputc(d2, fp);
-			fputc(d3, fp);
-			fputcCnt += 3;
-
 			// wave adr?
 			if(d2 >= 0x90 && d2 <= 0x9f)
 			{
@@ -314,6 +309,11 @@ void saveFile(ST_VGM* pVgm, char* filename)
 				fputc(0x40, fp);
 				fputcCnt += 3;
 			}
+
+			fputc(d1, fp);
+			fputc(d2, fp);
+			fputc(d3, fp);
+			fputcCnt += 3;
 
 			continue;
 		}
