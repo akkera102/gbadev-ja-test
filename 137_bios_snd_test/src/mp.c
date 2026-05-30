@@ -18,10 +18,10 @@ ROM_DATA ST_MP_WAVE testWave = {
 ROM_DATA ST_MP_TONE testTone = {
 	.ctl     = { 0, 60, 0, 0 },
 	.wp      = &testWave,
-	.Attack  = 127,
-	.Decay   = 245,
-	.Sustain = 180,
-	.Release = 165,
+	.Attack  = 255,
+	.Decay   = 240,
+	.Sustain = 0,
+	.Release = 200,
 };
 
 ST_MP_AREA   MpArea;
@@ -66,17 +66,10 @@ void MpPlayKey(u32 ch, u32 key)
 
 	c->LeftVol  = 64;
 	c->RightVol = 64;
-
-	c->Attack   = 255;
-	c->Decay    = 240;
-	c->Sustain  = 0;
-	c->Release  = 200;
-/*
 	c->Attack   = t->Attack;
 	c->Decay    = t->Decay;
 	c->Sustain  = t->Sustain;
 	c->Release  = t->Release;
-*/
 	c->wp       = t->wp;
 	c->fr       = MpExecSwi1F(key, 0);
 
@@ -97,17 +90,18 @@ void MpStopKey(u32 ch)
 //---------------------------------------------------------------------------
 void MpStopAll(void)
 {
+/*
 	s32 i;
 
 	for(i=0; i<MP_MAX_CH; i++)
 	{
 		MpArea.vchn[i].Status = 0;
 	}
-
+*/
 	MpInit();
 }
 //---------------------------------------------------------------------------
-// デフォルトモード
+// ノーマルモード
 void MpSetModeNor(void)
 {
 	u32 mode = 0;

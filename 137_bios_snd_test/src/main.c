@@ -26,7 +26,7 @@ int main(void)
 	BgDrawPrintf(1, 11, "L    : mode change");
 	BgDrawPrintf(1, 12, "R    : doremi");
 
-	bool isMode = false;
+	bool isRev = false;
 	s32 cnt = 0;
 
 	MpSetModeNor();
@@ -36,8 +36,11 @@ int main(void)
 	{
 		VBlankIntrWait();
 
+		KeyExec();
+		u16 trg = KeyGetTrg();
+
 		BgDrawPrintf(0,  0, "%02d", MpGetActiveCnt());
-		BgDrawPrintf(1, 15, "mode set to %c", (isMode == true) ? 'R' : 'N');
+		BgDrawPrintf(1, 15, "mode set to %c", (isRev == true) ? 'R' : 'N');
 
 		// start vcount 0
 		while(*(vu16*)0x4000006 != 0) {};
@@ -47,9 +50,6 @@ int main(void)
 		MpExecSwi1C();
 		*(vu16*)0x5000000 = RGB5(0,  0, 0);
 
-
-		KeyExec();
-		u16 trg = KeyGetTrg();
 
 		if(trg & KEY_A)
 		{
@@ -80,7 +80,7 @@ int main(void)
 		{
 			MpStopAll();
 
-			if(isMode == true)
+			if(isRev == true)
 			{
 				MpSetModeRev();
 			}
@@ -94,15 +94,15 @@ int main(void)
 
 		if(trg & KEY_L)
 		{
-			if(isMode == false)
+			if(isRev == false)
 			{
 				MpSetModeRev();
-				isMode = true;
+				isRev = true;
 			}
 			else
 			{
 				MpSetModeNor();
-				isMode = false;
+				isRev = false;
 			}
 		}
 
