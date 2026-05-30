@@ -26,36 +26,15 @@ int main(void)
 	BgDrawPrintf(1, 11, "L    : mode change");
 	BgDrawPrintf(1, 12, "R    : doremi");
 
-
-	// デフォルトモード
-	u32 modeD = 0;
-
-	modeD |=    0 <<  0;		// 0 reverb　オフで安全
-	modeD |=   12 <<  8;		// 12 max voices（GBA初期値は8）
-	modeD |=   15 << 12;		// 15 master volume)
-	modeD |=    4 << 16;		// 13379 Hz samplerate
-	modeD |=    9 << 20;		// 9 bit DAC PWM
-
-	// リバーブモード
-	u32 modeR = 0;
-
-	modeR |= 0x50 <<  0;		// 0x50 reverb　注意：ノイジーになりやすい（既出不具合）
-	modeR |=   12 <<  8;		// 12 max voices
-	modeR |=   15 << 12;		// 15 master volume
-	modeR |=    7 << 16;		// 21024 Hz samplerate
-	modeR |=    9 << 20;		// 8 bit 65 kHz DAC PWM
-
-	MpExecSwi1B(modeD);
-
 	bool isMode = false;
-	s32  cnt = 0;
+	s32 cnt = 0;
 
 	for(;;)
 	{
 		VBlankIntrWait();
 
 		BgDrawPrintf(0,  0, "%02d", MpGetActiveCnt());
-		BgDrawPrintf(1, 15, "mode set to %08X", (isMode == true) ? modeR : modeD);
+		BgDrawPrintf(1, 15, "mode set to %c", (isMode == true) ? 'R' : 'N');
 
 		// start vcount 0
 		while(*(vu16*)0x4000006 != 0) {};
@@ -97,6 +76,16 @@ int main(void)
 		if(trg & KEY_RIGHT)
 		{
 			MpStopAll();
+
+			if(isMode == true)
+			{
+				MpSetModeRev();
+			}
+			else
+			{
+				MpSetModeNor();
+			}
+
 			MpPlayMus();
 		}
 
@@ -104,12 +93,12 @@ int main(void)
 		{
 			if(isMode == false)
 			{
-				MpExecSwi1B(modeR);
+				MpSetModeRev();
 				isMode = true;
 			}
 			else
 			{
-				MpExecSwi1B(modeD);
+				MpSetModeNor();
 				isMode = false;
 			}
 		}

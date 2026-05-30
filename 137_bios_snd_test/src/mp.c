@@ -1,5 +1,6 @@
 #include "mp.h"
 #include "mp2.h"
+#include "mem.h"
 
 //---------------------------------------------------------------------------
 
@@ -32,6 +33,8 @@ void MpInit(void)
 {
 	MpExecSwi1A(&MpArea);
 	MpExecSwi20(&MpPlayer, MpTrack, MP_MAX_TRACK);
+	MpSetModeNor();
+
 	MpExecSwi21(&MpPlayer, &testSong);
 }
 //---------------------------------------------------------------------------
@@ -82,11 +85,8 @@ void MpStopKey(u32 ch)
 		return;
 	}
 
-	ST_MP_CH* c = &MpArea.vchn[ch];
-
-	// キーオフ
-	// リリース状態（余韻）に移行
-	c->Status |= 0x40;
+	// キーオフ　リリース状態（余韻）に移行
+	MpArea.vchn[ch].Status |= 0x40;
 }
 //---------------------------------------------------------------------------
 void MpStopAll(void)
@@ -97,6 +97,41 @@ void MpStopAll(void)
 	{
 		MpArea.vchn[i].Status = 0;
 	}
+
+	MemClear(&MpArea, sizeof(MpArea));
+	MemClear(&MpPlayer, sizeof(MpPlayer));
+	MemClear(&MpTrack, sizeof(MpArea));
+
+	MpExecSwi1A(&MpArea);
+	MpExecSwi20(&MpPlayer, MpTrack, MP_MAX_TRACK);
+}
+//---------------------------------------------------------------------------
+// デフォルトモード
+void MpSetModeNor(void)
+{
+	u32 mode = 0;
+
+	mode |=    0 <<  0;		// 0 reverb　オフで安全
+	mode |=   12 <<  8;		// 12 max voices（GBA初期値は8）
+	mode |=   15 << 12;		// 15 master volume)
+	mode |=    4 << 16;		// 13379 Hz samplerate
+	mode |=    9 << 20;		// 9 bit DAC PWM
+
+	MpExecSwi1B(mode);
+}
+//---------------------------------------------------------------------------
+// リバーブモード
+void MpSetModeRev(void)
+{
+	u32 mode = 0;
+
+	mode |= 0x50 <<  0;		// 0x50 reverb　注意：ノイジーになりやすい（既出不具合）
+	mode |=   12 <<  8;		// 12 max voices
+	mode |=   15 << 12;		// 15 master volume
+	mode |=    7 << 16;		// 21024 Hz samplerate
+	mode |=    9 << 20;		// 8 bit 65 kHz DAC PWM
+
+	MpExecSwi1B(mode);
 }
 //---------------------------------------------------------------------------
 u32 MpGetActiveCnt(void)

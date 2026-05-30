@@ -6,14 +6,10 @@ extern "C" {
 
 
 // Adapted from the libgba header, and therefore licensed under GPLv2 or later.
-
 // https://github.com/devkitPro/libgba/blob/master/include/gba_sound.h
 
-
 // The performance template is based on the following:
-
 // https://github.com/ipatix/gba-template/tree/biossnddemo
-
 
 
 #include "libgba/gba.h"
@@ -105,6 +101,8 @@ void MpPlayKey(u32 ch, u32 freq);
 void MpStopKey(u32 ch);
 void MpStopAll(void);
 
+void MpSetModeNor(void);
+void MpSetModeRev(void);
 u32  MpGetActiveCnt(void);
 
 void MpExecSwi1A(ST_MP_AREA* a);
