@@ -29,6 +29,9 @@ int main(void)
 	bool isMode = false;
 	s32 cnt = 0;
 
+	MpSetModeNor();
+	MpPlayMus();
+
 	for(;;)
 	{
 		VBlankIntrWait();

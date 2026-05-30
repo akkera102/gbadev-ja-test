@@ -31,11 +31,17 @@ ST_MP_TRACK  MpTrack[MP_MAX_TRACK];
 //---------------------------------------------------------------------------
 void MpInit(void)
 {
+	MemClear(&MpArea, sizeof(MpArea));
+	MemClear(&MpPlayer, sizeof(MpPlayer));
+	MemClear(&MpTrack, sizeof(MpArea));
+
 	MpExecSwi1A(&MpArea);
 	MpExecSwi20(&MpPlayer, MpTrack, MP_MAX_TRACK);
+}
+//---------------------------------------------------------------------------
+void MpInit2(void)
+{
 	MpSetModeNor();
-
-	MpExecSwi21(&MpPlayer, &testSong);
 }
 //---------------------------------------------------------------------------
 void MpPlayAdr(u32 adr)
@@ -98,12 +104,7 @@ void MpStopAll(void)
 		MpArea.vchn[i].Status = 0;
 	}
 
-	MemClear(&MpArea, sizeof(MpArea));
-	MemClear(&MpPlayer, sizeof(MpPlayer));
-	MemClear(&MpTrack, sizeof(MpArea));
-
-	MpExecSwi1A(&MpArea);
-	MpExecSwi20(&MpPlayer, MpTrack, MP_MAX_TRACK);
+	MpInit();
 }
 //---------------------------------------------------------------------------
 // デフォルトモード
