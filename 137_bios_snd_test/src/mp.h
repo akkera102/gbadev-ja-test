@@ -15,9 +15,9 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define MP_PCM_DMA_BUF							1584
-#define MP_MAX_TRACK							16
 #define MP_MAX_CH								12
+#define MP_MAX_TRACK							16
+#define MP_PCM_DMA_BUF							1584
 
 //---------------------------------------------------------------------------
 
@@ -94,10 +94,10 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 void MpInit(void);
+
 void MpPlayAdr(u32 adr);
 void MpPlayMus(void);
 void MpPlayKey(u32 ch, u32 freq);
-
 void MpStopKey(u32 ch);
 void MpStopAll(void);
 
@@ -109,7 +109,7 @@ void MpExecSwi1A(ST_MP_AREA* a);
 void MpExecSwi1B(u32 mode);
 void MpExecSwi1C(void);
 void MpExecSwi1D(void);
-u32  MpExecSwi1F(u32 key, u32 tune);
+u32  MpExecSwi1F(ST_MP_WAVE* w, u32 key, u32 tune);
 void MpExecSwi20(ST_MP_PLAYER* p, ST_MP_TRACK* t, u32 cnt);
 void MpExecSwi21(ST_MP_PLAYER* p, ST_MP_SONG* s);
 

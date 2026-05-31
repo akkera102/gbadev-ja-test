@@ -39,11 +39,6 @@ void MpInit(void)
 	MpExecSwi20(&MpPlayer, MpTrack, MP_MAX_TRACK);
 }
 //---------------------------------------------------------------------------
-void MpInit2(void)
-{
-	MpSetModeNor();
-}
-//---------------------------------------------------------------------------
 void MpPlayAdr(u32 adr)
 {
 	MpExecSwi21(&MpPlayer, (void*)adr);
@@ -61,8 +56,8 @@ void MpPlayKey(u32 ch, u32 key)
 		return;
 	}
 
-	ST_MP_TONE* t = &testTone;
 	ST_MP_CH*   c = &MpArea.vchn[ch];
+	ST_MP_TONE* t = &testTone;
 
 	c->LeftVol  = 64;
 	c->RightVol = 64;
@@ -71,7 +66,7 @@ void MpPlayKey(u32 ch, u32 key)
 	c->Sustain  = t->Sustain;
 	c->Release  = t->Release;
 	c->wp       = t->wp;
-	c->fr       = MpExecSwi1F(key, 0);
+	c->fr       = MpExecSwi1F(&testWave, key, 0);
 
 	// キーオン
 	c->Status   = 0x80;
@@ -90,14 +85,15 @@ void MpStopKey(u32 ch)
 //---------------------------------------------------------------------------
 void MpStopAll(void)
 {
-/*
+	// TODO 適当処理
+
 	s32 i;
 
 	for(i=0; i<MP_MAX_CH; i++)
 	{
 		MpArea.vchn[i].Status = 0;
 	}
-*/
+
 	MpInit();
 }
 //---------------------------------------------------------------------------
@@ -174,9 +170,9 @@ void MpExecSwi1D(void)
 }
 //---------------------------------------------------------------------------
 // MidiKey2Freq
-u32 MpExecSwi1F(u32 key, u32 tune)
+u32 MpExecSwi1F(ST_MP_WAVE* w, u32 key, u32 tune)
 {
-	register u32 _r0 asm("r0") = (u32)&testWave;
+	register u32 _r0 asm("r0") = (u32)w;
 	register u32 _r1 asm("r1") = key;
 	register u32 _r2 asm("r2") = tune;
 
