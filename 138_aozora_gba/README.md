@@ -14,14 +14,15 @@
 ・メモリアル版
 ・DLSite
 
-※ 未対応：完全版
+※ 未対応：完全版、TECH GIAN BRILLIANT 2013年 上半期
 ```
 ```
 ・DLsite
   「AOZORA」フォルダを丸ごと「gbfs\data」にコピーしてください。
 
-・初回版・メモリアル版
-  DLsite版と同様に「AOZORA」フォルダを丸ごと「gbfs\data」にコピーします。
+・初回版
+・メモリアル版
+  DLsiteと同様に「AOZORA」フォルダを丸ごと「gbfs\data」にコピーします。
   CDDAをリッピングして「track」フォルダを作り「track_02.wav」を配置してください。
 ```
 ```
