@@ -69,7 +69,7 @@
   audio playback. Disabling this option will simply decode
   audio data to the output buffers.
 !*/
-#define ULC_USER_HWSETUP 0
+#define ULC_USER_HWSETUP 1
 
 /*!
   This will only decode audio to a single buffer, instead
@@ -78,18 +78,9 @@
   This option requires ULC_USER_HWSETUP.
 !*/
 #define ULC_SINGLE_BUFFER 1
-
-
-
-
-// fixed 2025/07/26 by akkera102
-
-// #if (ULC_SINGLE_BUFFER && !ULC_USER_HWSETUP)
-// # error "ULC_SINGLE_BUFFER requires ULC_USER_HWSETUP."
-// #endif
-
-
-
+#if (ULC_SINGLE_BUFFER && !ULC_USER_HWSETUP)
+# error "ULC_SINGLE_BUFFER requires ULC_USER_HWSETUP."
+#endif
 
 /**************************************/
 //! EOF
