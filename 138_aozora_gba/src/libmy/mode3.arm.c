@@ -11,7 +11,15 @@ ST_MODE3 Mode3 EWRAM_BSS;
 //---------------------------------------------------------------------------
 void Mode3Init(void)
 {
-	MemClear(&Mode3, sizeof(ST_MODE3));
+	MemClr(&Mode3, sizeof(ST_MODE3));
+
+
+	Mode3VramCol(RGB5(31,31,31));
+
+	while(REG_VCOUNT == 159) {};
+	while(REG_VCOUNT != 159) {};
+
+	REG_DISPCNT = MODE_3 | BG2_ON | OBJ_ON | OBJ_1D_MAP | WIN0_ON;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode3DrawBg(u16* pImg)
@@ -19,7 +27,7 @@ IWRAM_CODE void Mode3DrawBg(u16* pImg)
 	SwiLZ77UnCompWrite16bit(pImg, Mode3.buf + Mode3.idx * MODE3_MAX_SCN_SIZE);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode3DrawBg2(u16 col)
+IWRAM_CODE void Mode3DrawCol(u16 col)
 {
 	u32 src ALIGN(4) = (col << 16) | col;
 
@@ -78,7 +86,7 @@ IWRAM_CODE void Mode3DrawChr(s32 sx, s32 sy, s32 cx, s32 cy, u16* pImg, u8* pAlp
 // クリアアイコン専用
 IWRAM_CODE void Mode3DrawIco(s32 sx, s32 sy, s32 cx, s32 cy, u32 bit, u16* pImg, u8* pAlp)
 {
-	TRACE("[Mode3DrawIco %04X]\n", bit);
+//	TRACE("[Mode3DrawIco %04X]\n", bit);
 
 	SwiLZ77UnCompWrite16bit(pImg, Mode3.chr);
 	SwiLZ77UnCompWrite16bit(pAlp, Mode3.msk);
@@ -147,12 +155,19 @@ IWRAM_CODE void Mode3DrawIco(s32 sx, s32 sy, s32 cx, s32 cy, u32 bit, u16* pImg,
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode3VramEffCopy(void)
+IWRAM_CODE void Mode3VramCol(u16 col)
+{
+	u32 src ALIGN(4) = (col << 16) | col;
+
+	MemFixFast(&src, (u16*)VRAM, MODE3_MAX_SCN_SIZE*2);
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode3VramCopy(void)
 {
 	MemIncFast(Mode3.buf + Mode3.idx * MODE3_MAX_SCN_SIZE, (u16*)VRAM, MODE3_MAX_SCN_SIZE*2);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode3VramEffZiri(s32 cnt)
+IWRAM_CODE void Mode3VramZiri(s32 cnt)
 {
 	_ASSERT(cnt < 8);
 
@@ -195,7 +210,7 @@ IWRAM_CODE void Mode3VramEffZiri(s32 cnt)
 }
 //---------------------------------------------------------------------------
 // アルファブレンドの代用
-IWRAM_CODE void Mode3VramEffAlpha(s32 cnt)
+IWRAM_CODE void Mode3VramAlpha(s32 cnt)
 {
 	_ASSERT(cnt < 8);
 

@@ -23,7 +23,7 @@ void TxtExecNv(void)
 {
 	// VCOUNT 160 -> 216
 
-	if(NvIsReadSeen() == true)
+	if(NvIsRead() == true)
 	{
 		SprSetRead();
 	}
@@ -120,6 +120,8 @@ void TxtExecMenu(void)
 //---------------------------------------------------------------------------
 void TxtDrawStr(s32 x, s32 y, char* p)
 {
+	_ASSERT(y < SPR_MAX_TXT_CY);
+
 	while(*p != '\0' && *p != ',')
 	{
 		u16 c;
@@ -128,7 +130,6 @@ void TxtDrawStr(s32 x, s32 y, char* p)
 		c += *p++;
 
 		_ASSERT(x < SPR_MAX_TXT_CX);
-		_ASSERT(y < SPR_MAX_TXT_CY);
 
 		SprVramSjis(x++, y, c);
 	}
@@ -141,12 +142,12 @@ void TxtClrBuf(void)
 	Txt.x = 0;
 	Txt.y = 0;
 
-	MemClear(Txt.buf, sizeof(Txt.buf));
+	MemClr(Txt.buf, sizeof(Txt.buf));
 }
 //---------------------------------------------------------------------------
 void TxtClrSpr(void)
 {
-	SprClearDat();
+	SprClrDat();
 }
 //---------------------------------------------------------------------------
 void TxtAddBuf(char* s)
@@ -159,6 +160,8 @@ void TxtAddBuf(char* s)
 		Txt.x = 0;
 	}
 
+	_ASSERT(Txt.y < SPR_MAX_TXT_CY);
+
 	while(*s != '\0')
 	{
 		u16 c;
@@ -167,7 +170,6 @@ void TxtAddBuf(char* s)
 		c += *s++;
 
 		_ASSERT(Txt.x < SPR_MAX_TXT_CX);
-		_ASSERT(Txt.y < SPR_MAX_TXT_CY);
 
 		Txt.buf[Txt.y * SPR_MAX_TXT_CX + Txt.x++] = c;
 	}
@@ -197,11 +199,11 @@ void TxtAddLog2(char* p)
 	LogAddBuf(Txt.buf);
 }
 //---------------------------------------------------------------------------
-void TxtSetTitle(char* p)
+void TxtSetSiori(char* p)
 {
-	_Strncpy(Txt.title, p, TXT_MAX_TITLE_LEN-1);
+	_Strncpy(Txt.siori, p, TXT_MAX_SIORI_LEN-1);
 
-	Txt.title[TXT_MAX_TITLE_LEN-1] = '\0';
+	Txt.siori[TXT_MAX_SIORI_LEN-1] = '\0';
 }
 //---------------------------------------------------------------------------
 void TxtSetExec(void)
@@ -211,13 +213,15 @@ void TxtSetExec(void)
 //---------------------------------------------------------------------------
 void TxtSetBase(s32 no)
 {
-	SprSetBaseCol(no);
+	SprSetColBase(no);
+
 	Txt.base = no;
 }
 //---------------------------------------------------------------------------
 void TxtSetRead(s32 no)
 {
-	SprSetReadCol(no);
+	SprSetColRead(no);
+
 	Txt.read = no;
 }
 //---------------------------------------------------------------------------
@@ -253,8 +257,8 @@ void TxtHide(void)
 //---------------------------------------------------------------------------
 void TxtLoad(void)
 {
-	SprSetBaseCol(Txt.base);
-	SprSetReadCol(Txt.read);
+	SprSetColBase(Txt.base);
+	SprSetColRead(Txt.read);
 }
 //---------------------------------------------------------------------------
 bool TxtIsExec(void)

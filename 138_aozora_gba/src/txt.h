@@ -9,7 +9,7 @@ extern "C" {
 #include "libmy/spr.h"
 
 //---------------------------------------------------------------------------
-#define TXT_MAX_TITLE_LEN				(15*2+1)
+#define TXT_MAX_SIORI_LEN				(15*2+1)
 
 
 //---------------------------------------------------------------------------
@@ -19,12 +19,12 @@ typedef struct {
 	bool  isExec;
 	s32   x;
 	s32   y;
+	s32   base;		// í èÌÇÃêF
+	s32   read;		// ä˘ì«ÇÃêF
 
-	char  title[TXT_MAX_TITLE_LEN];
+	char  siori[TXT_MAX_SIORI_LEN] ALIGN(4);
 	u16   buf[SPR_MAX_TXT_CX * SPR_MAX_TXT_CY] ALIGN(4);
 
-	s32   base;		// í èÌ
-	s32   read;		// ä˘ì«
 } ST_TXT;
 
 
@@ -44,7 +44,7 @@ void TxtAddBuf(char* p);
 void TxtAddLog(void);
 void TxtAddLog2(char* p);
 
-void TxtSetTitle(char* p);
+void TxtSetSiori(char* p);
 void TxtSetExec(void);
 void TxtSetBase(s32 no);
 void TxtSetRead(s32 no);

@@ -11,7 +11,6 @@
 @ Works fine even with 1 as the window offset (fixes LZ77 VRAM bug).
 @-------------------------------------------------------------
 
-.text
 .section .iwram,"ax",%progbits
 .arm
 

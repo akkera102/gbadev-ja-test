@@ -27,7 +27,7 @@ rem ‰¹Šy‚Íulc-codec•ÏŠ·
 for %%i in (*.wav) do (
     echo ulc... %%i
     ..\..\exe\snd\sox -D %%i -c1 -b16 tmp.wav rate -v 13379 norm -1
-    ..\..\exe\snd\ulcencodetool tmp.wav %%~ni.ulc -86 -blocksize:256
+    ..\..\exe\snd\ulcencodetool tmp.wav %%~ni.ulc -87 -blocksize:256
     del tmp.wav
 )
 

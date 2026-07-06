@@ -66,7 +66,6 @@ void NvExecJump(void)
 
 	} while(Nv.isLoop == true);
 
-
 	MusLoad();
 	SndLoad();
 }
@@ -75,7 +74,7 @@ void NvExecJumpSub(void)
 {
 	char* p = NvCurStr();
 
-	TRACE("\n[%03d][%04X][J] %s %d\n", Nv.no, Nv.cur - 4, p);
+	TRACE("\n[%03d][%04X][J] %s\n", Nv.no, Nv.cur - 4, p);
 
 	s32 i;
 
@@ -99,11 +98,16 @@ void NvExecJumpMes(void)
 	s32 i = NvCurNum();
 	s32 b = NvCurNum();
 
+	if(Nv.isDbg == false)
+	{
+		SeenSetRead(Nv.idx, Nv.bit);
+	}
+
 	Nv.mes = m;
 	Nv.idx = i;
 	Nv.bit = b;
 
-	if(SeenIsRead(i, b) == false && Nv.isRead == false)
+	if(SeenIsRead(i, b) == false && Nv.isPass == false)
 	{
 		// ïúãåèàóù
 		CurSetPage();
@@ -283,7 +287,7 @@ void NvExecJumpSjis(void)
 
 		if(is == false)
 		{
-			TxtSetTitle(p);
+			TxtSetSiori(p);
 			is = true;
 		}
 

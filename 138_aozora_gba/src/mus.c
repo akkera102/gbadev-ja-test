@@ -14,7 +14,7 @@ void MusInit(void)
 //---------------------------------------------------------------------------
 void MusPlay(s32 no, bool isLoop)
 {
-	TRACE("[MusPlay %d %d]\n", no, isLoop);
+//	TRACE("[MusPlay %d %d]\n", no, isLoop);
 
 	if(Mus.no == no && Mus.isLoop == isLoop)
 	{
@@ -53,7 +53,7 @@ void MusLoad(void)
 //---------------------------------------------------------------------------
 void MusStop(void)
 {
-	TRACE("[MusStop]\n");
+//	TRACE("[MusStop]\n");
 
 	Mus.no = 0;
 

@@ -26,7 +26,7 @@ IWRAM_CODE void MemFix(void* src, void* dst, u32 size)
 	SwiCpuSet(src, dst, (size / 4) | CPUSET_32BIT | CPUSET_SRC_FIX);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void MemClear(void* dst, u32 size)
+IWRAM_CODE void MemClr(void* dst, u32 size)
 {
 	_ASSERT((size & 3) == 0);
 
@@ -47,7 +47,7 @@ IWRAM_CODE void MemFixFast(void* src, void* dst, u32 size)
 	SwiCpuFastSet(src, dst, (size / 4) | CPUSET_SRC_FIX);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void MemClearFast(void* dst, u32 size)
+IWRAM_CODE void MemClrFast(void* dst, u32 size)
 {
 	_ASSERT((size & 31) == 0);
 

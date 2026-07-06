@@ -8,8 +8,7 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define INFO_MAX_MES_CNT				42
-
+#define INFO_MAX_MES_CNT				42			// 人物の名前一覧
 #define INFO_MAX_BG_CNT					(222+1)		// +1はメニューのゼロ表示用
 #define INFO_MAX_CHR_CNT				(148+1)
 #define INFO_MAX_MUS_CNT				(34+1)
@@ -23,7 +22,7 @@ extern "C" {
 void  InfoInit(void);
 
 char* InfoGetStrMes(s32 idx);
-s32   InfoGetNavi(s32 i, s32 c);
+s32   InfoGetNavi(s32 idx, s32 cnt);
 s32   InfoGetBg(s32 idx, s32 mov);
 s32   InfoGetChr(s32 idx, s32 mov);
 s32   InfoGetMus(s32 idx, s32 mov);

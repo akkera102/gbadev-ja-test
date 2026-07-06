@@ -53,9 +53,11 @@ bool UlcIsPlay(void)
 	return (ulc_State.nBlkRem != 0) ? true : false;
 }
 //---------------------------------------------------------------------------
-// REG_VCOUNT 60 -> 89
 IWRAM_CODE void UlcIntrVcount(void)
 {
+	// VCOUNT 60 -> 89
+//	TRACE("S:%d\n", REG_VCOUNT);
+
 	if(Ulc.isStop == 1)
 	{
 		ulc_State.nBlkRem = 0;
@@ -130,6 +132,7 @@ IWRAM_CODE void UlcIntrVcount(void)
 	}
 
 	Ulc.idx ^= 1;
+//	TRACE("E:%d\n", REG_VCOUNT);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void UlcIntrVblank(void)

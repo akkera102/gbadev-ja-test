@@ -44,14 +44,7 @@ void CurSetExec(void)
 //---------------------------------------------------------------------------
 void CurSetPage(void)
 {
-	s32 i = 0;
-
-	if(NvIsReadSeen() == true)
-	{
-		i = 8;
-	}
-
-	Cur.spr   = i;
+	Cur.spr   = (NvIsRead() == true) ? 8 : 0;
 	Cur.max   = 2;
 	Cur.blink = 30;
 }
@@ -60,10 +53,9 @@ void CurShow(void)
 {
 	s32 x = TxtGetX();
 	s32 y = TxtGetY();
-	s32 i = 0;
 
 	SprMoveCur(x, y);
-	SprShowCur(Cur.spr + Cur.cnt * 4 + i);
+	SprShowCur(Cur.spr + Cur.cnt * 4);
 }
 //---------------------------------------------------------------------------
 void CurHide(void)

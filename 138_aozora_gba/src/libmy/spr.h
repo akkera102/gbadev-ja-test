@@ -47,14 +47,14 @@ IWRAM_CODE void SprSetTile(s32 no, s32 tile);
 IWRAM_CODE void SprShow(s32 no);
 IWRAM_CODE void SprHide(s32 no);
 IWRAM_CODE void SprMove(s32 no, s32 x, s32 y);
-IWRAM_CODE void SprClearDat(void);
+IWRAM_CODE void SprClrDat(void);
 IWRAM_CODE void SprVramSjis(s32 x, s32 y, u16 code);
 
 void SprSetBase(void);
 void SprSetGray(void);
 void SprSetRead(void);
-void SprSetBaseCol(u16 no);
-void SprSetReadCol(u16 no);
+void SprSetColBase(u16 no);
+void SprSetColRead(u16 no);
 
 void SprShowMsg(void);
 void SprShowCur(s32 no);
@@ -64,7 +64,7 @@ void SprHideCur(void);
 void SprHideNavi(void);
 
 void SprMoveCur(s32 x, s32 y);
-void SprMoveNavi(s32 x, s32 y);
+void SprMoveNavi(s32 y);
 
 
 #ifdef __cplusplus

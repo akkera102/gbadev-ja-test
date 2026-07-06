@@ -34,9 +34,10 @@ typedef struct {
 	s32   wait;
 	bool  isLoop;				// スクリプト処理継続有無
 	bool  isSkip;				// メッセージスキップ
-	bool  isRead;				// メッセージスキップ無効フラグ
+	bool  isPass;				// メッセージスキップ無効フラグ
 	bool  isDbg;				// デバッグジャンプ有無
-	s32   navi;					// 攻略情報
+	bool  isOmake;				// おまけモード有無
+	s32   navi;					// 攻略情報のキャラ番号
 	s32   naviCnt;
 
 	char* p;
@@ -68,8 +69,9 @@ void  NvSetActRest(void);
 void  NvSetTxt(s32 no);
 void  NvSetTxt2(s32 no);
 void  NvSetSkip(void);
-void  NvSetRead(bool is);
+void  NvSetPass(bool is);
 void  NvSetDbg(bool is);
+void  NvSetOmake(bool is);
 void  NvSetNavi(s32 no);
 
 s32   NvGetNavi(void);
@@ -91,10 +93,11 @@ void  NvCurSkipIf(void);
 
 void  NvLoad(void);
 
-bool  NvIsDbg(void);
 bool  NvIsSkip(void);
+bool  NvIsPass(void);
+bool  NvIsDbg(void);
+bool  NvIsOmake(void);
 bool  NvIsRead(void);
-bool  NvIsReadSeen(void);
 bool  NvIsCurSjis(void);
 bool  NvIsSelItem(s32 pos);
 

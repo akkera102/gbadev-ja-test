@@ -22,7 +22,7 @@ IWRAM_CODE void KeyExec(void)
 
 
 	// key repeat
-	if(Key.trg & KEY_ALL || Key.repCnt == 0)
+	if(Key.trg & (DPAD | KEY_L | KEY_R) || Key.repCnt == 0)
 	{
 		Key.rep = Key.cnt;
 
@@ -41,7 +41,7 @@ IWRAM_CODE void KeyExec(void)
 		Key.rep = 0;
 	}
 
-	if(Key.cnt & KEY_ALL)
+	if(Key.cnt & (DPAD | KEY_L | KEY_R))
 	{
 		if(Key.repCnt != 0) Key.repCnt--;
 	}

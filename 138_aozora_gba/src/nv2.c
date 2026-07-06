@@ -100,18 +100,29 @@ void NvExecParseMes(void)
 	Nv.idx = i;
 	Nv.bit = b;
 
-	if(SeenIsRead(i, b) == false && Nv.isRead == false)
+	if(SeenIsRead(i, b) == false && Nv.isPass == false)
 	{
 		Nv.isSkip = false;
 	}
 
+
 	NvExecParseSjis();
+
+	ImgSetExecCond(IMG_EFFECT_SET_MSG);
+	NvSetAct(NV_ACT_KEY);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 改ページ
 void NvExecParseMlf(void)
 {
 	NvExecParseSjis();
+
+	ImgSetExecCond(IMG_EFFECT_SET_MSG);
+	NvSetAct(NV_ACT_KEY);
+
+	Nv.isLoop = false;
 }
 //---------------------------------------------------------------------------
 // 画面効果
@@ -422,7 +433,7 @@ void NvExecParseSel(void)
 		s32 adr = NvCurHex4();
 		// TRACE("%d %d\n", i, adr);
 
-		// SEEコマンドは選択肢チェックを飛ばす
+		// SEEコマンドは選択肢チェックを飛ばします
 		if(i != reg-1)
 		{
 			if(NvIsSelItem(adr) == false)
@@ -553,11 +564,20 @@ void NvExecParseEnd(void)
 	// エンディングの終了
 	case 2:
 	case 3:
+		if(Nv.isDbg == false)
+		{
+			SeenSetRead(Nv.idx, Nv.bit);
+		}
+
 		SioriSaveLast();
 		SioriSaveRead();
 
 		MusStop();
 		SndStop();
+
+		NvSetOmake(false);
+		NvSetDbg(false);
+		NvSetNavi(0);
 
 		ImgSetBg(5);
 		ImgSetChr(800);
@@ -597,16 +617,6 @@ void NvExecParseEnd(void)
 //---------------------------------------------------------------------------
 void NvExecParseSjis(void)
 {
-	NvExecParseSjisSub();
-
-	ImgSetExecCond(IMG_EFFECT_SET_MSG);
-
-	NvSetAct(NV_ACT_KEY);
-	Nv.isLoop = false;
-}
-//---------------------------------------------------------------------------
-void NvExecParseSjisSub(void)
-{
 	Nv.str = Nv.cur;
 
 	CurSetPage();
@@ -615,23 +625,23 @@ void NvExecParseSjisSub(void)
 	TxtClrBuf();
 	TxtSetExec();
 
-	// 人物の場合
 	if(Nv.mes != 0)
 	{
+		// 名前
 		TxtAddBuf(InfoGetStrMes(Nv.mes));
 	}
 
-	bool is = false;
+	bool is = true;
 
 	do {
 
 		char* p = NvCurStr();
 
-		if(is == false)
+		if(is == true)
 		{
 			// しおりタイトル
-			TxtSetTitle(p);
-			is = true;
+			TxtSetSiori(p);
+			is = false;
 		}
 
 		// スクリプトメッセージ

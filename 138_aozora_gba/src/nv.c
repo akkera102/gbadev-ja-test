@@ -9,10 +9,8 @@
 #include "log.h"
 #include "manage.h"
 #include "menu.h"
-#include "mus.h"
+#include "navi.h"
 #include "seen.h"
-#include "siori.h"
-#include "snd.h"
 #include "txt.h"
 
 //---------------------------------------------------------------------------
@@ -151,7 +149,7 @@ void NvExecSel(void)
 
 		if(Nv.navi < 5)
 		{
-			ImgShowNavi(InfoGetNavi(Nv.navi, Nv.naviCnt));
+			NaviSetExec(InfoGetNavi(Nv.navi, Nv.naviCnt));
 		}
 
 		TxtSetExec();
@@ -209,7 +207,7 @@ void NvExecSel(void)
 	case 2: ;
 //		TRACE("%d\n", Nv.sel.cnt);
 
-		ImgHideNavi();
+		NaviHide();
 
 		if(Nv.navi < 5 && InfoGetNavi(Nv.navi, Nv.naviCnt) == Nv.sel.cnt)
 		{
@@ -256,27 +254,30 @@ void NvSetTxt(s32 no)
 {
 	TRACE("[NvSetTxt no:%d]\n", no);
 
-	Nv.no    = no;
-	Nv.p     = FileGetTxt(no);
-	Nv.size  = FileGetTxtSize();
-	Nv.cur   = 0;
-	Nv.str   = 0;
-	Nv.set   = 0;
-	Nv.mes   = 0;
-	Nv.idx   = 0;
-	Nv.bit   = 0;
+	Nv.no   = no;
+	Nv.p    = FileGetTxt(no);
+	Nv.size = FileGetTxtSize();
+	Nv.cur  = 0;
+	Nv.str  = 0;
+	Nv.set  = 0;
+	Nv.mes  = 0;
+	Nv.idx  = 0;
+	Nv.bit  = 0;
 }
 //---------------------------------------------------------------------------
 void NvSetTxt2(s32 no)
 {
-	SeenSetRead(Nv.idx, Nv.bit);
+	if(Nv.isDbg == false)
+	{
+		SeenSetRead(Nv.idx, Nv.bit);
+	}
 
 	NvSetTxt(no);
 }
 //---------------------------------------------------------------------------
 void NvSetSkip(void)
 {
-	if(SeenIsRead(Nv.idx, Nv.bit) == false && Nv.isRead == false)
+	if(SeenIsRead(Nv.idx, Nv.bit) == false && Nv.isPass == false)
 	{
 		return;
 	}
@@ -284,14 +285,19 @@ void NvSetSkip(void)
 	Nv.isSkip = true;
 }
 //---------------------------------------------------------------------------
-void NvSetRead(bool is)
+void NvSetPass(bool is)
 {
-	Nv.isRead = is;
+	Nv.isPass = is;
 }
 //---------------------------------------------------------------------------
 void NvSetDbg(bool is)
 {
 	Nv.isDbg = is;
+}
+//---------------------------------------------------------------------------
+void NvSetOmake(bool is)
+{
+	Nv.isOmake = is;
 }
 //---------------------------------------------------------------------------
 void NvSetNavi(s32 no)
@@ -474,6 +480,8 @@ void NvLoad(void)
 	if(Nv.act == NV_ACT_SEL)
 	{
 		Nv.cur = Nv.set;
+		Nv.idx = 0;
+		Nv.bit = 0;
 
 		ImgSetExec(IMG_EFFECT_BLACK_IN);
 		NvSetAct(NV_ACT_PARSE);
@@ -482,7 +490,7 @@ void NvLoad(void)
 	{
 		Nv.cur = Nv.str;
 
-		NvExecParseSjisSub();
+		NvExecParseSjis();
 
 		ImgSetExec(IMG_EFFECT_LOAD);
 		NvSetAct(NV_ACT_KEY);
@@ -491,23 +499,30 @@ void NvLoad(void)
 	ManageSetAct(MANAGE_ACT_NV);
 }
 //---------------------------------------------------------------------------
-bool NvIsDbg(void)
-{
-	return Nv.isDbg;
-}
-//---------------------------------------------------------------------------
 bool NvIsSkip(void)
 {
 	return Nv.isSkip;
 }
 //---------------------------------------------------------------------------
-bool NvIsRead(void)
+bool NvIsPass(void)
 {
-	return Nv.isRead;
+	return Nv.isPass;
 }
 //---------------------------------------------------------------------------
-bool NvIsReadSeen(void)
+bool NvIsDbg(void)
 {
+	return Nv.isDbg;
+}
+//---------------------------------------------------------------------------
+bool NvIsOmake(void)
+{
+	return Nv.isOmake;
+}
+//---------------------------------------------------------------------------
+bool NvIsRead(void)
+{
+//	TRACE("[NvIsRead %d %d %d]\n", Nv.idx, Nv.bit, SeenIsRead(Nv.idx, Nv.bit));
+
 	return SeenIsRead(Nv.idx, Nv.bit);
 }
 //---------------------------------------------------------------------------

@@ -52,8 +52,8 @@ enum {
 enum {
 	MENU_DEBUG_SEL_BG,
 	MENU_DEBUG_SEL_CHR,
-	MENU_DEBUG_SEL_BGM,
-	MENU_DEBUG_SEL_FMX,
+	MENU_DEBUG_SEL_MUS,
+	MENU_DEBUG_SEL_SND,
 	MENU_DEBUG_SEL_TXT,
 };
 
@@ -69,12 +69,14 @@ typedef struct {
 	void (*pFunc)(u16 rep, u16 trg);	// キー入力時の動作用関数
 	char buf[MENU_BUF_SIZE];			// 項目文字編集用バッファ
 
+	// option
 	s32  page;							// セーブロードページ
 	s32  no;							// セーブロードセレクト
 	s32  dbg;
 	s32  opt;
 	s32  sys;
 
+	// debug
 	s32  bg;
 	s32  chr;
 	s32  mus;
@@ -86,8 +88,8 @@ typedef struct {
 
 //---------------------------------------------------------------------------
 void  MenuInit(void);
-void  MenuExec(void);
 
+void  MenuExec(void);
 void  MenuExecNone(u16 trg, u16 rep);
 void  MenuExecSave(u16 trg, u16 rep);
 void  MenuExecLoad(u16 trg, u16 rep);
@@ -98,10 +100,12 @@ void  MenuExecOption(u16 trg, u16 rep);
 void  MenuExecDebug(u16 trg, u16 rep);
 
 void  MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, s32 var, void* pFunc, bool isShow);
+void  MenuSetInit2(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, s32 var, void* pFunc);
 void  MenuSetNone(void);
 void  MenuSetSave(void);
 void  MenuSetLoad(s32 ret);
 void  MenuSetTitle(s32 sel);
+void  MenuSetTitle2(s32 sel);
 void  MenuSetNavi(void);
 void  MenuSetSystem(s32 sel);
 void  MenuSetSystem2(void);

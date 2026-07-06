@@ -17,11 +17,17 @@ void ImgInit(void)
 	Img.fade = IMG_DEF_FADE_CNT;
 }
 //---------------------------------------------------------------------------
-void ImgExec(void)
+bool ImgExec(void)
 {
 	if(Img.isClr == true)
 	{
-		ImgExecSub();
+		FadeSetMsg(0);
+
+		TxtHide();
+		TxtClrSpr();
+
+		Img.isMsg = false;
+		Img.isClr = false;
 	}
 
 	switch(Img.eff)
@@ -74,21 +80,16 @@ void ImgExec(void)
 		ImgExecLoad();
 		break;
 
+	case IMG_EFFECT_BOOT:
+		ImgExecBoot();
+		break;
+
 	default:
 		SystemError("[Err] ImgExec eff=%x\n", Img.eff);
 		break;
 	}
-}
-//---------------------------------------------------------------------------
-void ImgExecSub(void)
-{
-	FadeSetMsg(0);
 
-	TxtHide();
-	TxtClrSpr();
-
-	Img.isMsg = false;
-	Img.isClr = false;
+	return Img.isExec;
 }
 //---------------------------------------------------------------------------
 void ImgExecNormal(void)
@@ -102,7 +103,7 @@ void ImgExecNormal(void)
 		return;
 	}
 
-	Mode3VramEffCopy();
+	Mode3VramCopy();
 
 	Mode3FlipBuf();
 	Img.isExec = false;
@@ -122,7 +123,7 @@ void ImgExecZiri(void)
 	if(Img.step == 1)
 	{
 		// VCOUNT 160 -> 213
-		Mode3VramEffZiri(Img.var++);
+		Mode3VramZiri(Img.var++);
 
 		if(Img.var >= 8)
 		{
@@ -153,7 +154,7 @@ void ImgExecAlpha(void)
 	{
 		// VCOUNT 160 -> 208
 //		TRACE("S:%d\n", REG_VCOUNT);
-		Mode3VramEffAlpha(Img.var++);
+		Mode3VramAlpha(Img.var++);
 //		TRACE("E:%d\n", REG_VCOUNT);
 
 		if(Img.var >= 8)
@@ -244,7 +245,7 @@ void ImgExecBlackIn(void)
 	if(Img.step == 2)
 	{
 		FadeSetBlack(0);
-		Mode3VramEffCopy();
+		Mode3VramCopy();
 
 		Img.step++;
 		return;
@@ -284,7 +285,7 @@ void ImgExecWhiteIn(void)
 	if(Img.step == 2)
 	{
 		FadeSetWhite(0);
-		Mode3VramEffCopy();
+		Mode3VramCopy();
 
 		Img.step++;
 		return;
@@ -308,10 +309,10 @@ void ImgExecBlackOut(void)
 
 	if(Img.step == 1)
 	{
-		Img.var = 16;
+		Img.var = 15;
 		FadeSetBlack(Img.var);
 
-		Mode3VramEffCopy();
+		Mode3VramCopy();
 
 		Img.step++;
 		return;
@@ -347,10 +348,10 @@ void ImgExecWhiteOut(void)
 
 	if(Img.step == 1)
 	{
-		Img.var = 16;
+		Img.var = 15;
 		FadeSetWhite(Img.var);
 
-		Mode3VramEffCopy();
+		Mode3VramCopy();
 
 		Img.step++;
 		return;
@@ -399,7 +400,7 @@ void ImgExecClrMsg(void)
 	Img.isExec = false;
 }
 //---------------------------------------------------------------------------
-// îwåiÅ®çïÅ®îwåi
+// îwåiÅ®çïÅ®îwåiÅ®ÉÅÉbÉZÅ[ÉW
 void ImgExecLoad(void)
 {
 	if(Img.step == 0)
@@ -425,7 +426,7 @@ void ImgExecLoad(void)
 
 	if(Img.step == 2)
 	{
-		Mode3VramEffCopy();
+		Mode3VramCopy();
 
 		Img.step++;
 		return;
@@ -458,18 +459,67 @@ void ImgExecLoad(void)
 	Img.isExec = false;
 }
 //---------------------------------------------------------------------------
+// îíÅ®îwåiÅ®ÉÅÉbÉZÅ[ÉW
+void ImgExecBoot(void)
+{
+	if(Img.step == 0)
+	{
+		ImgDrawBg();
+		ImgDrawChr();
+
+		Img.step++;
+		return;
+	}
+
+	if(Img.step == 1)
+	{
+		FadeSetWhite(15);
+		Mode3VramCopy();
+
+		Img.var = 15;
+		Img.step++;
+		return;
+	}
+
+	if(Img.step == 2)
+	{
+		Img.var--;
+		FadeSetWhite(Img.var);
+
+		if(Img.var == 0)
+		{
+			Img.step++;
+		}
+		return;
+	}
+
+	// wait
+	if(Img.step <= 3+15)
+	{
+		Img.step++;
+		return;
+	}
+
+	FadeSetMsg(Img.fade);
+	TxtShow();
+
+	Mode3FlipBuf();
+	Img.isMsg = true;
+	Img.isExec = false;
+}
+//---------------------------------------------------------------------------
 void ImgDrawBg(void)
 {
 	if(Img.bg == 0)
 	{
-		Mode3DrawBg2(RGB8(0, 0, 0));
+		Mode3DrawCol(RGB8(0, 0, 0));
 
 		return;
 	}
 
 	if(Img.bg == 900)
 	{
-		Mode3DrawBg2(RGB8(31, 31, 31));
+		Mode3DrawCol(RGB8(31, 31, 31));
 
 		return;
 	}
@@ -578,17 +628,6 @@ s32 ImgGetBg(void)
 s32 ImgGetFade(void)
 {
 	return Img.fade;
-}
-//---------------------------------------------------------------------------
-void ImgShowNavi(s32 sel)
-{
-	SprMoveNavi(0, sel);
-	SprShowNavi();
-}
-//---------------------------------------------------------------------------
-void ImgHideNavi(void)
-{
-	SprHideNavi();
 }
 //---------------------------------------------------------------------------
 bool ImgIsExec(void)

@@ -61,7 +61,6 @@ char* FileGetTxt(s32 no)
 
 	u32* p = GbfsGetSafePointer(buf);
 
-
 	SwiLZ77UnCompWrite16bit(p, File.work);
 	File.size = p[0] >> 8;
 

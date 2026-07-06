@@ -1,10 +1,10 @@
 #include "log.h"
 #include "libmy/key.h"
 #include "libmy/mem.arm.h"
+#include "navi.h"
 #include "manage.h"
 #include "menu.h"
 #include "txt.h"
-#include "img.h"
 #include "cur.h"
 #include "nv.h"
 
@@ -64,7 +64,7 @@ void LogSetInit(void)
 	Log.sel = 0;
 
 	CurHide();
-	ImgHideNavi();
+	NaviHide();
 
 	TxtSetExec();
 }

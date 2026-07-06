@@ -7,6 +7,7 @@
 #include "log.h"
 #include "manage.h"
 #include "mus.h"
+#include "navi.h"
 #include "nv.h"
 #include "siori.h"
 #include "snd.h"
@@ -27,7 +28,7 @@ ROM_DATA char MenuSelStr[][32+1] = {
 	"‰Ê‚Ä‚µ‚È‚­Â‚¢A‚±‚Ì‹ó‚Ì‰º‚ÅcB",
 	"ƒQ[ƒ€‚ğn‚ß‚é",
 	"‘±‚«‚©‚çn‚ß‚é",
-	"‚¨‚Ü‚¯",
+	"|H|",
 
 	// 7
 	"yU—ªî•ñz",
@@ -54,7 +55,7 @@ ROM_DATA char MenuSelStr[][32+1] = {
 	"yƒfƒoƒbƒOz",
 	"‚a‚f@@‚O‚O‚O",
 	"‚b‚g‚q@‚O‚O‚O",
-	"‚a‚f‚l@‚O‚O‚O",
+	"‚l‚t‚r@‚O‚O‚O",
 	"‚r‚m‚c@‚O‚O‚O",
 	"‚s‚w‚s@‚O‚O‚O",
 };
@@ -228,6 +229,7 @@ void MenuExecLoad(u16 trg, u16 rep)
 	TxtLoad();
 	NvLoad();
 
+	NvSetOmake(false);
 	NvSetDbg(false);
 }
 //---------------------------------------------------------------------------
@@ -250,10 +252,12 @@ void MenuExecTitle(u16 trg, u16 rep)
 		MenuSetLoad(MENU_TYPE_TITLE);
 		break;
 
-	// ‚¨‚Ü‚¯
+	// |H|
 	case 2:
+		NvSetOmake(true);
 		NvSetNavi(5);
 		NvSetTxt(612);
+
 		NvSetAct(NV_ACT_PARSE);
 		ManageSetAct(MANAGE_ACT_NV);
 		break;
@@ -278,9 +282,8 @@ void MenuExecNavi(u16 trg, u16 rep)
 			NvSetNavi(5);
 
 Start:
-			TRACE("[MenuExecNavi navi:%d]\n", NvGetNavi());
+//			TRACE("[MenuExecNavi navi:%d]\n", NvGetNavi());
 
-			NvSetDbg(false);
 			NvSetTxt(1);
 			NvSetAct(NV_ACT_PARSE);
 
@@ -338,7 +341,7 @@ void MenuExecSystem(u16 trg, u16 rep)
 	{
 	// ƒZ[ƒu
 	case 0:
-		if(NvIsDbg() == false)
+		if(NvIsDbg() == false && NvIsOmake() == false)
 		{
 			MenuSetSave();
 		}
@@ -363,6 +366,10 @@ void MenuExecSystem(u16 trg, u16 rep)
 	case 4:
 		MusStop();
 		SndStop();
+
+		NvSetOmake(false);
+		NvSetDbg(false);
+		NvSetNavi(0);
 
 		ImgSetBg(5);
 		ImgSetChr(800);
@@ -452,13 +459,13 @@ void MenuExecOption(u16 trg, u16 rep)
 	case 3:
 		if(trg & KEY_LEFT || trg & KEY_RIGHT)
 		{
-			if(NvIsRead() == true)
+			if(NvIsPass() == true)
 			{
-				NvSetRead(false);
+				NvSetPass(false);
 			}
 			else
 			{
-				NvSetRead(true);
+				NvSetPass(true);
 			}
 
 			TxtSetExec();
@@ -551,7 +558,7 @@ void MenuExecDebug(u16 trg, u16 rep)
 		}
 		break;
 
-	// BGM
+	// MUS
 	case 2:
 		if(rep & KEY_L)
 		{
@@ -662,12 +669,13 @@ void MenuExecDebug(u16 trg, u16 rep)
 			MusStop();
 			SndStop();
 
+			NvSetOmake(false);
 			NvSetDbg(true);
 			NvSetTxt(Menu.txt);
 			NvSetAct(NV_ACT_PARSE);
-			ManageSetAct(MANAGE_ACT_NV);
 
 			ImgSetExec(IMG_EFFECT_BLACK_IN);
+			ManageSetAct(MANAGE_ACT_NV);
 		}
 		break;
 	}
@@ -693,7 +701,20 @@ void MenuSetInit(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, s32 var, void* pF
 	}
 
 	CurHide();
-	ImgHideNavi();
+	NaviHide();
+}
+//---------------------------------------------------------------------------
+void MenuSetInit2(s32 type, s32 ret, s32 sel, s32 msg, s32 reg, s32 var, void* pFunc)
+{
+	Menu.type  = type;
+	Menu.sel   = sel;
+	Menu.msg   = msg;
+	Menu.reg   = reg;
+	Menu.var   = var;
+	Menu.pFunc = pFunc;
+
+	CurHide();
+	NaviHide();
 }
 //---------------------------------------------------------------------------
 void MenuSetNone(void)
@@ -714,6 +735,11 @@ void MenuSetLoad(s32 ret)
 void MenuSetTitle(s32 sel)
 {
 	MenuSetInit(MENU_TYPE_TITLE, 0, sel, 3, 3, 0, MenuExecTitle, true);
+}
+//---------------------------------------------------------------------------
+void MenuSetTitle2(s32 sel)
+{
+	MenuSetInit2(MENU_TYPE_TITLE, 0, sel, 3, 3, 0, MenuExecTitle);
 }
 //---------------------------------------------------------------------------
 void MenuSetNavi(void)
@@ -785,7 +811,7 @@ char* MenuGetStrSelOpt(s32 sel)
 
 	switch(sel)
 	{
-	// "”wŒi‹P“x@‚O‚O",
+	// "”wŒi‹P“x@‚O‚O"
 	case 0:
 		n = ImgGetFade();
 
@@ -794,25 +820,25 @@ char* MenuGetStrSelOpt(s32 sel)
 		Menu.buf[13] = 0x4f + SwiDivMod(n, 10);
 		break;
 
-	// "’Êí•¶š@",
+	// "’Êí•¶š@"
 	case 1:
 		n = TxtGetBase();
 		_Strcat(Menu.buf, MenuColStr[n]);
 		break;
 
-	// "Šù“Ç•¶š@",
+	// "Šù“Ç•¶š@"
 	case 2:
 		n = TxtGetRead();
 		_Strcat(Menu.buf, MenuColStr[n]);
 		break;
 
-	// "Šù“Ç–³‹@",
+	// "Šù“Ç–³‹@"
 	case 3:
-		n = (NvIsRead() == true) ? 1 : 0;
+		n = (NvIsPass() == true) ? 1 : 0;
 		_Strcat(Menu.buf, MenuOptStr[n]);
 		break;
 
-	// "U—ªî•ñ@",
+	// "U—ªî•ñ@"
 	case 4:
 		_Strcat(Menu.buf, MenuNaviStr[NvGetNavi()]);
 		break;

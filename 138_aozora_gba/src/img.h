@@ -24,7 +24,8 @@ enum {
 	IMG_EFFECT_WHITE_OUT,		//  9.白→背景
 	IMG_EFFECT_SET_MSG,			// 10.メッセージボックス表示
 	IMG_EFFECT_CLR_MSG,			// 12.メッセージボックス非表示
-	IMG_EFFECT_LOAD,			// 1#.ロード用
+	IMG_EFFECT_LOAD,			// 13.ロード用
+	IMG_EFFECT_BOOT,			// 14.起動用
 };
 
 //---------------------------------------------------------------------------
@@ -36,13 +37,12 @@ typedef struct {
 	bool isClr;
 
 	s32  step;
-	s32  fade;
 	s32  var;
 
 	s32  bg;
 	s32  chr;
 	s32  eff;
-
+	s32  fade;
 
 } ST_IMG;
 
@@ -50,8 +50,7 @@ typedef struct {
 //---------------------------------------------------------------------------
 void ImgInit(void);
 
-void ImgExec(void);
-void ImgExecSub(void);
+bool ImgExec(void);
 void ImgExecNormal(void);
 void ImgExecZiri(void);
 void ImgExecAlpha(void);
@@ -64,6 +63,7 @@ void ImgExecWhiteOut(void);
 void ImgExecSetMsg(void);
 void ImgExecClrMsg(void);
 void ImgExecLoad(void);
+void ImgExecBoot(void);
 
 void ImgDrawBg(void);
 void ImgDrawChr(void);
@@ -76,9 +76,6 @@ void ImgSetNoWait(void);
 void ImgSetFade(s32 num);
 s32  ImgGetBg(void);
 s32  ImgGetFade(void);
-
-void ImgShowNavi(s32 sel);
-void ImgHideNavi(void);
 
 bool ImgIsExec(void);
 

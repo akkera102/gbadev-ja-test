@@ -67,12 +67,12 @@ char* InfoGetStrMes(s32 idx)
 	return InfoStrMes[idx];
 }
 //---------------------------------------------------------------------------
-s32 InfoGetNavi(s32 i, s32 c)
+s32 InfoGetNavi(s32 idx, s32 cnt)
 {
-	_ASSERT(i < 5);
-	_ASSERT(c < 40);
+	_ASSERT(idx <  5);
+	_ASSERT(cnt < 40);
 
-	return InfoStrNavi[i][c] - '1';
+	return InfoStrNavi[idx][cnt] - '1';
 }
 //---------------------------------------------------------------------------
 s32 InfoGetBg(s32 idx, s32 mov)

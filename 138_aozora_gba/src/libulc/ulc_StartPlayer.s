@@ -60,50 +60,49 @@ ulc_StartPlayer:
 	BL	memset
 	POP	{r0}
 
-@ fixed 2026/06/30
-@.LInit_SetupHardware:
-@#if !ULC_USER_HWSETUP
-@	LDR	r1, =0x04000080    @ &SOUNDCNT -> r1
-@# if ULC_STEREO_SUPPORT
-@	LSR	r4, #0x01          @ IsStereo? (and restore BlockSize -> r4)
-@	BCS	2f
-@1:	LDR	r2, =0x0B04        @ FIFOA 100%,             FIFOA -> L, FIFOA -> R, FIFOA reset
-@	B	3f
-@2:	LDR	r2, =0x9A0C        @ FIFOB 100%, FIFOB 100%, FIFOA -> L, FIFOB -> R, FIFOA reset, FIFOB reset
-@# else
-@	LDR	r2, =0x0B04        @ FIFOA 100%,             FIFOA -> L, FIFOA -> R, FIFOA reset
-@# endif
-@3:	STR	r1, [r1, #0x04]    @ Master enable for audio (Bit7)
-@	STRH	r2, [r1, #0x02]    @ Store DMA audio control
-@# if ULC_STEREO_SUPPORT
-@	MOV	ip, r2             @ Save DMA audio control -> ip
-@# endif
-@1:	ADD	r1, #0x0100-0x80   @ &TM0 -> r1
-@	MOV	r2, #0x81          @ TM0 = ENABLE, Period = HW_RATE / RateHz
-@	LSL	r2, #0x10          @ [C=0]
-@	STRH	r2, [r1, #0x02]    @ [TM0CNT = 0, safety]
-@	SBC	r2, r0             @ [this completes the ceiling division by adding 1 to the off-by-one result]
-@	STR	r2, [r1, #0x00]    @ Start FIFO timer
-@2:	SUB	r1, #0x0100 - 0xBC @ &DMA1 -> r1
-@	LDR	r0, =ulc_OutputBuffer
-@	MOV	r2, #0xBC-0xA0     @ DMA1.Dst = &FIFOA -> r2
-@	SUB	r2, r1, r2
-@	MOV	r3, #0xB6          @ DMA1.Cnt = DST_INC, SRC_INC, REPT, WORDS, SOUNDFIFO, ENABLE
-@	LSL	r3, #0x18
-@	STRH	r3, [r1, #0x0A]    @ [CNT_H=0, safety]
-@	STMIA	r1!, {r0,r2,r3}
-@# if ULC_STEREO_SUPPORT
-@	MOV	r4, ip             @ Stereo has DMA bit 15 set
-@	LSR	r4, #0x0F
-@	BEQ	1f
-@0:	LSL	r4, #ULC_MAX_BLOCK_SIZE_LOG2+1
-@	ADD	r2, #0x04          @ DMA2.Dst = &FIFOB -> r2
-@	ADD	r0, r4             @ Advance source to the right-channel buffer
-@	STRH	r3, [r1, #0x0A]
-@	STMIA	r1!, {r0,r2,r3}
-@1:
-@# endif
-@#endif
+.LInit_SetupHardware:
+#if !ULC_USER_HWSETUP
+	LDR	r1, =0x04000080    @ &SOUNDCNT -> r1
+# if ULC_STEREO_SUPPORT
+	LSR	r4, #0x01          @ IsStereo? (and restore BlockSize -> r4)
+	BCS	2f
+1:	LDR	r2, =0x0B04        @ FIFOA 100%,             FIFOA -> L, FIFOA -> R, FIFOA reset
+	B	3f
+2:	LDR	r2, =0x9A0C        @ FIFOB 100%, FIFOB 100%, FIFOA -> L, FIFOB -> R, FIFOA reset, FIFOB reset
+# else
+	LDR	r2, =0x0B04        @ FIFOA 100%,             FIFOA -> L, FIFOA -> R, FIFOA reset
+# endif
+3:	STR	r1, [r1, #0x04]    @ Master enable for audio (Bit7)
+	STRH	r2, [r1, #0x02]    @ Store DMA audio control
+# if ULC_STEREO_SUPPORT
+	MOV	ip, r2             @ Save DMA audio control -> ip
+# endif
+1:	ADD	r1, #0x0100-0x80   @ &TM0 -> r1
+	MOV	r2, #0x81          @ TM0 = ENABLE, Period = HW_RATE / RateHz
+	LSL	r2, #0x10          @ [C=0]
+	STRH	r2, [r1, #0x02]    @ [TM0CNT = 0, safety]
+	SBC	r2, r0             @ [this completes the ceiling division by adding 1 to the off-by-one result]
+	STR	r2, [r1, #0x00]    @ Start FIFO timer
+2:	SUB	r1, #0x0100 - 0xBC @ &DMA1 -> r1
+	LDR	r0, =ulc_OutputBuffer
+	MOV	r2, #0xBC-0xA0     @ DMA1.Dst = &FIFOA -> r2
+	SUB	r2, r1, r2
+	MOV	r3, #0xB6          @ DMA1.Cnt = DST_INC, SRC_INC, REPT, WORDS, SOUNDFIFO, ENABLE
+	LSL	r3, #0x18
+	STRH	r3, [r1, #0x0A]    @ [CNT_H=0, safety]
+	STMIA	r1!, {r0,r2,r3}
+# if ULC_STEREO_SUPPORT
+	MOV	r4, ip             @ Stereo has DMA bit 15 set
+	LSR	r4, #0x0F
+	BEQ	1f
+0:	LSL	r4, #ULC_MAX_BLOCK_SIZE_LOG2+1
+	ADD	r2, #0x04          @ DMA2.Dst = &FIFOB -> r2
+	ADD	r0, r4             @ Advance source to the right-channel buffer
+	STRH	r3, [r1, #0x0A]
+	STMIA	r1!, {r0,r2,r3}
+1:
+# endif
+#endif
 
 .LInit_Exit_Okay:
 	MOV	r0, #0x00 @ Return TRUE

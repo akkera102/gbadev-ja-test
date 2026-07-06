@@ -1,5 +1,4 @@
 
-.text
 .section .iwram,"ax",%progbits
 .arm
 

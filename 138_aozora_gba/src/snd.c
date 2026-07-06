@@ -14,7 +14,7 @@ void SndInit(void)
 //---------------------------------------------------------------------------
 void SndPlay(s32 no, bool isLoop)
 {
-	TRACE("[SndPlay %d %d]\n", no, isLoop);
+//	TRACE("[SndPlay %d %d]\n", no, isLoop);
 
 	if(Snd.no == no && Snd.isLoop == isLoop)
 	{
@@ -59,7 +59,7 @@ void SndLoad(void)
 //---------------------------------------------------------------------------
 void SndStop(void)
 {
-	TRACE("[SndStop]\n");
+//	TRACE("[SndStop]\n");
 
 	Snd.no = 0;
 

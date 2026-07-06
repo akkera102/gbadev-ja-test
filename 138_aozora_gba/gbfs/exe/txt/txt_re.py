@@ -1317,8 +1317,6 @@ txt = re.sub(r"SC0705F", r"T655", txt)
 txt = re.sub(r"SC0705G", r"T656", txt)
 txt = re.sub(r"SC0706A", r"T657", txt)
 
-# 変更
-
 # 空白、タブ
 txt = re.sub(r"よそ見 しないの！", r"よそ見しないの！", txt)
 txt = re.sub(r"その 明るさは", r"その明るさは", txt)
@@ -1335,7 +1333,6 @@ txt = re.sub(r"と垂直に 降りて", r"と垂直に降りて", txt)
 txt = re.sub(r"たい、\t珍しいぐらい", r"たい、珍しいぐらい", txt)
 txt = re.sub(r"世界一周\tしたい", r"世界一周したい", txt)
 txt = re.sub(r"俺の見たの\tとは", r"俺の見たのとは", txt)
-
 txt = re.sub(r"\b,ZI ", r" 2", txt)
 txt = re.sub(r"CFR 2 \n", r"CFR 2\n", txt)
 txt = re.sub(r"GLG A083 2 \n", r"GLG A083 2\n", txt)
@@ -1344,14 +1341,22 @@ txt = re.sub(r"GLG A055 2 \n", r"GLG A055 2\n", txt)
 txt = re.sub(r"GLG A057 2 \n", r"GLG A057 2\n", txt)
 txt = re.sub(r"GLG A058 2 \n", r"GLG A058 2\n", txt)
 txt = re.sub(r"GLG A067 2 \n", r"GLG A067 2\n", txt)
-
-# 命令
+# ウェイト追加
 txt = re.sub(r"END 1\n", r"WAS 1\nEND 1\n", txt)
 txt = re.sub(r"END 2\n", r"WAS 1\nEND 2\n", txt)
 txt = re.sub(r"END 3\n", r"WAS 1\nEND 3\n", txt)
+# GLG->GLB変更
 txt = re.sub(r"GLG B075 2", r"GLB B075 2", txt)
 txt = re.sub(r"GLG B078 2", r"GLB B078 2", txt)
 txt = re.sub(r"GLG B086 2", r"GLB B086 2", txt)
+# 代入をSET前に移動（T331）
+txt = re.sub(r"SET\nGLB B080 1\nMES 1\n（・・・・どうしようか・・・）\nVFW 024\+1\n", r"VFW 024+1\nSET\nGLB B080 1\nMES 1\n（・・・・どうしようか・・・）\n", txt)
+# SETとGLBを追加（T341）
+txt = re.sub(r"IF0 FL043&!FL046\n", r"SET\nGLB B039 1\nIF0 FL043&!FL046\n", txt)
+# SETとGLBを追加（T343）
+txt = re.sub(r"IF0 FL044&!FL046\n", r"SET\nGLB B039 1\nIF0 FL044&!FL046\n", txt)
+# SETとGLBを追加（T344）
+txt = re.sub(r"MES 1\n（ナイフを使って・・・）\n", r"SET\nGLB B039 1\nMES 1\n（ナイフを使って・・・）\n", txt)
 
 
 #先頭文字4桁でテキスト保存

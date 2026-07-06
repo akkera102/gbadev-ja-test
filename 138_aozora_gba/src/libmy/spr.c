@@ -12,8 +12,8 @@ ST_SPR Spr;
 //---------------------------------------------------------------------------
 void SprInit(void)
 {
-	MemClear(&Spr, sizeof(ST_SPR));
-	MemClear(BITMAP_OBJ_BASE_ADR, 0x20 * 512);
+	MemClr(&Spr, sizeof(ST_SPR));
+	MemClr(BITMAP_OBJ_BASE_ADR, 0x20 * 512);
 
 	// cursor chr + pal
 	MemInc((u16*)spr_cursorTiles, BITMAP_OBJ_BASE_ADR + SPR_MAX_DAT_SIZE, spr_cursorTilesLen);
@@ -83,9 +83,9 @@ IWRAM_CODE void SprMove(s32 no, s32 x, s32 y)
 	p->d1 |= (x & 0x01ff);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprClearDat(void)
+IWRAM_CODE void SprClrDat(void)
 {
-	MemClearFast(BITMAP_OBJ_BASE_ADR, SPR_MAX_DAT_SIZE);
+	MemClrFast(BITMAP_OBJ_BASE_ADR, SPR_MAX_DAT_SIZE);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprVramSjis(s32 x, s32 y, u16 code)
@@ -121,7 +121,7 @@ void SprSetRead(void)
 	Spr.msk = SPR_FONT_MASK_READ;
 }
 //---------------------------------------------------------------------------
-void SprSetBaseCol(u16 no)
+void SprSetColBase(u16 no)
 {
 	if(no == 0) SPRITE_PALETTE[7] = RGB5(31,31,31);	// îí
 	if(no == 1) SPRITE_PALETTE[7] = RGB5( 0,31,31);	// êÖ
@@ -130,7 +130,7 @@ void SprSetBaseCol(u16 no)
 	if(no == 4) SPRITE_PALETTE[7] = RGB5(31,19,17);	// ê‘
 }
 //---------------------------------------------------------------------------
-void SprSetReadCol(u16 no)
+void SprSetColRead(u16 no)
 {
 	if(no == 0) SPRITE_PALETTE[3] = RGB5(31,31,31);	// îí
 	if(no == 1) SPRITE_PALETTE[3] = RGB5( 0,31,31);	// êÖ
@@ -188,10 +188,9 @@ void SprMoveCur(s32 x, s32 y)
 	SprMove(9, sx, sy);
 }
 //---------------------------------------------------------------------------
-void SprMoveNavi(s32 x, s32 y)
+void SprMoveNavi(s32 y)
 {
-	s32 sx =  6 + x * (SPR_FONT_IMG_CX);
 	s32 sy = 84 + y * (SPR_FONT_IMG_CY + SPR_FONT_IMG_BLANK_CY);
 
-	SprMove(10, sx, sy);
+	SprMove(10, 6, sy);
 }

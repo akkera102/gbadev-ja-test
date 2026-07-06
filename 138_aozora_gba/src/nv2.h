@@ -46,7 +46,6 @@ void NvExecParseWam(void);
 void NvExecParseEnd(void);
 
 void NvExecParseSjis(void);
-void NvExecParseSjisSub(void);
 
 
 #ifdef __cplusplus

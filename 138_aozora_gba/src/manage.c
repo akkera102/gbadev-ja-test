@@ -7,6 +7,7 @@
 #include "log.h"
 #include "menu.h"
 #include "mus.h"
+#include "navi.h"
 #include "nv.h"
 #include "seen.h"
 #include "siori.h"
@@ -83,6 +84,7 @@ void ManageExecInit(void)
 	ImgInit();
 	TxtInit();
 	CurInit();
+	NaviInit();
 	MenuInit();
 	NvInit();
 	SeenInit();
@@ -102,11 +104,16 @@ void ManageExecInit(void)
 
 
 ///*
+	SndStop();
+	MusPlay(29, true);
+
 	ImgSetBg(5);
 	ImgSetChr(800);
-	ImgSetExec(IMG_EFFECT_BLACK_OUT);
+	ImgSetExec(IMG_EFFECT_BOOT);
+	TxtSetExec();
 
-	ManageSetAct(MANAGE_ACT_EXIT);
+	MenuSetTitle2(MENU_TITLE_SEL_LOAD);
+	ManageSetAct(MANAGE_ACT_MENU);
 //*/
 }
 //---------------------------------------------------------------------------
@@ -114,9 +121,10 @@ void ManageExecNv(void)
 {
 	if(ImgIsExec() == true)
 	{
-		ImgExec();
-
-		return;
+		if(ImgExec() == true)
+		{
+			return;
+		}
 	}
 
 	if(TxtIsExec() == true)
@@ -136,14 +144,20 @@ void ManageExecSel(void)
 {
 	if(ImgIsExec() == true)
 	{
-		ImgExec();
-
-		return;
+		if(ImgExec() == true)
+		{
+			return;
+		}
 	}
 
 	if(TxtIsExec() == true)
 	{
 		TxtExecSel();
+	}
+
+	if(NaviIsExec() == true)
+	{
+		NaviExec();
 	}
 
 	NvExec();
@@ -163,9 +177,10 @@ void ManageExecMenu(void)
 {
 	if(ImgIsExec() == true)
 	{
-		ImgExec();
-
-		return;
+		if(ImgExec() == true)
+		{
+			return;
+		}
 	}
 
 	if(TxtIsExec() == true)
@@ -180,12 +195,11 @@ void ManageExecExit(void)
 {
 	if(ImgIsExec() == true)
 	{
-		ImgExec();
-
-		return;
+		if(ImgExec() == true)
+		{
+			return;
+		}
 	}
-
-	NvSetNavi(0);
 
 	LogInit();
 	SeenInit();

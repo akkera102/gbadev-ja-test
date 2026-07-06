@@ -30,7 +30,6 @@
 
 //---------------------------------------------------------------------------
 // Key
-#define KEY_ALL					0x03ff
 #define KEY_NONE				0x0000
 #define STAT_MASK				0x00ff
 

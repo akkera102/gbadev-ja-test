@@ -1,6 +1,5 @@
 @ TODO: check if source address is valid (>= 0x02000000)
 
-.text
 .section .iwram,"ax",%progbits
 .arm
 

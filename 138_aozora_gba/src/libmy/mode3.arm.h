@@ -27,13 +27,14 @@ typedef struct {
 void Mode3Init(void);
 
 IWRAM_CODE void Mode3DrawBg(u16* pImg);
-IWRAM_CODE void Mode3DrawBg2(u16 col);
+IWRAM_CODE void Mode3DrawCol(u16 col);
 IWRAM_CODE void Mode3DrawChr(s32 sx, s32 sy, s32 cx, s32 cy, u16* pImg, u8* pAlp);
 IWRAM_CODE void Mode3DrawIco(s32 sx, s32 sy, s32 cx, s32 cy, u32 bit, u16* pImg, u8* pAlp);
 
-IWRAM_CODE void Mode3VramEffCopy(void);
-IWRAM_CODE void Mode3VramEffZiri(s32 cnt);
-IWRAM_CODE void Mode3VramEffAlpha(s32 cnt);
+IWRAM_CODE void Mode3VramCol(u16 col);
+IWRAM_CODE void Mode3VramCopy(void);
+IWRAM_CODE void Mode3VramZiri(s32 cnt);
+IWRAM_CODE void Mode3VramAlpha(s32 cnt);
 
 IWRAM_CODE void Mode3FlipBuf(void);
 
