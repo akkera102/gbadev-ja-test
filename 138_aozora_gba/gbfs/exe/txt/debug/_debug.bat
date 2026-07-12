@@ -83,5 +83,5 @@ copy *.bin ..\..\..\data\tmp > nul
 
 cd ..\..\..\data
 
-..\exe\rom\gbfs ..\exe\rom\test.gbfs tmp\*.* ..\exe\rom\*.bin
+..\exe\rom\gbfs ..\exe\rom\test.gbfs tmp\*.*
 copy /Y ..\exe\rom\test.gbfs ..\..\src

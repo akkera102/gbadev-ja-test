@@ -16,7 +16,7 @@ void TxtInit(void)
 {
 	_Memset(&Txt, 0x00, sizeof(ST_TXT));
 
-	Txt.read = 1;
+	Txt.readNo = 1;
 }
 //---------------------------------------------------------------------------
 void TxtExecNv(void)
@@ -211,28 +211,28 @@ void TxtSetExec(void)
 	Txt.isExec = true;
 }
 //---------------------------------------------------------------------------
-void TxtSetBase(s32 no)
+void TxtSetBaseNo(s32 no)
 {
 	SprSetColBase(no);
 
-	Txt.base = no;
+	Txt.baseNo = no;
 }
 //---------------------------------------------------------------------------
-void TxtSetRead(s32 no)
+void TxtSetReadNo(s32 no)
 {
 	SprSetColRead(no);
 
-	Txt.read = no;
+	Txt.readNo = no;
 }
 //---------------------------------------------------------------------------
-s32 TxtGetBase(void)
+s32 TxtGetBaseNo(void)
 {
-	return Txt.base;
+	return Txt.baseNo;
 }
 //---------------------------------------------------------------------------
-s32 TxtGetRead(void)
+s32 TxtGetReadNo(void)
 {
-	return Txt.read;
+	return Txt.readNo;
 }
 //---------------------------------------------------------------------------
 s32 TxtGetX(void)
@@ -257,8 +257,8 @@ void TxtHide(void)
 //---------------------------------------------------------------------------
 void TxtLoad(void)
 {
-	SprSetColBase(Txt.base);
-	SprSetColRead(Txt.read);
+	SprSetColBase(Txt.baseNo);
+	SprSetColRead(Txt.readNo);
 }
 //---------------------------------------------------------------------------
 bool TxtIsExec(void)

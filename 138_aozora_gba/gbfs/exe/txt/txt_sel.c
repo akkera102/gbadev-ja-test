@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 	}
 
 
-	// SEL, CAS, ESE位置を求めます
+	// SEL, CAS, SEE位置を求めます
 	// ネストしていないので順次格納（調査済）
 	s32 idx = 0;
 	s32 grp = -1;

@@ -85,11 +85,10 @@ bool SeenIsRead(s32 i, u8 b)
 	_ASSERT(b < 8);
 
 	return (Seen.read[i] & 1 << b) ? true : false;
-
 }
 //---------------------------------------------------------------------------
 // アイコン描画用フラグ
-u32 SeenGetIcoBit(void)
+u32 SeenGetBitIco(void)
 {
 	u32 ret = 0;
 

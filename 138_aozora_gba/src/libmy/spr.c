@@ -42,13 +42,13 @@ void SprInit(void)
 	SprSetBase();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void SprSetChr(s32 no, s32 x, s32 y, u16 tile, u16 shape, u16 size)
+void SprSetChr(s32 no, s32 x, s32 y, u16 tile, u16 shape, u16 size)
 {
 	ST_SPR_OAM* p = (ST_SPR_OAM*)OAM + no;
 
-	p->d0 = (y & 0x00ff) | ATTR0_COLOR_16 | shape;
+	p->d0 = (y & 0x00ff) | ATTR0_COLOR_16 | ATTR0_DISABLED | shape;
 	p->d1 = (x & 0x01ff) | size;
-	p->d2 = tile | ATTR2_PRIORITY(0);
+	p->d2 = ATTR2_PRIORITY(0) | tile;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprSetTile(s32 no, s32 tile)

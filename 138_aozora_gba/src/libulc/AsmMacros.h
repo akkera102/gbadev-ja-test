@@ -16,10 +16,10 @@
 #define ASM_SECTION_IWRAM  .section .iwram, "awx", %progbits;
 #ifdef ASM_BSS_IS_EWRAM
 # define ASM_SECTION_IWRAM_BSS .section .sbss, "aw", %nobits;
-# define ASM_SECTION_EWRAM_BSS .section .bss,  "aw", %nobtis;
+# define ASM_SECTION_EWRAM_BSS .section .bss,  "aw", %nobits;	// fix
 #else
 # define ASM_SECTION_IWRAM_BSS .section .bss,  "aw", %nobits;
-# define ASM_SECTION_EWRAM_BSS .section .sbss, "aw", %nobtis;
+# define ASM_SECTION_EWRAM_BSS .section .sbss, "aw", %nobits;	// fix
 #endif
 
 /**************************************/

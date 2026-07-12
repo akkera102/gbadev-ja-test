@@ -18,28 +18,28 @@
 
 //---------------------------------------------------------------------------
 ST_NV_JUMP_TBL NvJumpTbl[NV_MAX_PARSE_CNT] = {
-	{ "MES", (void*)NvExecJumpMes },	// 人物と既読フラグ
-	{ "MLF", (void*)NvExecJumpMlf },	// 改ページ
-	{ "GFX", (void*)NvExecJumpGfx },	// 画面効果
-	{ "GLB", (void*)NvExecJumpGlb },	// 背景表示
-	{ "GLG", (void*)NvExecJumpGlg },	// 立ち絵表示
-	{ "CLG", (void*)NvExecJumpClg },	// 立ち絵非表示
-	{ "CFR", (void*)NvExecJumpCfr },	// 画面全体消去
-	{ "MUS", (void*)NvExecJumpMus },	// 音楽
-	{ "SND", (void*)NvExecJumpSnd },	// 効果音
-	{ "VFL", (void*)NvExecJumpVfl },	// フラグ変数
-	{ "VFW", (void*)NvExecJumpVfw },	// ワード変数
-	{ "IF0", (void*)NvExecJumpIf0 },	// IF開始ブロック
-	{ "IFE", (void*)NvExecJumpIfe },	// IF終了ブロック
-	{ "GO0", (void*)NvExecJumpGo0 },	// スクリプト移動
-	{ "SET", (void*)NvExecJumpSet },	// 選択肢マーキング
-	{ "SEL", (void*)NvExecJumpSel },	// 選択肢の開始
-	{ "CAS", (void*)NvExecJumpCas },	// 選択肢１つ開始ブロック
-	{ "BRK", (void*)NvExecJumpBrk },	// 選択肢１つ終了ブロック
-	{ "SEE", (void*)NvExecJumpSee },	// 選択肢の終了
-	{ "WAS", (void*)NvExecJumpWas },	// ウェイトフレーム
-	{ "WAM", (void*)NvExecJumpWam },	// ウェイトミリ秒？
-	{ "END", (void*)NvExecJumpEnd },	// 特殊コマンド
+	{ "MES", NvExecJumpMes },	// 人物と既読フラグ
+	{ "MLF", NvExecJumpMlf },	// 改ページ
+	{ "GFX", NvExecJumpGfx },	// 画面効果
+	{ "GLB", NvExecJumpGlb },	// 背景表示
+	{ "GLG", NvExecJumpGlg },	// 立ち絵表示
+	{ "CLG", NvExecJumpClg },	// 立ち絵非表示
+	{ "CFR", NvExecJumpCfr },	// 画面全体消去
+	{ "MUS", NvExecJumpMus },	// 音楽
+	{ "SND", NvExecJumpSnd },	// 効果音
+	{ "VFL", NvExecJumpVfl },	// フラグ変数
+	{ "VFW", NvExecJumpVfw },	// ワード変数
+	{ "IF0", NvExecJumpIf0 },	// IF開始ブロック
+	{ "IFE", NvExecJumpIfe },	// IF終了ブロック
+	{ "GO0", NvExecJumpGo0 },	// スクリプト移動
+	{ "SET", NvExecJumpSet },	// 選択肢マーキング
+	{ "SEL", NvExecJumpSel },	// 選択肢の開始
+	{ "CAS", NvExecJumpCas },	// 選択肢１つ開始ブロック
+	{ "BRK", NvExecJumpBrk },	// 選択肢１つ終了ブロック
+	{ "SEE", NvExecJumpSee },	// 選択肢の終了
+	{ "WAS", NvExecJumpWas },	// ウェイトフレーム
+	{ "WAM", NvExecJumpWam },	// ウェイトミリ秒？
+	{ "END", NvExecJumpEnd },	// 特殊コマンド
 };
 
 
@@ -268,6 +268,7 @@ void NvExecJumpEnd(void)
 	NvExecParseEnd();
 }
 //---------------------------------------------------------------------------
+// 画面命令カット
 void NvExecJumpSjis(void)
 {
 	Nv.str = Nv.cur;
@@ -279,16 +280,16 @@ void NvExecJumpSjis(void)
 		TxtAddBuf(InfoGetStrMes(Nv.mes));
 	}
 
-	bool is = false;
+	bool is = true;
 
 	do {
 
 		char* p = NvCurStr();
 
-		if(is == false)
+		if(is == true)
 		{
 			TxtSetSiori(p);
-			is = true;
+			is = false;
 		}
 
 		TxtAddBuf(p);

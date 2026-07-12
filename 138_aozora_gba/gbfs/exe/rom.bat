@@ -1,7 +1,7 @@
 @echo off
 
 rem ---------------------------------
-..\exe\rom\gbfs ..\exe\rom\test.gbfs tmp\*.* ..\exe\rom\*.bin
+..\exe\rom\gbfs ..\exe\rom\test.gbfs tmp\*.*
 copy /b ..\exe\rom\test.gba+..\exe\rom\test.gbfs ..\..\aozora.gba
 
 

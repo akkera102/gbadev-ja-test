@@ -8,7 +8,6 @@ extern "C" {
 #include "libgba/gba.h"
 
 //---------------------------------------------------------------------------
-#define IMG_DEF_FADE_CNT		8
 
 enum {
 	IMG_EFFECT_NORMAL = 1,		//  1.í èÌÉRÉsÅ[

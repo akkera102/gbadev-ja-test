@@ -32,7 +32,7 @@ s8    SeenGetFl(s32 i);
 s8    SeenGetFw(s32 i);
 bool  SeenIsRead(s32 i, u8 b);
 
-u32   SeenGetIcoBit(void);
+u32   SeenGetBitIco(void);
 
 
 #ifdef __cplusplus

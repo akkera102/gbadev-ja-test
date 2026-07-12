@@ -14,7 +14,7 @@ extern "C" {
 
 
 //---------------------------------------------------------------------------
-void SavInit(void);
+u8*  SavInit(void);
 
 u8   SavReadSram(u32 adr);
 u16  SavReadSram16(u32 adr);

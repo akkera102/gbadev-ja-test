@@ -54,7 +54,7 @@ void SioriSaveHeader(void)
 
 	SavWriteSram(0, 'T');
 	SavWriteSram(1, 'C');
-	SavWriteSram(2, 0x02);		// Ver
+	SavWriteSram(2, 0x03);		// Ver
 	SavWriteSram(3, 0x01);		// SRAM
 }
 //---------------------------------------------------------------------------
@@ -67,7 +67,7 @@ void SioriSaveItem(s32 no)
 
 	// データ
 	s32 i;
-	s32 adr = SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no;
+	s32 adr = SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no;
 	SavWriteSram(adr++, 'H');
 	SavWriteSram(adr++, 'K');
 
@@ -76,8 +76,8 @@ void SioriSaveItem(s32 no)
 	{
 		SavWriteSram(adr++, Txt.siori[i]);
 	}
-	SavWriteSram(adr++, Txt.base);
-	SavWriteSram(adr++, Txt.read);
+	SavWriteSram(adr++, Txt.baseNo);
+	SavWriteSram(adr++, Txt.readNo);
 
 	// SEEN
 	for(i=0; i<SEEN_MAX_FL_CNT; i++)
@@ -120,8 +120,8 @@ void SioriSaveItem(s32 no)
 	SavWriteSram(adr++, Img.fade);
 
 
-	TRACE("save size:%d\n", adr - (SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no));
-	_ASSERT(adr - (SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no) < SIORI_MAX_ITEM_SIZE);
+	TRACE("save size:%d\n", adr - (SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no));
+	_ASSERT(adr - (SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no) < SIORI_MAX_ITEM_SIZE);
 }
 //---------------------------------------------------------------------------
 void SioriLoadItem(s32 no)
@@ -130,7 +130,7 @@ void SioriLoadItem(s32 no)
 
 	// データ
 	s32 i;
-	s32 adr = SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no;
+	s32 adr = SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no;
 	adr += 2;
 
 	// TXT
@@ -138,8 +138,8 @@ void SioriLoadItem(s32 no)
 	{
 		Txt.siori[i] = SavReadSram(adr++);
 	}
-	Txt.base = SavReadSram(adr++);
-	Txt.read = SavReadSram(adr++);
+	Txt.baseNo = SavReadSram(adr++);
+	Txt.readNo = SavReadSram(adr++);
 
 	// SEEN
 	for(i=0; i<SEEN_MAX_FL_CNT; i++)
@@ -244,22 +244,22 @@ char* SioriGetTitle(s32 no)
 		return (char*)s;
 	}
 
-	return (char*)SavGetPointer(SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no + 2);
+	return (char*)SavGetPointer(SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no + 2);
 }
 //---------------------------------------------------------------------------
 bool SioriIsHeader(void)
 {
 	if(SavReadSram(0) != 'T') return false;
 	if(SavReadSram(1) != 'C') return false;
-	if(SavReadSram(2) != 0x2) return false;		// Ver
+	if(SavReadSram(2) != 0x3) return false;		// Ver
 
 	return true;
 }
 //---------------------------------------------------------------------------
 bool SioriIsItem(s32 no)
 {
-	if(SavReadSram(SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no + 0) != 'H') return false;
-	if(SavReadSram(SIORI_BASE_ITEM_ADR + SIORI_MAX_ITEM_SIZE * no + 1) != 'K') return false;
+	if(SavReadSram(SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no + 0) != 'H') return false;
+	if(SavReadSram(SIORI_ADR_ITEM_BASE + SIORI_MAX_ITEM_SIZE * no + 1) != 'K') return false;
 
 	return true;
 }

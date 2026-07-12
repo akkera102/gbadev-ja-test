@@ -41,7 +41,10 @@ void SfxPlay(u8* pSfx, s32 size, bool isLoop)
 	Sfx.pSfx   = pSfx;
 	Sfx.isLoop = isLoop;
 	Sfx.size   = (size * 60) / SFX_FREQ - 2;		// adjust -2
-	Sfx.act    = SFX_ACT_START;
+
+	asm volatile("":::"memory");
+
+	Sfx.act = SFX_ACT_START;
 }
 //---------------------------------------------------------------------------
 void SfxStop(void)

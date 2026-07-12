@@ -28,7 +28,6 @@ typedef struct {
 } __PACKED ST_SJIS_XCCT;
 
 
-
 typedef struct {
 	u8*  pCct;			// フォントシート
 	u16* pImg;			// フォントデータ

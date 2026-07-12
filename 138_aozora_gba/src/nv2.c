@@ -14,28 +14,28 @@
 
 //---------------------------------------------------------------------------
 ST_NV_PARSE_TBL NvParseTbl[NV_MAX_PARSE_CNT] = {
-	{ "MES", (void*)NvExecParseMes },	// 人物と既読フラグ
-	{ "MLF", (void*)NvExecParseMlf },	// 改ページ
-	{ "GFX", (void*)NvExecParseGfx },	// 画面効果
-	{ "GLB", (void*)NvExecParseGlb },	// 背景表示
-	{ "GLG", (void*)NvExecParseGlg },	// 立ち絵表示
-	{ "CLG", (void*)NvExecParseClg },	// 立ち絵非表示
-	{ "CFR", (void*)NvExecParseCfr },	// 画面全体消去
-	{ "MUS", (void*)NvExecParseMus },	// 音楽
-	{ "SND", (void*)NvExecParseSnd },	// 効果音
-	{ "VFL", (void*)NvExecParseVfl },	// フラグ変数
-	{ "VFW", (void*)NvExecParseVfw },	// ワード変数
-	{ "IF0", (void*)NvExecParseIf0 },	// IF開始ブロック
-	{ "IFE", (void*)NvExecParseIfe },	// IF終了ブロック
-	{ "GO0", (void*)NvExecParseGo0 },	// スクリプト移動
-	{ "SET", (void*)NvExecParseSet },	// 選択肢マーキング
-	{ "SEL", (void*)NvExecParseSel },	// 選択肢の開始
-	{ "CAS", (void*)NvExecParseCas },	// 選択肢１つ開始ブロック
-	{ "BRK", (void*)NvExecParseBrk },	// 選択肢１つ終了ブロック
-	{ "SEE", (void*)NvExecParseSee },	// 選択肢の終了
-	{ "WAS", (void*)NvExecParseWas },	// ウェイトフレーム
-	{ "WAM", (void*)NvExecParseWam },	// ウェイトミリ秒？
-	{ "END", (void*)NvExecParseEnd },	// 特殊コマンド
+	{ "MES", NvExecParseMes },	// 人物と既読フラグ
+	{ "MLF", NvExecParseMlf },	// 改ページ
+	{ "GFX", NvExecParseGfx },	// 画面効果
+	{ "GLB", NvExecParseGlb },	// 背景表示
+	{ "GLG", NvExecParseGlg },	// 立ち絵表示
+	{ "CLG", NvExecParseClg },	// 立ち絵非表示
+	{ "CFR", NvExecParseCfr },	// 画面全体消去
+	{ "MUS", NvExecParseMus },	// 音楽
+	{ "SND", NvExecParseSnd },	// 効果音
+	{ "VFL", NvExecParseVfl },	// フラグ変数
+	{ "VFW", NvExecParseVfw },	// ワード変数
+	{ "IF0", NvExecParseIf0 },	// IF開始ブロック
+	{ "IFE", NvExecParseIfe },	// IF終了ブロック
+	{ "GO0", NvExecParseGo0 },	// スクリプト移動
+	{ "SET", NvExecParseSet },	// 選択肢マーキング
+	{ "SEL", NvExecParseSel },	// 選択肢の開始
+	{ "CAS", NvExecParseCas },	// 選択肢１つ開始ブロック
+	{ "BRK", NvExecParseBrk },	// 選択肢１つ終了ブロック
+	{ "SEE", NvExecParseSee },	// 選択肢の終了
+	{ "WAS", NvExecParseWas },	// ウェイトフレーム
+	{ "WAM", NvExecParseWam },	// ウェイトミリ秒？
+	{ "END", NvExecParseEnd },	// 特殊コマンド
 };
 
 
@@ -104,7 +104,6 @@ void NvExecParseMes(void)
 	{
 		Nv.isSkip = false;
 	}
-
 
 	NvExecParseSjis();
 
@@ -451,6 +450,11 @@ void NvExecParseSel(void)
 
 	// TRACE("Nv.sel.reg %d\n", Nv.sel.reg);
 
+	if(Nv.isDbg == false)
+	{
+		SeenSetRead(Nv.idx, Nv.bit);
+	}
+
 	NvSetAct(NV_ACT_SEL);
 	ManageSetAct(MANAGE_ACT_SEL);
 
@@ -555,7 +559,7 @@ void NvExecParseEnd(void)
 			break;
 
 		default:
-			SystemError("[Err] NvExecParseEnd %d\n", n);
+			SystemError("[Err] NvExecParseEnd case1 %d\n", Nv.no);
 			break;
 		}
 		break;
@@ -567,10 +571,10 @@ void NvExecParseEnd(void)
 		if(Nv.isDbg == false)
 		{
 			SeenSetRead(Nv.idx, Nv.bit);
-		}
 
-		SioriSaveLast();
-		SioriSaveRead();
+			SioriSaveLast();
+			SioriSaveRead();
+		}
 
 		MusStop();
 		SndStop();

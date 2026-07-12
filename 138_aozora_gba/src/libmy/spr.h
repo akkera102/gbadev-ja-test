@@ -42,7 +42,8 @@ typedef struct {
 //---------------------------------------------------------------------------
 void SprInit(void);
 
-IWRAM_CODE void SprSetChr(s32 no, s32 x, s32 y, u16 tile, u16 shape, u16 size);
+void SprSetChr(s32 no, s32 x, s32 y, u16 tile, u16 shape, u16 size);
+
 IWRAM_CODE void SprSetTile(s32 no, s32 tile);
 IWRAM_CODE void SprShow(s32 no);
 IWRAM_CODE void SprHide(s32 no);

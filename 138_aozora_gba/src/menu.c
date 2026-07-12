@@ -14,7 +14,7 @@
 #include "txt.h"
 
 //---------------------------------------------------------------------------
-ROM_DATA char MenuSelStr[][32+1] = {
+ROM_DATA char MenuStrSel[][32+1] = {
 	// 0
 	"",
 
@@ -60,7 +60,7 @@ ROM_DATA char MenuSelStr[][32+1] = {
 	"ÇsÇwÇsÅ@ÇOÇOÇO",
 };
 
-ROM_DATA char MenuColStr[][4+1] = {
+ROM_DATA char MenuStrCol[][4+1] = {
 	"îíêF",
 	"êÖêF",
 	"â©êF",
@@ -68,12 +68,12 @@ ROM_DATA char MenuColStr[][4+1] = {
 	"ê‘êF",
 };
 
-ROM_DATA char MenuOptStr[][4+1] = {
+ROM_DATA char MenuStrOpt[][4+1] = {
 	"Ç»Çµ",
 	"Ç†ÇË",
 };
 
-ROM_DATA char MenuNaviStr[][6+1] = {
+ROM_DATA char MenuStrNavi[][6+1] = {
 	"âJâπ",			// 0
 	"óIâƒ",
 	"óï",
@@ -415,13 +415,13 @@ void MenuExecOption(u16 trg, u16 rep)
 
 	// í èÌï∂éö
 	case 1:
-		s32 b = TxtGetBase();
+		s32 b = TxtGetBaseNo();
 
 		if(trg & KEY_LEFT && b > 0)
 		{
 			b--;
 
-			TxtSetBase(b);
+			TxtSetBaseNo(b);
 			TxtSetExec();
 		}
 
@@ -429,20 +429,20 @@ void MenuExecOption(u16 trg, u16 rep)
 		{
 			b++;
 
-			TxtSetBase(b);
+			TxtSetBaseNo(b);
 			TxtSetExec();
 		}
 		break;
 
 	// ä˘ì«ï∂éö
 	case 2:
-		s32 r = TxtGetRead();
+		s32 r = TxtGetReadNo();
 
 		if(trg & KEY_LEFT && r > 0)
 		{
 			r--;
 
-			TxtSetRead(r);
+			TxtSetReadNo(r);
 			TxtSetExec();
 		}
 
@@ -450,7 +450,7 @@ void MenuExecOption(u16 trg, u16 rep)
 		{
 			r++;
 
-			TxtSetRead(r);
+			TxtSetReadNo(r);
 			TxtSetExec();
 		}
 		break;
@@ -671,6 +671,9 @@ void MenuExecDebug(u16 trg, u16 rep)
 
 			NvSetOmake(false);
 			NvSetDbg(true);
+			NvSetNavi(5);
+
+
 			NvSetTxt(Menu.txt);
 			NvSetAct(NV_ACT_PARSE);
 
@@ -773,13 +776,14 @@ char* MenuGetStrTitle(void)
 	{
 	case MENU_TYPE_SAVE:
 	case MENU_TYPE_LOAD:
-		_Strncpy(Menu.buf, MenuSelStr[Menu.msg], MENU_BUF_SIZE);
+		_Strncpy(Menu.buf, MenuStrSel[Menu.msg], MENU_BUF_SIZE);
+		// SJISÅuÇOÅv0x82 0x4f
 		Menu.buf[11] += Menu.page;
 
 		return Menu.buf;
 	}
 
-	return (char*)MenuSelStr[Menu.msg];
+	return (char*)MenuStrSel[Menu.msg];
 }
 //---------------------------------------------------------------------------
 char* MenuGetStrSel(s32 sel)
@@ -800,12 +804,12 @@ char* MenuGetStrSel(s32 sel)
 		return MenuGetStrSelNavi(sel);
 	}
 
-	return (char*)MenuSelStr[Menu.msg + 1 + sel];
+	return (char*)MenuStrSel[Menu.msg + 1 + sel];
 }
 //---------------------------------------------------------------------------
 char* MenuGetStrSelOpt(s32 sel)
 {
-	_Strncpy(Menu.buf, (char*)MenuSelStr[Menu.msg + 1 + sel], MENU_BUF_SIZE);
+	_Strncpy(Menu.buf, (char*)MenuStrSel[Menu.msg + 1 + sel], MENU_BUF_SIZE);
 
 	s32 n;
 
@@ -822,25 +826,25 @@ char* MenuGetStrSelOpt(s32 sel)
 
 	// "í èÌï∂éöÅ@"
 	case 1:
-		n = TxtGetBase();
-		_Strcat(Menu.buf, MenuColStr[n]);
+		n = TxtGetBaseNo();
+		_Strcat(Menu.buf, MenuStrCol[n]);
 		break;
 
 	// "ä˘ì«ï∂éöÅ@"
 	case 2:
-		n = TxtGetRead();
-		_Strcat(Menu.buf, MenuColStr[n]);
+		n = TxtGetReadNo();
+		_Strcat(Menu.buf, MenuStrCol[n]);
 		break;
 
 	// "ä˘ì«ñ≥éãÅ@"
 	case 3:
 		n = (NvIsPass() == true) ? 1 : 0;
-		_Strcat(Menu.buf, MenuOptStr[n]);
+		_Strcat(Menu.buf, MenuStrOpt[n]);
 		break;
 
 	// "çUó™èÓïÒÅ@"
 	case 4:
-		_Strcat(Menu.buf, MenuNaviStr[NvGetNavi()]);
+		_Strcat(Menu.buf, MenuStrNavi[NvGetNavi()]);
 		break;
 	}
 
@@ -849,7 +853,7 @@ char* MenuGetStrSelOpt(s32 sel)
 //---------------------------------------------------------------------------
 char* MenuGetStrSelDbg(s32 sel)
 {
-	_Strncpy(Menu.buf, (char*)MenuSelStr[Menu.msg + 1 + sel], MENU_BUF_SIZE);
+	_Strncpy(Menu.buf, (char*)MenuStrSel[Menu.msg + 1 + sel], MENU_BUF_SIZE);
 
 	s32 n = 0;
 
@@ -872,11 +876,11 @@ char* MenuGetStrSelDbg(s32 sel)
 //---------------------------------------------------------------------------
 char* MenuGetStrSelNavi(s32 sel)
 {
-	_Strncpy(Menu.buf, (char*)MenuSelStr[Menu.msg + 1 + sel], MENU_BUF_SIZE);
+	_Strncpy(Menu.buf, (char*)MenuStrSel[Menu.msg + 1 + sel], MENU_BUF_SIZE);
 
 	if(sel == 1)
 	{
-		_Strcat(Menu.buf, MenuNaviStr[NvGetNavi()]);
+		_Strcat(Menu.buf, MenuStrNavi[NvGetNavi()]);
 	}
 
 	return Menu.buf;

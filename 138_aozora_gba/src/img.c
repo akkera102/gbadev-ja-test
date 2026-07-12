@@ -14,7 +14,7 @@ void ImgInit(void)
 {
 	_Memset(&Img, 0x00, sizeof(ST_IMG));
 
-	Img.fade = IMG_DEF_FADE_CNT;
+	Img.fade = 8;
 }
 //---------------------------------------------------------------------------
 bool ImgExec(void)
@@ -127,7 +127,6 @@ void ImgExecZiri(void)
 
 		if(Img.var >= 8)
 		{
-			// 1ƒtƒŒß–ñ
 			goto End;
 		}
 
@@ -159,7 +158,6 @@ void ImgExecAlpha(void)
 
 		if(Img.var >= 8)
 		{
-			// 1ƒtƒŒß–ñ
 			goto End;
 		}
 
@@ -546,7 +544,7 @@ void ImgDrawChr(void)
 
 	if(Img.chr == 800)
 	{
-		Mode3DrawIco(0, 0, h->cx, h->cy, SeenGetIcoBit(), (u16*)(h + 1), FileGetMsk(Img.chr));
+		Mode3DrawIco(0, 0, h->cx, h->cy, SeenGetBitIco(), (u16*)(h + 1), FileGetMsk(Img.chr));
 
 		return;
 	}

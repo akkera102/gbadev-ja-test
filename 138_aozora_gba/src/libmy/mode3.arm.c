@@ -97,10 +97,10 @@ IWRAM_CODE void Mode3DrawIco(s32 sx, s32 sy, s32 cx, s32 cy, u32 bit, u16* pImg,
 	{
 		for(b=0; b<5; b++)
 		{
-			u8 w = bit & 1;
+			u8 c = bit & 1;
 			bit >>= 1;
 
-			if(w == 0)
+			if(c == 0)
 			{
 				continue;
 			}
@@ -176,14 +176,14 @@ IWRAM_CODE void Mode3VramZiri(s32 cnt)
 
 	s32 ofs[8];
 
-	ofs[0] = (cnt + 0) & 7;		// y:0 (+0) 1 2 3 4 5 6 7 8
-	ofs[7] = (cnt + 3) & 7;		// y:1 (+3) 4 5 6 7 8 1 2 3
-	ofs[6] = (cnt + 6) & 7;		// y:2 (+6) 7 8 1 2 3 4 5 6
-	ofs[5] = (cnt + 1) & 7;		// y:3 (+1) 2 3 4 5 6 7 8 1
-	ofs[4] = (cnt + 4) & 7;		// y:4 (+4) 5 6 7 8 1 2 3 4
-	ofs[3] = (cnt + 7) & 7;		// y:5 (+7) 8 1 2 3 4 5 6 7
-	ofs[2] = (cnt + 2) & 7;		// y:6 (+2) 3 4 5 6 7 8 1 2
-	ofs[1] = (cnt + 5) & 7;		// y:7 (+5) 6 7 8 1 2 3 4 5
+	ofs[0] = (cnt + 0) & 7;		// y:0 (+0) 0 1 2 3 4 5 6 7
+	ofs[1] = (cnt + 5) & 7;		// y:1 (+5) 5 6 7 0 1 2 3 4
+	ofs[2] = (cnt + 2) & 7;		// y:2 (+2) 2 3 4 5 6 7 0 1
+	ofs[3] = (cnt + 7) & 7;		// y:3 (+7) 7 0 1 2 3 4 5 6
+	ofs[4] = (cnt + 4) & 7;		// y:4 (+4) 4 5 6 7 0 1 2 3
+	ofs[5] = (cnt + 1) & 7;		// y:5 (+1) 1 2 3 4 5 6 7 0
+	ofs[6] = (cnt + 6) & 7;		// y:6 (+6) 6 7 0 1 2 3 4 5
+	ofs[7] = (cnt + 3) & 7;		// y:7 (+3) 3 4 5 6 7 0 1 2
 
 	s32 x, y, i;
 
@@ -193,15 +193,15 @@ IWRAM_CODE void Mode3VramZiri(s32 cnt)
 		{
 			x = ofs[i];
 
-			u16* pSrc_line = pSrc + (y + i) * 240 + x;
-			u16* pVrm_line = pVrm + (y + i) * 240 + x;
+			u16* pSrcLine = pSrc + (y + i) * 240 + x;
+			u16* pVrmLine = pVrm + (y + i) * 240 + x;
 
 			while(x < 240)
 			{
-				*pVrm_line = *pSrc_line;
+				*pVrmLine = *pSrcLine;
 
-				pSrc_line += 8;
-				pVrm_line += 8;
+				pSrcLine += 8;
+				pVrmLine += 8;
 
 				x += 8;
 			}
@@ -219,30 +219,38 @@ IWRAM_CODE void Mode3VramAlpha(s32 cnt)
 	static const s32 sx2[8] = { 2, 0, 3, 1, 3, 1, 2, 0 };
 	static const s32 sy2[8] = { 0, 0, 1, 1, 0, 0, 1, 1 };
 
+	s32 x1 = sx1[cnt];
+	s32 y1 = sy1[cnt];
+	s32 x2 = sx2[cnt];
+	s32 y2 = sy2[cnt];
+
 	u16* pSrc = Mode3.buf + Mode3.idx * MODE3_MAX_SCN_SIZE;
+	u16* pVrm = (u16*)VRAM;
 	s32 x, y;
 
-	for(y=0; y<SCREEN_CY; y+=4)
+	for(y=0; y<160; y+=4)
 	{
-		u16* s1 = pSrc       + sx1[cnt] + (y + sy1[cnt]) * SCREEN_CX;
-		u16* d1 = (u16*)VRAM + sx1[cnt] + (y + sy1[cnt]) * SCREEN_CX;
+		u16* s1 = pSrc + x1 + (y + y1) * 240;
+		u16* d1 = pVrm + x1 + (y + y1) * 240;
 
-		for(x=0; x<SCREEN_CX; x+=4)
+		for(x=0; x<240; x+=4)
 		{
 			*d1 = *s1;
+
 			s1 += 4;
 			d1 += 4;
 		}
 	}
 
-	for(y=2; y<SCREEN_CY; y+=4)
+	for(y=2; y<160; y+=4)
 	{
-		u16* s1 = pSrc       + sx2[cnt] + (y + sy2[cnt]) * SCREEN_CX;
-		u16* d1 = (u16*)VRAM + sx2[cnt] + (y + sy2[cnt]) * SCREEN_CX;
+		u16* s1 = pSrc + x2 + (y + y2) * 240;
+		u16* d1 = pVrm + x2 + (y + y2) * 240;
 
-		for(x=0; x<SCREEN_CX; x+=4)
+		for(x=0; x<240; x+=4)
 		{
 			*d1 = *s1;
+
 			s1 += 4;
 			d1 += 4;
 		}

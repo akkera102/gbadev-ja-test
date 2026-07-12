@@ -37,7 +37,7 @@ struct ulc_State_t {
 
 
 
-// fixed
+// fix
 extern struct ulc_State_t ulc_State;
 
 

@@ -19,8 +19,8 @@ typedef struct {
 	bool  isExec;
 	s32   x;
 	s32   y;
-	s32   base;		// 通常の色
-	s32   read;		// 既読の色
+	s32   baseNo;		// 通常色の番号
+	s32   readNo;		// 既読色の番号
 
 	char  siori[TXT_MAX_SIORI_LEN] ALIGN(4);
 	u16   buf[SPR_MAX_TXT_CX * SPR_MAX_TXT_CY] ALIGN(4);
@@ -46,10 +46,10 @@ void TxtAddLog2(char* p);
 
 void TxtSetSiori(char* p);
 void TxtSetExec(void);
-void TxtSetBase(s32 no);
-void TxtSetRead(s32 no);
-s32  TxtGetBase(void);
-s32  TxtGetRead(void);
+void TxtSetBaseNo(s32 no);
+void TxtSetReadNo(s32 no);
+s32  TxtGetBaseNo(void);
+s32  TxtGetReadNo(void);
 s32  TxtGetX(void);
 s32  TxtGetY(void);
 
