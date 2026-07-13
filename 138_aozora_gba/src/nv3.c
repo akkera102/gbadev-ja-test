@@ -1,17 +1,14 @@
 #include "nv.h"
 #include "nv2.h"
 #include "nv3.h"
-#include "libbios/swi.h"
 #include "cur.h"
 #include "img.h"
 #include "info.h"
 #include "seen.h"
-#include "txt.h"
-#include "manage.h"
 #include "mus.h"
 #include "siori.h"
 #include "snd.h"
-#include "menu.h"
+#include "txt.h"
 
 // nv3.c
 // Šù“Ç‰æ–ÊƒWƒƒƒ“ƒv—p‚ÌŠÖ”ŒQ

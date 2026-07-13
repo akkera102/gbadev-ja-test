@@ -5,12 +5,11 @@
 #include "info.h"
 #include "img.h"
 #include "seen.h"
-#include "txt.h"
 #include "manage.h"
 #include "mus.h"
 #include "siori.h"
 #include "snd.h"
-#include "menu.h"
+#include "txt.h"
 
 //---------------------------------------------------------------------------
 ST_NV_PARSE_TBL NvParseTbl[NV_MAX_PARSE_CNT] = {

@@ -1,7 +1,6 @@
 #include "file.h"
 #include "libbios/swi.h"
 #include "libmy/gbfs.h"
-#include "info.h"
 
 
 //---------------------------------------------------------------------------

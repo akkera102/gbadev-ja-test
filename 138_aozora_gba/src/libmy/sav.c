@@ -1,5 +1,5 @@
 #include "sav.h"
-#include "../res.h"
+
 
 // SRAM‚Ì‚Ý‘Î‰ž
 

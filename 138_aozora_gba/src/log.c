@@ -1,12 +1,10 @@
 #include "log.h"
 #include "libmy/key.h"
 #include "libmy/mem.arm.h"
-#include "navi.h"
-#include "manage.h"
-#include "menu.h"
-#include "txt.h"
 #include "cur.h"
+#include "navi.h"
 #include "nv.h"
+#include "txt.h"
 
 
 //---------------------------------------------------------------------------

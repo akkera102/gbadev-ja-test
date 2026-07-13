@@ -55,7 +55,7 @@ IWRAM_CODE void SprSetTile(s32 no, s32 tile)
 {
 	ST_SPR_OAM* p = (ST_SPR_OAM*)OAM + no;
 
-	p->d2 = tile | ATTR2_PRIORITY(0);
+	p->d2 = ATTR2_PRIORITY(0) | tile;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void SprShow(s32 no)

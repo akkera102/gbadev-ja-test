@@ -1,6 +1,5 @@
 #include "sfx.arm.h"
 
-// Œø‰Ê‰¹
 // Timer1
 // DMA2
 
