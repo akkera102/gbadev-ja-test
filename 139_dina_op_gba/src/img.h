@@ -27,9 +27,16 @@ typedef struct {
 	s32  cnt;
 
 	s32  bg;
-	s32  pal;
 
 } ST_IMG;
+
+typedef struct {
+
+	u16* pImg[8500];
+	u16* pPal[8500];
+	bool isUse[8500];
+
+} ST_IMG2;
 
 
 //---------------------------------------------------------------------------
@@ -41,7 +48,10 @@ IWRAM_CODE void ImgExecAnime(void);
 IWRAM_CODE void ImgExecExit(void);
 
 IWRAM_CODE void ImgDrawBg(s32 no);
+IWRAM_CODE void ImgDrawBgClr(void);
 IWRAM_CODE void ImgDrawPal(void);
+IWRAM_CODE void ImgDrawPalClr(void);
+
 IWRAM_CODE void ImgSetExec(s32 no);
 
 bool ImgIsExec(void);

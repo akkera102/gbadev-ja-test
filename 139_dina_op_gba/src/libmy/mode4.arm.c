@@ -55,7 +55,17 @@ IWRAM_CODE void Mode4Draw(u16* pImg)
 	}
 }
 //---------------------------------------------------------------------------
+IWRAM_CODE void Mode4DrawClr(void)
+{
+	MemClr(Mode4.pBack, 180*120*2);
+}
+//---------------------------------------------------------------------------
 IWRAM_CODE void Mode4Pal(u16* pPal)
 {
 	SwiLZ77UnCompWrite16bit(pPal, BG_PALETTE);
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void Mode4PalClr(void)
+{
+	MemClr(BG_PALETTE, 256*2);
 }

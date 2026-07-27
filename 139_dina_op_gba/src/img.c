@@ -3,15 +3,17 @@
 #include "libmy/irq.arm.h"
 #include "libmy/fade.h"
 #include "file.h"
+#include "mus.h"
 
 //---------------------------------------------------------------------------
-ST_IMG Img;
-
+ST_IMG  Img;
+ST_IMG2 Img2 EWRAM_BSS;
 
 //---------------------------------------------------------------------------
 void ImgInit(void)
 {
 	_Memset(&Img, 0x00, sizeof(ST_IMG));
+	_Memset(&Img2, 0x00, sizeof(ST_IMG2));
 }
 //---------------------------------------------------------------------------
 void ImgExec(void)
@@ -41,7 +43,10 @@ IWRAM_CODE void ImgExecBoot(void)
 {
 	if(Img.step == 0)
 	{
-		ImgDrawBg(20000);
+		// SPRING.GI
+		Img2.pImg[8400] = FileGetImg(8400);
+		Img2.pPal[8400] = FileGetPal(8400);
+		ImgDrawBg(8400);
 
 		Img.step++;
 		return;
@@ -70,13 +75,22 @@ IWRAM_CODE void ImgExecBoot(void)
 	}
 
 	// wait
-	if(Img.step <= 3+120)
+	if(Img.step == 3)
 	{
+		// 激重 初期化処理(^^;
+		s32 i;
+
+		for(i=0; i<8500; i++)
+		{
+			Img2.pImg[i] = FileGetImg(i);
+			Img2.pPal[i] = FileGetPal(i);
+		}
+
 		Img.step++;
 		return;
 	}
 
-	if(Img.step == 124)
+	if(Img.step == 4)
 	{
 		Img.var++;
 		FadeSetBlack(Img.var/2);
@@ -88,17 +102,17 @@ IWRAM_CODE void ImgExecBoot(void)
 		return;
 	}
 
-	if(Img.step == 125)
+	if(Img.step == 5)
 	{
-		ImgDrawBg(2);
+		ImgDrawBgClr();
 
 		Img.step++;
 		return;
 	}
 
-	if(Img.step == 126)
+	if(Img.step == 6)
 	{
-		ImgDrawPal();
+		ImgDrawPalClr();
 
 		Img.step++;
 		return;
@@ -113,31 +127,39 @@ IWRAM_CODE void ImgExecAnime(void)
 {
 	if(Img.step == 0)
 	{
+		IrqSetCnt(0);
+
 		for(;;)
 		{
-			// 例外処理
+			s32 v = IrqGetCnt();
+
+			ImgDrawBg(v);
+//			Img2.isUse[v] = true;
+
 			VBlankIntrWait();
 
 			ImgDrawPal();
-			ImgDrawBg(Img.bg++);
 
-			// タイトル調整
-			if(Img.bg == 4082)
+			if(v >= 8370)
 			{
-				TRACE("patch!\n");
-				Img.bg = 4148;
-			}
-
-			// 終了
-			if(Img.bg >= 8450)
-			{
-				Img.var = 0;
 				Img.step++;
 
 				return;
 			}
 		}
 	}
+
+/*
+	s32 i;
+
+	for(i=0; i<4000; i++)
+	{
+		if(Img2.isUse[i] == false)
+		{
+			TRACE("f%04d.bmp\n", Img2.isUse[i]);
+		}
+	}
+*/
 
 	// wait
 	if(Img.step <= 241)
@@ -160,7 +182,7 @@ IWRAM_CODE void ImgExecAnime(void)
 
 	if(Img.step == 243)
 	{
-		ImgDrawBg(2);
+		ImgDrawBgClr();
 
 		Img.step++;
 		return;
@@ -168,7 +190,7 @@ IWRAM_CODE void ImgExecAnime(void)
 
 	if(Img.step == 244)
 	{
-		ImgDrawPal();
+		ImgDrawPalClr();
 
 		Img.step++;
 		return;
@@ -191,7 +213,7 @@ IWRAM_CODE void ImgExecExit(void)
 {
 	if(Img.step == 0)
 	{
-		ImgDrawBg(20000);
+		ImgDrawBg(8400);
 
 		Img.step++;
 		return;
@@ -240,7 +262,7 @@ IWRAM_CODE void ImgExecExit(void)
 
 	if(Img.step == 125)
 	{
-		ImgDrawBg(2);
+		ImgDrawBgClr();
 
 		Img.step++;
 		return;
@@ -248,7 +270,7 @@ IWRAM_CODE void ImgExecExit(void)
 
 	if(Img.step == 126)
 	{
-		ImgDrawPal();
+		ImgDrawPalClr();
 
 		Img.step++;
 		return;
@@ -261,38 +283,39 @@ IWRAM_CODE void ImgExecExit(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgDrawBg(s32 no)
 {
-	u16* p = FileGetImg(no);
+	u16* p = Img2.pImg[no];
+	Img.bg = no;
 
 	if(p == NULL)
 	{
 		return;
 	}
 
-//	IrqSetCnt();
 	Mode4Draw(p);
-//	s32 cnt = IrqGetCnt();			// ズレありorz
-	s32 cnt = 2;
-
-	TRACE("%d %d\n", no, cnt);
-//	TRACE("f%05d.img\n", no);
-
-	Img.pal = no;
-	Img.bg  = no + cnt;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgDrawPal(void)
 {
-	if(Img.pal == 0)
+	u16* p = Img2.pPal[Img.bg];
+
+	if(p == NULL)
 	{
 		return;
 	}
 
-	u16* p = FileGetPal(Img.pal);
-
 	Mode4Pal(p);
 	Mode4Exec();
-
-	Img.pal = 0;
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void ImgDrawBgClr(void)
+{
+	Mode4DrawClr();
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void ImgDrawPalClr(void)
+{
+	Mode4PalClr();
+	Mode4Exec();
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgSetExec(s32 no)

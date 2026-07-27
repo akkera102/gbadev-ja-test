@@ -374,6 +374,7 @@ IWRAM_CODE char* _SprintfStringCol(char* val, char* s, s32 col)
 	return s;
 }
 //---------------------------------------------------------------------------
+__attribute__((optimize("O0")))
 IWRAM_CODE void MgbaLog(char* buf)
 {
 	REG_DEBUG_ENABLE = 0xC0DE;

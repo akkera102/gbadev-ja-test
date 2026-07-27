@@ -8,9 +8,15 @@
 #include <stdbool.h>
 
 //---------------------------------------------------------------------------
-#define BMP_WIDTH  320
-#define BMP_HEIGHT 224
+#define BMP_WIDTH				320
+#define BMP_HEIGHT				224
+#define DEBUG					0
 
+#if DEBUG
+#define TRACE(...)              printf(__VA_ARGS__)
+#else
+#define TRACE(...)              ((void)0)
+#endif
 
 //---------------------------------------------------------------------------
 typedef unsigned char			 u8;
@@ -24,7 +30,6 @@ typedef struct {
 	u8* p;
 	s32 size;
 	s32 pos;
-
 } ST_BIT;
 
 typedef struct {
@@ -33,7 +38,6 @@ typedef struct {
 	u16 map[64 * 64];
 
 	s32 pri;
-
 } ST_FRAME;
 
 typedef struct {
@@ -45,7 +49,6 @@ typedef struct {
 	s32  scrX;
 	s32  scrY;
 	s32  blend;
-
 } ST_BG;
 
 typedef struct {
@@ -60,18 +63,14 @@ typedef struct {
 	s32  pri;
 	s32  x;
 	s32  y;
-
 } ST_SPRITE;
 
 typedef struct {
 	u16 base[256];
 	u16 work[256];
-
 } ST_PAL;
 
 typedef struct {
-	s32 recCnt;
-	s32 fileCnt;
 	s32 frameCnt;
 
 	s32 decCnt;
@@ -82,12 +81,11 @@ typedef struct {
 	ST_BG     b[3];
 	ST_SPRITE s[8];
 	ST_PAL    p[4];
-
-} ST_VRAM;
+} ST_CUT;
 
 //---------------------------------------------------------------------------
-ST_BIT  Bit;
-ST_VRAM Vram;
+ST_BIT Bit;
+ST_CUT Cut;
 
 
 //---------------------------------------------------------------------------
@@ -105,7 +103,7 @@ u16  BitCur16(void);
 void BmpWrite8(FILE* fp, u8 h);
 void BmpWrite16(FILE* fp, u16 h);
 void BmpWrite32(FILE* fp, u32 h);
-void BmpSave(char* fname, u16* frame);
+void BmpSave(char* fname, u16* buf);
 
 void CutInit(void);
 void CutExec(void);
@@ -117,10 +115,10 @@ void CutExecCmd5(void);
 void CutExecCmd6(void);
 void CutExecCmd7(void);
 void CutExecCmd8(void);
-void CutUpdate(s32 wait);
+void CutSave(s32 wait);
 
 void CutDecMap(u8* in, u16* out);
-u8*  CutDecTile(u8* in, u8* out);
+void CutDecTile(u8* in, u8* out);
 
 s32  CutPalClip(s32 val);
 void CutPalBias(s32 msk, s32 b, s32 g, s32 r);
@@ -247,13 +245,13 @@ void BmpWrite32(FILE* fp, u32 h)
 	fwrite(buf, 4, 1, fp);
 }
 //---------------------------------------------------------------------------
-void BmpSave(char* fname, u16* frame)
+void BmpSave(char* fname, u16* buf)
 {
 	FILE *fp = fopen(fname, "wb");
 
 	if(fp == NULL)
 	{
-		printf("couldn't open file\n");
+		fprintf(stderr, "couldn't open file\n");
 
 		exit(1);
 	}
@@ -285,13 +283,13 @@ void BmpSave(char* fname, u16* frame)
 	BmpWrite32(fp, 0);
 
 	// DATA
-	u8 pad[3*3] = {0};
+	u8 pad[3 * 3] = {0};
 
 	for(s32 y=BMP_HEIGHT-1; y>=0; y--)
 	{
 		for(s32 x=0; x<BMP_WIDTH; x++)
 		{
-			u16 color = frame[y * BMP_WIDTH + x]; 
+			u16 color = buf[y * BMP_WIDTH + x]; 
 
 			u8 b = ( color >> 10) & 0x1F;
 			u8 g = ( color >>  5) & 0x1F;
@@ -317,19 +315,22 @@ void BmpSave(char* fname, u16* frame)
 //---------------------------------------------------------------------------
 void CutInit(void)
 {
-	memset(&Vram, 0x00, sizeof(ST_VRAM));
+	memset(&Cut, 0x00, sizeof(ST_CUT));
+
 
 	s32 i;
 
+	// BG
 	for(i=0; i<3; i++)
 	{
-		Vram.b[i].isClr = true;
+		Cut.b[i].isClr = true;
 	}
 
+	// SPRITE
 	for(i=0; i<8; i++)
 	{
-		Vram.s[i].pri   = -1;
-		Vram.s[i].isClr = true;
+		Cut.s[i].isClr = true;
+		Cut.s[i].pri   = -1;
 	}
 }
 //---------------------------------------------------------------------------
@@ -345,10 +346,10 @@ void CutExec(void)
 	{
 		s32 cmd = BitGet16();
 		s32 len = BitGet32();
-		s32 pos = BitGetPos() + len;
+		s32 jmp = BitGetPos() + len;
 
-//		printf("\nACUT cmd:%d len:%d pos:0x%06X\n", cmd, len, pos - len - 6);
-		printf("\n");
+//		TRACE("\nACUT cmd:%d len:%d jmp:0x%06X\n", cmd, len, jmp - len - 6);
+		TRACE("\n");
 
 		switch(cmd)
 		{
@@ -388,30 +389,30 @@ void CutExec(void)
 			break;
 
 		default:
-			printf("CutExec cmd:%d\n", cmd);
+			fprintf(stderr, "CutExec cmd:%d\n", cmd);
 			exit(1);
 		}
 
-		BitSeek(pos);
+		BitSeek(jmp);
 	}
 }
 //---------------------------------------------------------------------------
 // DIRECTIVE
 void CutExecCmd1(void)
 {
-	s32 i, f, n, x, y, m, b, s, g, r;
+	s32 i, f, n, m, s, x, y, b, g, r;
 
 	for(;;)
 	{
 		s32 cmd = BitGet16();
 
-		// printf("DIR 0x%X ", cmd & 0xF);
+		TRACE("DIR 0x%X ", cmd & 0xF);
 
 		switch(cmd)
 		{
 		// 終了
 		case 0x4000:
-			printf("END\n");
+			TRACE("END\n");
 			return;
 
 		// 画面更新
@@ -419,35 +420,40 @@ void CutExecCmd1(void)
 		case 0x400c:
 			n = BitGet16();			// wait
 
-			printf("UPDATE n:%d\n", n);
+			TRACE("UPDATE n:%d\n", n);
 
-			CutUpdate(n);
+			// n:0の場合、フレームに変化がないことを確認済
+			if(n != 0)
+			{
+				CutSave(n);
+			}
 			break;
 
 		// スクリーンクリア
 		case 0x4002:
-			n = BitGet16();			// 1-3（0はなし）
+			n = BitGet16();			// 0-3
+
 			assert(n < 4);
 
-			printf("CLR n:%d\n", n);
+			TRACE("CLR n:%d\n", n);
 
 			if(n < 3)
 			{
-				Vram.b[n].isClr = true;
+				Cut.b[n].isClr = true;
 			}
 			else
 			{
 				for(i=0; i<8; i++)
 				{
-					Vram.s[i].isClr = true;
-					Vram.s[i].pri   = -1;
+					Cut.s[i].isClr = true;
+					Cut.s[i].pri   = -1;
 				}
 			}
 			break;
 
+		// 処理なし
 		case 0x4003:
-			printf("EMPTY\n");
-			// EMPTY
+			TRACE("EMPTY\n");
 			break;
 
 		// BGのフレーム設定
@@ -458,47 +464,50 @@ void CutExecCmd1(void)
 			assert(f < 16);
 			assert(b <  3);
 
-			printf("BGFRE f:%d b:%d\n", f, b);
+			TRACE("BGFRE f:%d b:%d\n", f, b);
 
-			memcpy(Vram.b[b].map, Vram.f[f].map, sizeof(Vram.b[b].map));
+			memcpy(Cut.b[b].map, Cut.f[f].map, sizeof(Cut.b[b].map));
 
-			Vram.b[b].tWidth  = Vram.f[f].tWidth;
-			Vram.b[b].tHeight = Vram.f[f].tHeight;
-			Vram.b[b].isClr   = false;
+			Cut.b[b].tWidth  = Cut.f[f].tWidth;
+			Cut.b[b].tHeight = Cut.f[f].tHeight;
+			Cut.b[b].isClr   = false;
 			break;
 
 		// スクロール設定
 		case 0x4005:
-			n = BitGet16();			// 0-6（0-2:BG, 3-:SPRITE）
+			n = BitGet16();			// 0-6（0-2:BG, 3-10:SPRITE）
 			x = BitGet16();
 			y = BitGet16();
 
-			assert(n < 11);
+			assert(n < 3+8);
 
-			printf("SCR n:%d x:%d y:%d\n", n, x, y);
+			TRACE("SCR n:%d x:%d y:%d\n", n, x, y);
 
 			if(n < 3)
 			{
-				Vram.b[n].scrX = x & 0xF;
-				Vram.b[n].scrY = y & 0xF;
+				Cut.b[n].scrX = x & 0xF;
+				Cut.b[n].scrY = y & 0xF;
 			}
 			else
 			{
 				n -= 3;
 
-				Vram.s[n].scrX = x & 0xF;
-				Vram.s[n].scrY = y & 0xF;
+				Cut.s[n].scrX = x & 0xF;
+				Cut.s[n].scrY = y & 0xF;
 			}
 			break;
 
 		// 半透明の設定
 		case 0x4006:
-			m = BitGet16();			// 0x1, 0x2, 0x4, 0x8, 0x1ff（レイヤーマスク 0-2:BG, 3-:SPRITE）
+			m = BitGet16();			// 0x1, 0x2, 0x4, 0x8, 0x1ff（レイヤーマスク 0-2:BG, 3-10:SPRITE）
 			n = BitGet16();			// 0-31（透明度）
 
-			printf("BLD m:0x%x n:%d\n", m, n);
+			assert(m < 0x800);
+			assert(n >= 0 && n <= 31);
 
-			for(i=0; i<16; i++, m >>= 1)
+			TRACE("BLD m:0x%x n:%d\n", m, n);
+
+			for(i=0; i<3+8; i++, m >>= 1)
 			{
 				if((m & 1) == 0)
 				{
@@ -507,61 +516,42 @@ void CutExecCmd1(void)
 
 				if(i < 3)
 				{
-					Vram.b[i].blend = n;
+					Cut.b[i].blend = n;
 				}
-				else if(i < 11)
+				else
 				{
-					Vram.s[i - 3].blend = n;
+					Cut.s[i - 3].blend = n;
 				}
 			}
 			break;
 
 		// パレット輝度設定
 		case 0x4007:
-			m = BitGet16();			// 0x2, 0x4, 0x18（レイヤーマスク 0-2:BG, 3-:SPRITE）
+			m = BitGet16();			// 0x2, 0x4, 0x18（レイヤーマスク 0-2:BG, 3-10:SPRITE）
 			n = BitGet16();			// 31, 15（輝度）
 			b = n - 0x1F;			// 0, -16（bias）
 
-			printf("BIAS m:0x%x n:0x%x b:%d\n", m, n, b);
+			assert(m < 0x800);
+			assert(n >= 0 && n <= 31);
+
+			TRACE("BIAS m:0x%x n:0x%x b:%d\n", m, n, b);
 
 			CutPalBias(m, b, b, b);
 
-			if(n == 0x1F)
+			for(i=0; i<3+8; i++, m >>= 1)
 			{
-				for(i=0; i<16; i++, m >>= 1)
+				if((m & 1) == 0)
 				{
-					if((m & 1) == 0)
-					{
-						continue;
-					}
-
-					if(i < 3)
-					{
-						Vram.b[i].blend = 0x3F;
-					}
-					else if(i < 11)
-					{
-						Vram.s[i - 3].blend = 0x3F;
-					}
+					continue;
 				}
-			}
-			else
-			{
-				for(i=0; i<16; i++, m >>= 1)
-				{
-					if((m & 1) == 0)
-					{
-						continue;
-					}
 
-					if(i < 3)
-					{
-						Vram.b[i].blend = n + 0x20;
-					}
-					else
-					{
-						Vram.s[i - 3].blend = n + 0x20;
-					}
+				if(i < 3)
+				{
+					Cut.b[i].blend = n + 0x20;
+				}
+				else
+				{
+					Cut.s[i - 3].blend = n + 0x20;
 				}
 			}
 			break;
@@ -576,22 +566,22 @@ void CutExecCmd1(void)
 			assert(f < 16 || f == 0x8000);
 			assert(s <  8);
 
-			printf("SPRITE f:%d s:%d x:%d y:%d\n", f, s, x, y);
+			TRACE("SPRITE f:%d s:%d x:%d y:%d\n", f, s, x, y);
 
 			if(f == 0x8000)
 			{
-				Vram.s[s].isClr = true;
+				Cut.s[s].isClr = true;
 			}
 			else
 			{
-				memcpy(Vram.s[s].map, Vram.f[f].map, sizeof(Vram.s[s].map));
+				memcpy(Cut.s[s].map, Cut.f[f].map, sizeof(Cut.s[s].map));
 
-				Vram.s[s].x       = x * 8;
-				Vram.s[s].y       = y * 8;
-				Vram.s[s].tWidth  = Vram.f[f].tWidth;
-				Vram.s[s].tHeight = Vram.f[f].tHeight;
-				Vram.s[s].pri     = Vram.f[f].pri;
-				Vram.s[s].isClr   = false;
+				Cut.s[s].x       = x * 8;
+				Cut.s[s].y       = y * 8;
+				Cut.s[s].tWidth  = Cut.f[f].tWidth;
+				Cut.s[s].tHeight = Cut.f[f].tHeight;
+				Cut.s[s].pri     = Cut.f[f].pri;
+				Cut.s[s].isClr   = false;
 			}
 			break;
 
@@ -602,17 +592,19 @@ void CutExecCmd1(void)
 			g = BitGet16();
 			r = BitGet16();
 
-			printf("COL m:0x%x b:%d g:%d r:%d\n", m, b, g, r);
+			TRACE("COL m:0x%x b:%d g:%d r:%d\n", m, b, g, r);
 
 			CutPalBias(m, b, g, r);
 			break;
 
 		// フェード
 		case 0x400a:
-			m = BitGet16();			// 0x7のみ（レイヤーマスク 0-2:BG）
-			n = (s16)BitGet16();	// -255～0のみ（フェード値）
+			m = BitGet16();			// 0x7のみ（レイヤーマスク 0-2:BG, 3-10:SPRITE）
+			n = (s16)BitGet16();	// -255～0（フェード値）
 
-			printf("FADE m:0x%x n:%d\n", m, n);
+			assert(m < 0x800);
+
+			TRACE("FADE m:0x%x n:%d\n", m, n);
 
 			CutPalFade(m, n);
 			break;
@@ -621,7 +613,7 @@ void CutExecCmd1(void)
 		case 0x400b:
 			n = BitGet16();
 
-			printf("UNK %d\n", n);
+			TRACE("UNK %d\n", n);
 
 			switch(n)
 			{
@@ -641,14 +633,14 @@ void CutExecCmd1(void)
 				break;
 
 			default:
-				printf("CutExecCmd1 0x400b %x\n", n);
-				break;
+				fprintf(stderr, "CutExecCmd1 0x400b %x\n", n);
+				exit(1);
 			}
 			break;
 
 		default:
-			printf("CutExecCmd1 %x\n", cmd);
-			break;
+			fprintf(stderr, "CutExecCmd1 %x\n", cmd);
+			exit(1);
 		}
 	}
 }
@@ -656,14 +648,14 @@ void CutExecCmd1(void)
 // TILE DEC
 void CutExecCmd2(void)
 {
-	s32 tMax = BitGet16();		// タイル個数
+	s32 max = BitGet16();	// タイル個数
 
-	assert(tMax < 64 * 64);
+	assert(max < 64 * 64);
 
-	printf("TILE_DEC tMax:%d\n", tMax);
+	TRACE("TILE_DEC max:%d\n", max);
 
-	CutDecTile(BitGetPointer(), Vram.dec);
-	Vram.decCnt = 0;
+	CutDecTile(BitGetPointer(), Cut.dec);
+	Cut.decCnt = 0;
 }
 //---------------------------------------------------------------------------
 // TILE COPY
@@ -678,13 +670,13 @@ void CutExecCmd3(void)
 		idx *= 64;
 		cnt *= 64;
 
-		assert(idx + cnt   < sizeof(Vram.tile));
-		assert(Vram.decCnt < sizeof(Vram.dec));
+		assert(idx + cnt  < sizeof(Cut.tile));
+		assert(Cut.decCnt < sizeof(Cut.dec));
 
-		printf("TILE_COPY adr:0x%x size:0x%x\n", idx, cnt);
+		TRACE("TILE_COPY adr:0x%x cnt:0x%x\n", idx, cnt);
 
-		memcpy(Vram.tile + idx, Vram.dec + Vram.decCnt, cnt);
-		Vram.decCnt += cnt;
+		memcpy(Cut.tile + idx, Cut.dec + Cut.decCnt, cnt);
+		Cut.decCnt += cnt;
 	}
 }
 //---------------------------------------------------------------------------
@@ -699,17 +691,17 @@ void CutExecCmd4(void)
 	assert(f < 16);
 	assert(n == 0 || n == 1 || n == 2);
 
-	printf("MAP_DEC(BG) f:%d n:%d tw:%d th:%d\n", f, n, tw, th);
+	TRACE("MAP_DEC(BG) f:%d n:%d tw:%d th:%d\n", f, n, tw, th);
 
-	CutDecMap(BitGetPointer(), Vram.f[f].map);
-	Vram.f[f].tWidth  = tw;
-	Vram.f[f].tHeight = th;
-	Vram.f[f].pri     = n;
+	CutDecMap(BitGetPointer(), Cut.f[f].map);
+	Cut.f[f].pri     = n;
+	Cut.f[f].tWidth  = tw;
+	Cut.f[f].tHeight = th;
 
-	memcpy(Vram.b[n].map, Vram.f[f].map, sizeof(Vram.b[n].map));
-	Vram.b[n].tWidth  = tw;
-	Vram.b[n].tHeight = th;
-	Vram.b[n].isClr   = false;
+	memcpy(Cut.b[n].map, Cut.f[f].map, sizeof(Cut.b[n].map));
+	Cut.b[n].tWidth  = tw;
+	Cut.b[n].tHeight = th;
+	Cut.b[n].isClr   = false;
 }
 //---------------------------------------------------------------------------
 // PALETTE SET
@@ -722,7 +714,7 @@ void CutExecCmd5(void)
 	assert(no < 4);
 	assert(1 <= size && size <= 256);
 
-	printf("PAL_SET no:%d size:%d\n", no, size);
+	TRACE("PAL_SET no:%d size:%d\n", no, size);
 
 	s32 i;
 
@@ -730,8 +722,8 @@ void CutExecCmd5(void)
 	{
 		u16 col = BitGet16();
 
-		Vram.p[no].base[i] = col;
-		Vram.p[no].work[i] = col;
+		Cut.p[no].base[i] = col;
+		Cut.p[no].work[i] = col;
 	}
 }
 //---------------------------------------------------------------------------
@@ -740,9 +732,14 @@ void CutExecCmd6(void)
 {
 	s32 wait = BitGet16();
 
-	printf("UPDATE(cmd6) wait:%d\n", wait);
+	TRACE("UPDATE(cmd6) wait:%d\n", wait);
 
-	CutUpdate(wait);
+	if(wait == 0)
+	{
+		return;
+	}
+
+	CutSave(wait);
 }
 //---------------------------------------------------------------------------
 // MAP DEC(SPRITE)
@@ -756,15 +753,15 @@ void CutExecCmd7(void)
 	assert(f < 16);
 	assert(n == 0 || n == 8 || n == 16);
 
-	printf("MAP_DEC(SPR) f:%d n:%d tw:%d th:%d\n", f, n, tw, th);
+	TRACE("MAP_DEC(SPR) f:%d n:%d tw:%d th:%d\n", f, n, tw, th);
 
-	CutDecMap(BitGetPointer(), Vram.f[f].map);
-	Vram.f[f].tWidth  = tw;
-	Vram.f[f].tHeight = th;
-	Vram.f[f].pri     = n / 8;
+	CutDecMap(BitGetPointer(), Cut.f[f].map);
+	Cut.f[f].pri     = n / 8;
+	Cut.f[f].tWidth  = tw;
+	Cut.f[f].tHeight = th;
 }
 //---------------------------------------------------------------------------
-// TILE COPY RAW
+// TILE COPY RAW（未使用の為、処理が正しいか不明）
 void CutExecCmd8(void)
 {
 	s32 cnt = BitGet16();
@@ -773,12 +770,13 @@ void CutExecCmd8(void)
 
 	cnt *= 64;
 
-	printf("TILE_COPY(RAW)\n", cnt);
+	TRACE("TILE_COPY(RAW)\n", cnt);
 
-	memcpy(Vram.dec, BitGetPointer(), cnt);
+	memcpy(Cut.dec, BitGetPointer(), cnt);
+	Cut.decCnt += cnt;
 }
 //---------------------------------------------------------------------------
-void CutUpdate(s32 wait)
+void CutSave(s32 wait)
 {
 	static u16 frame[BMP_WIDTH * BMP_HEIGHT];
 	memset(frame, 0, sizeof(frame));
@@ -786,11 +784,11 @@ void CutUpdate(s32 wait)
 	for(s32 pri=0; pri<3; pri++)
 	{
 		// BG
-		ST_BG* bg = &Vram.b[pri];
+		ST_BG* bg = &Cut.b[pri];
 
 		if(bg->isClr == false)
 		{
-			printf("bg:%d scr=(%03d,%03d) size=(%03d,%03d) blend:0x%x\n", pri, bg->scrX, bg->scrY, bg->tWidth, bg->tHeight, bg->blend);
+			TRACE("bg:%d scr=(%03d,%03d) size=(%03d,%03d) blend:0x%x\n", pri, bg->scrX, bg->scrY, bg->tWidth, bg->tHeight, bg->blend);
 
 			for(s32 tileY=0; tileY < bg->tHeight; tileY++)
 			{
@@ -800,23 +798,24 @@ void CutUpdate(s32 wait)
 					{
 						for(s32 pixX=0; pixX<8; pixX++)
 						{
-							s32 scnX = (bg->scrX * -1) + (tileX * 8) + pixX;
-							s32 scnY = (bg->scrY * -1) + (tileY * 8) + pixY;
+							s32 bmpX = (bg->scrX * -1) + (tileX * 8) + pixX;
+							s32 bmpY = (bg->scrY * -1) + (tileY * 8) + pixY;
 
-							if(scnX < 0 || scnX >= BMP_WIDTH || scnY < 0 || scnY >= BMP_HEIGHT)
+							if(bmpX < 0 || bmpX >= BMP_WIDTH || bmpY < 0 || bmpY >= BMP_HEIGHT)
 							{
 								continue;
 							}
 
 							u16 tileData = bg->map[tileY * bg->tWidth + tileX];
 							u16 tileId   = (tileData & 0x3FFF);
-							u8  flipH    = (tileData >> 14) & 1;
-							u8  flipV    = (tileData >> 15) & 1;
+
+							u8 flipH = (tileData >> 14) & 1;
+							u8 flipV = (tileData >> 15) & 1;
 
 							s32 srcX = flipH ? (7 - pixX) : pixX;
 							s32 srcY = flipV ? (7 - pixY) : pixY;
 
-							u8 palIdx = Vram.tile[tileId * 64 + srcY * 8 + srcX];
+							u8 palIdx = Cut.tile[tileId * 64 + srcY * 8 + srcX];
 
 							if(palIdx == 0)
 							{
@@ -824,11 +823,11 @@ void CutUpdate(s32 wait)
 							}
 
 							// BGは自身のパレットを参照
-							u16 fgCol = Vram.p[pri].work[palIdx]; 
+							u16 fgCol = Cut.p[pri].work[palIdx]; 
 
 							if(bg->blend != 0x1F)
 							{
-								u16 bgCol = frame[scnY * BMP_WIDTH + scnX];
+								u16 bgCol = frame[bmpY * BMP_WIDTH + bmpX];
 								u32 alphaFg;
 								u32 alphaBg;
 
@@ -872,7 +871,7 @@ void CutUpdate(s32 wait)
 								fgCol = (outB << 10) | (outG << 5) | outR;
 							}
 
-							frame[scnY * BMP_WIDTH + scnX] = fgCol;
+							frame[bmpY * BMP_WIDTH + bmpX] = fgCol;
 						}
 					}
 				}
@@ -882,14 +881,14 @@ void CutUpdate(s32 wait)
 		// SPRITE
 		for(s32 i=0; i<8; i++)
 		{
-			ST_SPRITE* spr = &Vram.s[i];
+			ST_SPRITE* spr = &Cut.s[i];
 
 			if(spr->isClr == true || spr->pri != pri)
 			{
 				continue;
 			}
 
-			printf("sp:%d scr=(%03d,%03d) size=(%03d,%03d) blend:0x%x xy=(%03d,%03d) pri:%d\n", i, spr->scrX, spr->scrY, spr->tWidth, spr->tHeight, spr->blend, spr->x, spr->y, spr->pri);
+			TRACE("sp:%d scr=(%03d,%03d) size=(%03d,%03d) blend:0x%x xy=(%03d,%03d) pri:%d\n", i, spr->scrX, spr->scrY, spr->tWidth, spr->tHeight, spr->blend, spr->x, spr->y, spr->pri);
 
 			for(s32 tileY=0; tileY < spr->tHeight; tileY++)
 			{
@@ -899,23 +898,24 @@ void CutUpdate(s32 wait)
 					{
 						for(s32 pixX=0; pixX<8; pixX++)
 						{
-							s32 scnX = (spr->scrX * -1) + spr->x + (tileX * 8) + pixX;
-							s32 scnY = (spr->scrY * -1) + spr->y + (tileY * 8) + pixY;
+							s32 bmpX = (spr->scrX * -1) + spr->x + (tileX * 8) + pixX;
+							s32 bmpY = (spr->scrY * -1) + spr->y + (tileY * 8) + pixY;
 
-							if(scnX < 0 || scnX >= BMP_WIDTH || scnY < 0 || scnY >= BMP_HEIGHT)
+							if(bmpX < 0 || bmpX >= BMP_WIDTH || bmpY < 0 || bmpY >= BMP_HEIGHT)
 							{
 								continue;
 							}
 
 							u16 tileData = spr->map[tileY * spr->tWidth + tileX];
 							u16 tileId   = (tileData & 0x3FFF) + 0x2000;
-							u8  flipH    = (tileData >> 14) & 1;
-							u8  flipV    = (tileData >> 15) & 1;
+
+							u8 flipH = (tileData >> 14) & 1;
+							u8 flipV = (tileData >> 15) & 1;
 
 							s32 srcX = flipH ? (7 - pixX) : pixX;
 							s32 srcY = flipV ? (7 - pixY) : pixY;
 
-							u8 palIdx = Vram.tile[tileId * 64 + srcY * 8 + srcX];
+							u8 palIdx = Cut.tile[tileId * 64 + srcY * 8 + srcX];
 
 							if(palIdx == 0)
 							{
@@ -923,11 +923,11 @@ void CutUpdate(s32 wait)
 							}
 
 							// スプライトはパレット[3]を使用
-							u16 fgCol = Vram.p[3].work[palIdx]; 
+							u16 fgCol = Cut.p[3].work[palIdx]; 
 
 							if(spr->blend != 0x1F)
 							{
-								u16 bgCol = frame[scnY * BMP_WIDTH + scnX];
+								u16 bgCol = frame[bmpY * BMP_WIDTH + bmpX];
 								u32 alphaFg, alphaBg;
 
 								if(spr->blend < 0x20)
@@ -970,7 +970,7 @@ void CutUpdate(s32 wait)
 								fgCol = (outB << 10) | (outG << 5) | outR;
 							}
 
-							frame[scnY * BMP_WIDTH + scnX] = fgCol;
+							frame[bmpY * BMP_WIDTH + bmpX] = fgCol;
 						}
 					}
 				}
@@ -978,61 +978,14 @@ void CutUpdate(s32 wait)
 		}
 	}
 
+	char fname[64];
+	sprintf(fname, "f%04d.bmp", Cut.frameCnt);
 
-	if(Vram.frameCnt >= Vram.recCnt)
-	{
-		char fname[64];
-		sprintf(fname, "f%05d.bmp", Vram.frameCnt);
+	BmpSave(fname, frame);
+	printf("%s\n", fname);
+	TRACE("------------------------------------------------------------\n");
 
-		BmpSave(fname, frame);
-
-		printf("%s\n", fname);
-		printf("------------------------------------------------------------\n");
-
-		Vram.fileCnt += 1;
-
-		while(Vram.recCnt <= Vram.frameCnt)
-		{
-			Vram.recCnt += 2;
-		}
-	}
-
-	if(wait == 0)
-	{
-		wait++;
-	}
-
-	Vram.frameCnt += wait;
-
-/*
-	s32 st = 0;
-	s32 ed = 4000;		// max: 3914
-
-	if(Vram.fileCnt >= st && Vram.fileCnt <= ed)
-	{
-		char fname[64];
-//		sprintf(fname, "Z_%04d_%05d.bmp", Vram.fileCnt, Vram.frameCnt);
-		sprintf(fname, "f%05d.bmp", Vram.frameCnt);
-
-		BmpSave(fname, frame);
-
-		printf("%s\n", fname);
-		printf("------------------------------------------------------------\n");
-
-		if(Vram.fileCnt >= ed)
-		{
-			exit(1);
-		}
-	}
-
-	if(wait == 0)
-	{
-		wait++;
-	}
-
-	Vram.fileCnt  += 1;
-	Vram.frameCnt += wait;
-*/
+	Cut.frameCnt += wait;
 }
 //---------------------------------------------------------------------------
 void CutDecMap(u8* in, u16* out)
@@ -1205,10 +1158,10 @@ L_exit:
 	// return esi;
 
 	// 雑アサート
-	assert(edi <= (u8*)out + sizeof(Vram.f[0].map));
+	assert(edi <= (u8*)out + sizeof(Cut.f[0].map));
 }
 //---------------------------------------------------------------------------
-u8* CutDecTile(u8* in, u8* out)
+void CutDecTile(u8* in, u8* out)
 {
 	const u8 cycle[16] = {0,2,3,4,5,6,7,1, 0,10,11,12,13,14,15,9};
 
@@ -1581,9 +1534,9 @@ L_exit:
 	// ret
 
 	// 雑アサート
-	assert(edi <= (u8*)out + sizeof(Vram.dec));
+	assert(edi <= (u8*)out + sizeof(Cut.dec));
 
-	return edi;
+	// return edi;
 }
 //---------------------------------------------------------------------------
 s32 CutPalClip(s32 val)
@@ -1607,72 +1560,54 @@ void CutPalBias(s32 msk, s32 b, s32 g, s32 r)
 
 		for(j=0; j<256; j++)
 		{
-			u16 base = Vram.p[i].base[j];
+			u16 base = Cut.p[i].base[j];
 
 			s32 oB = CutPalClip(((base >> 10) & 0x1F) + b);
 			s32 oG = CutPalClip(((base >>  5) & 0x1F) + g);
 			s32 oR = CutPalClip(((base      ) & 0x1F) + r);
 
-			Vram.p[i].work[j] = (oB << 10) | (oG << 5) | oR;
+			Cut.p[i].work[j] = (oB << 10) | (oG << 5) | oR;
 		}
 	}
 }
 //---------------------------------------------------------------------------
 void CutPalFade(u32 msk, s32 level)
 {
-	s32 i, j;
+	s32 i, j, c, l;
 
 	if(level < 0)
 	{
-		// 黒ブレンド
-		s32 l = level + 256;
-
-		for(i=0; i<4; i++, msk >>= 1)
-		{
-			if((msk & 1) == 0)
-			{
-				continue;
-			}
-
-			for(j=0; j<256; j++)
-			{
-				u32 base = Vram.p[i].base[j];
-
-				s32 b = (((base >> 10) & 0x1F) * l) >> 8;
-				s32 g = (((base >>  5) & 0x1F) * l) >> 8;
-				s32 r = (((base      ) & 0x1F) * l) >> 8;
-
-				Vram.p[i].work[j] = (b << 10) | (g << 5) | r;
-			}
-		}
+		// 黒フェード
+		c = 0;
+		l = level + 256;
 	}
 	else
 	{
-		// 白ブレンド
-		s32 c =  31 * level;
-		s32 l = 256 - level;
+		// 白フェード
+		c =  31 * level;
+		l = 256 - level;
+	}
 
-		for(i=0; i<4; i++, msk >>= 1)
+	for(i=0; i<4; i++, msk >>= 1)
+	{
+		if((msk & 1) == 0)
 		{
-			if((msk & 1) == 0)
-			{
-				continue;
-			}
+			continue;
+		}
 
-			for(j=0; j<256; j++)
-			{
-				u32 base = Vram.p[i].base[j];
+		for(j=0; j<256; j++)
+		{
+			u32 base = Cut.p[i].base[j];
 
-				s32 b = (c + (((base >> 10) & 0x1F) * l)) >> 8;
-				s32 g = (c + (((base >>  5) & 0x1F) * l)) >> 8;
-				s32 r = (c + (((base      ) & 0x1F) * l)) >> 8;
+			s32 b = (c + (((base >> 10) & 0x1F) * l)) >> 8;
+			s32 g = (c + (((base >>  5) & 0x1F) * l)) >> 8;
+			s32 r = (c + (((base      ) & 0x1F) * l)) >> 8;
 
-				if(b > 31) b = 31;
-				if(g > 31) g = 31;
-				if(r > 31) r = 31;
+			if(b > 31) b = 31;
+			if(g > 31) g = 31;
+			if(r > 31) r = 31;
 
-				Vram.p[i].work[j] = (b << 10) | (g << 5) | r;
-			}
+			Cut.p[i].work[j] = (b << 10) | (g << 5) | r;
 		}
 	}
 }
@@ -1690,17 +1625,17 @@ int main(int argc, char *argv[])
 
 
 	BitCalloc(argv[1]);
-	s32 pos = 0x800;
+	s32 jmp = 0x800;
 	s32 max = BitGetSize();
 
 	CutInit();
 
-	while(pos + 0x10A < max)
+	while(jmp + 0x10A < max)
 	{
-		BitSeek(pos);
+		BitSeek(jmp);
 		CutExec();
 
-		pos = (BitGetPos() + 0xFF) & ~0xFF;
+		jmp = (BitGetPos() + 0xFF) & ~0xFF;
 	}
 
 	BitFree();

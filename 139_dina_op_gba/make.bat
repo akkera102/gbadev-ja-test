@@ -23,7 +23,8 @@ echo ゲームデータの確認ができました。インストールを続行します。
 pause
 
 call ..\exe\cpy.bat
-call ..\exe\img.bat
+call ..\exe\img1.bat
+call ..\exe\img2.bat
 call ..\exe\snd.bat
 call ..\exe\rom.bat
 

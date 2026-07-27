@@ -23,7 +23,7 @@ typedef struct {
 void IrqInit(void);
 
 IWRAM_CODE void IrqHandler(void);
-IWRAM_CODE void IrqSetCnt(void);
+IWRAM_CODE void IrqSetCnt(s32 cnt);
 IWRAM_CODE s32  IrqGetCnt(void);
 
 

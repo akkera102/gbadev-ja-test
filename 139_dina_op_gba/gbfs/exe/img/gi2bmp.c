@@ -717,10 +717,12 @@ int main(int argc, char *argv[])
 
 	u16 width  = BitGet16();
 	u16 height = BitGet16();
-	u8  chk    = BitGet16();
+	u16 chk    = BitGet16();
 	u16 scr    = BitGet16();
 
-	bool isPal = (chk == 1) ? true : false;
+//	printf("w:%d h:%d c:%x s:%d\n", width, height, chk, scr);
+
+	bool isPal = (chk == 0) ? false : true;
 	s32  bpp   = ((isPal == true) ? 1 : 3);
 
 	if(isPal == false)
@@ -733,7 +735,7 @@ int main(int argc, char *argv[])
 
 	if(pDat == NULL)
 	{
-		fprintf(stderr, "Memory allocation failed (pDat)\n");
+		fprintf(stderr, "Memory allocation failed\n");
 
 		exit(1);
 	}
@@ -746,12 +748,10 @@ int main(int argc, char *argv[])
 	u8  tile[40 * 40 * 64] = {0};
 	s32 i, j;
 
-//	printf("w:%d h:%d n1:%d p:%d s:%d\n", width, height, nazo1, palChk, scr);
-
 	if(isPal == true)
 	{
 		// 8ビットパレット
-		u16 nazo   = BitGet16();
+		u16 nazo   = BitGet16();		// 必ず0
 		u16 palCnt = BitGet16();
 
 		for(i=0, j=0; i<palCnt; i++)
@@ -770,8 +770,7 @@ int main(int argc, char *argv[])
 
 		u8* p1 = BitGetPointer();
 		u8* p2 = DecMap(p1, map);
-
-		DecTile(p2 + 2, tile);
+		DecTile(p2 + 2, tile);			// skip +2 max tile
 
 		for(s32 ty=0; ty<height/8; ty++)
 		{

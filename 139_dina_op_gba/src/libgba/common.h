@@ -27,7 +27,7 @@ typedef char* va_list;
 #define CR						0x0d
 #define LF						0x0a
 
-#define COMMON_SPRINT_BUF_CNT	0x200
+#define COMMON_SPRINT_BUF_CNT	0x100
 
 
 //---------------------------------------------------------------------------

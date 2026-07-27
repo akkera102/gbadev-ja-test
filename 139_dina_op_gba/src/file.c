@@ -14,7 +14,7 @@ void FileInit(void)
 u16* FileGetImg(s32 no)
 {
 	char buf[20];
-	_Sprintf(buf, "f%05d.img", no);
+	_Sprintf(buf, "f%04d.img", no);
 
 	return GbfsGetPointer(buf);
 }
@@ -22,7 +22,7 @@ u16* FileGetImg(s32 no)
 u16* FileGetPal(s32 no)
 {
 	char buf[20];
-	_Sprintf(buf, "f%05d.pal", no);
+	_Sprintf(buf, "f%04d.pal", no);
 
 	return GbfsGetPointer(buf);
 }

@@ -38,9 +38,9 @@ IWRAM_CODE void IrqHandler(void)
 	REG_IME = 1;
 }
 //---------------------------------------------------------------------------
-void IrqSetCnt(void)
+void IrqSetCnt(s32 cnt)
 {
-	Irq.cnt = 0;
+	Irq.cnt = cnt;
 }
 //---------------------------------------------------------------------------
 s32 IrqGetCnt(void)

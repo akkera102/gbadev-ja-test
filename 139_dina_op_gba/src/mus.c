@@ -14,8 +14,6 @@ void MusInit(void)
 //---------------------------------------------------------------------------
 void MusPlay(void)
 {
-	TRACE("[MusPlay]\n");
-
 	u8* p = FileGetMus();
 	s32 size = FileGetSize();
 
@@ -24,8 +22,6 @@ void MusPlay(void)
 //---------------------------------------------------------------------------
 void MusStop(void)
 {
-	TRACE("[MusStop]\n");
-
 	if(AdIsPlay() == false)
 	{
 		return;

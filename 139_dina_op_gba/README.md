@@ -35,14 +35,14 @@
 
 ## 謝辞
 
-
+本技術デモは「だいなあいらんプレーヤー for Towns OS（だいなふぉとす）」のソースコードを参考にしています。光成滋生様に深く感謝いたします。素晴らしい作品から多くのことを学ばせていただきました。
 
 ## ライセンス
 
 - 私の書いたGBAソースコード（CC0）
 - コンバータ関連のpythonコード、Cコード（GPL2 or later）
 - CULT-GBA and fixed Lorenzooone ver(MIT)
-- ulc-codec(Unlicense)
+- 8AD decoder engine（MIT）
 - gbfs(MIT)
 - libgba(LGPL2.0 dynamic link)
 - crt0.s(MPL2.0)
@@ -63,6 +63,11 @@
 - MSYS2(gcc version 15.2.0)
 
 ## 簡単な履歴
+
+2026/07/27 v0.01
+
+- とりあえず完成
+- 音楽とフレームの同期を修正
 
 2026/07/25 beta
 
