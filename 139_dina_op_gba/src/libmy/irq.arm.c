@@ -7,6 +7,9 @@ ST_IRQ Irq;
 //---------------------------------------------------------------------------
 void IrqInit(void)
 {
+	_Memset(&Irq, 0x00, sizeof(ST_IRQ));
+
+
 	REG_IME = 0;
 
 	REG_IE       = IRQ_VBLANK | IRQ_VCOUNT;;

@@ -117,7 +117,7 @@ IWRAM_CODE void AdIntrVcount(void)
 
 		Ad.pCur   = (u8*)Ad.pNext;
 		Ad.pTop   = (u8*)Ad.pNext;
-		Ad.pEnd   = (u8*)Ad.pNext + Ad.nextSize - AD_BUF_SIZE;
+		Ad.pEnd   = (u8*)Ad.pNext + Ad.nextSize - AD_BUF_SIZE;		// 末尾調整（バグの為）
 		Ad.isLoop = Ad.nextLoop;
 
 		Ad.lastIdx  = 0;

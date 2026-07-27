@@ -14,14 +14,6 @@ void Mode4Init(void)
 
 	Mode4.pFront = MODE4_BUF_ADR1;
 	Mode4.pBack  = MODE4_BUF_ADR2;
-
-	REG_BG2PA = 192;
-	REG_BG2PB = 0;
-	REG_BG2PC = 0;
-	REG_BG2PD = 192;
-
-	REG_BG2X = 0;
-	REG_BG2Y = 0;
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void Mode4Exec(void)

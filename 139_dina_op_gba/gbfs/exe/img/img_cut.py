@@ -1,5 +1,5 @@
 # coding: Shift_JIS
-# 320x224画像を120x80にカットし、256色に減色します
+# 320x224画像を318x212にカットし、リサイズ、256色に減色します
 import os
 import sys
 from PIL import Image

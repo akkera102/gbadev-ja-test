@@ -10,6 +10,14 @@ void FadeInit(void)
 	while(REG_VCOUNT == 159) {};
 	while(REG_VCOUNT != 159) {};
 
+	REG_BG2PA = 192;
+	REG_BG2PB = 0;
+	REG_BG2PC = 0;
+	REG_BG2PD = 192;
+
+	REG_BG2X = 0;
+	REG_BG2Y = 0;
+
 	REG_DISPCNT = MODE_4 | BG2_ON;
 
 	FadeSetWhite(16);
