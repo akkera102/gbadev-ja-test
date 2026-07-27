@@ -2,7 +2,7 @@
 
 ![test2](README.png)
 
-Based on Shinichiro Oba by swift GBA, Tonc by J Vijn. 
+Based on "swift GBA" by Shinichiro Oba and "Tonc" by J Vijn.
 
 ## Link
 
