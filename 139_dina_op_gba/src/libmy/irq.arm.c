@@ -41,12 +41,12 @@ IWRAM_CODE void IrqHandler(void)
 	REG_IME = 1;
 }
 //---------------------------------------------------------------------------
-void IrqSetCnt(s32 cnt)
+IWRAM_CODE void IrqSetCnt(s32 cnt)
 {
 	Irq.cnt = cnt;
 }
 //---------------------------------------------------------------------------
-s32 IrqGetCnt(void)
+IWRAM_CODE s32 IrqGetCnt(void)
 {
 	return Irq.cnt;
 }
