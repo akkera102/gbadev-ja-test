@@ -39,7 +39,7 @@ void ImgExec(void)
 }
 //---------------------------------------------------------------------------
 // îíÅ®ÉçÉSÅ®çï
-IWRAM_CODE void ImgExecBoot(void)
+void ImgExecBoot(void)
 {
 	if(Img.step == 0)
 	{
@@ -104,7 +104,7 @@ IWRAM_CODE void ImgExecBoot(void)
 
 	if(Img.step == 5)
 	{
-		ImgDrawBgClr();
+		ImgDrawClrBg();
 
 		Img.step++;
 		return;
@@ -112,7 +112,7 @@ IWRAM_CODE void ImgExecBoot(void)
 
 	if(Img.step == 6)
 	{
-		ImgDrawPalClr();
+		ImgDrawClrPal();
 
 		Img.step++;
 		return;
@@ -134,7 +134,8 @@ IWRAM_CODE void ImgExecAnime(void)
 			s32 v = IrqGetCnt();
 
 			ImgDrawBg(v);
-//			Img2.isUse[v] = true;
+			Img2.isUse[v] = true;
+//			TRACE("%d\n", v);
 
 			VBlankIntrWait();
 
@@ -152,13 +153,16 @@ IWRAM_CODE void ImgExecAnime(void)
 /*
 	s32 i;
 
-	for(i=0; i<4000; i++)
+//	for(i=0; i<4000; i++)
+	for(i=3900; i<8371; i++)
 	{
-		if(Img2.isUse[i] == false)
+		if(Img2.isUse[i] == false && Img2.pImg[i] != NULL)
 		{
-			TRACE("f%04d.bmp\n", Img2.isUse[i]);
+			TRACE("f%04d.bmp\n", i);
 		}
 	}
+
+	for(;;){}
 */
 
 	// wait
@@ -182,7 +186,7 @@ IWRAM_CODE void ImgExecAnime(void)
 
 	if(Img.step == 243)
 	{
-		ImgDrawBgClr();
+		ImgDrawClrBg();
 
 		Img.step++;
 		return;
@@ -190,7 +194,7 @@ IWRAM_CODE void ImgExecAnime(void)
 
 	if(Img.step == 244)
 	{
-		ImgDrawPalClr();
+		ImgDrawClrPal();
 
 		Img.step++;
 		return;
@@ -209,7 +213,7 @@ IWRAM_CODE void ImgExecAnime(void)
 }
 //---------------------------------------------------------------------------
 // çïÅ®ÉçÉSÅ®çï
-IWRAM_CODE void ImgExecExit(void)
+void ImgExecExit(void)
 {
 	if(Img.step == 0)
 	{
@@ -262,7 +266,7 @@ IWRAM_CODE void ImgExecExit(void)
 
 	if(Img.step == 125)
 	{
-		ImgDrawBgClr();
+		ImgDrawClrBg();
 
 		Img.step++;
 		return;
@@ -270,7 +274,7 @@ IWRAM_CODE void ImgExecExit(void)
 
 	if(Img.step == 126)
 	{
-		ImgDrawPalClr();
+		ImgDrawClrPal();
 
 		Img.step++;
 		return;
@@ -291,7 +295,7 @@ IWRAM_CODE void ImgDrawBg(s32 no)
 		return;
 	}
 
-	Mode4Draw(p);
+	Mode4Img(p);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE void ImgDrawPal(void)
@@ -307,18 +311,18 @@ IWRAM_CODE void ImgDrawPal(void)
 	Mode4Exec();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ImgDrawBgClr(void)
+void ImgDrawClrBg(void)
 {
-	Mode4DrawClr();
+	Mode4ClrImg();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ImgDrawPalClr(void)
+void ImgDrawClrPal(void)
 {
-	Mode4PalClr();
+	Mode4ClrPal();
 	Mode4Exec();
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void ImgSetExec(s32 no)
+void ImgSetExec(s32 no)
 {
 	Img.eff    = no;
 	Img.step   = 0;

@@ -208,6 +208,8 @@ u8* BitGetPointer(void)
 //---------------------------------------------------------------------------
 u16 BitCur16(void)
 {
+	assert(Bit.pos+1 < Bit.size);
+
 	u16 b1 = Bit.p[Bit.pos + 0] << 8;
 	u16 b2 = Bit.p[Bit.pos + 1];
 
@@ -422,7 +424,7 @@ void CutExecCmd1(void)
 
 			TRACE("UPDATE n:%d\n", n);
 
-			// n:0の場合、フレームに変化がないことを確認済
+			// n:0の場合、フレームに変化がない（調査済
 			if(n != 0)
 			{
 				CutSave(n);

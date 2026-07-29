@@ -105,15 +105,18 @@ IWRAM_CODE bool AdIsPlay(void)
 //---------------------------------------------------------------------------
 IWRAM_CODE void AdIntrVcount(void)
 {
+	// VCOUNT 60 -> 72
+//	TRACE("S:%d\n", REG_VCOUNT);
+
 	if(Ad.isStop == 1)
 	{
 		Ad.isStop = 0;
 		Ad.act = AD_ACT_STOP;
 	}
-
-	if(Ad.isPlay == 1)
+	else if(Ad.isPlay == 1)
 	{
 		Ad.isPlay = 0;
+		Ad.act = AD_ACT_PLAY;
 
 		Ad.pCur   = (u8*)Ad.pNext;
 		Ad.pTop   = (u8*)Ad.pNext;
@@ -123,75 +126,12 @@ IWRAM_CODE void AdIntrVcount(void)
 		Ad.lastIdx  = 0;
 		Ad.lastSamp = 0;
 		Ad.bufIdx   = 0; 
-
-		Ad.act = AD_ACT_PLAY;
 	}
 
 	if(Ad.act == AD_ACT_STOP)
 	{
 		return;
 	}
-
-	u8* pSrc = Ad.pCur;
-	s8* pDst = Ad.buf[Ad.bufIdx];
-	u32 len  = AD_BUF_SIZE;
-	u32 by   = 0;
-
-	s32 step;
-	s32 diff;
-	u32 code;
-
-	Ad.pCur += AD_BUF_SIZE >> 1;
-
-	while(len > 0)
-	{
-		if(Ad.lastIdx <  0) Ad.lastIdx =  0;
-		if(Ad.lastIdx > 88) Ad.lastIdx = 88;
-
-		step = AdStepTable[Ad.lastIdx];
-
-		if(len & 1)
-		{
-			code = by >> 4;
-		}
-		else
-		{
-			by = *pSrc++;
-			code = by & 0x0f;
-		}
-
-		diff = step >> 3;
-		if(code & 1)        diff += step >> 2;
-		if(code & 2)        diff += step >> 1;
-		if(code & 4)        diff += step;
-		if((code & 7) == 7) diff += step >> 1;
-		if(code & 8)        diff  = -diff;
-
-		Ad.lastIdx  += AdIndiceTable[code & 0x07];
-		Ad.lastSamp += diff;
-
-		if(Ad.lastSamp < -32768) Ad.lastSamp = -32768;
-		if(Ad.lastSamp >  32767) Ad.lastSamp =  32767;
-
-		*pDst++ = Ad.lastSamp >> 8;
-		len--;
-	}
-}
-//---------------------------------------------------------------------------
-IWRAM_CODE void AdIntrVblank(void)
-{
-	if(Ad.act != AD_ACT_PLAY)
-	{
-		REG_DMA2CNT = 0;
-
-		return;
-	}
-
-	REG_DMA2CNT = 0;
-	REG_DMA2SAD = (u32)&Ad.buf[Ad.bufIdx];
-	REG_DMA2CNT = DMA_SRC_INC | DMA_DST_FIXED | DMA_REPEAT | DMA32 | DMA_SPECIAL | DMA_ENABLE;
-
-	Ad.bufIdx ^= 0x01;
 
 	if(Ad.pCur >= Ad.pEnd)
 	{
@@ -204,6 +144,76 @@ IWRAM_CODE void AdIntrVblank(void)
 		else
 		{
 			Ad.act = AD_ACT_STOP;
+			return;
 		}
+	}
+
+
+	Ad.bufIdx ^= 0x01;
+
+	u8* pSrc = Ad.pCur;
+	s8* pDst = Ad.buf[Ad.bufIdx];
+	s32 idx  = Ad.lastIdx;
+	s32 samp = Ad.lastSamp;
+	u32 len  = AD_BUF_SIZE;
+	u32 by   = 0;
+
+	Ad.pCur += AD_BUF_SIZE >> 1;
+
+	while(len > 0)
+	{
+		if (idx < 0)       idx =  0;
+		else if (idx > 88) idx = 88;
+
+		s32 step = AdStepTable[idx];
+		u32 code;
+
+		if(len & 1)
+		{
+			code = by >> 4;
+		}
+		else
+		{
+			by   = *pSrc++;
+			code = by & 0x0f;
+		}
+
+		s32 diff = step >> 3;
+
+		if (code & 1)        diff += step >> 2;
+		if (code & 2)        diff += step >> 1;
+		if (code & 4)        diff += step;
+		if ((code & 7) == 7) diff += step >> 1;
+		if (code & 8)        diff = -diff;
+
+		idx  += AdIndiceTable[code & 0x07];
+		samp += diff;
+
+		if (samp < -32768)     samp = -32768;
+		else if (samp > 32767) samp =  32767;
+
+		*pDst++ = (s8)(samp >> 8);
+		len--;
+	}
+
+	Ad.lastIdx  = idx;
+	Ad.lastSamp = samp;
+
+//	TRACE("E:%d\n", REG_VCOUNT);
+}
+//---------------------------------------------------------------------------
+IWRAM_CODE void AdIntrVblank(void)
+{
+	if(Ad.act != AD_ACT_PLAY)
+	{
+		REG_DMA2CNT = 0;
+		REG_DMA2SAD = (u32)Ad.clr;
+		REG_DMA2CNT = DMA_SRC_INC | DMA_DST_FIXED | DMA_REPEAT | DMA32 | DMA_SPECIAL | DMA_ENABLE;
+	}
+	else
+	{
+		REG_DMA2CNT = 0;
+		REG_DMA2SAD = (u32)&Ad.buf[Ad.bufIdx];
+		REG_DMA2CNT = DMA_SRC_INC | DMA_DST_FIXED | DMA_REPEAT | DMA32 | DMA_SPECIAL | DMA_ENABLE;
 	}
 }

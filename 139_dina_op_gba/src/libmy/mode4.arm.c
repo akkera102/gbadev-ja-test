@@ -32,7 +32,7 @@ IWRAM_CODE void Mode4Exec(void)
 	REG_DISPCNT ^= BACKBUFFER;
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode4Draw(u16* pImg)
+IWRAM_CODE void Mode4Img(u16* pImg)
 {
 	SwiLZ77UnCompWrite16bit(pImg, Mode4.buf);
 
@@ -47,17 +47,17 @@ IWRAM_CODE void Mode4Draw(u16* pImg)
 	}
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode4DrawClr(void)
-{
-	MemClr(Mode4.pBack, 180*120*2);
-}
-//---------------------------------------------------------------------------
 IWRAM_CODE void Mode4Pal(u16* pPal)
 {
 	SwiLZ77UnCompWrite16bit(pPal, BG_PALETTE);
 }
 //---------------------------------------------------------------------------
-IWRAM_CODE void Mode4PalClr(void)
+void Mode4ClrImg(void)
+{
+	MemClr(Mode4.pBack, 180*120*2);
+}
+//---------------------------------------------------------------------------
+void Mode4ClrPal(void)
 {
 	MemClr(BG_PALETTE, 256*2);
 }

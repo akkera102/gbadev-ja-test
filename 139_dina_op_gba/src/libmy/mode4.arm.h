@@ -27,12 +27,11 @@ typedef struct {
 void Mode4Init(void);
 
 IWRAM_CODE void Mode4Exec(void);
-
-IWRAM_CODE void Mode4Draw(u16* pImg);
-IWRAM_CODE void Mode4DrawClr(void);
-
+IWRAM_CODE void Mode4Img(u16* pImg);
 IWRAM_CODE void Mode4Pal(u16* pPal);
-IWRAM_CODE void Mode4PalClr(void);
+
+void Mode4ClrImg(void);
+void Mode4ClrPal(void);
 
 
 #ifdef __cplusplus

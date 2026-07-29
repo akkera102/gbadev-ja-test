@@ -31,7 +31,8 @@ typedef struct {
 	s32  lastSamp;
 
 	s32  bufIdx;
-	s8   buf[2][AD_BUF_SIZE] ALIGN(4);
+	s8   clr[AD_BUF_SIZE]      ALIGN(4);
+	s8   buf[2][AD_BUF_SIZE]   ALIGN(4);
 
 	vu32 isPlay;			// vu32
 	vu32 isStop;			// vu32

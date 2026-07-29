@@ -176,8 +176,8 @@ IWRAM_CODE void _Printf(char* format, ...)
 	_DoSprintf(sprintfBuf, format, ap);
 	va_end(ap);
 
-//	MgbaLog(sprintfBuf);
-	MappyLog(sprintfBuf);
+	MgbaLog(sprintfBuf);
+//	MappyLog(sprintfBuf);
 }
 //---------------------------------------------------------------------------
 IWRAM_CODE char* _Sprintf(char* buf, char* format, ...)
@@ -405,8 +405,8 @@ void SystemError(char* format, ...)
 	_DoSprintf(sprintfBuf, format, ap);
 	va_end(ap);
 
-//	MgbaLog(sprintfBuf);
-	MappyLog(sprintfBuf);
+	MgbaLog(sprintfBuf);
+//	MappyLog(sprintfBuf);
 
 	for(;;)
 	{

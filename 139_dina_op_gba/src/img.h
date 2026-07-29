@@ -42,18 +42,17 @@ typedef struct {
 //---------------------------------------------------------------------------
 void ImgInit(void);
 
-IWRAM_CODE void ImgExec(void);
-IWRAM_CODE void ImgExecBoot(void);
+           void ImgExec(void);
+           void ImgExecBoot(void);
 IWRAM_CODE void ImgExecAnime(void);
-IWRAM_CODE void ImgExecExit(void);
+           void ImgExecExit(void);
 
 IWRAM_CODE void ImgDrawBg(s32 no);
-IWRAM_CODE void ImgDrawBgClr(void);
 IWRAM_CODE void ImgDrawPal(void);
-IWRAM_CODE void ImgDrawPalClr(void);
+           void ImgDrawClrBg(void);
+           void ImgDrawClrPal(void);
 
-IWRAM_CODE void ImgSetExec(s32 no);
-
+void ImgSetExec(s32 no);
 bool ImgIsExec(void);
 
 

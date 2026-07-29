@@ -15,10 +15,7 @@ del DIN_OP.DBL
 rem ---------------------------------
 rem デコード遅延のあったフレームを削除（mGBAログより）
 
-del f0013.bmp
-del f0019.bmp
 del f0025.bmp
-del f0027.bmp
 del f0031.bmp
 del f0033.bmp
 del f0036.bmp
@@ -328,6 +325,7 @@ del f1085.bmp
 del f1093.bmp
 del f1095.bmp
 del f1099.bmp
+rem del f1107.bmp
 del f1676.bmp
 del f1678.bmp
 del f1680.bmp
@@ -1188,8 +1186,6 @@ del f7349.bmp
 del f7352.bmp
 del f7354.bmp
 del f7358.bmp
-del f7364.bmp
-del f7368.bmp
 del f7396.bmp
 del f7399.bmp
 del f7401.bmp
@@ -1213,7 +1209,6 @@ del f7445.bmp
 del f7448.bmp
 del f7451.bmp
 del f7454.bmp
-del f7483.bmp
 del f7486.bmp
 del f7491.bmp
 del f7494.bmp
@@ -1236,14 +1231,9 @@ del f7538.bmp
 del f7541.bmp
 del f7546.bmp
 del f7549.bmp
-del f7551.bmp
-del f7553.bmp
-del f7555.bmp
-del f7561.bmp
-del f7567.bmp
-del f7569.bmp
-del f7573.bmp
-del f7575.bmp
+del f7568.bmp
+del f7570.bmp
+del f7574.bmp
 del f7591.bmp
 del f7595.bmp
 del f7597.bmp
@@ -1417,6 +1407,7 @@ del f8048.bmp
 del f8050.bmp
 del f8052.bmp
 del f8054.bmp
+
 
 rem ---------------------------------
 rem 洞窟の切り替えシーン（手動調整）
